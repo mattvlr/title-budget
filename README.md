@@ -142,7 +142,12 @@ It exists because most homemade trackers calculate marketplace fees on the item 
 eBay charges its fee on the **total the buyer paid, shipping included** - so those trackers
 understate fees on every order. This one doesn't.
 
-Buying it is entirely optional. Everything in this repository stays free and MIT licensed.
+Also **[Bin Label Maker](https://bookmonger.gumroad.com/l/bin-label-maker)** ($3) - generates a
+consistent SKU scheme and prints real scannable Code 128 barcodes onto Avery label sheets. One
+HTML file, runs offline, nothing uploaded. Its encoder is checked by decoding every barcode back
+the way a scanner reads it.
+
+Buying either is entirely optional. Everything in this repository stays free and MIT licensed.
 
 ## Honest limitations
 
