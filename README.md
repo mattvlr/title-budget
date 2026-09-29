@@ -115,7 +115,10 @@ Run them yourself:
 
 ```bash
 python cli/validate_audit.py --rewrites samples/example_listings_rewrites.csv
-python cli/validate_clean.py \n    --original samples/example_messy_customers.csv \n    --clean samples/example_messy_customers_clean.csv \n    --removed samples/example_messy_customers_removed_duplicates.csv
+python cli/validate_clean.py \
+    --original samples/example_messy_customers.csv \
+    --clean samples/example_messy_customers_clean.csv \
+    --removed samples/example_messy_customers_removed_duplicates.csv
 python tests/verify_webapp.py                 # local index.html, needs selenium + Chrome
 python tests/verify_webapp.py --url https://mattvlr.github.io/title-budget/
 ```
