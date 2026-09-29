@@ -129,6 +129,21 @@ python tests/verify_webapp.py --url https://mattvlr.github.io/title-budget/
 - CLI: Python 3.8+. Standard library only, except `openpyxl` if you want `.xlsx` input
   (`pip install openpyxl`).
 
+## A paid companion, if you want it
+
+This tool tells you what's wrong with your titles. It doesn't tell you what you actually
+earned.
+
+**[Reseller Profit & Inventory Tracker](https://bookmonger.gumroad.com/l/reseller-profit-tracker)**
+($19) is a spreadsheet that does: cost, fees, net profit, margin, ROI and days-to-sell per
+item, with a dashboard and an editable fee table for 8 marketplaces.
+
+It exists because most homemade trackers calculate marketplace fees on the item price alone.
+eBay charges its fee on the **total the buyer paid, shipping included** - so those trackers
+understate fees on every order. This one doesn't.
+
+Buying it is entirely optional. Everything in this repository stays free and MIT licensed.
+
 ## Honest limitations
 
 - The 80-character limit and the rules here are **eBay-shaped**. Etsy and Depop have different
