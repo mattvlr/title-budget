@@ -111,6 +111,15 @@ actually happened:
 Current state: 72 assertions on the title auditor, 26 on the CSV path, 32 on the xlsx path, and
 16 browser assertions driving real Chrome against the web version.
 
+Run them yourself:
+
+```bash
+python cli/validate_audit.py --rewrites samples/example_listings_rewrites.csv
+python cli/validate_clean.py \n    --original samples/example_messy_customers.csv \n    --clean samples/example_messy_customers_clean.csv \n    --removed samples/example_messy_customers_removed_duplicates.csv
+python tests/verify_webapp.py                 # local index.html, needs selenium + Chrome
+python tests/verify_webapp.py --url https://mattvlr.github.io/title-budget/
+```
+
 ## Requirements
 
 - Web version: any modern browser. No install, no account, no network calls.
