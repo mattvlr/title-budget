@@ -1,0 +1,675 @@
+<title>Title Budget</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --bg: #F5F7F9;
+    --surface: #FFFFFF;
+    --surface-2: #EFF3F6;
+    --ink: #16202E;
+    --muted: #5C6B7F;
+    --faint: #8595A8;
+    --border: #DCE3EA;
+    --accent: #A85D00;
+    --accent-soft: #F5E4CC;
+    --high: #B02A1F;
+    --high-soft: #F8E0DD;
+    --med: #A85D00;
+    --med-soft: #F7E7D2;
+    --low: #5C6B7F;
+    --low-soft: #E6EAEF;
+    --good: #1F6B4A;
+    --meter-track: #E2E8EE;
+    --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0E141C;
+      --surface: #161F2A;
+      --surface-2: #1D2835;
+      --ink: #E7EDF4;
+      --muted: #9AAABC;
+      --faint: #74869A;
+      --border: #2A3745;
+      --accent: #E8A13A;
+      --accent-soft: #3A2C16;
+      --high: #F08074;
+      --high-soft: #3B1E1A;
+      --med: #E8A13A;
+      --med-soft: #372814;
+      --low: #9AAABC;
+      --low-soft: #222D3A;
+      --good: #5CC08D;
+      --meter-track: #26333F;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0E141C;
+    --surface: #161F2A;
+    --surface-2: #1D2835;
+    --ink: #E7EDF4;
+    --muted: #9AAABC;
+    --faint: #74869A;
+    --border: #2A3745;
+    --accent: #E8A13A;
+    --accent-soft: #3A2C16;
+    --high: #F08074;
+    --high-soft: #3B1E1A;
+    --med: #E8A13A;
+    --med-soft: #372814;
+    --low: #9AAABC;
+    --low-soft: #222D3A;
+    --good: #5CC08D;
+    --meter-track: #26333F;
+  }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1060px; margin: 0 auto; padding-inline: 16px; padding-block: 0 64px; }
+
+  header { border-bottom: 1px solid var(--border); background: var(--surface); }
+  .head-inner { max-width: 1060px; margin: 0 auto; padding-inline: 16px; padding-block: 22px 20px; }
+  .eyebrow {
+    font-family: var(--mono); font-size: 11px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--accent); margin: 0 0 6px;
+  }
+  h1 { font-size: 27px; font-weight: 600; margin: 0 0 8px; letter-spacing: -.01em; text-wrap: balance; }
+  .lede { margin: 0; color: var(--muted); max-width: 62ch; }
+  .lede strong { color: var(--ink); font-weight: 500; }
+
+  section { margin-top: 30px; }
+  h2 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em;
+       color: var(--faint); margin: 0 0 12px; font-family: var(--mono); }
+
+  /* ---- input ---- */
+  .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; }
+  .input-pad { padding: 16px; }
+  textarea {
+    width: 100%; box-sizing: border-box; min-height: 128px; resize: vertical;
+    font-family: var(--mono); font-size: 12.5px; line-height: 1.6;
+    color: var(--ink); background: var(--surface-2);
+    border: 1px solid var(--border); border-radius: 4px; padding: 10px 12px;
+  }
+  textarea:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 12px; }
+  button {
+    font-family: var(--sans); font-size: 13.5px; font-weight: 500;
+    padding: 8px 15px; border-radius: 4px; cursor: pointer;
+    border: 1px solid var(--border); background: var(--surface-2); color: var(--ink);
+  }
+  button.primary { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  button:hover { border-color: var(--accent); }
+  .hint { font-size: 12.5px; color: var(--faint); margin: 10px 0 0; }
+
+  /* ---- summary ---- */
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px;
+           background: var(--border); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+  .tile { background: var(--surface); padding: 14px 16px; }
+  .tile .k { font-family: var(--mono); font-size: 10.5px; letter-spacing: .07em;
+             text-transform: uppercase; color: var(--faint); }
+  .tile .v { font-family: var(--mono); font-size: 25px; font-weight: 500;
+             font-variant-numeric: tabular-nums; margin-top: 3px; }
+  .tile .v small { font-size: 14px; color: var(--faint); font-weight: 400; }
+
+  /* ---- rule table ---- */
+  .scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+  th, td { text-align: left; padding: 9px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { font-family: var(--mono); font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase;
+       color: var(--faint); font-weight: 500; white-space: nowrap; }
+  tbody tr:last-child td { border-bottom: none; }
+  td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+  code.rule { font-family: var(--mono); font-size: 12px; color: var(--accent); }
+
+  /* ---- listing cards ---- */
+  .listing { background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+             padding: 14px 16px; margin-bottom: 10px; }
+  .listing-head { display: flex; flex-wrap: wrap; gap: 10px; align-items: baseline; justify-content: space-between; }
+  .sku { font-family: var(--mono); font-size: 12px; color: var(--faint); }
+  .score { font-family: var(--mono); font-size: 13px; font-variant-numeric: tabular-nums; font-weight: 500; }
+  .kind { font-family: var(--mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: .06em;
+          color: var(--muted); background: var(--surface-2); border: 1px solid var(--border);
+          border-radius: 3px; padding: 1px 6px; }
+  .pair { margin-top: 11px; }
+  .pair-label { font-family: var(--mono); font-size: 10.5px; letter-spacing: .06em;
+                text-transform: uppercase; color: var(--faint); }
+  .title-text { font-family: var(--mono); font-size: 13px; line-height: 1.5; word-break: break-word; margin-top: 2px; }
+  .title-text.after { color: var(--good); }
+  /* The budget meter: 80 characters is the resource being spent, so show it as one. */
+  .meter { display: flex; align-items: center; gap: 9px; margin-top: 6px; }
+  .meter-track { flex: 1; height: 5px; background: var(--meter-track); border-radius: 3px; overflow: hidden; min-width: 80px; }
+  .meter-fill { height: 100%; background: var(--accent); border-radius: 3px; }
+  .meter-fill.full { background: var(--good); }
+  .meter-num { font-family: var(--mono); font-size: 11.5px; font-variant-numeric: tabular-nums; color: var(--muted); white-space: nowrap; }
+  .findings { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+  .findings li { display: flex; gap: 9px; align-items: flex-start; font-size: 13px; }
+  .sev { font-family: var(--mono); font-size: 9.5px; letter-spacing: .06em; text-transform: uppercase;
+         padding: 2px 6px; border-radius: 3px; flex-shrink: 0; margin-top: 2px; }
+  .sev.high { background: var(--high-soft); color: var(--high); }
+  .sev.medium { background: var(--med-soft); color: var(--med); }
+  .sev.low { background: var(--low-soft); color: var(--low); }
+  .ask { margin-top: 11px; padding: 9px 12px; background: var(--accent-soft);
+         border-radius: 4px; font-size: 13px; }
+  .ask b { font-weight: 600; }
+
+  .note { border-left: 2px solid var(--accent); padding: 2px 0 2px 14px; color: var(--muted);
+          font-size: 13.5px; max-width: 66ch; }
+  footer { margin-top: 38px; padding-top: 18px; border-top: 1px solid var(--border);
+           color: var(--faint); font-size: 12.5px; }
+  @media (max-width: 560px) { h1 { font-size: 23px; } .tile .v { font-size: 21px; } }
+</style>
+
+<header>
+  <div class="head-inner">
+    <p class="eyebrow">Marketplace listing tool</p>
+    <h1>Title Budget</h1>
+    <p class="lede">eBay gives you <strong>80 characters</strong> per title. Most sellers spend
+      about half, then fill the rest with words buyers never type. Paste your titles below —
+      everything runs <strong>in your browser</strong>, and nothing is uploaded anywhere.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <section>
+    <h2>Your titles</h2>
+    <div class="panel input-pad">
+      <label for="input" class="pair-label">One title per line, or paste a CSV column</label>
+      <textarea id="input" spellcheck="false" aria-label="Listing titles, one per line"></textarea>
+      <div class="row">
+        <button class="primary" id="run">Audit titles</button>
+        <button id="sample">Load example titles</button>
+        <button id="clear">Clear</button>
+        <button id="copy">Copy results as CSV</button>
+      </div>
+      <p class="hint" id="status">Showing an audit of 20 example titles. Replace them with your own and run it again.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Summary</h2>
+    <div class="tiles" id="tiles"></div>
+  </section>
+
+  <section>
+    <h2>Findings by rule</h2>
+    <div class="scroll"><table id="rules">
+      <thead><tr><th>Rule</th><th class="num">Titles</th><th>Why it costs you sales</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>Fix these first</h2>
+    <p class="note" id="honesty">Suggested titles only rearrange or expand wording already in your
+      title. This tool never invents a fact about an item — it will not guess a binding format or a
+      condition grade. Where something is missing that only you can know, it says so instead.</p>
+    <div id="listings" style="margin-top:16px"></div>
+  </section>
+
+  <footer>
+    Runs entirely in your browser. No upload, no account, no tracking.
+    Rules reflect eBay's 80-character title limit and case-insensitive search.
+  </footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var MAX = 80;             // eBay title character limit
+  var FLOOR = 65;           // below this, keyword space is being wasted
+  var WEIGHT = { high: 12, medium: 6, low: 2 };
+
+  // Shorthand buyers never type -> the words they actually search.
+  var ABBREV = [
+    [/\bVtg\b/, "Vintage", "'Vtg' is not a term buyers type into search"],
+    [/\bVint\b/, "Vintage", "'Vint' is not a term buyers type into search"],
+    [/\bHb\/dj\b/i, "Hardcover Dust Jacket", "'Hb/dj' is seller shorthand"],
+    [/\bHard Cover\b/, "Hardcover", "buyers search the single word 'Hardcover'"],
+    [/\bHB\b/, "Hardcover", "'HB' is seller shorthand for Hardcover"],
+    [/\bHC\b/, "Hardcover", "'HC' is seller shorthand for Hardcover"],
+    [/\bTPB\b/, "Trade Paperback", "'TPB' is collector shorthand"],
+    [/\bPB\b/, "Paperback", "'PB' is seller shorthand for Paperback"],
+    [/\bSC\b/, "Softcover", "'SC' is seller shorthand"],
+    [/\bDJ\b/, "Dust Jacket", "'DJ' is seller shorthand"],
+    [/\bOSFM\b/, "One Size Fits Most", "'OSFM' is niche shorthand"],
+    [/\bNM\b/, "Near Mint", "'NM' is collector shorthand; include the words too"],
+    [/\b1st Ed\b/, "First Edition", "buyers search the spelled-out form"],
+    [/\b1st Edition\b/, "First Edition", "buyers search the spelled-out form"]
+  ];
+
+  var FILLER = ["VERY RARE", "RARE", "BEAUTIFUL", "STUNNING", "GORGEOUS", "AMAZING",
+                "MUST SEE", "AWESOME", "FAST SHIP", "FREE SHIP", "L@@K", "WOW", "HTF"];
+
+  // "Rare" is a real, searched rarity tier on trading cards. Never strip it there.
+  var RARITY = /(holo|secret|ultra|super|amazing|illustration|double|hyper|shiny|special)\s+rare|rare\s+(holo|secret|ultra)/i;
+
+  var BAD_CHARS = [
+    ["…", "ellipsis — usually means the title was cut off and is incomplete"],
+    ["•", "bullet character — not searchable and wastes a character"],
+    ["™", "trademark symbol"], ["®", "registered symbol"],
+    ["“", "curly quote"], ["”", "curly quote"],
+    ["*", "asterisk — reads as spam"], ["!", "exclamation mark — reads as spam"],
+    ["@", "at sign"], ["#", "hash"], ["~", "tilde"], ["|", "pipe"]
+  ];
+
+  // Words the "Lastname, Firstname" pattern would otherwise treat as a surname.
+  var NOT_A_NAME = ("hardcover paperback softcover hardback volume edition book books series vol "
+    + "signed inscribed autographed reckless rogue renegade very good mint new used vintage "
+    + "antique first second third illustrated revised complete trade collectible novel cookbook "
+    + "magazine issue set lot").split(" ");
+
+  var TYPES = [
+    { name: "trading card",
+      triggers: [/pokemon/i, /pokémon/i, /\bholo\b/i, /\bTCG\b/, /\b\d{3}\/\d{3}\b/],
+      needs: [["the words 'Pokemon TCG'", /pok[eé]mon/i],
+              ["a card number such as 014/094", /\b\d{1,3}\/\d{1,3}\b/],
+              ["a condition grade (Near Mint, Lightly Played…)",
+               /near mint|\bNM\b|\bmint\b|lightly played|\bLP\b|excellent|played/i]] },
+    { name: "magazine",
+      triggers: [/\bmagazine\b/i, /\bnewsweek\b/i, /\blife magazine\b/i],
+      needs: [["the word 'Magazine'", /magazine/i],
+              ["'Back Issue', a very common buyer search", /back issue/i],
+              ["a cover date", /\b(19|20)\d{2}\b/]] },
+    { name: "book",
+      triggers: [/\bhardcover\b/i, /\bpaperback\b/i, /\bedition\b/i, /\bnovel\b/i, /\bbook\b/i,
+                 /\bHb\b/, /\bsigned\b/i, /\binscribed\b/i, /\bby\b/i],
+      needs: [["a binding format (Hardcover, Paperback, Softcover)",
+               /hardcover|paperback|softcover|hardback|hard cover|board book|spiral/i],
+              ['an author credit written as "by Firstname Lastname"', /\bby\s+[A-Z]/],
+              ["a publication year", /\b(18|19|20)\d{2}\b/]] },
+    { name: "apparel",
+      triggers: [/\bhat\b/i, /\bcap\b/i, /\bshirt\b/i, /\btee\b/i, /\bjacket\b/i, /\bdress\b/i,
+                 /\bjeans\b/i, /\bsweater\b/i, /\bsneakers\b/i, /\bshoes\b/i],
+      needs: [["a size", /\b(XS|S|M|L|XL|XXL|2XL|3XL|small|medium|large|OSFM|One Size|\d{2}x\d{2}|size \d+)\b/i],
+              ["a colour", /\b(black|white|red|blue|green|grey|gray|pink|purple|brown|navy|tan|beige|yellow|orange|cream|olive|maroon|teal)\b/i]] }
+  ];
+
+  var WHY = {
+    wasted_title_space: "Unused characters are unused free advertising — fewer buyer searches can match.",
+    abbreviation: "Buyers type whole words. Shorthand like 'Vtg' or 'HB' matches almost no searches.",
+    abbreviation_no_room: "Worth fixing once a lower-value word is removed.",
+    missing_keyword: "The most common search term for this kind of item is missing from the title.",
+    inverted_name: "'Lastname, Firstname' does not match how buyers search a name.",
+    all_caps: "Caps give no search advantage — eBay search ignores case — and reduce buyer trust.",
+    subjective_filler: "Words like RARE spend characters without matching real searches.",
+    duplicate_token: "A repeated word wastes characters that could hold a new keyword.",
+    bad_character: "Symbols are not searchable, and an ellipsis usually means the title was cut off.",
+    missing_apostrophe: "Minor, but it affects how professional the listing looks.",
+    whitespace: "Cosmetic cleanup.",
+    over_length: "eBay truncates titles past 80 characters, hiding your keywords."
+  };
+
+  var SAMPLE = [
+    "Vtg 1978 Cast Iron Skillet 10in",
+    "RARE BEAUTIFUL Mid Century Modern Teak Side Table MUST SEE",
+    "The Silent Patient - Hardcover By Michaelides, Alex - Very Good",
+    "Womens Denim Jacket Medium",
+    "Charizard Obsidian Flames Holo Rare 125/197",
+    "Pyrex Mixing Bowl Set",
+    "NATIONAL GEOGRAPHIC MAGAZINE JULY 1985 AFGHAN GIRL COVER ISSUE 1985",
+    "Levis 501 Jeans 34x32 Vtg Made in USA Denim Blue Straight Leg Button Fly",
+    "Antique Oil Lamp Brass",
+    "Dune - Paperback By Herbert, Frank - 1990 Ace Books Science Fiction",
+    "L@@K Vintage Seiko Watch WOW",
+    "Corelle Dinner Plates Set of 4 White Butterfly Gold Pattern 10.25in Vintage",
+    "Mens Wool Sweater L Brown Cable Knit",
+    "Pikachu Base Set 58/102 Near Mint",
+    "Time Magazine March 1969",
+    "Singer Sewing Machine 1952 Model 15-91 Working Tested Black Gold Cast Iron",
+    "Hb/dj The Great Gatsby Fitzgerald Scribner",
+    "Nike Air Max 90 Size 10 Mens White Grey Sneakers Shoes Athletic Running",
+    "Depression Glass Pink Bowl",
+    "STAR WARS VINTAGE 1977 KENNER LUKE SKYWALKER ACTION FIGURE 1977 COMPLETE"
+  ];
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function reEsc(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
+
+  function normSpaces(s) {
+    return s.replace(/\s+/g, " ").trim()
+            .replace(/^[-•,;:*|~]+\s*/, "")
+            .replace(/\s*[-•,;:*|~]+$/, "").trim();
+  }
+
+  function detectType(t) {
+    for (var i = 0; i < TYPES.length; i++) {
+      for (var j = 0; j < TYPES[i].triggers.length; j++) {
+        if (TYPES[i].triggers[j].test(t)) return TYPES[i];
+      }
+    }
+    return null;
+  }
+
+  function capsRatio(t) {
+    var w = t.match(/[A-Za-z]{4,}/g) || [];
+    if (!w.length) return 0;
+    var caps = w.filter(function (x) { return x === x.toUpperCase(); }).length;
+    return caps / w.length;
+  }
+
+  function audit(original) {
+    var findings = [], needs = [], work = normSpaces(original);
+    function add(rule, sev, detail, fix) {
+      findings.push({ rule: rule, severity: sev, detail: detail, fix: fix });
+    }
+    if (work !== original.trim()) {
+      add("whitespace", "low", "Irregular spacing or a stray separator at the start or end.",
+          "Normalise the spacing.");
+    }
+
+    // 1. Filler FIRST — before symbols are stripped. Removing punctuation first would turn
+    //    "L@@K" into the fragment "L K", which no later rule recognises as filler.
+    FILLER.forEach(function (f) {
+      if (/RARE$/.test(f) && RARITY.test(work)) return;
+      var re = new RegExp("\\b" + reEsc(f) + "\\b", "i");
+      if (re.test(work)) {
+        add("subjective_filler", "medium",
+            "Contains “" + f + "”, which buyers rarely search and which spends "
+            + f.length + " characters.",
+            "Remove it and use those characters for a searchable attribute — brand, model, year, size or material.");
+        work = normSpaces(work.replace(new RegExp("\\b" + reEsc(f) + "\\b", "ig"), " "));
+      }
+    });
+
+    // 2. Characters that do not belong in a title.
+    BAD_CHARS.forEach(function (pair) {
+      if (work.indexOf(pair[0]) !== -1) {
+        add("bad_character", pair[0] === "…" ? "high" : "low",
+            "Contains “" + pair[0] + "” — " + pair[1] + ".",
+            "Remove it and spend the character on a keyword.");
+        work = work.split(pair[0]).join(" ");
+      }
+    });
+    work = normSpaces(work);
+
+    // 3. ALL-CAPS shouting.
+    var cr = capsRatio(work);
+    if (cr >= 0.40) {
+      add("all_caps", "medium",
+          Math.round(cr * 100) + "% of the significant words are in capitals.",
+          "Use Title Case. eBay search ignores case, so capitals win nothing and read as shouting.");
+      work = work.split(" ").map(function (w) {
+        return (w === w.toUpperCase() && w.length > 3)
+          ? w.charAt(0) + w.slice(1).toLowerCase() : w;
+      }).join(" ");
+      work = work.replace(/\b(Mc|Mac)([A-Z]{2,})\b/g, function (m, p, r) {
+        return p + r.charAt(0) + r.slice(1).toLowerCase();
+      });
+    }
+
+    // 4. Abbreviations buyers never type.
+    ABBREV.forEach(function (a) {
+      var m = work.match(a[0]);
+      if (!m) return;
+      if (new RegExp("\\b" + reEsc(a[1]) + "\\b", "i").test(work)) return;
+      if (work.length - m[0].length + a[1].length <= MAX) {
+        add("abbreviation", "high", a[2] + ". Expanding it matches more buyer searches.",
+            "Replace with “" + a[1] + "”.");
+        work = normSpaces(work.replace(a[0], a[1]));
+      } else {
+        add("abbreviation_no_room", "medium",
+            a[2] + ", but expanding to “" + a[1] + "” would pass " + MAX + " characters.",
+            "Remove a lower-value word first, then expand it.");
+      }
+    });
+
+    // 5. Library-style author names, anchored to "by" and screened against NOT_A_NAME.
+    var inv = work.match(/\bby\s+([A-Z][a-z]{2,}),\s+([A-Z][a-z]{2,})((?:\s+[A-Z]\.?)?)\b/i);
+    if (inv && NOT_A_NAME.indexOf(inv[1].toLowerCase()) === -1
+            && NOT_A_NAME.indexOf(inv[2].toLowerCase()) === -1) {
+      var fixed = [inv[2], (inv[3] || "").trim(), inv[1]].filter(Boolean).join(" ");
+      add("inverted_name", "high",
+          "The author reads library-style as “" + inv[1] + ", " + inv[2]
+          + "”. Buyers search “" + fixed + "”.",
+          "Write the author as “" + fixed + "”.");
+      var cand = normSpaces(work.slice(0, inv.index) + "by " + fixed
+                            + work.slice(inv.index + inv[0].length));
+      if (cand.length <= MAX) work = cand;
+    }
+
+    // 6. Repeated words spend the budget twice.
+    var counts = {};
+    (work.match(/[A-Za-z0-9']{3,}/g) || []).forEach(function (t) {
+      t = t.toLowerCase();
+      if (["the", "and", "for", "with"].indexOf(t) !== -1) return;
+      counts[t] = (counts[t] || 0) + 1;
+    });
+    Object.keys(counts).forEach(function (t) {
+      if (counts[t] > 1) {
+        add("duplicate_token", "medium",
+            "The word “" + t + "” appears " + counts[t] + " times.",
+            "Drop the repeat and use the characters for another keyword.");
+      }
+    });
+
+    // 7. Possessives typed as bare plurals.
+    [["Womens", "Women's"], ["Mens", "Men's"], ["Childrens", "Children's"],
+     ["Americas", "America's"], ["Levis", "Levi's"]].forEach(function (p) {
+      var re = new RegExp("\\b" + p[0] + "\\b");
+      if (re.test(work)) {
+        add("missing_apostrophe", "low",
+            "“" + p[0] + "” should be “" + p[1] + "”.",
+            "Use “" + p[1] + "”.");
+        work = work.replace(re, p[1]);
+      }
+    });
+
+    // 8. Category keywords. These become explicit asks, never guesses — the tool cannot
+    //    know an item's binding or condition, so it refuses to invent one.
+    var kind = detectType(work);
+    if (kind) {
+      kind.needs.forEach(function (n) {
+        if (!n[1].test(work)) {
+          add("missing_keyword", "high",
+              "This looks like a " + kind.name + " listing, but the title is missing " + n[0] + ".",
+              "Add " + n[0] + ". Only you can supply this, so it is not guessed here.");
+          needs.push(n[0]);
+        }
+      });
+    }
+
+    // 9. Budget utilisation, measured on the rewritten title.
+    work = normSpaces(work);
+    if (work.length < FLOOR) {
+      add("wasted_title_space", "high",
+          "Uses " + work.length + " of " + MAX + " characters, leaving "
+          + (MAX - work.length) + " unused.",
+          "Add attributes buyers search on: brand, model or edition, year, size, colour, material, condition.");
+    }
+    if (work.length > MAX) {
+      add("over_length", "high",
+          "At " + work.length + " characters this passes the " + MAX + "-character limit.",
+          "Cut the lowest-value words until it fits.");
+    }
+
+    var deduct = findings.reduce(function (s, f) { return s + WEIGHT[f.severity]; }, 0);
+    return { original: original, suggested: work, findings: findings, needs: needs,
+             kind: kind ? kind.name : "general", score: Math.max(0, 100 - deduct) };
+  }
+
+  // ---------- rendering ----------
+  var $ = function (id) { return document.getElementById(id); };
+  var results = [];
+
+  function meter(len) {
+    var pct = Math.min(100, Math.round(len / MAX * 100));
+    var full = len >= FLOOR;
+    return '<div class="meter"><div class="meter-track"><div class="meter-fill'
+      + (full ? " full" : "") + '" style="width:' + pct + '%"></div></div>'
+      + '<span class="meter-num">' + len + " / " + MAX + "</span></div>";
+  }
+
+  function render(rows) {
+    results = rows;
+    var n = rows.length;
+    var avg = n ? Math.round(rows.reduce(function (s, r) { return s + r.score; }, 0) / n) : 0;
+    var chars = n ? rows.reduce(function (s, r) { return s + r.original.length; }, 0) / n : 0;
+    var unused = rows.reduce(function (s, r) { return s + Math.max(0, MAX - r.original.length); }, 0);
+    var total = rows.reduce(function (s, r) { return s + r.findings.length; }, 0);
+
+    $("tiles").innerHTML =
+      tile("Titles audited", n) +
+      tile("Average score", avg + '<small> / 100</small>') +
+      tile("Average length", Math.round(chars) + '<small> / ' + MAX + '</small>') +
+      tile("Unused characters", unused) +
+      tile("Findings", total);
+
+    var byRule = {};
+    rows.forEach(function (r) {
+      var seen = {};
+      r.findings.forEach(function (f) {
+        if (seen[f.rule]) return;
+        seen[f.rule] = 1;
+        byRule[f.rule] = (byRule[f.rule] || 0) + 1;
+      });
+    });
+    var order = Object.keys(byRule).sort(function (a, b) { return byRule[b] - byRule[a]; });
+    $("rules").querySelector("tbody").innerHTML = order.length
+      ? order.map(function (k) {
+          return '<tr><td><code class="rule">' + esc(k) + "</code></td><td class=\"num\">"
+            + byRule[k] + "</td><td>" + esc(WHY[k] || "") + "</td></tr>";
+        }).join("")
+      : '<tr><td colspan="3">No findings — these titles are in good shape.</td></tr>';
+
+    var worst = rows.slice().sort(function (a, b) { return a.score - b.score; });
+    $("listings").innerHTML = worst.map(function (r, i) {
+      var h = '<article class="listing"><div class="listing-head">'
+        + '<span class="sku">#' + (i + 1) + '</span>'
+        + '<span class="kind">' + esc(r.kind) + "</span>"
+        + '<span class="score">' + r.score + "/100</span></div>";
+      h += '<div class="pair"><div class="pair-label">Current</div>'
+        + '<div class="title-text">' + esc(r.original) + "</div>" + meter(r.original.length) + "</div>";
+      if (r.suggested !== r.original) {
+        h += '<div class="pair"><div class="pair-label">Suggested</div>'
+          + '<div class="title-text after">' + esc(r.suggested) + "</div>"
+          + meter(r.suggested.length) + "</div>";
+      }
+      if (r.findings.length) {
+        h += '<ul class="findings">' + r.findings.map(function (f) {
+          return '<li><span class="sev ' + f.severity + '">' + f.severity + "</span><span>"
+            + esc(f.detail) + " <span style=\"color:var(--muted)\">" + esc(f.fix) + "</span></span></li>";
+        }).join("") + "</ul>";
+      }
+      if (r.needs.length) {
+        h += '<div class="ask"><b>You need to add:</b> ' + esc(r.needs.join("; ")) + "</div>";
+      }
+      return h + "</article>";
+    }).join("");
+  }
+
+  function tile(k, v) {
+    return '<div class="tile"><div class="k">' + k + '</div><div class="v">' + v + "</div></div>";
+  }
+
+  // Split one CSV row, honouring quoted fields and doubled quotes inside them.
+  function splitRow(line) {
+    var out = [], cur = "", inQ = false;
+    for (var i = 0; i < line.length; i++) {
+      var c = line[i];
+      if (inQ) {
+        if (c === '"') {
+          if (line[i + 1] === '"') { cur += '"'; i++; } else { inQ = false; }
+        } else { cur += c; }
+      } else if (c === '"') { inQ = true; }
+      else if (c === ",") { out.push(cur); cur = ""; }
+      else { cur += c; }
+    }
+    out.push(cur);
+    return out.map(function (f) { return f.trim(); });
+  }
+
+  function parse(text) {
+    var lines = text.split(/\r?\n/).filter(function (l) { return l.trim().length; });
+    if (!lines.length) return [];
+
+    // Decide CSV-vs-plain ONCE for the whole input, from the header row. Splitting every
+    // line on commas would mangle an ordinary title such as
+    // "Hardcover By Michaelides, Alex" by treating the author comma as a field break.
+    var col = -1;
+    if (lines[0].indexOf(",") !== -1) {
+      splitRow(lines[0]).forEach(function (h, i) {
+        if (col === -1 && /^(item\s+)?(listing\s+)?title$|^name$|^product$/i.test(h)) col = i;
+      });
+    }
+
+    var titles;
+    if (col !== -1) {
+      titles = lines.slice(1).map(function (l) { return splitRow(l)[col] || ""; });
+    } else {
+      titles = lines.map(function (l) { return l.trim(); });   // plain: one title per line
+    }
+    return titles.filter(function (s) {
+      return s.length > 2 && !/^(title|item title|name)$/i.test(s);
+    });
+  }
+
+  function run() {
+    var titles = parse($("input").value);
+    if (!titles.length) {
+      $("status").textContent = "Paste at least one title, or load the example set.";
+      return;
+    }
+    render(titles.map(audit));
+    $("status").textContent = "Audited " + titles.length
+      + (titles.length === 1 ? " title." : " titles.") + " Nothing left your browser.";
+  }
+
+  $("run").addEventListener("click", run);
+  $("sample").addEventListener("click", function () {
+    $("input").value = SAMPLE.join("\n");
+    run();
+    $("status").textContent = "Loaded 20 example titles. Replace them with your own and run it again.";
+  });
+  $("clear").addEventListener("click", function () {
+    $("input").value = "";
+    $("status").textContent = "Cleared. Paste your titles and run the audit.";
+  });
+  $("copy").addEventListener("click", function () {
+    if (!results.length) { $("status").textContent = "Run an audit first."; return; }
+    var rows = [["score", "chars_before", "original_title", "chars_after",
+                 "suggested_title", "issues", "you_must_add"]];
+    results.forEach(function (r) {
+      rows.push([r.score, r.original.length, r.original, r.suggested.length, r.suggested,
+                 r.findings.map(function (f) { return f.rule; }).join(" | "),
+                 r.needs.join(" | ")]);
+    });
+    var csv = rows.map(function (row) {
+      return row.map(function (c) {
+        c = String(c);
+        return /[",\n]/.test(c) ? '"' + c.replace(/"/g, '""') + '"' : c;
+      }).join(",");
+    }).join("\n");
+    var done = function () {
+      $("status").textContent = "Copied " + results.length
+        + " rows as CSV — paste straight into a spreadsheet.";
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(csv).then(done, function () { fallback(csv, done); });
+    } else { fallback(csv, done); }
+  });
+
+  function fallback(csv, done) {
+    // Clipboard API can be unavailable; put the CSV where it can be selected by hand.
+    $("input").value = csv;
+    $("input").select();
+    done();
+  }
+
+  // Open in a working state, showing what the tool does rather than an empty box.
+  $("input").value = SAMPLE.join("\n");
+  run();
+  $("status").textContent = "Showing an audit of 20 example titles. Replace them with your own and run it again.";
+})();
+</script>

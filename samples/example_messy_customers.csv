@@ -1,0 +1,130 @@
+Customer ID, First Name,Last Name ,Email Address,Phone,Company,City,State,Zip,Signup Date,Lifetime Value,Newsletter,Source,Notes
+C-0093,michael,Wu,michael.wu@yahoo.com,,n/a,AUSTIN,tx,5565,05/23/25,"USD 7,603.68",N,Web Form,  needs W-9  
+C-0002,Fatima,Haddad ,fatima.haddad@acmesupply.co,6274639553 ext 12,,SEATTLE,wa,9007,2022-03-06,"$8,348.66",Yes,referral,  needs W-9  
+C-0060,NOAH,Patel ,noah.patel@gmail.com,791-304-9937,Patel Logistics LLC,MIAMI,fl,6185,2022-06-23,8893.85,yes,referral,do not contact
+C-0108,Maya,Murphy,  MAYA.MURPHY@YAHOO.COM  ,+1 804 670 3561,—, Miami,FL,89952,"December 24, 2024","$7,779.53",1,Referral,
+C-0111, Jessica,Okafor,jessica.okafor@gmail.com,(303) 360-7331,Okafor Logistics LLC,DENVER,Colorado,8803,not sure,"USD 7,555.37",Yes,Referral,VIP
+C-0078,AMARA,Alvarez ,  AMARA.ALVAREZ@YAHOO.COM  ,+1 455 537 3078,—,Denver,CO,7150,10/24/24,"$ 8,745.04",0,referral,
+C-0077,tomas,OKAFOR,Tomas.Okafor@Acmesupply.Co,8144052654,—,PORTLAND,or,63477,04/01/2026,"$8,346.18",TRUE,Web Form,  needs W-9  
+C-0023,Jonas,Volkov ,jonas.volkov@yahoo.com,2495981240 ext 12,—, Phoenix,az,4735,2023-10-26,$967.28,yes,referral,
+C-0061, Aaron,MURPHY,aaron.murphy@acmesupply.co,3696059364 ext 12,,Austin,Texas,27639,"December 09, 2024",2888.07,Y,Referral,called 2x
+C-0120,Michael,Kim,michael.kim@yahoo.com,486-379-7214,,Phoenix,az,7136,18-Jun-2026,"$9,631.92",N,Web Form,
+C-0069,OLIVIA,Bennett ,olivia.bennett@outlook.com,546-319-1954,Bennett Logistics LLC,MIAMI,fl,3412,"November 23, 2026",1813.75,0,TRADE SHOW,
+C-9058, Jonas,Rossi ,JONAS.ROSSI@OUTLOOK.COM,,Recovered Co, Portland,or,1890,11/17/2022,6091.09,no,referral,VIP
+C-0003,AARON,O'Brien,aaron.obrien@acmesupply.co,+1 847 619 9467,, Chicago,IL,22545,"September 16, 2024","5,806.65",yes,TRADE SHOW,VIP
+C-0065, Priya,Hansen,priya.hansen@yahoo.com,589.226.4833,—,MIAMI,FL,90566,08-Aug-2026,"$9,545.15",yes,Trade Show,
+C-0046,SOFIA,Kim ,sofia.kim@yahoo.com,9749697859 ext 12,n/a,Denver,co,29109,02/08/23,5016.91,no,Web Form,do not contact
+C-0063, Aaron,BROOKS,aaron.brooks@yahoo.com,312.872.9983,Brooks Design LLC, Portland,OR,4073,2024-08-07,"$8,428.93",N,TRADE SHOW,
+C-0113,JONAS,MURPHY,jonas.murphy@acmesupply.co,839.886.4356,,Austin,Texas,35813,18-May-2026,"USD 2,049.79",yes,web form,VIP
+C-0118,tomas,O'Brien,tomas.obrien@yahoo.com,6187682796,O'Brien Logistics LLC, Denver,Colorado,75276,11-Dec-2025,"$ 3,219.97",1,referral,  needs W-9  
+C-0112,NOAH,Murphy,noah.murphy@yahoo.com,8184816718,—,Austin,Texas,7817,05/11/25,8209.64,1,web form,do not contact
+C-0004, Grace,Patel,grace.patel@acmesupply.co, 336-701-2153 ,Patel Design LLC,Phoenix,AZ,5001,03-Jul-2026,"$ 1,456.05",TRUE,web form,
+C-0075,maya,Rossi ,maya.rossi@outlook.com,(813) 846-1355,,AUSTIN,TX,67053,11/22/2025,"$7,953.50",N,Import,
+C-0088,AMARA,BROOKS,amara.brooks@acmesupply.co,7554362809 ext 12,, Denver,CO,3192,03/06/24,"$ 6,826.64",Yes,TRADE SHOW,
+C-0074, Ethan,Murphy,ethan.murphy@yahoo.com,6377992252 ext 12,,Seattle,wa,8744,07/15/24,"$7,640.85",1,Trade Show,
+C-0038, Liam,Silva ,liam.silva@yahoo.com, 554-747-9682 ,, Boston,Massachusetts,3606,"February 12, 2023","5,704.70",Y,web form,do not contact
+C-0006,JONAS,Volkov,jonas.volkov@gmail.com,511-436-6134,n/a,PORTLAND,OR,2631,not sure,"USD 7,847.66",yes,Referral,VIP
+C-0015,amara,Okafor ,amara.okafor@@yahoo.com,(966) 204-8032,n/a, Chicago,IL,75334,"February 19, 2022",7925.84,1,Import,  needs W-9  
+C-9095,Caleb,Patel,CALEB.PATEL@OUTLOOK.COM,,—, Denver,CO,99862,"March 04, 2025","$4,906.72",TRUE,Web Form,do not contact
+C-9042,Aaron,O'Brien,AARON.OBRIEN@OUTLOOK.COM,,O'Brien Supply LLC,Austin,Texas,3814,14-Jan-2025,9069.13,yes,TRADE SHOW,
+,,,,,,,,,,,,,
+C-0119,Jessica,Silva,jessica.silva@outlook.com,912.545.7713,,Miami,FL,1558,08/23/26,"7,307.95",N,Trade Show,VIP
+C-0072,MAYA,Murphy,maya.murphy@outlook.com,8636946040 ext 12,n/a,BOSTON,MA,4793,"July 22, 2025","$3,876.29",false,Web Form,
+C-0085, Michael,Kim,michael.kim@outlook.com,8469843473 ext 12,n/a, Austin,Texas,7612,"August 03, 2024",,N,Web Form,VIP
+C-0057,OLIVIA,HANSEN,olivia.hansen@acmesupply.co,(462) 882-7079,Hansen Logistics LLC, Boston,MA,98841,"July 23, 2023","USD 5,229.52",false,Web Form,  needs W-9  
+C-0045,Olivia,VOLKOV,  OLIVIA.VOLKOV@YAHOO.COM  ,(804) 430-2886,n/a, Miami,FL,40184,"June 16, 2025","$6,525.54",0,Referral,
+C-0079,JONAS,Alvarez ,jonas.alvarez@acmesupply.co,528.400.1508,Alvarez Logistics LLC,Austin,tx,99701,02-Jun-2024,"$ 6,249.65",Y,web form,VIP
+C-0040, Noah,Wu,noah.wu@outlook.com,355-423-6717,n/a,DENVER,CO,15172,2023-03-01,"$ 8,089.15",TRUE,referral,  needs W-9  
+C-0054,SOFIA,ALVAREZ,sofia.alvarez@gmail.com,703-565-8939,Alvarez Design LLC, Denver,Colorado,3052,05/20/2025,"$4,095.47",false,Import,
+C-0084,Fatima,BENNETT,fatima.bennett@gmail.com,(341) 562-7692,—, Denver,co,32194,"September 13, 2026","USD 5,009.04",false,TRADE SHOW,  needs W-9  
+C-0030,tomas,Nakamura,tomas.nakamura@outlook.com,,n/a, Portland,Oregon,60025,03/07/2022,1430.86,N,TRADE SHOW,
+C-0020,jonas,O'Brien,jonas.obrien@acmesupply.co,908-631-4401,,AUSTIN,Texas,9096,"March 22, 2023","9,788.45",NO,web form,  needs W-9  
+C-0066, Priya,Murphy,priya.murphy@gmail.com,3654145985,, Chicago,Illinois,9778,2025-05-15,"$ 4,933.15",Y,TRADE SHOW,  needs W-9  
+C-0022,FATIMA,O'Brien ,fatima.obrien@gmail.com,3288294512,—, Miami,FL,9400,08-May-2024,"2,211.69",no,Referral,
+C-0032,dmitri,O'Brien,  DMITRI.OBRIEN@ACMESUPPLY.CO  ,+1 372 408 7543,—,Phoenix,AZ,14418,"October 15, 2025","$2,260.61",0,Web Form,called 2x
+C-0101,Noah,Murphy,noah.murphy@outlook.com, 391-965-7388 ,—,SEATTLE,WA,5972,13/45/2024,"2,919.81",no,Referral,  needs W-9  
+C-0026,dmitri,HADDAD,dmitri.haddad@yahoo.com,(697) 673-1056,—,Chicago,Illinois,6738,10/09/2024,"$3,500.59",TRUE,referral,
+C-0011,dmitri,ALVAREZ,dmitri.alvarez@outlook.com,(660) 264-6867,—,Austin,tx,43218,08/02/24,,TRUE,Trade Show,  needs W-9  
+C-0097,tomas,O'Brien ,tomas.obrien@outlook.com,833.219.4220,n/a,CHICAGO,Illinois,39341,11/08/22,"3,108.55",Yes,Web Form,
+C-0034,OLIVIA,Silva ,olivia.silva@yahoo.com,8719082956 ext 12,Silva Logistics LLC,Phoenix,Arizona,7449,04-Jan-2025,"USD 7,091.30",TRUE,TRADE SHOW,
+C-0115, Jessica,Silva,jessica.silva@acmesupply.co, 604-310-8126 ,n/a, Phoenix,AZ,7176,07-May-2022,"3,832.89",Yes,Trade Show,
+C-0106,michael,Lindqvist,michael.lindqvist@gmail.com, 897-327-4651 ,—, Boston,MA,7005,06/22/24,"4,677.72",no,Trade Show,  needs W-9  
+C-0067,olivia,Silva,olivia.silva@yahoo.com,2834221143 ext 12,—,BOSTON,ma,2871,08/23/24,"$6,433.07",yes,Referral,
+C-0090,SOFIA,Rossi ,sofia.rossi@acmesupply.co,527-290-6899,n/a,PORTLAND,or,64805,11/12/2025,"6,968.19",1,TRADE SHOW,
+C-0064,LIAM,Bennett ,liam.bennett@outlook.com,8636949054 ext 12,—,Boston,ma,4833,02/01/25,"$ 9,016.97",no,referral,  needs W-9  
+C-0098, Caleb,NAKAMURA,caleb.nakamura@acmesupply.co,497-469-2234,n/a, Chicago,Illinois,9778,06-Jun-2022,"$8,464.96",Yes,Import,
+C-0031,Fatima,MURPHY,fatima.murphy@outlook.com,789.731.7625,Murphy Supply LLC,DENVER,Colorado,5824,2023-02-08,"$ 1,922.20",Y,Import,
+C-0016, Grace,HADDAD,grace.haddad@gmail.com, 676-593-2305 ,n/a,Denver,Colorado,74809,17-Aug-2023,"USD 3,624.99",0,referral,
+C-0025,MICHAEL,Bennett ,michael.bennett at yahoo.com,5212949665 ext 12,n/a,Chicago,IL,41075,03/13/2023,$ 121.07,NO,TRADE SHOW,do not contact
+C-0050,liam,Nakamura ,  LIAM.NAKAMURA@YAHOO.COM  ,6796595401,n/a, Chicago,Illinois,17255,26-Mar-2026,"8,688.23",Yes,Web Form,  needs W-9  
+C-0024,fatima,Rossi,fatima.rossi@yahoo.com,(900) 329-5469,—,PORTLAND,OR,49255,2025-10-06,"2,362.06",0,TRADE SHOW,do not contact
+C-0086,Chen,Nakamura ,Chen.Nakamura@Outlook.Com, 920-448-2391 ,n/a,Portland,OR,32105,08/10/2025,"$9,633.24",0,Import,do not contact
+C-0068,Ethan,Alvarez,ethan.alvarez@acmesupply.co, 605-734-8539 ,n/a, Boston,MA,23769,11/19/2022,"$3,844.55",0,web form,VIP
+C-0083,ETHAN,Okafor,  ETHAN.OKAFOR@YAHOO.COM  ,8276245861,Okafor Logistics LLC,Phoenix,Arizona,8851,01/18/25,"$2,718.83",Yes,Referral,  needs W-9  
+C-0104, Jonas,Murphy,jonas.murphy@yahoo.com,,,BOSTON,ma,7296,02/10/2024,4697.40,0,Web Form,
+C-0078,AMARA,Alvarez ,  AMARA.ALVAREZ@YAHOO.COM  ,+1 455 537 3078,—,Denver,CO,7150,10/24/24,"$ 8,745.04",0,referral,
+C-0089,NOAH,Haddad,noah.haddad@acmesupply.co,3894033272 ext 12,—,Boston,MA,92678,02/27/26,,false,Trade Show,called 2x
+C-0009, Aaron,BROOKS,aaron.brooks@yahoo.com,869.211.5207,n/a,Austin,Texas,8488,"July 06, 2025",$ 253.43,false,web form,
+C-0102,Priya,SILVA,priya.silva@gmail.com, 220-292-6735 ,Silva Design LLC,Chicago,il,28484,05-Jun-2023,"$ 3,382.47",Yes,Import,VIP
+C-0018,Ethan,Okafor,  ETHAN.OKAFOR@OUTLOOK.COM  ,956.876.2640,n/a, Denver,co,3504,08/17/2023,"$9,092.39",NO,referral,  needs W-9  
+C-0028,FATIMA,O'Brien,fatima.obrien@acmesupply.co,6625497527,O'Brien Supply LLC,PHOENIX,AZ,7125,05-Mar-2023,"3,920.06",0,Trade Show,do not contact
+C-0058,liam,BROOKS,liam.brooks@acmesupply.co, 892-748-8575 ,, Denver,CO,94982,2022-12-18,"USD 2,234.00",false,Referral,
+C-0012,ethan,Volkov,ethan.volkov@gmail.com,(307) 901-1364,Volkov Supply LLC,BOSTON,MA,9352,08-Jan-2026,"5,053.80",N,web form,
+C-0076,priya,BROOKS,priya.brooks@outlook.com,(865) 846-5150,Brooks Supply LLC,Denver,Colorado,14930,,4636.68,false,Import,VIP
+C-0051,PRIYA,Okafor ,priya.okafor@gmail.com,827-475-6892,Okafor Logistics LLC,PORTLAND,OR,3258,13/45/2024,"4,823.28",yes,web form,do not contact
+C-9010,dmitri,ALVAREZ,DMITRI.ALVAREZ@OUTLOOK.COM,,—,Austin,tx,43218,08/02/24,,TRUE,Trade Show,  needs W-9  
+C-0005, Amara,Volkov,n/a,805-866-3894,,SEATTLE,Washington,51953,04/28/2024,"$2,197.66",false,Web Form,
+C-0095, Aaron,Murphy ,aaron.murphy@outlook.com,+1 334 639 3384,n/a,Chicago,IL,2916,07/20/2025,5475.34,Y,Referral,called 2x
+C-0031,Fatima,MURPHY,fatima.murphy@outlook.com,789.731.7625,Murphy Supply LLC,DENVER,Colorado,5824,2023-02-08,"$ 1,922.20",Y,Import,
+C-0008,dmitri,Bennett,dmitri.bennett@acmesupply.co,2159847535,—, Phoenix,Arizona,6791,11/09/2025,350.21,NO,Referral,called 2x
+C-0117,AARON,Patel,aaron.patel@outlook.com,863-543-5226,n/a,PORTLAND,OR,8768,02/09/26,USD 968.07,1,Web Form,
+C-0047,RUTH,Rossi ,ruth.rossi@gmail.com,375-325-3412,—, Portland,Oregon,4893,03-Feb-2023,,NO,TRADE SHOW,VIP
+C-0049,Ethan,Murphy,ethan.murphy@outlook.com,(224) 891-6332,—, Austin,Texas,8661,"February 27, 2023",8947.98,no,Import,
+C-0013,maya,Volkov,  MAYA.VOLKOV@OUTLOOK.COM  ,355.555.2815,n/a, Denver,CO,1526,11/26/25,"1,393.42",1,referral,
+C-0105,FATIMA,Wu,fatima.wu@acmesupply.co,3152315302 ext 12,, Boston,MA,10194,2022-12-21,"USD 5,902.41",no,web form,  needs W-9  
+C-0094,AMARA,Nakamura ,  AMARA.NAKAMURA@ACMESUPPLY.CO  ,929.947.5811,n/a,PHOENIX,AZ,97360,02/13/26,"$6,345.56",0,Web Form,do not contact
+C-0055,Ruth,Rossi ,ruth.rossi@acmesupply.co, 588-969-5150 ,Rossi Design LLC, Austin,TX,2495,09/14/22,"3,275.39",0,TRADE SHOW,  needs W-9  
+C-0080,dmitri,ROSSI,dmitri.rossi@outlook.com,7433428288,, Denver,co,73655,13/45/2024,"7,083.65",1,referral,
+C-0044, Amara,O'BRIEN,amara.obrien@acmesupply.co, 317-595-9687 ,—, Denver,CO,37708,2026-06-17,1091.64,1,Web Form,
+C-0092,Aaron,HANSEN,aaron.hansen@acmesupply.co,348.219.1504,—,SEATTLE,Washington,8312,10/18/2024,"$ 2,999.02",no,TRADE SHOW,
+C-0110,Olivia,Haddad,olivia.haddad@yahoo.com,553.604.7074,—, Seattle,Washington,54681,10/10/26,"$8,836.96",NO,Referral,  needs W-9  
+C-0027,CHEN,VOLKOV,chen.volkov@yahoo.com, 592-857-7554 ,,PORTLAND,OR,2384,2022-07-20,9376.72,NO,Referral,VIP
+C-0059, Jonas,Rossi ,jonas.rossi@outlook.com, 431-837-4963 ,, Portland,or,1890,11/17/2022,6091.09,no,referral,VIP
+C-0062,jonas,Patel ,jonas.patel@acmesupply.co,+1 485 650 3992,n/a,Austin,tx,88429,2023-11-19,"1,921.37",false,web form,VIP
+C-0036,liam,OKAFOR,liam.okafor@yahoo.com,4385844061 ext 12,Okafor Design LLC, Chicago,IL,3125,11-Mar-2022,"$ 9,296.63",0,TRADE SHOW,  needs W-9  
+C-0096,Caleb,Patel,caleb.patel@outlook.com, 642-522-2521 ,—, Denver,CO,99862,"March 04, 2025","$4,906.72",TRUE,Web Form,do not contact
+,,,,,,,,,,,,,
+C-0005, Amara,Volkov,n/a,805-866-3894,,SEATTLE,Washington,51953,04/28/2024,"$2,197.66",false,Web Form,
+C-0041, Aaron,O'BRIEN,aaron.obrien@gmail.com,+1 540 820 9726,,Austin,Texas,26848,03/01/26,"5,604.08",TRUE,TRADE SHOW,called 2x
+C-0035,chen,Hansen,chen.hansen@acmesupply.co,911-364-5601,n/a,Seattle,Washington,7433,01-Aug-2025,2452.71,Y,referral,VIP
+C-0116, Sofia,OKAFOR,sofia.okafor@gmail.com,975.923.9147,, Miami,fl,6738,10/12/24,"USD 4,145.71",TRUE,Trade Show,VIP
+C-0039,Michael,ALVAREZ,michael.alvarez@acmesupply.co,(585) 275-1147,, Miami,FL,7978,03/12/2025,"USD 7,197.01",false,referral,do not contact
+C-0053, Jessica,Silva,Jessica.Silva@Outlook.Com,(789) 237-1866,n/a, Phoenix,az,62944,12/12/2024,,false,Web Form,
+C-0048,caleb,Okafor,Caleb.Okafor@Outlook.Com,8436218245 ext 12,—, Seattle,WA,19140,"January 01, 2023","USD 4,681.11",0,Web Form,  needs W-9  
+C-0087,Dmitri,Lindqvist,dmitri.lindqvist@acmesupply.co,6276594532 ext 12,n/a, Portland,Oregon,15238,23-Jan-2026,2991.33,false,Web Form,do not contact
+C-0091, Chen,Okafor ,chen.okafor@gmail.com,360-643-8145,,AUSTIN,tx,20525,"January 18, 2024","$2,335.01",N,Referral,  needs W-9  
+C-0029,tomas,ALVAREZ,tomas.alvarez@outlook.com,691.849.4683,—,Austin,Texas,4657,06/22/23,"USD 2,730.17",yes,Import,  needs W-9  
+C-0082, Noah,Haddad,noah.haddad@gmail.com,(360) 624-6790,n/a, Austin,tx,8019,12/27/2023,"$ 9,698.60",false,web form,VIP
+C-0043,Aaron,O'Brien,aaron.obrien@outlook.com,7258908675,O'Brien Supply LLC,Austin,Texas,3814,14-Jan-2025,9069.13,yes,TRADE SHOW,
+C-0021,Fatima,NAKAMURA,fatima.nakamura@gmail.com,+1 584 572 8054,—,Denver,co,2060,2024-08-02,USD 676.89,no,Trade Show,
+C-0042,ethan,Volkov,ethan.volkov@gmail.com,654.953.1110,Volkov Supply LLC,SEATTLE,Washington,3060,2026-09-21,3475.70,N,TRADE SHOW,
+C-0052,Ines,Murphy ,ines.murphy@acmesupply.co,,n/a, Austin,tx,8606,02/16/26,"$ 6,540.41",Yes,TRADE SHOW,VIP
+C-0107, Jessica,Lindqvist ,jessica.lindqvist@gmail.com,(323) 614-9755,,AUSTIN,tx,8042,07/03/24,"7,764.78",no,referral,VIP
+C-0081,GRACE,Wu,grace.wu@gmail.com,4336234926 ext 12,, Austin,Texas,2060,2022-01-16,898.57,no,Trade Show,do not contact
+C-0056,priya,Nakamura ,priya.nakamura@outlook.com,758.438.5144,—,CHICAGO,IL,3851,13/45/2024,,NO,web form,VIP
+C-0109,Chen,PATEL,chen.patel@gmail.com,3706936783 ext 12,—, Denver,co,6909,17-Mar-2023,"USD 7,129.53",no,Web Form,
+C-0037,michael,Hansen,michael.hansen@yahoo.com,807.289.8588,Hansen Logistics LLC, Denver,co,21914,2024-06-02,"7,601.48",TRUE,TRADE SHOW,VIP
+C-0071,FATIMA,Patel ,fatima.patel@yahoo.com,3677553412,, Portland,Oregon,56582,04/09/2023,"$ 9,107.59",Yes,Web Form,
+C-0017, Caleb,Nakamura ,caleb.nakamura@outlook.com,404-730-3005,—, Phoenix,AZ,21350,15-Jun-2024,"$ 2,790.85",no,Web Form,  needs W-9  
+C-0103,LIAM,Haddad,liam.haddad@acmesupply.co,,n/a,Seattle,WA,88654,26-Oct-2022,9479.53,NO,Trade Show,do not contact
+C-0099,sofia,O'Brien,  SOFIA.OBRIEN@ACMESUPPLY.CO  ,+1 427 719 5488,—,Phoenix,AZ,1998,"December 25, 2023","5,879.28",Yes,Web Form,
+C-0014,priya,HANSEN,priya.hansen@acmesupply.co, 691-635-3518 ,—,Phoenix,Arizona,9617,"June 24, 2026","9,056.88",Yes,TRADE SHOW,called 2x
+C-0033,fatima,HADDAD,fatima.haddad@gmail.com,5033774110,Haddad Supply LLC,BOSTON,Massachusetts,11199,21-Oct-2024,"6,260.51",false,referral,VIP
+C-0010,Tomas,Hansen,tomas.hansen@acmesupply.co,,, Seattle,Washington,87686,03/27/2022,"$3,284.58",Y,web form,
+C-0007,ethan,O'Brien ,ethan.obrien@gmail.com,8246628672 ext 12,—,Denver,Colorado,8894,2025-03-24,"$7,136.44",yes,TRADE SHOW,VIP
+C-0070,ETHAN,O'BRIEN,ethan.obrien@outlook.com, 785-971-2119 ,,CHICAGO,il,73126,2025-07-09,"$4,237.64",Y,Trade Show,VIP
+C-0019,dmitri,Hansen ,dmitri.hansen@acmesupply.co,360-221-2848,n/a, Chicago,IL,4655,04/14/23,"$3,237.57",1,Import,
+C-0114,Caleb,BENNETT,caleb.bennett@acmesupply.co,+1 762 578 4972,n/a,DENVER,CO,3137,2026-02-19,"$ 7,381.07",1,referral,
+C-0100,Ethan,Brooks ,ethan.brooks@gmail.com,,Brooks Design LLC,Denver,Colorado,42568,"August 18, 2025","USD 5,846.24",0,Import,called 2x
+C-0001,olivia,Okafor,olivia.okafor@outlook.com,518.713.7926,—, Phoenix,AZ,4045,21-May-2023,"$1,458.01",Y,referral,VIP
+C-0073,Noah,Hansen,noah.hansen@acmesupply.co,+1 791 736 9142,Hansen Design LLC,Boston,Massachusetts,3814,2025-10-12,7207.89,yes,Import,
