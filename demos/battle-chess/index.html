@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Battle Chess &mdash; a roguelike on a chessboard</title>
+<meta name="description" content="Every piece has hit points. You do not capture, you attack, and the defender hits back. Complete Python source, 87 tests, and a chess engine written in-repo.">
+<link rel="canonical" href="https://mattvlr.github.io/title-budget/demos/battle-chess/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mattvlr.github.io/title-budget/demos/battle-chess/">
+<meta property="og:title" content="Battle Chess &mdash; a roguelike on a chessboard">
+<meta property="og:description" content="Every piece has hit points. You do not capture, you attack, and the defender hits back. Complete Python source, 87 tests, and a chess engine written in-repo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#F5F7F9; --surface:#FFFFFF; --surface-2:#EFF3F6;
+    --ink:#16202E; --muted:#5C6B7F; --faint:#8595A8; --border:#DCE3EA;
+    --accent:#A85D00; --accent-soft:#F5E4CC; --good:#1F7A4D;
+    --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#0E141C; --surface:#161F2A; --surface-2:#1D2835;
+      --ink:#E7EDF4; --muted:#9AAABC; --faint:#74869A; --border:#2A3745;
+      --accent:#E8A13A; --accent-soft:#3A2C16; --good:#5CC48B;
+    }
+  }
+  :root[data-theme="dark"] {
+      --bg:#0E141C; --surface:#161F2A; --surface-2:#1D2835;
+      --ink:#E7EDF4; --muted:#9AAABC; --faint:#74869A; --border:#2A3745;
+      --accent:#E8A13A; --accent-soft:#3A2C16; --good:#5CC48B;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans);
+         font-size:15px; line-height:1.55; }
+  .wrap { max-width:900px; margin:0 auto; padding-block:32px 64px;
+          padding-left:16px; padding-right:16px; }
+  h1 { font-size:28px; font-weight:600; margin:0 0 6px; letter-spacing:-.012em;
+       text-wrap:balance; }
+  h2 { font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:.08em;
+       color:var(--faint); margin:36px 0 12px; }
+  h3 { font-size:18px; font-weight:600; margin:0 0 4px; }
+  .lede { color:var(--muted); margin:0 0 4px; }
+  .eyebrow { font-family:var(--mono); font-size:12px; color:var(--accent);
+             text-transform:uppercase; letter-spacing:.06em; margin:0 0 6px; }
+  .panel { background:var(--surface); border:1px solid var(--border); border-radius:10px;
+           padding:16px 18px; }
+  .note { background:var(--accent-soft); border:1px solid var(--border); border-radius:10px;
+          padding:14px 16px; color:var(--ink); font-size:14px; }
+  figure { margin:0 0 28px; }
+  figure img { width:100%; max-width:100%; height:auto; display:block;
+               border:1px solid var(--border); border-radius:10px;
+               background:var(--surface-2); }
+  figcaption { color:var(--muted); font-size:14px; margin-top:8px; }
+  code { font-family:var(--mono); font-size:.92em; background:var(--surface-2);
+         padding:1px 5px; border-radius:4px; }
+  .stats { display:flex; flex-wrap:wrap; gap:10px; margin:0 0 6px; }
+  .stat { background:var(--surface); border:1px solid var(--border); border-radius:9px;
+          padding:10px 14px; flex:1 1 150px; }
+  .stat b { display:block; font-family:var(--mono); font-size:22px; color:var(--good);
+            line-height:1.2; }
+  .stat span { font-size:13px; color:var(--muted); }
+  .btn { display:inline-block; padding:9px 15px; border-radius:8px;
+         border:1px solid var(--border); background:var(--surface); color:var(--ink);
+         text-decoration:none; font-size:14px; font-weight:500; }
+  .btn.primary { background:var(--accent); border-color:var(--accent); color:#fff; }
+  .btn:focus-visible, nav a:focus-visible, footer a:focus-visible {
+         outline:2px solid var(--accent); outline-offset:2px; }
+  .row { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  .grow { flex:1 1 260px; }
+  ul.plain { margin:0; padding-left:18px; }
+  ul.plain li { margin:5px 0; }
+  nav a, footer a { color:var(--accent); text-decoration:none; }
+  footer { margin-top:44px; padding-top:18px; border-top:1px solid var(--border);
+           color:var(--faint); font-size:14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="eyebrow">Captured from the build that ships &middot; $9</p>
+<h1>Battle Chess &mdash; every piece has hit points</h1>
+<p class="lede">A finished roguelike sold as Python source. Climb a branching map to the Dread Monarch, carrying your survivors, their XP and their equipment from one fight to the next. The pieces you lose stay lost.</p>
+<nav style="margin-top:10px"><a href="../">&larr; All demos</a></nav>
+
+<section style="margin-top:22px">
+  <div class="note"><b>These are screenshots of the exact tree that becomes the download</b> &mdash; served by the app itself and captured in a browser, not mocked up. The numbers on each piece are its current and maximum hit points.</div>
+</section>
+
+<h2>Measured</h2>
+<section><div class="stats"><div class="stat"><b>87</b><span>tests pass, with <code>python-chess</code> uninstalled</span></div><div class="stat"><b>296</b><span>assertions on the chess rules alone</span></div><div class="stat"><b>13/13</b><span>deliberately broken rules the harness caught</span></div><div class="stat"><b>2</b><span>runtime dependencies &mdash; Flask and Gunicorn</span></div></div></section>
+
+<h2>Two screens</h2>
+<figure>
+  <img src="board.png" alt="A battle nine moves in" loading="lazy" width="1500">
+  <figcaption>A battle nine moves in. Each piece carries its own hit points and damage &mdash; the queen at 10/10, the king at 15/15, pawns at 5/5 &mdash; and the small arrow is the direction it faces, because a strike from behind hurts more than one head-on. There is no checkmate: you win by taking the enemy king's hit points to zero.</figcaption>
+</figure>
+<figure>
+  <img src="run-map.png" alt="The run map between battles" loading="lazy" width="1500">
+  <figcaption>The run map between battles. One node per step, up to the Dread Monarch: battles, elites, treasure, merchants and campfires. Only the lit nodes at the bottom are reachable from here, and the route you take decides what your army looks like by the time you arrive.</figcaption>
+</figure>
+
+<h2>What you should know before buying</h2>
+<section>
+  <div class="panel"><ul class="plain"><li><b>No support.</b> One-time download, sold as-is, no bug fixes and no updates.</li><li><b>Single player against an AI.</b> No multiplayer, no accounts, no matchmaking.</li><li><b>File-backed state, one worker.</b> Fine for playing; not a service you can scale horizontally without replacing the store.</li><li><b>Balance is not tuned.</b> <code>scripts/simulate.py</code> runs AI-vs-AI batches so you can measure it yourself, but nobody has spent weeks balancing this.</li><li><b>No art of its own.</b> Pieces are the standard chessboard.js set; there are no sprites, no sound and no animation beyond piece movement.</li><li><b>One licensing question is open, and it is not the code.</b> The chess rules are written in-repo and carry no third-party licence, but the 12 vendored piece images derive from Cburnett's Wikimedia Commons set, commonly distributed under the share-alike CC BY-SA 3.0. Which licence applies to those exact files is not confirmed. They are swappable through chessboard.js's <code>pieceTheme</code> option and nothing else depends on them. The licence states this in full.</li><li><b>The army roster panel is not shown here.</b> Its HP bars would not paint in the headless browser used for these captures and I could not confirm how they look in a real one, so it is left out rather than shown possibly wrong.</li></ul></div>
+</section>
+
+<h2>Get it</h2>
+<section>
+  <div class="panel">
+    <div class="row">
+      <div class="grow">
+        <h3>Battle Chess &mdash; complete Python source &mdash; $9</h3>
+        <p style="margin:0;color:var(--muted);font-size:14px">Flask + vanilla JS. <code>pip install -r requirements.txt</code>, <code>python app.py</code>, open the page. No build step, no database, no API key, no network calls.</p>
+      </div>
+      <a class="btn primary" href="https://bookmonger.gumroad.com/tools">See the store &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="../">All demos</a> &middot;
+  <a href="https://bookmonger.gumroad.com">All products</a> &middot;
+  <a href="https://github.com/mattvlr/title-budget">Source of the free tools</a>
+</footer>
+</div>
+</body>
+</html>
