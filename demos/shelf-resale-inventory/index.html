@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shelf &mdash; Resale Inventory &amp; Schedule C &mdash; screenshots</title>
+<meta name="description" content="A resale back office in Flask: sourcing trips through to an IRS Schedule C laid out by form line number. 600 tests.">
+<link rel="canonical" href="https://mattvlr.github.io/title-budget/demos/shelf-resale-inventory/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mattvlr.github.io/title-budget/demos/shelf-resale-inventory/">
+<meta property="og:title" content="Shelf &mdash; Resale Inventory &amp; Schedule C &mdash; screenshots">
+<meta property="og:description" content="A resale back office in Flask: sourcing trips through to an IRS Schedule C laid out by form line number. 600 tests.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#F5F7F9; --surface:#FFFFFF; --surface-2:#EFF3F6;
+    --ink:#16202E; --muted:#5C6B7F; --faint:#8595A8; --border:#DCE3EA;
+    --accent:#A85D00; --accent-soft:#F5E4CC;
+    --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#0E141C; --surface:#161F2A; --surface-2:#1D2835;
+      --ink:#E7EDF4; --muted:#9AAABC; --faint:#74869A; --border:#2A3745;
+      --accent:#E8A13A; --accent-soft:#3A2C16;
+    }
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans);
+         font-size:15px; line-height:1.55; }
+  .wrap { max-width:900px; margin:0 auto; padding:32px 16px 64px; }
+  h1 { font-size:28px; font-weight:600; margin:0 0 6px; letter-spacing:-.012em; }
+  h2 { font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:.08em;
+        color:var(--faint); margin:36px 0 12px; }
+  h3 { font-size:18px; font-weight:600; margin:0 0 4px; }
+  .lede { color:var(--muted); margin:0 0 4px; }
+  .eyebrow { font-family:var(--mono); font-size:12px; color:var(--accent);
+              text-transform:uppercase; letter-spacing:.06em; margin:0 0 6px; }
+  .panel { background:var(--surface); border:1px solid var(--border); border-radius:10px;
+            padding:16px 18px; }
+  .note { background:var(--accent-soft); border:1px solid var(--border); border-radius:10px;
+           padding:14px 16px; color:var(--ink); font-size:14px; }
+  figure { margin:0 0 26px; }
+  figure img { width:100%; height:auto; display:block; border:1px solid var(--border);
+                border-radius:10px; background:var(--surface-2); }
+  figcaption { color:var(--muted); font-size:14px; margin-top:8px; }
+  .btn { display:inline-block; padding:9px 15px; border-radius:8px; border:1px solid var(--border);
+          background:var(--surface); color:var(--ink); text-decoration:none; font-size:14px;
+          font-weight:500; }
+  .btn.primary { background:var(--accent); border-color:var(--accent); color:#fff; }
+  .row { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  .grow { flex:1 1 260px; }
+  ul.plain { margin:0; padding-left:18px; }
+  ul.plain li { margin:4px 0; }
+  nav a, footer a { color:var(--accent); text-decoration:none; }
+  footer { margin-top:44px; padding-top:18px; border-top:1px solid var(--border);
+            color:var(--faint); font-size:14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="eyebrow">Static snapshot &middot; $15</p>
+<h1>Shelf &mdash; Resale Inventory &amp; Schedule C</h1>
+<p class="lede">Sourcing trips, cost allocation to the cent, storage map, CSV reconcile, P&amp;L, and an IRS Schedule C built by form line number.</p>
+<nav style="margin-top:10px"><a href="../">&larr; All demos</a></nav>
+
+<section>
+  <div class="note">
+    These are captures of the running application with its own demo data &mdash; 230 items, 195 listings, 145 orders written by the included seeder. Nothing is mocked up or retouched. The figures you see are what that dataset actually produces.
+  </div>
+</section>
+
+<section>
+  <h2>What it looks like</h2>
+<figure>
+  <img src="../img/shelf-1.png" alt="The Schedule C report, by form line number." loading="lazy">
+  <figcaption><b>The Schedule C report, by form line number.</b> Part I gross receipts, Part II expenses and Part III cost of goods sold, each against its real line. Above it a pre-flight check names the things most likely to make a filing wrong &mdash; here, <b>3 sold orders linked to a $0-cost item, which under-counts line 42</b>.</figcaption>
+</figure>
+<figure>
+  <img src="../img/shelf-2.png" alt="The home dashboard." loading="lazy">
+  <figcaption><b>The home dashboard.</b> Every queue that needs clearing, with zero-count queues still shown so &ldquo;all clear&rdquo; is unambiguous rather than an empty screen.</figcaption>
+</figure>
+<figure>
+  <img src="../img/shelf-3.png" alt="The item table." loading="lazy">
+  <figcaption><b>The item table.</b> SKUs, costs, storage bin and lifecycle status, filterable &mdash; the surface you actually live in day to day.</figcaption>
+</figure>
+</section>
+
+<section>
+  <h2>How it was checked</h2>
+  <div class="panel"><ul class="plain">
+    <li><b>600 tests pass</b> (<code>python -m pytest -q</code>, 48 seconds) and <code>ruff check .</code> is clean.</li>
+    <li><b>All 36 pages load.</b> Every parameterless GET route was enumerated from Flask's own <code>app.url_map</code> &mdash; not a hand-written list &mdash; requested, and returned 200, with zero severe console errors.</li>
+    <li><b>9 Alembic migrations</b> apply from an empty database, and the seeder writes two fictional years of trading in one command.</li>
+    <li>Verified twice: once on the source tree, then again from inside the packaged zip in a clean virtualenv.</li>
+  </ul></div>
+</section>
+
+<section>
+  <h2>Not included</h2>
+  <div class="panel"><ul class="plain">
+    <li><b>No authentication of any kind.</b> It is meant to be bound to <code>127.0.0.1</code> on a machine you control. Anyone who can reach the port can read and change everything.</li>
+    <li><b>No eBay or Etsy API integration.</b> Sales arrive by CSV import or manual entry. Nothing syncs.</li>
+    <li><b>No sold-comps lookup.</b> The design document records it as a deliberate v1 exclusion.</li>
+    <li>No refund entry screen and no item delete route &mdash; both stated on the listing because you will find them.</li>
+    <li>Bookkeeping output, not tax advice.</li>
+  </ul></div>
+</section>
+
+<section>
+  <h2>Get it</h2>
+  <div class="panel">
+    <div class="row">
+      <div class="grow">
+        <h3>Shelf &mdash; Resale Inventory &amp; Schedule C &mdash; $15</h3>
+        <p style="margin:0;color:var(--muted);font-size:14px">Complete Flask source, 23,669 lines of Python, with a 110&nbsp;KB design document. Runs on Windows, macOS and Linux.</p>
+      </div>
+      <a class="btn primary" href="https://bookmonger.gumroad.com/tools">See the store &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="../">All demos</a> &middot;
+  <a href="https://bookmonger.gumroad.com">All products</a> &middot;
+  <a href="https://github.com/mattvlr/title-budget">Source of the free tools</a>
+</footer>
+</div>
+</body>
+</html>

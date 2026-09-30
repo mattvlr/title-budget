@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Village Sim &mdash; Flask + Socket.IO &mdash; screenshots</title>
+<meta name="description" content="Twelve villagers with needs, jobs, schedules and relationships, simulated in readable Python with a live Socket.IO feed.">
+<link rel="canonical" href="https://mattvlr.github.io/title-budget/demos/village-sim/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mattvlr.github.io/title-budget/demos/village-sim/">
+<meta property="og:title" content="Village Sim &mdash; Flask + Socket.IO &mdash; screenshots">
+<meta property="og:description" content="Twelve villagers with needs, jobs, schedules and relationships, simulated in readable Python with a live Socket.IO feed.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#F5F7F9; --surface:#FFFFFF; --surface-2:#EFF3F6;
+    --ink:#16202E; --muted:#5C6B7F; --faint:#8595A8; --border:#DCE3EA;
+    --accent:#A85D00; --accent-soft:#F5E4CC;
+    --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#0E141C; --surface:#161F2A; --surface-2:#1D2835;
+      --ink:#E7EDF4; --muted:#9AAABC; --faint:#74869A; --border:#2A3745;
+      --accent:#E8A13A; --accent-soft:#3A2C16;
+    }
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans);
+         font-size:15px; line-height:1.55; }
+  .wrap { max-width:900px; margin:0 auto; padding:32px 16px 64px; }
+  h1 { font-size:28px; font-weight:600; margin:0 0 6px; letter-spacing:-.012em; }
+  h2 { font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:.08em;
+        color:var(--faint); margin:36px 0 12px; }
+  h3 { font-size:18px; font-weight:600; margin:0 0 4px; }
+  .lede { color:var(--muted); margin:0 0 4px; }
+  .eyebrow { font-family:var(--mono); font-size:12px; color:var(--accent);
+              text-transform:uppercase; letter-spacing:.06em; margin:0 0 6px; }
+  .panel { background:var(--surface); border:1px solid var(--border); border-radius:10px;
+            padding:16px 18px; }
+  .note { background:var(--accent-soft); border:1px solid var(--border); border-radius:10px;
+           padding:14px 16px; color:var(--ink); font-size:14px; }
+  figure { margin:0 0 26px; }
+  figure img { width:100%; height:auto; display:block; border:1px solid var(--border);
+                border-radius:10px; background:var(--surface-2); }
+  figcaption { color:var(--muted); font-size:14px; margin-top:8px; }
+  .btn { display:inline-block; padding:9px 15px; border-radius:8px; border:1px solid var(--border);
+          background:var(--surface); color:var(--ink); text-decoration:none; font-size:14px;
+          font-weight:500; }
+  .btn.primary { background:var(--accent); border-color:var(--accent); color:#fff; }
+  .row { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  .grow { flex:1 1 260px; }
+  ul.plain { margin:0; padding-left:18px; }
+  ul.plain li { margin:4px 0; }
+  nav a, footer a { color:var(--accent); text-decoration:none; }
+  footer { margin-top:44px; padding-top:18px; border-top:1px solid var(--border);
+            color:var(--faint); font-size:14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="eyebrow">Static snapshot &middot; $5</p>
+<h1>Village Sim &mdash; Flask + Socket.IO</h1>
+<p class="lede">A simulation toolkit sold as source, not a game. Twelve villagers with needs, jobs, daily schedules and opinions about each other.</p>
+<nav style="margin-top:10px"><a href="../">&larr; All demos</a></nav>
+
+<section>
+  <div class="note">
+    Captures of the running simulation. <b>This is a toolkit, not a game</b> &mdash; there is no win condition and nothing to click but the controls. If you want something to play, this will disappoint you, and it is better said here than after you have paid.
+  </div>
+</section>
+
+<section>
+  <h2>What it looks like</h2>
+<figure>
+  <img src="../img/villagesim-1.png" alt="A villager." loading="lazy">
+  <figcaption><b>A villager.</b> Eight needs decaying on their own clock, a job, a daily schedule, and a relationship graph that moves as they interact.</figcaption>
+</figure>
+<figure>
+  <img src="../img/villagesim-2.png" alt="The chronicle." loading="lazy">
+  <figcaption><b>The chronicle.</b> A typed event log, so every villager-minute is readable after the fact rather than vanishing into an animation.</figcaption>
+</figure>
+<figure>
+  <img src="../img/villagesim-3.png" alt="The controls." loading="lazy">
+  <figcaption><b>The controls.</b> Tick rate, world clock and generation settings. This is the whole interactive surface, which is the point of calling it a toolkit.</figcaption>
+</figure>
+</section>
+
+<section>
+  <h2>How it was checked</h2>
+  <div class="panel"><ul class="plain">
+    <li><b>Runs with no API key.</b> The fallback dialogue is real, written content &mdash; not a stub that prints placeholders.</li>
+    <li>The broken Socket.IO integrity hash that silently disabled the advertised live feed is <b>fixed and confirmed working in a real browser</b>.</li>
+    <li>Two needs that no action could ever satisfy &mdash; hygiene and safety, previously pegged at ~99% and ~98% of all simulated time &mdash; are fixed and now move.</li>
+  </ul></div>
+</section>
+
+<section>
+  <h2>Not included</h2>
+  <div class="panel"><ul class="plain">
+    <li><b>The planner is a utility planner, not GOAP.</b> No world-state search, no preconditions, no action chaining. The source says so rather than overselling it.</li>
+    <li><b>There is no gameplay.</b> The UI changes settings and advances the clock.</li>
+    <li><b>Running it with an API key costs money</b> &mdash; roughly $0.27 per hour at the default tick rate, about $192 over 30 days if left running. There is no spend cap. The listing states this in full.</li>
+  </ul></div>
+</section>
+
+<section>
+  <h2>Get it</h2>
+  <div class="panel">
+    <div class="row">
+      <div class="grow">
+        <h3>Village Sim &mdash; Flask + Socket.IO &mdash; $5</h3>
+        <p style="margin:0;color:var(--muted);font-size:14px">Complete Flask + Socket.IO source with a 23-table schema. Works with no API key.</p>
+      </div>
+      <a class="btn primary" href="https://bookmonger.gumroad.com/tools">See the store &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="../">All demos</a> &middot;
+  <a href="https://bookmonger.gumroad.com">All products</a> &middot;
+  <a href="https://github.com/mattvlr/title-budget">Source of the free tools</a>
+</footer>
+</div>
+</body>
+</html>

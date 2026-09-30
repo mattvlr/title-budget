@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Coin Vault &mdash; Collection Tracker &mdash; screenshots</title>
+<meta name="description" content="Catalogue a coin collection in one CSV on your own computer, with silver melt value and a valuation report. Python source.">
+<link rel="canonical" href="https://mattvlr.github.io/title-budget/demos/coin-collection-tracker/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mattvlr.github.io/title-budget/demos/coin-collection-tracker/">
+<meta property="og:title" content="Coin Vault &mdash; Collection Tracker &mdash; screenshots">
+<meta property="og:description" content="Catalogue a coin collection in one CSV on your own computer, with silver melt value and a valuation report. Python source.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#F5F7F9; --surface:#FFFFFF; --surface-2:#EFF3F6;
+    --ink:#16202E; --muted:#5C6B7F; --faint:#8595A8; --border:#DCE3EA;
+    --accent:#A85D00; --accent-soft:#F5E4CC;
+    --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#0E141C; --surface:#161F2A; --surface-2:#1D2835;
+      --ink:#E7EDF4; --muted:#9AAABC; --faint:#74869A; --border:#2A3745;
+      --accent:#E8A13A; --accent-soft:#3A2C16;
+    }
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans);
+         font-size:15px; line-height:1.55; }
+  .wrap { max-width:900px; margin:0 auto; padding:32px 16px 64px; }
+  h1 { font-size:28px; font-weight:600; margin:0 0 6px; letter-spacing:-.012em; }
+  h2 { font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:.08em;
+        color:var(--faint); margin:36px 0 12px; }
+  h3 { font-size:18px; font-weight:600; margin:0 0 4px; }
+  .lede { color:var(--muted); margin:0 0 4px; }
+  .eyebrow { font-family:var(--mono); font-size:12px; color:var(--accent);
+              text-transform:uppercase; letter-spacing:.06em; margin:0 0 6px; }
+  .panel { background:var(--surface); border:1px solid var(--border); border-radius:10px;
+            padding:16px 18px; }
+  .note { background:var(--accent-soft); border:1px solid var(--border); border-radius:10px;
+           padding:14px 16px; color:var(--ink); font-size:14px; }
+  figure { margin:0 0 26px; }
+  figure img { width:100%; height:auto; display:block; border:1px solid var(--border);
+                border-radius:10px; background:var(--surface-2); }
+  figcaption { color:var(--muted); font-size:14px; margin-top:8px; }
+  .btn { display:inline-block; padding:9px 15px; border-radius:8px; border:1px solid var(--border);
+          background:var(--surface); color:var(--ink); text-decoration:none; font-size:14px;
+          font-weight:500; }
+  .btn.primary { background:var(--accent); border-color:var(--accent); color:#fff; }
+  .row { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  .grow { flex:1 1 260px; }
+  ul.plain { margin:0; padding-left:18px; }
+  ul.plain li { margin:4px 0; }
+  nav a, footer a { color:var(--accent); text-decoration:none; }
+  footer { margin-top:44px; padding-top:18px; border-top:1px solid var(--border);
+            color:var(--faint); font-size:14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="eyebrow">Static snapshot &middot; $9</p>
+<h1>Coin Vault &mdash; Collection Tracker</h1>
+<p class="lede">One CSV file on your own machine. Silver melt value from weight and fineness, a valuation report, and no subscription.</p>
+<nav style="margin-top:10px"><a href="../">&larr; All demos</a></nav>
+
+<section>
+  <div class="note">
+    Captures of the running tool against its sample collection. The melt figures are computed from the coin's own weight and fineness at a spot price you set &mdash; they are arithmetic, not a price feed, and the listing says so.
+  </div>
+</section>
+
+<section>
+  <h2>What it looks like</h2>
+<figure>
+  <img src="../img/coinvault-1.png" alt="The collection view." loading="lazy">
+  <figcaption><b>The collection view.</b> Every coin with year, mint, grade, what you paid and what it is worth, in a file you own outright.</figcaption>
+</figure>
+<figure>
+  <img src="../img/coinvault-2.png" alt="The valuation report." loading="lazy">
+  <figcaption><b>The valuation report.</b> Melt value computed from weight and fineness against the spot price you enter, separated from collector value, because conflating the two is how collections get mispriced.</figcaption>
+</figure>
+</section>
+
+<section>
+  <h2>How it was checked</h2>
+  <div class="panel"><ul class="plain">
+    <li><b>130 tests pass.</b> The melt arithmetic is checked against hand-computed values for each metal and fineness.</li>
+    <li>Both publish gates clean: no credentials, no marketplace automation.</li>
+    <li>The eBay and price-guide scrapers that were in the original source were <b>removed</b>, not disabled &mdash; they were why an earlier version was blocked.</li>
+  </ul></div>
+</section>
+
+<section>
+  <h2>Not included</h2>
+  <div class="panel"><ul class="plain">
+    <li><b>No live price feed.</b> You enter the spot price. Nothing is fetched, so nothing breaks when a third-party API changes.</li>
+    <li><b>No auction-comp lookup</b> and no suggested pricing.</li>
+    <li>Command-line and CSV. There is no hosted version and no account.</li>
+  </ul></div>
+</section>
+
+<section>
+  <h2>Get it</h2>
+  <div class="panel">
+    <div class="row">
+      <div class="grow">
+        <h3>Coin Vault &mdash; Collection Tracker &mdash; $9</h3>
+        <p style="margin:0;color:var(--muted);font-size:14px">Complete Python source. One CSV file, no database server, no subscription.</p>
+      </div>
+      <a class="btn primary" href="https://bookmonger.gumroad.com/tools">See the store &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="../">All demos</a> &middot;
+  <a href="https://bookmonger.gumroad.com">All products</a> &middot;
+  <a href="https://github.com/mattvlr/title-budget">Source of the free tools</a>
+</footer>
+</div>
+</body>
+</html>
