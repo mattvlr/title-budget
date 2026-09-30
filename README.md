@@ -163,6 +163,12 @@ out the most you can bid on a pallet or estate-sale box lot and still make money
 10-40% you will throw away and the buyer's premium people forget. Runs offline on a phone,
 which is where that decision actually gets made.
 
+And **[Billable Weight](https://bookmonger.gumroad.com/l/billable-weight)** ($3) - carriers
+bill for the size of your box, not just its weight. Shows how many pounds of air you are
+paying for and what to change so you stop. USPS moved its divisor from 166 to 139 in July
+2026, and applies dimensional pricing only above one cubic foot *and* only to zones 5-9 -
+two details most calculators miss.
+
 Buying any of them is entirely optional. Everything in this repository stays free and MIT licensed.
 
 ## Honest limitations
