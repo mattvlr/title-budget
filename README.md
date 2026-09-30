@@ -147,7 +147,12 @@ consistent SKU scheme and prints real scannable Code 128 barcodes onto Avery lab
 HTML file, runs offline, nothing uploaded. Its encoder is checked by decoding every barcode back
 the way a scanner reads it.
 
-Buying either is entirely optional. Everything in this repository stays free and MIT licensed.
+And **[Lot Break-Even Calculator](https://bookmonger.gumroad.com/l/lot-breakeven)** ($3) - works
+out the most you can bid on a pallet or estate-sale box lot and still make money, counting the
+10-40% you will throw away and the buyer's premium people forget. Runs offline on a phone,
+which is where that decision actually gets made.
+
+Buying any of them is entirely optional. Everything in this repository stays free and MIT licensed.
 
 ## Honest limitations
 
