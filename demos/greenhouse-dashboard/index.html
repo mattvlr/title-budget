@@ -5,7 +5,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard - Greenhouse</title>
-  <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
+  <script>
+// This page is a frozen capture. The readings, the charts and the sensor
+// timestamps all describe one instant, so the clock has to describe that
+// instant too -- otherwise the light-cycle countdown runs off the visitor's
+// real clock and, for about six hours a day, says the lights are OFF beside a
+// light sensor reading 16,192 lux. In the real app there is no override and
+// these fall through to the live clock, which is correct there.
+window.__SNAPSHOT_NOW = "2026-09-29T23:06:26.912438-04:00";
+function snapshotNow(){ return window.__SNAPSHOT_NOW ? new Date(window.__SNAPSHOT_NOW) : new Date(); }
+function snapshotNowMs(){ return window.__SNAPSHOT_NOW ? Date.parse(window.__SNAPSHOT_NOW) : Date.now(); }
+</script>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -792,7 +803,7 @@ function updateLightCountdown(){
     const lightOffHour = parseInt("12", 10);
     const lightOffMinute = parseInt("0", 10);
     const centralTz = SITE_TZ;
-    const now = new Date();
+    const now = snapshotNow();
     const nowInCentral = new Date(now.toLocaleString('en-US', { timeZone: centralTz }));
 
     const nowMin = nowInCentral.getHours()*60 + nowInCentral.getMinutes();
@@ -854,7 +865,7 @@ function secondsToHms(s){ if(s==null) return '--'; const d=Math.floor(s/86400); 
 
 // Relative time helpers for Last Seen (updates every second without refetch)
 function relativeAgoFromMs(tsMs){
-  const s = Math.max(1, Math.floor((Date.now() - tsMs)/1000));
+  const s = Math.max(1, Math.floor((snapshotNowMs() - tsMs)/1000));
   if(s < 60) return s + 's ago';
   const m = Math.floor(s/60); if(m < 60) return m + 'm ago';
   const h = Math.floor(m/60); if(h < 24) return h + 'h ' + (m%60) + 'm ago';
@@ -1017,7 +1028,7 @@ function updateLightTimeline(){
 
 function updateLightNowMarker(){
   const centralTz = SITE_TZ;
-  const now = new Date();
+  const now = snapshotNow();
   const nowCentral = new Date(now.toLocaleString('en-US', { timeZone: centralTz }));
   const pct = ((nowCentral.getHours() + nowCentral.getMinutes()/60 + nowCentral.getSeconds()/3600) / 24) * 100;
   const marker = document.getElementById('lightNowMarker');
