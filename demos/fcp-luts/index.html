@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Six Colour Grades for Final Cut Pro</title>
+<meta name="description" content="Six .cube LUTs shown on the same ungraded frame, so you can see each grade before you buy it. Generated from documented transfer functions and validated, not eyeballed.">
+<link rel="canonical" href="https://mattvlr.github.io/title-budget/demos/fcp-luts/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mattvlr.github.io/title-budget/demos/fcp-luts/">
+<meta property="og:title" content="Six Colour Grades for Final Cut Pro">
+<meta property="og:description" content="Six .cube LUTs shown on the same ungraded frame, so you can see each grade before you buy it. Generated from documented transfer functions and validated, not eyeballed.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#F5F7F9; --surface:#FFFFFF; --surface-2:#EFF3F6;
+    --ink:#16202E; --muted:#5C6B7F; --faint:#8595A8; --border:#DCE3EA;
+    --accent:#A85D00; --accent-soft:#F5E4CC; --good:#1F7A4D;
+    --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#0E141C; --surface:#161F2A; --surface-2:#1D2835;
+      --ink:#E7EDF4; --muted:#9AAABC; --faint:#74869A; --border:#2A3745;
+      --accent:#E8A13A; --accent-soft:#3A2C16; --good:#5CC48B;
+    }
+  }
+  :root[data-theme="dark"] {
+      --bg:#0E141C; --surface:#161F2A; --surface-2:#1D2835;
+      --ink:#E7EDF4; --muted:#9AAABC; --faint:#74869A; --border:#2A3745;
+      --accent:#E8A13A; --accent-soft:#3A2C16; --good:#5CC48B;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans);
+         font-size:15px; line-height:1.55; }
+  .wrap { max-width:900px; margin:0 auto; padding-block:32px 64px;
+          padding-left:16px; padding-right:16px; }
+  h1 { font-size:28px; font-weight:600; margin:0 0 6px; letter-spacing:-.012em;
+       text-wrap:balance; }
+  h2 { font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:.08em;
+       color:var(--faint); margin:36px 0 12px; }
+  h3 { font-size:18px; font-weight:600; margin:0 0 4px; }
+  .lede { color:var(--muted); margin:0 0 4px; }
+  .eyebrow { font-family:var(--mono); font-size:12px; color:var(--accent);
+             text-transform:uppercase; letter-spacing:.06em; margin:0 0 6px; }
+  .panel { background:var(--surface); border:1px solid var(--border); border-radius:10px;
+           padding:16px 18px; }
+  .note { background:var(--accent-soft); border:1px solid var(--border); border-radius:10px;
+          padding:14px 16px; color:var(--ink); font-size:14px; }
+  figure { margin:0 0 28px; }
+  figure img { width:100%; max-width:100%; height:auto; display:block;
+               border:1px solid var(--border); border-radius:10px;
+               background:var(--surface-2); }
+  figcaption { color:var(--muted); font-size:14px; margin-top:8px; }
+  code { font-family:var(--mono); font-size:.92em; background:var(--surface-2);
+         padding:1px 5px; border-radius:4px; }
+  .stats { display:flex; flex-wrap:wrap; gap:10px; margin:0 0 6px; }
+  .stat { background:var(--surface); border:1px solid var(--border); border-radius:9px;
+          padding:10px 14px; flex:1 1 150px; }
+  .stat b { display:block; font-family:var(--mono); font-size:22px; color:var(--good);
+            line-height:1.2; }
+  .stat span { font-size:13px; color:var(--muted); }
+  .btn { display:inline-block; padding:9px 15px; border-radius:8px;
+         border:1px solid var(--border); background:var(--surface); color:var(--ink);
+         text-decoration:none; font-size:14px; font-weight:500; }
+  .btn.primary { background:var(--accent); border-color:var(--accent); color:#fff; }
+  .btn:focus-visible, nav a:focus-visible, footer a:focus-visible {
+         outline:2px solid var(--accent); outline-offset:2px; }
+  .row { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  .grow { flex:1 1 260px; }
+  ul.plain { margin:0; padding-left:18px; }
+  ul.plain li { margin:5px 0; }
+  nav a, footer a { color:var(--accent); text-decoration:none; }
+  footer { margin-top:44px; padding-top:18px; border-top:1px solid var(--border);
+           color:var(--faint); font-size:14px; }
+
+  .pair { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  @media (max-width:640px) { .pair { grid-template-columns:1fr; } }
+  .pair figure { margin:0; }
+  .pair img { width:100%; height:auto; display:block; border:1px solid var(--border);
+              border-radius:8px; }
+  .pair figcaption { font-family:var(--mono); font-size:12.5px; color:var(--faint);
+                     margin-top:6px; text-transform:uppercase; letter-spacing:.06em; }
+  h3 { font-size:20px; font-weight:600; margin:34px 0 4px; }
+  .note-sm { color:var(--muted); font-size:14px; margin:0 0 12px; max-width:62ch; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="eyebrow">Every grade, on the same frame &middot; $6</p>
+<h1>Six colour grades for Final Cut Pro</h1>
+<p class="lede">Six <code>.cube</code> lookup tables you drop onto a clip as a Custom LUT
+effect. Each one below is the shipped file applied to the same ungraded photograph &mdash;
+not a mock-up, and not a different picture chosen to flatter it.</p>
+<nav style="margin-top:10px"><a href="../">&larr; All demos</a></nav>
+
+<section style="margin-top:22px">
+  <div class="note">
+    <b>The frame on the left is the same in every pair.</b> A grade can only be judged
+    against ungraded footage, so the comparison is held fixed. Each right-hand image was
+    produced by running the shipped <code>.cube</code> file through a trilinear
+    interpolation of its 3D lattice &mdash; the same operation Final Cut Pro performs.
+  </div>
+</section>
+
+<h2>The six grades</h2>
+<section>
+  <h3>Teal and Orange</h3>
+  <p class="note-sm">Shadows pushed toward teal, highlights warmed, moderate S-curve. The look most trailers reach for. Note it stays off the skin: faces warm slightly, they do not turn orange.</p>
+  <div class="pair">
+    <figure><img src="ungraded.jpg" alt="The ungraded frame" loading="lazy" width="1100"><figcaption>ungraded</figcaption></figure>
+    <figure><img src="teal-and-orange.jpg" alt="Teal and Orange applied to the same frame" loading="lazy" width="1100"><figcaption>Teal and Orange</figcaption></figure>
+  </div>
+</section>
+<section>
+  <h3>Bleach Bypass</h3>
+  <p class="note-sm">Silver-retention: strong contrast with 62% of saturation removed. Harsh on purpose. Good for tension, bad for anything that needs to look pleasant.</p>
+  <div class="pair">
+    <figure><img src="ungraded.jpg" alt="The ungraded frame" loading="lazy" width="1100"><figcaption>ungraded</figcaption></figure>
+    <figure><img src="bleach-bypass.jpg" alt="Bleach Bypass applied to the same frame" loading="lazy" width="1100"><figcaption>Bleach Bypass</figcaption></figure>
+  </div>
+</section>
+<section>
+  <h3>Warm Document</h3>
+  <p class="note-sm">Gentle warmth for interviews and talking heads. The blacks are deliberately left uncrushed &mdash; documentary footage usually wants detail in the shadows more than it wants contrast.</p>
+  <div class="pair">
+    <figure><img src="ungraded.jpg" alt="The ungraded frame" loading="lazy" width="1100"><figcaption>ungraded</figcaption></figure>
+    <figure><img src="warm-document.jpg" alt="Warm Document applied to the same frame" loading="lazy" width="1100"><figcaption>Warm Document</figcaption></figure>
+  </div>
+</section>
+<section>
+  <h3>Cool Night</h3>
+  <p class="note-sm">Day-for-night. Luminance down, blue up, and the face kept readable, which is the part most night grades get wrong.</p>
+  <div class="pair">
+    <figure><img src="ungraded.jpg" alt="The ungraded frame" loading="lazy" width="1100"><figcaption>ungraded</figcaption></figure>
+    <figure><img src="cool-night.jpg" alt="Cool Night applied to the same frame" loading="lazy" width="1100"><figcaption>Cool Night</figcaption></figure>
+  </div>
+</section>
+<section>
+  <h3>Faded Film</h3>
+  <p class="note-sm">Lifted matte blacks and mild desaturation, like a print that has been fogged. The black point never reaches zero, by design.</p>
+  <div class="pair">
+    <figure><img src="ungraded.jpg" alt="The ungraded frame" loading="lazy" width="1100"><figcaption>ungraded</figcaption></figure>
+    <figure><img src="faded-film.jpg" alt="Faded Film applied to the same frame" loading="lazy" width="1100"><figcaption>Faded Film</figcaption></figure>
+  </div>
+</section>
+<section>
+  <h3>High Key Clean</h3>
+  <p class="note-sm">Bright and deliberately flat, for product and explainer video where the subject matters more than the mood. This one removes contrast rather than adding it.</p>
+  <div class="pair">
+    <figure><img src="ungraded.jpg" alt="The ungraded frame" loading="lazy" width="1100"><figcaption>ungraded</figcaption></figure>
+    <figure><img src="high-key-clean.jpg" alt="High Key Clean applied to the same frame" loading="lazy" width="1100"><figcaption>High Key Clean</figcaption></figure>
+  </div>
+</section>
+
+<h2>How they install</h2>
+<section>
+  <div class="panel">
+    <p class="note-sm">Apple's own workflow, from the Final Cut Pro user guide:</p>
+    <ul class="plain">
+      <li>Select the clip. In the Video inspector set <b>Camera LUT</b> to <b>None</b>.</li>
+      <li>Add the <b>Custom LUT</b> effect from the Effects browser.</li>
+      <li>Open the effect's LUT menu and choose <b>Choose Custom LUT&hellip;</b></li>
+      <li>Navigate to the <code>.cube</code> file, select it, click <b>Open</b>.</li>
+      <li>Use <b>Mix</b> to dial the strength back if it is too strong.</li>
+    </ul>
+  </div>
+</section>
+
+<h2>What was checked</h2>
+<section>
+  <div class="panel"><ul class="plain">
+    <li><b>Exactly 35,937 entries</b> in each file &mdash; 33&times;33&times;33, the size the
+    Adobe Cube spec requires.</li>
+    <li><b>Every value inside 0&ndash;1.</b> Out-of-range entries clip unpredictably; there
+    are none.</li>
+    <li><b>Every grade monotonic along the tone axis.</b> A LUT that inverts tone is broken.
+    None of these do.</li>
+    <li><b>Each look is a documented formula</b> &mdash; lift/gamma/gain per channel, an
+    S-curve pinned at both ends so contrast never clips, and Rec.709 luma weighting for
+    desaturation, which is the weighting Final Cut Pro's own colour pipeline uses.</li>
+  </ul></div>
+</section>
+
+<h2>What they will not do</h2>
+<section>
+  <div class="panel"><ul class="plain">
+    <li><b>A LUT is a grade, not a repair.</b> It cannot fix exposure, white balance or
+    focus. On badly exposed footage every one of these looks worse than no LUT at all.</li>
+    <li><b>Log footage needs converting first.</b> Apply your camera's own log-to-Rec.709
+    conversion, then one of these on top.</li>
+    <li><b>Not tested against every camera profile.</b> Validated mathematically, not by
+    grading footage from a hundred cameras. That is what Mix is for.</li>
+    <li><b>On the file format, plainly:</b> <code>.cube</code> is the standard interchange
+    format for 3D LUTs and is what LUT packs for Final Cut Pro ship as. Apple's public
+    documentation describes importing a "3DLUT file" and does not publish a list of
+    accepted extensions, so that claim rests on the format's ubiquity rather than on a line
+    in Apple's manual.</li>
+    <li><b>Six looks, not sixty.</b> A small deliberate set. <b>No support</b> &mdash;
+    one-time download, sold as-is.</li>
+  </ul></div>
+</section>
+
+<h2>Get it</h2>
+<section>
+  <div class="panel">
+    <div class="row">
+      <div class="grow">
+        <h3 style="margin:0 0 4px">Six Colour Grades for Final Cut Pro &mdash; $6</h3>
+        <p style="margin:0;color:var(--muted);font-size:14px">Six <code>.cube</code> files.
+        No plugin, no installer, no account. Also works in Premiere, DaVinci Resolve and
+        Affinity.</p>
+      </div>
+      <a class="btn primary" href="https://bookmonger.gumroad.com">See the store &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="../">All demos</a> &middot;
+  <a href="https://bookmonger.gumroad.com">All products</a> &middot;
+  <a href="https://github.com/mattvlr/title-budget">Source of the free tools</a>
+</footer>
+</div>
+</body>
+</html>
