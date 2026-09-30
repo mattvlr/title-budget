@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>eBay Seller Standards Checker</title>
+<meta name="description" content="How many late shipments, defects or unresolved cases you can have before you lose Top Rated Seller. eBay's limit is 5 late shipments OR 3% of transactions, whichever is larger - so five is fine until you pass 199 sales. Enter your own counts. Nothing is uploaded.">
+<link rel="canonical" href="https://mattvlr.github.io/title-budget/seller-standards.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mattvlr.github.io/title-budget/seller-standards.html">
+<meta property="og:title" content="How many late shipments before you lose Top Rated Seller?">
+<meta property="og:description" content="eBay's late shipment limit is 5 or 3% of transactions, whichever is larger. Most guides quote only the 3%. This works out your actual headroom from your own numbers, in your browser.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How many late shipments can I have before I lose Top Rated Seller on eBay?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "eBay's Top Rated requirement is a late shipment rate of no more than 5 late shipments, or 3% of transactions - whichever of the two is larger. So five late shipments is inside the limit for any seller with 199 or fewer transactions in the evaluation period, including a 40-transaction seller where 3% alone would allow only one. The 3% clause does not overtake the fixed five until 200 transactions, where it allows six, and from there the allowance grows with volume."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does a package that arrives late always count against me?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. eBay's stated rule is that with tracking, an item counts as late when the delivery scan is after the latest estimated delivery date AND there is no carrier scan within your handling time. Both conditions have to hold. If you got a carrier scan inside your handling time and the carrier then took too long, that delivery is not counted late by that rule. A buyer confirming late arrival is counted separately."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my eBay seller level judged on 3 months or 12 months?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It depends on your volume. eBay counts the last 3 months if you had more than 400 transactions in that period, and the last 12 months if you had fewer. This matters because the same number of defects is measured against a much smaller denominator on the 3-month window, and the window can flip from one monthly evaluation to the next as your volume moves across 400."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How many defects can a 100-transaction eBay seller have and stay Top Rated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Zero. The Top Rated transaction defect rate limit is 0.5%, and one defect out of 100 transactions is 1%. Unlike the late shipment and unresolved case limits, eBay publishes no fixed count allowance alongside the defect percentage, so the first defect takes a 100-transaction seller out of Top Rated. You need 200 transactions in the evaluation period before a single defect fits under 0.5%, and 400 before two do."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is Top Rated Seller worth in money?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "eBay states Top Rated sellers get a 10% discount on final value fees, which are calculated on the total amount of the sale including shipping and tax. At a 13.6% final value fee on a $29.95 total, the fee is $4.07 and the discount is $0.41 per sale - about $41 per 100 sales. The discount applies to listings meeting the separate Top Rated Plus per-listing criteria, which this page does not evaluate."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "When does eBay evaluate my seller level?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "On the 20th of each month. Your level is set by that evaluation and does not change in between, so a defect that lands on the 21st is measured against the following month's evaluation, and a metric you fix after the 20th does not restore your level until the next one."
+      }
+    }
+  ]
+}
+</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --bg: #F5F7F9; --surface: #FFFFFF; --surface-2: #EFF3F6;
+    --ink: #16202E; --muted: #5C6B7F; --faint: #8595A8; --border: #DCE3EA;
+    --accent: #A85D00; --accent-soft: #F5E4CC;
+    --good: #1F6B4A; --good-soft: #E2F0E9;
+    --bad: #B02A1F; --bad-soft: #F8E0DD;
+    --meter: #E2E8EE;
+    --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0E141C; --surface: #161F2A; --surface-2: #1D2835;
+      --ink: #E7EDF4; --muted: #9AAABC; --faint: #74869A; --border: #2A3745;
+      --accent: #E8A13A; --accent-soft: #3A2C16;
+      --good: #5CC08D; --good-soft: #143026;
+      --bad: #F08074; --bad-soft: #351A17; --meter: #26333F;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0E141C; --surface: #161F2A; --surface-2: #1D2835;
+    --ink: #E7EDF4; --muted: #9AAABC; --faint: #74869A; --border: #2A3745;
+    --accent: #E8A13A; --accent-soft: #3A2C16;
+    --good: #5CC08D; --good-soft: #143026;
+    --bad: #F08074; --bad-soft: #351A17; --meter: #26333F;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font-family: var(--sans); font-size: 15px; line-height: 1.55;
+         -webkit-text-size-adjust: 100%; }
+  .wrap { max-width: 900px; margin: 0 auto; padding-inline: 16px; padding-block: 0 56px; }
+
+  header { background: var(--surface); border-bottom: 1px solid var(--border); }
+  .head { max-width: 900px; margin: 0 auto; padding-inline: 16px; padding-block: 22px 20px; }
+  .eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: .1em;
+             text-transform: uppercase; color: var(--accent); margin: 0 0 6px; }
+  h1 { font-size: 28px; font-weight: 600; margin: 0 0 8px; letter-spacing: -.012em;
+       text-wrap: balance; }
+  .lede { margin: 0; color: var(--muted); max-width: 64ch; }
+  .lede strong { color: var(--ink); font-weight: 500; }
+  nav { margin-top: 12px; font-size: 13.5px; }
+  nav a { color: var(--accent); text-decoration: none; }
+  nav a:hover { text-decoration: underline; }
+
+  section { margin-top: 28px; }
+  h2 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em;
+       color: var(--faint); margin: 0 0 11px; font-family: var(--mono); }
+  h3 { font-size: 18px; font-weight: 600; margin: 26px 0 8px; }
+
+  .panel { background: var(--surface); border: 1px solid var(--border);
+           border-radius: 6px; padding: 16px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+  label.f { display: block; font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+  input { width: 100%; box-sizing: border-box; font-family: var(--mono); font-size: 16px;
+          color: var(--ink); background: var(--surface-2); border: 1px solid var(--border);
+          border-radius: 5px; padding: 9px 11px; }
+  input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .hint { font-size: 12.5px; color: var(--faint); margin: 10px 0 0; max-width: 68ch; }
+
+  .verdict { background: var(--surface); border: 1px solid var(--border);
+             border-radius: 6px; padding: 18px; }
+  .verdict.trs { border-color: var(--good); background: var(--good-soft); }
+  .verdict.below { border-color: var(--bad); background: var(--bad-soft); }
+  .level { font-family: var(--mono); font-size: 26px; font-weight: 500; margin: 0;
+           letter-spacing: -.01em; }
+  .verdict.trs .level { color: var(--good); }
+  .verdict.below .level { color: var(--bad); }
+  .because { margin: 8px 0 0; color: var(--muted); font-size: 14.5px; max-width: 66ch; }
+  .window { font-family: var(--mono); font-size: 11px; letter-spacing: .06em;
+            text-transform: uppercase; color: var(--faint); margin: 0 0 8px; }
+
+  .scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 6px;
+            background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--border);
+           vertical-align: top; }
+  th { font-family: var(--mono); font-size: 10.5px; letter-spacing: .06em;
+       text-transform: uppercase; color: var(--faint); font-weight: 500; white-space: nowrap; }
+  tbody tr:last-child td { border-bottom: none; }
+  td.num { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums;
+           white-space: nowrap; }
+  tr.fail td { background: var(--bad-soft); }
+  tr.fail td.st { color: var(--bad); font-weight: 500; }
+  td.st { font-family: var(--mono); font-size: 11px; letter-spacing: .05em;
+          text-transform: uppercase; white-space: nowrap; }
+  tr.pass td.st { color: var(--good); }
+  .basis { font-family: var(--mono); font-size: 10.5px; color: var(--muted);
+           text-transform: none; letter-spacing: 0; }
+
+  .callout { background: var(--accent-soft); border-radius: 6px; padding: 14px 16px;
+             margin-top: 16px; font-size: 14.5px; }
+  .callout strong { font-weight: 600; }
+  p { max-width: 68ch; }
+  .note { border-left: 2px solid var(--accent); padding: 2px 0 2px 14px;
+          color: var(--muted); font-size: 14px; max-width: 66ch; }
+  blockquote { margin: 10px 0 0; padding: 0 0 0 14px; border-left: 2px solid var(--border);
+               color: var(--muted); font-size: 13.5px; max-width: 66ch; }
+  details { background: var(--surface); border: 1px solid var(--border);
+            border-radius: 6px; padding: 12px 15px; margin-bottom: 9px; }
+  details[open] { border-color: var(--accent); }
+  summary { cursor: pointer; font-weight: 500; font-size: 15.5px; }
+  summary::marker { color: var(--accent); }
+  details p { margin: 9px 0 0; color: var(--muted); font-size: 14.5px; }
+  code { font-family: var(--mono); font-size: 0.9em; background: var(--surface-2);
+         padding: 1px 5px; border-radius: 4px; }
+  footer { margin-top: 36px; padding-top: 18px; border-top: 1px solid var(--border);
+           color: var(--faint); font-size: 12.5px; }
+  footer a { color: var(--accent); }
+  .tools { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 11px; }
+  .tools a { display: inline-block; padding: 6px 11px; background: var(--surface);
+             border: 1px solid var(--border); border-radius: 6px;
+             text-decoration: none; font-size: 13px; }
+  @media (max-width: 560px) { h1 { font-size: 23px; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head">
+    <p class="eyebrow">Free &middot; eBay US standards, September 2026</p>
+    <h1>How many late shipments before you lose Top Rated?</h1>
+    <p class="lede">eBay's Top Rated late shipment limit is <strong>5 late shipments or 3%
+      of transactions, whichever is larger</strong>. Almost every guide quotes only the 3%,
+      which tells a 40-order seller they can afford one late package when they can actually
+      afford five. Put your own counts in and see the real headroom.</p>
+    <nav><a href="./">&larr; Title Budget, the free listing title auditor</a> &middot;
+      <a href="./fees.html">Fee comparison</a> &middot;
+      <a href="./demos/">Product demos</a></nav>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section>
+    <h2>Your volume</h2>
+    <div class="panel">
+      <div class="grid">
+        <div><label class="f" for="t3">Transactions, last 3 months</label>
+          <input type="number" id="t3" value="120" min="0" step="1"></div>
+        <div><label class="f" for="t12">Transactions, last 12 months</label>
+          <input type="number" id="t12" value="380" min="0" step="1"></div>
+        <div><label class="f" for="sales">Sales to US buyers, last 12 months ($)</label>
+          <input type="number" id="sales" value="9500" min="0" step="50"></div>
+        <div><label class="f" for="age">Account age (days)</label>
+          <input type="number" id="age" value="400" min="0" step="1"></div>
+      </div>
+      <p class="hint">eBay counts the last 3 months if you had more than 400 transactions in
+        that period, and the last 12 months if you had fewer. This tool picks the same
+        window and tells you which one it used.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Your metrics</h2>
+    <div class="panel">
+      <div class="grid">
+        <div><label class="f" for="defects">Transactions with a defect</label>
+          <input type="number" id="defects" value="1" min="0" step="1"></div>
+        <div><label class="f" for="buyers">Different buyers in those defects</label>
+          <input type="number" id="buyers" value="1" min="0" step="1"></div>
+        <div><label class="f" for="cases">Cases closed without your resolution</label>
+          <input type="number" id="cases" value="0" min="0" step="1"></div>
+        <div><label class="f" for="late">Late shipments</label>
+          <input type="number" id="late" value="4" min="0" step="1"></div>
+        <div><label class="f" for="ontime">Transactions with tracking uploaded in time and validated</label>
+          <input type="number" id="ontime" value="370" min="0" step="1"></div>
+      </div>
+      <p class="hint">These are the numbers your Seller Dashboard reports. Everything runs
+        in your browser &mdash; nothing is uploaded, and there is no account to make.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Where you stand</h2>
+    <div class="verdict" id="verdict">
+      <p class="window" id="window">&nbsp;</p>
+      <p class="level" id="level">&mdash;</p>
+      <p class="because" id="because">&nbsp;</p>
+    </div>
+
+    <div class="scroll" style="margin-top:14px">
+      <table id="out">
+        <thead><tr>
+          <th>Requirement</th>
+          <th class="num">Yours</th>
+          <th class="num">Top Rated limit</th>
+          <th class="num">Headroom</th>
+          <th>Status</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="hint">Headroom is how many more of that thing you could take and still meet the
+      Top Rated requirement. Where you are already over it says instead how many further
+      clean transactions would bring the rate back under the line on their own, with no new
+      defects &mdash; which is usually the only lever you have, since the count in the
+      numerator does not go down.</p>
+  </section>
+
+  <section>
+    <h2>What Top Rated is worth</h2>
+    <div class="panel">
+      <div class="grid">
+        <div><label class="f" for="avg">Average total per sale, item + shipping ($)</label>
+          <input type="number" id="avg" value="29.95" min="0" step="0.5"></div>
+        <div><label class="f" for="fvf">Your final value fee rate (%)</label>
+          <input type="number" id="fvf" value="13.6" min="0" step="0.1"></div>
+      </div>
+      <p class="because" id="worth" style="margin-top:14px">&nbsp;</p>
+    </div>
+    <p class="note" style="margin-top:14px">eBay states the benefit as <em>&ldquo;a 10%
+      discount on your final value fees, which is calculated on the total amount of the sale,
+      including shipping and tax&rdquo;</em> &mdash; 10% off the fee, not off the sale. That
+      the fee base is the whole amount the buyer paid is the same rule the
+      <a href="./fees.html">fee comparison page</a> is built on. The discount applies to
+      listings that meet the separate Top Rated Plus per-listing criteria; eBay's page
+      stating those criteria would not load for us, so this page does not reproduce them and
+      the figure above is an upper bound on what the status is worth to you.</p>
+  </section>
+
+  <section>
+    <h2>The bits most guides get wrong</h2>
+
+    <h3>Five late shipments is inside the limit until you pass 199 sales</h3>
+    <p>The requirement is written with two clauses and you only need to satisfy the more
+      generous one. The fixed count of 5 is the better allowance for every seller up to 199
+      transactions in the evaluation period; 3% does not overtake it until 200, where it
+      allows 6. So a seller with 40 transactions who has been told &ldquo;keep it under
+      3%&rdquo; believes one late package is the edge of a cliff. It is not &mdash; they have
+      five. The unresolved-case requirement is written the same way, and its fixed allowance
+      of 2 holds all the way to 999 transactions, because 0.3% does not reach 3 until 1,000.</p>
+    <blockquote>&ldquo;No more than 5 (or 3% of transactions)&rdquo; &mdash; late shipment
+      rate, Top Rated. &ldquo;No more than 2 (or 0.3% of transactions)&rdquo; &mdash; cases
+      closed without seller resolution.</blockquote>
+
+    <h3>A package arriving late is not automatically a late shipment</h3>
+    <p>eBay's stated test has two conditions joined by <strong>and</strong>, not or. A
+      delivery scan after the latest estimated delivery date counts against you only if there
+      was <em>also</em> no carrier scan within your handling time. Getting the parcel scanned
+      by the carrier inside your handling time is the part you control, and it is what the
+      rule actually turns on. A buyer confirming late arrival is counted separately, and that
+      one you cannot scan your way out of.</p>
+    <blockquote>&ldquo;With tracking, we'll count an item as late when: The delivery scan is
+      after the latest estimated delivery date AND There is no carrier scan within your
+      handling time.&rdquo; And, separately: &ldquo;If the buyer confirms the item arrived
+      after the estimated delivery date, it will be counted as late.&rdquo;</blockquote>
+
+    <h3>The defect rate has no fixed count allowance, and that is brutal at low volume</h3>
+    <p>Unlike late shipments and unresolved cases, the Top Rated defect requirement is a bare
+      percentage. 0.5% of 100 transactions is half a defect, so one defect puts a
+      100-transaction seller out of Top Rated outright. You need 200 transactions in the
+      evaluation period before a single defect fits under the line, and 400 before two do.
+      eBay puts a second condition on the same requirement &mdash; the defects must involve
+      no more than 3 different buyers &mdash; so both have to hold.</p>
+    <blockquote>&ldquo;No more than 0.5%, associated with no more than 3 different
+      buyers&rdquo; &mdash; transaction defect rate, Top Rated. Above Standard is &ldquo;No
+      more than 2% of transactions&rdquo;.</blockquote>
+
+    <h3>Which window you are judged on flips at 400 transactions</h3>
+    <p>More than 400 transactions in the last 3 months and you are judged on those 3 months.
+      Fewer, and you are judged on the last 12. The same three defects are 0.75% of a
+      400-transaction quarter and 0.25% of a 1,200-transaction year, so a seller whose volume
+      drifts across 400 can watch their measured rate move without anything about their
+      selling changing. The Top Rated volume minimums &mdash; 100 transactions and $1,000 in
+      US sales &mdash; are read over 12 months whichever window applies to the metrics.</p>
+
+    <div class="callout">
+      <strong>Evaluations happen on the 20th of each month.</strong> Your level is fixed
+      between evaluations. A defect on the 21st is measured at the next one, and a metric you
+      repair on the 21st does not restore your level until then either.
+    </div>
+  </section>
+
+  <section>
+    <h2>The rules this page uses</h2>
+    <div class="scroll">
+      <table id="rules">
+        <thead><tr>
+          <th>Requirement</th><th>Top Rated</th><th>Above Standard</th>
+          <th>How it is read here</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="note" style="margin-top:14px">Every threshold above is quoted from eBay's
+      <a href="https://www.ebay.com/help/policies/selling-policies/seller-standards-policy?id=4347">Seller
+      standards policy</a> and its
+      <a href="https://www.ebay.com/help/selling/seller-levels-performance-standards/seller-levels-performance-standards?id=4080">Seller
+      levels and performance standards</a> help page, both read in September 2026, for
+      <strong>US sellers on eBay.com</strong>. Other eBay sites run their own standards with
+      different numbers. Standards change: check a row against your own Seller Dashboard
+      before acting on it. eBay also notes that <em>&ldquo;beginning October 15, 2026, eBay
+      Live transactions will no longer be counted in your seller standards or service metrics
+      calculations&rdquo;</em> &mdash; so if you sell on Live, your denominator changes on
+      that date.</p>
+    <p class="note">Two readings on this page are our interpretation rather than eBay's
+      words, and are marked as such in the table. First, that the parenthesised count in
+      &ldquo;no more than 5 (or 3% of transactions)&rdquo; is the more generous of two
+      alternative allowances rather than an additional restriction. Second, that both
+      conditions on the Top Rated defect requirement have to hold. Both are the plain reading
+      of the sentence, but they are readings. eBay's own sentence on the downside is quoted in
+      full: <em>&ldquo;You'll only be evaluated as Below Standard if your transaction defects
+      are associated with more than 4 different buyers&rdquo;</em> &mdash; which is why this
+      tool can tell you that you are short of Top Rated while still being clear you are not
+      Below Standard.</p>
+  </section>
+
+  <section>
+    <h2>Questions people actually ask</h2>
+    <details open>
+      <summary>How many late shipments can I have before I lose Top Rated Seller?</summary>
+      <p>Five, or 3% of your transactions in the evaluation period &mdash; whichever is the
+        larger number. Up to 199 transactions the fixed five is the better clause. At 200 the
+        percentage overtakes it and allows six, and from there it grows with your volume. The
+        calculator above works it out for your own numbers.</p>
+    </details>
+    <details>
+      <summary>Does a package that arrives late always count against me?</summary>
+      <p>No. Per eBay's own wording it counts as late only when the delivery scan is after the
+        latest estimated delivery date <em>and</em> there is no carrier scan within your
+        handling time. Both. A buyer confirming late arrival is counted separately.</p>
+    </details>
+    <details>
+      <summary>Am I judged on 3 months or 12?</summary>
+      <p>More than 400 transactions in the last 3 months and it is those 3 months. Fewer and
+        it is the last 12. The volume minimums for Top Rated &mdash; 100 transactions and
+        $1,000 in US sales &mdash; are read over 12 months either way.</p>
+    </details>
+    <details>
+      <summary>How many defects can a 100-transaction seller have and stay Top Rated?</summary>
+      <p>None. 0.5% of 100 is half a defect, and there is no fixed count allowance on the
+        defect requirement the way there is on late shipments. 200 transactions is where the
+        first defect starts to fit, and 400 where the second does.</p>
+    </details>
+    <details>
+      <summary>What is Top Rated actually worth?</summary>
+      <p>A 10% discount on your final value fees, which eBay calculates on the total the
+        buyer paid including shipping and tax. On a $29.95 total at 13.6%, the fee is $4.07
+        and the discount is $0.41. Worth having, not worth panicking over &mdash; and the
+        calculator above puts your own number on it.</p>
+    </details>
+    <details>
+      <summary>Can I lose Top Rated without being Below Standard?</summary>
+      <p>Yes, and it is the usual case. Top Rated needs 0.5% defects; Above Standard needs 2%.
+        Between those you are an ordinary seller in good standing who does not get the fee
+        discount. Below Standard is a different matter &mdash; eBay states your items
+        <em>&ldquo;may be placed lower in Best Match search results&rdquo;</em>, your
+        <em>&ldquo;selling limits may decrease&rdquo;</em>, and you <em>&ldquo;may be charged
+        higher final value fees&rdquo;</em>.</p>
+    </details>
+  </section>
+
+  <section>
+    <h2>What this does not cover</h2>
+    <p>Service metrics &mdash; the separate item-not-as-described and item-not-received rates
+      eBay compares you against your peers on, which can carry a fee surcharge of their own
+      and are not part of seller levels. Non-US eBay sites, which set their own standards. The
+      per-listing Top Rated Plus criteria. Appeals and defect removal. Category-specific
+      rules. This page does one thing: the arithmetic of the seller-level requirements, from
+      counts you already have.</p>
+  </section>
+
+  <footer>
+    <p>Runs entirely in your browser. Nothing is uploaded, there is no account, and there is
+      no analytics on this page. Built by the same person as
+      <a href="./">Title Budget</a>.</p>
+    <p>If you would rather not count these by hand every month, the
+      <a href="https://bookmonger.gumroad.com/l/reseller-profit-tracker">reseller profit
+      tracker</a> keeps per-order records you can pull these counts out of, and the
+      <a href="https://bookmonger.gumroad.com/l/return-cost">return cost calculator</a>
+      prices the returns that turn into defects in the first place. Both are small paid tools;
+      this page is complete on its own and always will be.</p>
+    <div class="tools">
+      <a href="./">eBay title auditor</a>
+      <a href="./fees.html">Marketplace fee comparison</a>
+      <a href="./recursion-budget.html">Recursion budget</a>
+      <a href="./demos/">Product demos</a>
+      <a href="https://bookmonger.gumroad.com/tools">All tools</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* Every threshold is held as an exact integer fraction rather than a decimal, and every
+     allowance is an integer floor division. This is not fussiness: 0.5% written as 0.005 is
+     not representable in binary, and the allowance is the single number this page exists to
+     print. So it is computed as floor(n * num / den) with num and den integers, where the
+     division of two exactly-represented integers is correctly rounded and cannot land a
+     whole unit low on the cases where n * num / den is exactly an integer.
+
+     `floorCount` is the fixed allowance eBay states in parentheses beside the percentage:
+     "no more than 5 (or 3% of transactions)". We read that as two clauses of which the more
+     generous applies, so the allowance is the larger of the two. Where eBay states no fixed
+     count, floorCount is 0. That reading is flagged on the page as a reading. */
+  var RULES = {
+    defect:   { num: 1,  den: 200,  floorCount: 0,
+                label: "Transaction defect rate",
+                quote: "No more than 0.5%, associated with no more than 3 different buyers",
+                as: "No more than 2% of transactions",
+                reading: "0.5% as 1/200 of transactions, floored. eBay states no fixed count allowance here, so at 100 transactions the allowance is 0. Both conditions read as required (our reading)." },
+    defectAS: { num: 1,  den: 50,   floorCount: 0 },
+    cases:    { num: 3,  den: 1000, floorCount: 2,
+                label: "Cases closed without seller resolution",
+                quote: "No more than 2 (or 0.3% of transactions)",
+                as: "No more than 2 (or 0.3% of transactions)",
+                reading: "The larger of 2, or 0.3% as 3/1000 floored. The fixed 2 is the better clause below 1,000 transactions. Count read as an alternative, not an extra limit (our reading)." },
+    late:     { num: 3,  den: 100,  floorCount: 5,
+                label: "Late shipment rate",
+                quote: "No more than 5 (or 3% of transactions)",
+                as: "No requirement stated",
+                reading: "The larger of 5, or 3% as 3/100 floored. The fixed 5 is the better clause below 200 transactions. Same reading as above." },
+    track:    { num: 19, den: 20,
+                label: "Tracking uploaded in time and validated",
+                quote: "At least 95% of transactions have tracking uploaded within handling time and validated by carrier",
+                as: "No requirement stated",
+                reading: "95% as 19/20, rounded up, so a fractional transaction counts against you rather than for you." }
+  };
+
+  // Largest count of a bad thing that still meets the requirement at n transactions.
+  function allowance(n, num, den, floorCount) {
+    n = Math.max(0, Math.floor(n));
+    return Math.max(floorCount || 0, Math.floor((n * num) / den));
+  }
+
+  // Smallest count of a good thing that meets the requirement: ceil(n * num / den).
+  function required(n, num, den) {
+    n = Math.max(0, Math.floor(n));
+    return Math.ceil((n * num) / den);
+  }
+
+  /* Further clean transactions needed to bring an over-limit count back under the line with
+     no new defects. Smallest k with count/(n+k) <= num/den, i.e. count*den <= num*(n+k),
+     i.e. k >= (count*den - num*n) / num. */
+  function recover(count, n, num, den, floorCount) {
+    count = Math.max(0, Math.floor(count));
+    n = Math.max(0, Math.floor(n));
+    if (count <= allowance(n, num, den, floorCount)) return 0;
+    return Math.max(0, Math.ceil((count * den - num * n) / num));
+  }
+
+  /* Tracking runs the other way: each extra tracked sale raises the numerator and the
+     denominator together. (ontime + k) / (n + k) >= 19/20  =>  k >= 19n - 20*ontime. */
+  function recoverTracking(ontime, n) {
+    ontime = Math.max(0, Math.floor(ontime));
+    n = Math.max(0, Math.floor(n));
+    if (ontime >= required(n, RULES.track.num, RULES.track.den)) return 0;
+    return Math.max(0, 19 * n - 20 * ontime);
+  }
+
+  // eBay: the last 3 months if more than 400 transactions in them, else the last 12.
+  function evalWindow(t3, t12) {
+    t3 = Math.max(0, Math.floor(t3));
+    t12 = Math.max(0, Math.floor(t12));
+    return t3 > 400 ? { months: 3, n: t3 } : { months: 12, n: t12 };
+  }
+
+  function level(v) {
+    var w = evalWindow(v.t3, v.t12), n = w.n;
+    var okDefectPct = v.defects <= allowance(n, RULES.defect.num, RULES.defect.den, 0);
+    var okDefectBuyers = v.buyers <= 3;
+    var okCases = v.cases <= allowance(n, RULES.cases.num, RULES.cases.den,
+                                       RULES.cases.floorCount);
+    var okLate = v.late <= allowance(n, RULES.late.num, RULES.late.den,
+                                     RULES.late.floorCount);
+    var okTrack = v.ontime >= required(n, RULES.track.num, RULES.track.den);
+    var okVolume = v.t12 >= 100 && v.sales >= 1000 && v.age >= 90;
+    var okDefectAS = v.defects <= allowance(n, RULES.defectAS.num, RULES.defectAS.den, 0);
+    /* eBay: "You'll only be evaluated as Below Standard if your transaction defects are
+       associated with more than 4 different buyers." Few affected buyers is a shield. */
+    var shielded = v.buyers <= 4;
+
+    var name;
+    if (okDefectPct && okDefectBuyers && okCases && okLate && okTrack && okVolume) {
+      name = "Top Rated";
+    } else if ((okDefectAS || shielded) && okCases) {
+      name = "Above Standard";
+    } else {
+      name = "Below Standard";
+    }
+    return { window: w, name: name, okDefectPct: okDefectPct,
+             okDefectBuyers: okDefectBuyers, okCases: okCases, okLate: okLate,
+             okTrack: okTrack, okVolume: okVolume, okDefectAS: okDefectAS,
+             shielded: shielded };
+  }
+
+  // ------------------------------------------------------------------------- rendering
+  function val(id, dflt) {
+    var el = document.getElementById(id);
+    if (!el) return dflt;
+    var raw = el.value, n = parseFloat(raw);
+    return (raw === "" || isNaN(n)) ? dflt : n;
+  }
+
+  function money(x) {
+    return "$" + x.toLocaleString("en-US", { minimumFractionDigits: 2,
+                                             maximumFractionDigits: 2 });
+  }
+  function num(x) { return x.toLocaleString("en-US"); }
+  function pct(part, whole) {
+    if (whole <= 0) return "n/a";
+    var p = (part / whole) * 100;
+    return (p >= 10 ? p.toFixed(1) : p.toFixed(2)) + "%";
+  }
+
+  function read() {
+    return { t3: val("t3", 0), t12: val("t12", 0), sales: val("sales", 0),
+             age: val("age", 0), defects: val("defects", 0), buyers: val("buyers", 0),
+             cases: val("cases", 0), late: val("late", 0), ontime: val("ontime", 0) };
+  }
+
+  function row(r) {
+    return '<tr class="' + (r.ok ? "pass" : "fail") + '">' +
+           "<td>" + r.name + '<div class="basis">' + r.basis + "</div></td>" +
+           '<td class="num">' + r.yours + "</td>" +
+           '<td class="num">' + r.limit + "</td>" +
+           '<td class="num">' + r.head + "</td>" +
+           '<td class="st">' + (r.ok ? "meets it" : "short") + "</td></tr>";
+  }
+
+  function render() {
+    var v = read(), L = level(v), n = L.window.n;
+
+    document.getElementById("window").textContent =
+      "Judged on the last " + L.window.months + " months — " + num(n) +
+      " transactions " +
+      (L.window.months === 3 ? "(over 400 in the last 3 months)"
+                             : "(400 or fewer in the last 3 months)");
+
+    var vd = document.getElementById("verdict");
+    vd.className = "verdict" + (L.name === "Top Rated" ? " trs"
+                              : L.name === "Below Standard" ? " below" : "");
+    document.getElementById("level").textContent = L.name;
+
+    var missing = [];
+    if (!L.okDefectPct) missing.push("the 0.5% defect rate");
+    if (!L.okDefectBuyers) missing.push("the 3-different-buyers condition on defects");
+    if (!L.okCases) missing.push("the unresolved-case limit");
+    if (!L.okLate) missing.push("the late shipment limit");
+    if (!L.okTrack) missing.push("the 95% tracking requirement");
+    if (!L.okVolume) missing.push("the volume minimums (100 transactions, $1,000, 90 days)");
+
+    var because = document.getElementById("because");
+    if (L.name === "Top Rated") {
+      because.textContent = "Every Top Rated requirement is met on these numbers. " +
+        "eBay re-evaluates on the 20th of each month.";
+    } else if (L.name === "Above Standard") {
+      because.textContent = "Short of Top Rated on " + missing.join(", ") +
+        ". Still in good standing: no fee discount, but no penalty either.";
+    } else {
+      because.textContent = "Below Standard on these numbers — short on " +
+        missing.join(", ") + ". eBay states items may be placed lower in Best Match, " +
+        "selling limits may decrease, and final value fees may be higher.";
+    }
+
+    var rows = [];
+
+    var dLim = allowance(n, RULES.defect.num, RULES.defect.den, 0);
+    rows.push({ name: "Defects, at 0.5%", basis: "no fixed count allowance stated",
+      yours: num(v.defects) + " (" + pct(v.defects, n) + ")",
+      limit: num(dLim) + " (0.5%)",
+      head: L.okDefectPct ? "+" + num(dLim - v.defects)
+            : num(recover(v.defects, n, RULES.defect.num, RULES.defect.den, 0)) +
+              " more clean sales",
+      ok: L.okDefectPct });
+
+    rows.push({ name: "Different buyers in those defects",
+      basis: "second condition on the same requirement",
+      yours: num(v.buyers), limit: "3",
+      head: L.okDefectBuyers ? "+" + num(3 - v.buyers) : "—",
+      ok: L.okDefectBuyers });
+
+    var cLim = allowance(n, RULES.cases.num, RULES.cases.den, RULES.cases.floorCount);
+    rows.push({ name: "Cases closed without resolution",
+      basis: "larger of 2, or 0.3% of transactions",
+      yours: num(v.cases) + " (" + pct(v.cases, n) + ")",
+      limit: num(cLim) + (cLim === RULES.cases.floorCount ? " (the fixed 2)" : " (0.3%)"),
+      head: L.okCases ? "+" + num(cLim - v.cases)
+            : num(recover(v.cases, n, RULES.cases.num, RULES.cases.den,
+                          RULES.cases.floorCount)) + " more clean sales",
+      ok: L.okCases });
+
+    var lLim = allowance(n, RULES.late.num, RULES.late.den, RULES.late.floorCount);
+    rows.push({ name: "Late shipments", basis: "larger of 5, or 3% of transactions",
+      yours: num(v.late) + " (" + pct(v.late, n) + ")",
+      limit: num(lLim) + (lLim === RULES.late.floorCount ? " (the fixed 5)" : " (3%)"),
+      head: L.okLate ? "+" + num(lLim - v.late)
+            : num(recover(v.late, n, RULES.late.num, RULES.late.den,
+                          RULES.late.floorCount)) + " more clean sales",
+      ok: L.okLate });
+
+    var tReq = required(n, RULES.track.num, RULES.track.den);
+    rows.push({ name: "Tracking uploaded in time and validated",
+      basis: "at least 95% of transactions, rounded up",
+      yours: num(v.ontime) + " (" + pct(v.ontime, n) + ")",
+      limit: "at least " + num(tReq),
+      head: L.okTrack ? "+" + num(v.ontime - tReq) + " spare"
+            : num(recoverTracking(v.ontime, n)) + " more tracked sales",
+      ok: L.okTrack });
+
+    rows.push({ name: "Volume minimums, 12 months",
+      basis: "100 transactions, $1,000 US sales, 90-day account",
+      yours: num(Math.floor(v.t12)) + " / " + money(v.sales) + " / " +
+             num(Math.floor(v.age)) + "d",
+      limit: "100 / $1,000.00 / 90d",
+      head: L.okVolume ? "met"
+            : [v.t12 < 100 ? num(100 - Math.floor(v.t12)) + " sales" : null,
+               v.sales < 1000 ? money(1000 - v.sales) : null,
+               v.age < 90 ? num(90 - Math.floor(v.age)) + "d" : null]
+              .filter(Boolean).join(", ") + " short",
+      ok: L.okVolume });
+
+    document.querySelector("#out tbody").innerHTML = rows.map(row).join("");
+
+    // What the discount is worth over the same window.
+    var avg = val("avg", 0), fvfPct = val("fvf", 0);
+    var feePerSale = avg * (fvfPct / 100);
+    var savePerSale = feePerSale * 0.10;
+    document.getElementById("worth").textContent =
+      money(savePerSale) + " a sale — 10% of a " + money(feePerSale) +
+      " final value fee on a " + money(avg) + " total. Over " + num(n) +
+      " transactions that is " + money(savePerSale * n) + ", or " +
+      money(savePerSale * 100) + " per 100 sales.";
+  }
+
+  ["t3", "t12", "sales", "age", "defects", "buyers", "cases", "late", "ontime", "avg",
+   "fvf"].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener("input", render);
+  });
+
+  /* The rules table is rendered from the same constants the arithmetic uses, so the
+     thresholds the page quotes and the ones it computes with cannot drift apart. */
+  document.querySelector("#rules tbody").innerHTML =
+    ["defect", "cases", "late", "track"].map(function (k) {
+      var R = RULES[k];
+      return "<tr><td>" + R.label + "</td><td>" + R.quote + "</td><td>" + R.as +
+             '</td><td class="basis">' + R.reading + "</td></tr>";
+    }).join("");
+
+  render();
+
+  // Exposed so the harness calls the page's own functions rather than a copy of them.
+  window.__ss = { allowance: allowance, required: required, recover: recover,
+                  recoverTracking: recoverTracking, evalWindow: evalWindow,
+                  level: level, RULES: RULES };
+})();
+</script>
+</body>
+</html>
