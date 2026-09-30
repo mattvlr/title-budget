@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Replies &mdash; a macOS menu-bar reply drafter</title>
+<meta name="description" content="Reads your own Messages database, shows every thread waiting on you, and drafts a reply in your voice. Swift source for macOS. It sends your conversations to OpenAI, and says so plainly.">
+<link rel="canonical" href="https://mattvlr.github.io/title-budget/demos/replies-mac/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mattvlr.github.io/title-budget/demos/replies-mac/">
+<meta property="og:title" content="Replies &mdash; a macOS menu-bar reply drafter">
+<meta property="og:description" content="Reads your own Messages database, shows every thread waiting on you, and drafts a reply in your voice. Swift source for macOS. It sends your conversations to OpenAI, and says so plainly.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#F5F7F9; --surface:#FFFFFF; --surface-2:#EFF3F6;
+    --ink:#16202E; --muted:#5C6B7F; --faint:#8595A8; --border:#DCE3EA;
+    --accent:#A85D00; --accent-soft:#F5E4CC; --good:#1F7A4D;
+    --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#0E141C; --surface:#161F2A; --surface-2:#1D2835;
+      --ink:#E7EDF4; --muted:#9AAABC; --faint:#74869A; --border:#2A3745;
+      --accent:#E8A13A; --accent-soft:#3A2C16; --good:#5CC48B;
+    }
+  }
+  :root[data-theme="dark"] {
+      --bg:#0E141C; --surface:#161F2A; --surface-2:#1D2835;
+      --ink:#E7EDF4; --muted:#9AAABC; --faint:#74869A; --border:#2A3745;
+      --accent:#E8A13A; --accent-soft:#3A2C16; --good:#5CC48B;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans);
+         font-size:15px; line-height:1.55; }
+  .wrap { max-width:900px; margin:0 auto; padding-block:32px 64px;
+          padding-left:16px; padding-right:16px; }
+  h1 { font-size:28px; font-weight:600; margin:0 0 6px; letter-spacing:-.012em;
+       text-wrap:balance; }
+  h2 { font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:.08em;
+       color:var(--faint); margin:36px 0 12px; }
+  h3 { font-size:18px; font-weight:600; margin:0 0 4px; }
+  .lede { color:var(--muted); margin:0 0 4px; }
+  .eyebrow { font-family:var(--mono); font-size:12px; color:var(--accent);
+             text-transform:uppercase; letter-spacing:.06em; margin:0 0 6px; }
+  .panel { background:var(--surface); border:1px solid var(--border); border-radius:10px;
+           padding:16px 18px; }
+  .note { background:var(--accent-soft); border:1px solid var(--border); border-radius:10px;
+          padding:14px 16px; color:var(--ink); font-size:14px; }
+  figure { margin:0 0 28px; }
+  figure img { width:100%; max-width:100%; height:auto; display:block;
+               border:1px solid var(--border); border-radius:10px;
+               background:var(--surface-2); }
+  figcaption { color:var(--muted); font-size:14px; margin-top:8px; }
+  code { font-family:var(--mono); font-size:.92em; background:var(--surface-2);
+         padding:1px 5px; border-radius:4px; }
+  .stats { display:flex; flex-wrap:wrap; gap:10px; margin:0 0 6px; }
+  .stat { background:var(--surface); border:1px solid var(--border); border-radius:9px;
+          padding:10px 14px; flex:1 1 150px; }
+  .stat b { display:block; font-family:var(--mono); font-size:22px; color:var(--good);
+            line-height:1.2; }
+  .stat span { font-size:13px; color:var(--muted); }
+  .btn { display:inline-block; padding:9px 15px; border-radius:8px;
+         border:1px solid var(--border); background:var(--surface); color:var(--ink);
+         text-decoration:none; font-size:14px; font-weight:500; }
+  .btn.primary { background:var(--accent); border-color:var(--accent); color:#fff; }
+  .btn:focus-visible, nav a:focus-visible, footer a:focus-visible {
+         outline:2px solid var(--accent); outline-offset:2px; }
+  .row { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  .grow { flex:1 1 260px; }
+  ul.plain { margin:0; padding-left:18px; }
+  ul.plain li { margin:5px 0; }
+  nav a, footer a { color:var(--accent); text-decoration:none; }
+  footer { margin-top:44px; padding-top:18px; border-top:1px solid var(--border);
+           color:var(--faint); font-size:14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="eyebrow">Synthetic demo data &middot; $12</p>
+<h1>Replies &mdash; the texts you still owe people</h1>
+<p class="lede">A menu-bar app that reads your Messages history locally, lists every conversation whose last message is not from you, and drafts a reply that sounds like you wrote it. Sold as Swift source.</p>
+<nav style="margin-top:10px"><a href="../">&larr; All demos</a></nav>
+
+<section style="margin-top:22px">
+  <div class="note"><b>Read this before the features.</b> This app reads your entire private message history, and when you press Draft it sends the open conversation &mdash; including what the other person wrote &mdash; plus a sample of your own recent outgoing messages from <i>every</i> conversation, to OpenAI. The people in those threads never agreed to that. If that is not a decision you want to make on their behalf, do not buy this.</div>
+</section>
+
+<h2>Measured</h2>
+<section><div class="stats"><div class="stat"><b>1,335</b><span>lines of Swift across 7 files</span></div><div class="stat"><b>0</b><span>third-party dependencies &mdash; 5 Apple imports only</span></div><div class="stat"><b>1</b><span>network destination in the whole codebase</span></div><div class="stat"><b>0</b><span>tests &mdash; there is no test suite at all</span></div></div></section>
+
+<h2>Four screens</h2>
+<figure>
+  <img src="thread-list.png" alt="Every conversation waiting on you, newest first" loading="lazy" width="1500">
+  <figcaption>Every conversation waiting on you, newest first. A thread appears here when its most recent message is not from you &mdash; the read/unread flag is ignored entirely, because that clears the moment you glance at a notification.</figcaption>
+</figure>
+<figure>
+  <img src="draft.png" alt="A thread with a drafted reply" loading="lazy" width="1500">
+  <figcaption>A thread with a drafted reply. The footer states that this particular draft was written locally in demo mode and that no API call was made &mdash; the app labels what is and is not model output.</figcaption>
+</figure>
+<figure>
+  <img src="group-thread.png" alt="Group threads name each speaker, so a draft can answer the right person" loading="lazy" width="1500">
+  <figcaption>Group threads name each speaker, so a draft can answer the right person. A chat counts as a group when it has more than two participants.</figcaption>
+</figure>
+<figure>
+  <img src="full-disk-access.png" alt="What you see before granting Full Disk Access: a named error and the exact setting to change, rather than an e" loading="lazy" width="1500">
+  <figcaption>What you see before granting Full Disk Access: a named error and the exact setting to change, rather than an empty list that looks like you have no messages.</figcaption>
+</figure>
+
+<h2>What you should know before buying</h2>
+<section>
+  <div class="panel"><ul class="plain"><li><b>Every screenshot here is synthetic.</b> Names, numbers and messages are invented; numbers are in the 555-01xx range reserved for fiction. The orange DEMO badge is the app's own indicator that it is not reading a real database. No real conversation appears in any listing image, and none ever should.</li><li><b>It was never compiled or run during packaging.</b> There is no Mac here, no Swift toolchain and no Xcode. That the build succeeds, the menu-bar item appears, or a draft comes back from OpenAI are the author's claims, not measurements. What was verified: the four SQL statements were executed for real against a generated database, and the exact outbound request was assembled and inspected.</li><li><b>There is no test suite.</b> Zero XCTest hits.</li><li><b>Full Disk Access is required</b>, it is not scoped to Messages, and it is the same switch that would let any app read most of your home folder.</li><li><b>You bring your own OpenAI key and OpenAI bills you directly.</b> Without a key the app still works as a read-only thread browser.</li><li><b>Nothing is redacted before sending.</b> No filtering of addresses, card numbers or anything else that happens to be in a thread. <code>REPLIES_MAC_STYLE_LIMIT=0</code> turns off the cross-thread style sample; nothing turns off sending the open thread.</li><li><b>No telemetry and no analytics</b> &mdash; one network call site in the entire codebase, and it fires only when you press Draft.</li><li><b>No support</b>, no auto-send, no scheduling, no iPhone app.</li></ul></div>
+</section>
+
+<h2>Get it</h2>
+<section>
+  <div class="panel">
+    <div class="row">
+      <div class="grow">
+        <h3>Replies &mdash; complete Swift source for macOS &mdash; $12</h3>
+        <p style="margin:0;color:var(--muted);font-size:14px">SwiftPM, no third-party packages. <code>swift build -c release</code>, or <code>scripts/make-app.sh</code> for a bundled <code>Replies.app</code>.</p>
+      </div>
+      <a class="btn primary" href="https://bookmonger.gumroad.com/tools">See the store &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="../">All demos</a> &middot;
+  <a href="https://bookmonger.gumroad.com">All products</a> &middot;
+  <a href="https://github.com/mattvlr/title-budget">Source of the free tools</a>
+</footer>
+</div>
+</body>
+</html>

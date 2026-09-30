@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NOAA Weather Explorer &mdash; a self-hosted NWS dashboard</title>
+<meta name="description" content="Live US weather from api.weather.gov with no API key: dashboard, 7-day and hourly forecast, a nationwide alert board and a station browser. Python and Flask, sold as source.">
+<link rel="canonical" href="https://mattvlr.github.io/title-budget/demos/noaa-weather-explorer/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mattvlr.github.io/title-budget/demos/noaa-weather-explorer/">
+<meta property="og:title" content="NOAA Weather Explorer &mdash; a self-hosted NWS dashboard">
+<meta property="og:description" content="Live US weather from api.weather.gov with no API key: dashboard, 7-day and hourly forecast, a nationwide alert board and a station browser. Python and Flask, sold as source.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#F5F7F9; --surface:#FFFFFF; --surface-2:#EFF3F6;
+    --ink:#16202E; --muted:#5C6B7F; --faint:#8595A8; --border:#DCE3EA;
+    --accent:#A85D00; --accent-soft:#F5E4CC; --good:#1F7A4D;
+    --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#0E141C; --surface:#161F2A; --surface-2:#1D2835;
+      --ink:#E7EDF4; --muted:#9AAABC; --faint:#74869A; --border:#2A3745;
+      --accent:#E8A13A; --accent-soft:#3A2C16; --good:#5CC48B;
+    }
+  }
+  :root[data-theme="dark"] {
+      --bg:#0E141C; --surface:#161F2A; --surface-2:#1D2835;
+      --ink:#E7EDF4; --muted:#9AAABC; --faint:#74869A; --border:#2A3745;
+      --accent:#E8A13A; --accent-soft:#3A2C16; --good:#5CC48B;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans);
+         font-size:15px; line-height:1.55; }
+  .wrap { max-width:900px; margin:0 auto; padding-block:32px 64px;
+          padding-left:16px; padding-right:16px; }
+  h1 { font-size:28px; font-weight:600; margin:0 0 6px; letter-spacing:-.012em;
+       text-wrap:balance; }
+  h2 { font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:.08em;
+       color:var(--faint); margin:36px 0 12px; }
+  h3 { font-size:18px; font-weight:600; margin:0 0 4px; }
+  .lede { color:var(--muted); margin:0 0 4px; }
+  .eyebrow { font-family:var(--mono); font-size:12px; color:var(--accent);
+             text-transform:uppercase; letter-spacing:.06em; margin:0 0 6px; }
+  .panel { background:var(--surface); border:1px solid var(--border); border-radius:10px;
+           padding:16px 18px; }
+  .note { background:var(--accent-soft); border:1px solid var(--border); border-radius:10px;
+          padding:14px 16px; color:var(--ink); font-size:14px; }
+  figure { margin:0 0 28px; }
+  figure img { width:100%; max-width:100%; height:auto; display:block;
+               border:1px solid var(--border); border-radius:10px;
+               background:var(--surface-2); }
+  figcaption { color:var(--muted); font-size:14px; margin-top:8px; }
+  code { font-family:var(--mono); font-size:.92em; background:var(--surface-2);
+         padding:1px 5px; border-radius:4px; }
+  .stats { display:flex; flex-wrap:wrap; gap:10px; margin:0 0 6px; }
+  .stat { background:var(--surface); border:1px solid var(--border); border-radius:9px;
+          padding:10px 14px; flex:1 1 150px; }
+  .stat b { display:block; font-family:var(--mono); font-size:22px; color:var(--good);
+            line-height:1.2; }
+  .stat span { font-size:13px; color:var(--muted); }
+  .btn { display:inline-block; padding:9px 15px; border-radius:8px;
+         border:1px solid var(--border); background:var(--surface); color:var(--ink);
+         text-decoration:none; font-size:14px; font-weight:500; }
+  .btn.primary { background:var(--accent); border-color:var(--accent); color:#fff; }
+  .btn:focus-visible, nav a:focus-visible, footer a:focus-visible {
+         outline:2px solid var(--accent); outline-offset:2px; }
+  .row { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  .grow { flex:1 1 260px; }
+  ul.plain { margin:0; padding-left:18px; }
+  ul.plain li { margin:5px 0; }
+  nav a, footer a { color:var(--accent); text-decoration:none; }
+  footer { margin-top:44px; padding-top:18px; border-top:1px solid var(--border);
+           color:var(--faint); font-size:14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="eyebrow">Live data, captured 2026-09-30 &middot; $12</p>
+<h1>NOAA Weather Explorer &mdash; run the weather service yourself</h1>
+<p class="lede">Five pages and seven JSON endpoints over the National Weather Service API. No account, no API key, no paid tier &mdash; just a User-Agent string you set to your own email.</p>
+<nav style="margin-top:10px"><a href="../">&larr; All demos</a></nav>
+
+<section style="margin-top:22px">
+  <div class="note"><b>Every screen here is live data</b>, captured on 30 September 2026 against the real <code>api.weather.gov</code>. <b>United States only</b> &mdash; NWS does not cover anywhere else, and the app says so rather than showing an empty page.</div>
+</section>
+
+<h2>Measured</h2>
+<section><div class="stats"><div class="stat"><b>19/19</b><span>requests returned 200 in a clean-checkout run</span></div><div class="stat"><b>12</b><span>routes &mdash; 5 pages and 7 JSON endpoints</span></div><div class="stat"><b>0</b><span>API keys, accounts or paid tiers</span></div><div class="stat"><b>5</b><span>defects found and fixed during packaging</span></div></div></section>
+
+<h2>Five screens</h2>
+<figure>
+  <img src="dashboard.png" alt="First run, no setup: live conditions for the configured default location" loading="lazy" width="1500">
+  <figcaption>First run, no setup: live conditions for the configured default location. 61&deg;F reported by station KBJC, with the observation time beside it so you can see how stale it is. Every value here was independently recomputed from the raw NWS payload during packaging &mdash; the wind in particular, because reading 22.32 km/h as m/s would print 50 mph instead of 14.</figcaption>
+</figure>
+<figure>
+  <img src="alerts.png" alt="Every active alert in the country, sorted most serious first &amp;mdash; 217 of them at capture time, topped b" loading="lazy" width="1500">
+  <figcaption>Every active alert in the country, sorted most serious first &mdash; 217 of them at capture time, topped by a SEVERE flash flood warning for Kauai. NWS returns them unsorted, so the sort is the app's. Note how few have a polygon on the map.</figcaption>
+</figure>
+<figure>
+  <img src="map-radar.png" alt="Live NEXRAD radar mosaic, alert polygons, and nearby-station temperature labels that refresh as you pan" loading="lazy" width="1500">
+  <figcaption>Live NEXRAD radar mosaic, alert polygons, and nearby-station temperature labels that refresh as you pan. Radar is one toggle and is off by default.</figcaption>
+</figure>
+<figure>
+  <img src="forecast.png" alt="48 hours of forecast: temperature against precipitation probability" loading="lazy" width="1500">
+  <figcaption>48 hours of forecast: temperature against precipitation probability. The chart and the table below it are in the forecast office's timezone and agree with each other &mdash; they did not before packaging, which was one of the five defects fixed.</figcaption>
+</figure>
+<figure>
+  <img src="stations.png" alt="The station browser for one state, mapped with elevations" loading="lazy" width="1500">
+  <figcaption>The station browser for one state, mapped with elevations. The 500-per-state API page limit is printed on the page, so a truncated list never looks like a complete one.</figcaption>
+</figure>
+
+<h2>What you should know before buying</h2>
+<section>
+  <div class="panel"><ul class="plain"><li><b>There are no tests. None.</b> Zero test files, zero test functions. You inherit no regression net. This is the single biggest thing separating it from the other products here, and it is why it is not priced higher.</li><li><b>No offline mode and no demo data.</b> Nothing in it can be demonstrated without a connection &mdash; including reproducing these screenshots.</li><li><b>No API key is needed today, but NWS has said that may change.</b> Their own documentation states the User-Agent requirement “will be replaced with an API key in the future”. Nobody can promise you otherwise, so this listing does not.</li><li><b>The station browser shows the first 500 stations per state only.</b> The API paginates at 500 and the page does not follow the rest &mdash; Colorado actually has 2,070 and California 7,864. The page states the cap on screen rather than quietly truncating.</li><li><b>Most alerts have no map polygon.</b> On the capture above, 164 of 215 had none, so they list without appearing on the map. That is how NWS publishes them.</li><li><b>Timestamps are never in your local timezone.</b> Observations are UTC; forecasts are in the forecast office's zone.</li><li><b>Gunicorn cannot even import on Windows</b> (<code>No module named 'fcntl'</code>). The dev server is fine; production deployment is POSIX-only.</li><li><b>Tailwind loads unpinned from a CDN</b> that Tailwind itself says not to use in production. The other four front-end libraries are version-pinned.</li><li><b>No support</b>, no database, no history, no auth, no metric units, no animated radar.</li></ul></div>
+</section>
+
+<h2>Get it</h2>
+<section>
+  <div class="panel">
+    <div class="row">
+      <div class="grow">
+        <h3>NOAA Weather Explorer &mdash; complete Python source &mdash; $12</h3>
+        <p style="margin:0;color:var(--muted);font-size:14px">Flask, 3,616 lines, five pinned dependencies. Set <code>NWS_USER_AGENT</code> to your email and run it.</p>
+      </div>
+      <a class="btn primary" href="https://bookmonger.gumroad.com/tools">See the store &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="../">All demos</a> &middot;
+  <a href="https://bookmonger.gumroad.com">All products</a> &middot;
+  <a href="https://github.com/mattvlr/title-budget">Source of the free tools</a>
+</footer>
+</div>
+</body>
+</html>
