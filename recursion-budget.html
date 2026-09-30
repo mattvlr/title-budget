@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recursion Budget</title>
+<meta name="description" content="Free browser calculator for recursive AI generation. Work out the worst-case number of model calls and what they cost before you press run. Depth 6 at branching 5 is 3,906 calls, not a few hundred. Nothing is uploaded.">
+<link rel="canonical" href="https://mattvlr.github.io/title-budget/recursion-budget.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mattvlr.github.io/title-budget/recursion-budget.html">
+<meta property="og:title" content="Recursion Budget - what a recursive AI run actually costs">
+<meta property="og:description" content="Every level down multiplies. This works out the worst case before you run it, in your browser, with nothing uploaded.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --bg: #F5F7F9; --surface: #FFFFFF; --surface-2: #EFF3F6;
+    --ink: #16202E; --muted: #5C6B7F; --faint: #8595A8; --border: #DCE3EA;
+    --accent: #A85D00; --accent-soft: #F5E4CC;
+    --high: #B02A1F; --high-soft: #F8E0DD;
+    --med: #A85D00; --med-soft: #F7E7D2;
+    --good: #1F6B4A; --good-soft: #DFF0E7;
+    --meter-track: #E2E8EE;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+    line-height: 1.55; -webkit-text-size-adjust: 100%;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 40px 16px 72px; }
+  header { margin-bottom: 28px; }
+  h1 { font-size: 1.9rem; margin: 0 0 8px; letter-spacing: -0.015em; }
+  .sub { color: var(--muted); margin: 0; font-size: 1.02rem; }
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 22px; margin-bottom: 20px;
+  }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; }
+  label { display: block; font-size: 0.82rem; font-weight: 500; color: var(--muted);
+          margin-bottom: 5px; letter-spacing: 0.01em; }
+  input[type=number] {
+    width: 100%; padding: 9px 10px; font: 500 1rem "IBM Plex Mono", ui-monospace, monospace;
+    color: var(--ink); background: var(--surface-2);
+    border: 1px solid var(--border); border-radius: 6px;
+  }
+  input[type=number]:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .hint { font-size: 0.76rem; color: var(--faint); margin-top: 4px; }
+  .headline {
+    font: 600 2.4rem/1.1 "IBM Plex Mono", ui-monospace, monospace;
+    letter-spacing: -0.02em; margin: 0;
+  }
+  .headline.over { color: var(--high); }
+  .headline.ok { color: var(--good); }
+  .verdict { margin-top: 6px; font-size: 0.95rem; }
+  .verdict.over { color: var(--high); }
+  .verdict.ok { color: var(--good); }
+  table { width: 100%; border-collapse: collapse; font-size: 0.93rem; }
+  th, td { text-align: right; padding: 7px 8px; border-bottom: 1px solid var(--border); }
+  th:first-child, td:first-child { text-align: left; }
+  th { font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.06em;
+       color: var(--faint); font-weight: 600; }
+  td.num { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+  tr.here td { background: var(--accent-soft); font-weight: 600; }
+  tr.over td:nth-child(2) { color: var(--high); }
+  .bar { height: 6px; background: var(--meter-track); border-radius: 3px; overflow: hidden; }
+  .bar > i { display: block; height: 100%; background: var(--accent); }
+  h2 { font-size: 1.15rem; margin: 0 0 12px; }
+  h3 { font-size: 0.95rem; margin: 22px 0 6px; }
+  p { margin: 0 0 12px; }
+  .note { background: var(--surface-2); border-left: 3px solid var(--accent);
+          padding: 12px 14px; border-radius: 0 6px 6px 0; font-size: 0.92rem; margin: 16px 0; }
+  code { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.9em;
+         background: var(--surface-2); padding: 1px 5px; border-radius: 4px; }
+  footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border);
+           font-size: 0.88rem; color: var(--muted); }
+  a { color: var(--accent); }
+  .tools { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+  .tools a { display: inline-block; padding: 6px 11px; background: var(--surface);
+             border: 1px solid var(--border); border-radius: 6px;
+             text-decoration: none; font-size: 0.88rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Recursion Budget</h1>
+  <p class="sub">If your AI tool expands a topic into sub-topics, and expands those,
+  the call count is a geometric series. One more level costs you more than everything
+  you have already spent. Work it out before you press run.</p>
+</header>
+
+<div class="card">
+  <div class="grid">
+    <div>
+      <label for="roots">Starting topics</label>
+      <input type="number" id="roots" value="1" min="0" step="1">
+      <div class="hint">Seeds you begin with</div>
+    </div>
+    <div>
+      <label for="depth">Depth</label>
+      <input type="number" id="depth" value="3" min="0" max="12" step="1">
+      <div class="hint">Levels of expansion</div>
+    </div>
+    <div>
+      <label for="branch">Branching factor</label>
+      <input type="number" id="branch" value="5" min="1" max="50" step="1">
+      <div class="hint">Children per node</div>
+    </div>
+    <div>
+      <label for="budget">Call budget</label>
+      <input type="number" id="budget" value="150" min="0" step="1">
+      <div class="hint">Your hard stop</div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <p class="headline" id="calls">&mdash;</p>
+  <p class="verdict" id="verdict">&nbsp;</p>
+  <div class="bar" style="margin-top:14px"><i id="bar" style="width:0%"></i></div>
+</div>
+
+<div class="card">
+  <h2>What each level costs</h2>
+  <table>
+    <thead>
+      <tr><th>Depth</th><th>Calls</th><th>Added by this level</th><th>vs. budget</th></tr>
+    </thead>
+    <tbody id="ladder"></tbody>
+  </table>
+  <p class="hint" style="margin-top:10px">Worst case, assuming every node expands to
+  the full branching factor. Real runs are usually cheaper. Plan for this number anyway.</p>
+</div>
+
+<div class="card">
+  <h2>What it costs in money</h2>
+  <div class="grid">
+    <div>
+      <label for="tin">Input tokens per call</label>
+      <input type="number" id="tin" value="800" min="0" step="10">
+    </div>
+    <div>
+      <label for="tout">Output tokens per call</label>
+      <input type="number" id="tout" value="250" min="0" step="10">
+    </div>
+    <div>
+      <label for="pin">Input $ / 1M tokens</label>
+      <input type="number" id="pin" value="0.15" min="0" step="0.01">
+    </div>
+    <div>
+      <label for="pout">Output $ / 1M tokens</label>
+      <input type="number" id="pout" value="0.60" min="0" step="0.01">
+    </div>
+  </div>
+  <p class="headline" id="cost" style="margin-top:20px;font-size:1.9rem">&mdash;</p>
+  <p class="verdict" id="costnote">&nbsp;</p>
+  <div class="note">
+    <strong>Prices are yours to enter, deliberately.</strong> Model pricing changes
+    often enough that any figure baked into a page like this would be wrong within
+    months. The defaults are a placeholder in the shape of a small model, not a quote.
+    Put your provider's current numbers in.
+  </div>
+</div>
+
+<div class="card">
+  <h2>Three things worth knowing</h2>
+
+  <h3>The projection belongs in the UI, before the button</h3>
+  <p>The number is trivial to compute and it is the only thing standing between a user
+  and a surprise bill. Showing it afterwards is an apology, not a feature.</p>
+
+  <h3>Make the budget a hard stop on requests, not a counter</h3>
+  <p>Check and refuse <em>before</em> the call goes out. A counter you inspect afterwards
+  has already spent the money. And the number you show the user should be the number they
+  were billed for &mdash; if those two can drift apart, they will.</p>
+
+  <h3>Decide what a half-finished run is worth</h3>
+  <p>When the budget runs out mid-way you can keep the partial tree or throw it away.
+  Both are defensible. What is not defensible is not having decided, because the calls
+  are spent either way.</p>
+
+  <div class="note">
+    <strong>A trap worth naming.</strong> If your app has a demo or offline mode that
+    skips the API, your budget tests probably pass without proving anything &mdash; the
+    demo path never spends, so the cap is never exercised. Stub the client and count
+    actual outbound requests instead. A test that cannot fail is not evidence.
+  </div>
+</div>
+
+<footer>
+  <p>Runs entirely in your browser. Nothing is uploaded, there is no account, and there
+  is no analytics on this page.</p>
+  <div class="tools">
+    <a href="./">eBay title auditor</a>
+    <a href="./fees.html">Marketplace fee comparison</a>
+    <a href="./demos/">Product demos</a>
+  </div>
+</footer>
+
+</div>
+
+<script>
+// Worst-case calls for one root expanded `depth` levels with `branch` children per node:
+//   1 + b + b^2 + ... + b^(depth-1)
+// A geometric series. Written as a loop rather than the closed form so the b = 1 case
+// needs no special-casing and nothing overflows silently on the way.
+function callsPerRoot(depth, branch) {
+  depth = Math.max(0, Math.floor(depth));
+  branch = Math.max(1, Math.floor(branch));
+  var total = 0, level = 1;
+  for (var i = 0; i < depth; i++) { total += level; level *= branch; }
+  return total;
+}
+
+function totalCalls(roots, depth, branch) {
+  return callsPerRoot(depth, branch) * Math.max(0, Math.floor(roots));
+}
+
+function fmt(n) { return n.toLocaleString('en-US'); }
+
+function money(n) {
+  if (n === 0) return '$0.00';
+  if (n < 0.01) return '<$0.01';
+  if (n < 1000) return '$' + n.toFixed(2);
+  return '$' + n.toLocaleString('en-US', { maximumFractionDigits: 0 });
+}
+
+function val(id, dflt) {
+  var raw = document.getElementById(id).value;
+  var n = parseFloat(raw);
+  return (raw === '' || isNaN(n)) ? dflt : n;
+}
+
+function render() {
+  var roots  = val('roots', 1),
+      depth  = val('depth', 3),
+      branch = val('branch', 5),
+      budget = val('budget', 150);
+
+  var calls = totalCalls(roots, depth, branch);
+
+  var callsEl = document.getElementById('calls');
+  callsEl.textContent = fmt(calls) + (calls === 1 ? ' call' : ' calls');
+  var over = budget > 0 && calls > budget;
+  callsEl.className = 'headline ' + (over ? 'over' : 'ok');
+
+  var v = document.getElementById('verdict');
+  if (budget <= 0) {
+    v.textContent = 'No budget set.';
+    v.className = 'verdict';
+  } else if (over) {
+    v.textContent = 'Over your ' + fmt(budget) + '-call budget by ' +
+                    fmt(calls - budget) + '. This run would be stopped short.';
+    v.className = 'verdict over';
+  } else {
+    v.textContent = 'Inside your ' + fmt(budget) + '-call budget, with ' +
+                    fmt(budget - calls) + ' to spare.';
+    v.className = 'verdict ok';
+  }
+
+  var pct = budget > 0 ? Math.min(100, (calls / budget) * 100) : 0;
+  var bar = document.getElementById('bar');
+  bar.style.width = pct + '%';
+  bar.style.background = over ? 'var(--high)' : 'var(--accent)';
+
+  // Ladder: every depth from 1 to max(depth, 6), so the shape is visible even at depth 1.
+  var maxRow = Math.max(6, Math.ceil(depth));
+  var rows = '', prev = 0;
+  for (var d = 1; d <= maxRow; d++) {
+    var c = totalCalls(roots, d, branch);
+    var added = c - prev;
+    prev = c;
+    var cls = [];
+    if (d === Math.floor(depth)) cls.push('here');
+    if (budget > 0 && c > budget) cls.push('over');
+    rows += '<tr class="' + cls.join(' ') + '">' +
+            '<td>' + d + '</td>' +
+            '<td class="num">' + fmt(c) + '</td>' +
+            '<td class="num">+' + fmt(added) + '</td>' +
+            '<td class="num">' + (budget > 0 ? (c > budget ? 'over' : 'ok') : '—') + '</td>' +
+            '</tr>';
+  }
+  document.getElementById('ladder').innerHTML = rows;
+
+  // Money
+  var tin = val('tin', 0), tout = val('tout', 0),
+      pin = val('pin', 0), pout = val('pout', 0);
+  var cost = calls * ((tin / 1e6) * pin + (tout / 1e6) * pout);
+  document.getElementById('cost').textContent = money(cost);
+  document.getElementById('cost').className = 'headline';
+  var perCall = calls > 0 ? cost / calls : 0;
+  document.getElementById('costnote').textContent =
+    calls === 0 ? 'Nothing to run.'
+                : money(perCall).replace('$', '$') + ' per call × ' + fmt(calls) +
+                  ' calls. One more level of depth would cost about ' +
+                  money(cost * Math.max(1, Math.floor(branch))) + '.';
+}
+
+['roots','depth','branch','budget','tin','tout','pin','pout'].forEach(function (id) {
+  document.getElementById(id).addEventListener('input', render);
+});
+render();
+
+// Exposed so the test harness can call the same functions the page uses, rather than
+// a copy of them.
+window.__rb = { callsPerRoot: callsPerRoot, totalCalls: totalCalls };
+</script>
+</body>
+</html>
