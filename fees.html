@@ -1,0 +1,307 @@
+<title>Marketplace Fee Comparison</title>
+<meta name="description" content="What you actually keep on eBay, Etsy, Poshmark, Mercari, Depop, Whatnot and Facebook Marketplace in 2026. Enter a price and see all eight side by side, with the fee basis each platform really uses.">
+<link rel="canonical" href="https://mattvlr.github.io/title-budget/fees.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mattvlr.github.io/title-budget/fees.html">
+<meta property="og:title" content="What you actually keep - marketplace fee comparison 2026">
+<meta property="og:description" content="Most fee calculators charge Poshmark on the total including shipping. Poshmark charges on the item price alone. Compare all eight marketplaces with the right rule for each.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --bg: #F5F7F9; --surface: #FFFFFF; --surface-2: #EFF3F6;
+    --ink: #16202E; --muted: #5C6B7F; --faint: #8595A8; --border: #DCE3EA;
+    --accent: #A85D00; --accent-soft: #F5E4CC;
+    --good: #1F6B4A; --good-soft: #E2F0E9;
+    --bad: #B02A1F;
+    --meter: #E2E8EE;
+    --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0E141C; --surface: #161F2A; --surface-2: #1D2835;
+      --ink: #E7EDF4; --muted: #9AAABC; --faint: #74869A; --border: #2A3745;
+      --accent: #E8A13A; --accent-soft: #3A2C16;
+      --good: #5CC08D; --good-soft: #143026; --bad: #F08074; --meter: #26333F;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0E141C; --surface: #161F2A; --surface-2: #1D2835;
+    --ink: #E7EDF4; --muted: #9AAABC; --faint: #74869A; --border: #2A3745;
+    --accent: #E8A13A; --accent-soft: #3A2C16;
+    --good: #5CC08D; --good-soft: #143026; --bad: #F08074; --meter: #26333F;
+  }
+
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font-family: var(--sans); font-size: 15px; line-height: 1.55; }
+  .wrap { max-width: 900px; margin: 0 auto; padding-inline: 16px; padding-block: 0 56px; }
+
+  header { background: var(--surface); border-bottom: 1px solid var(--border); }
+  .head { max-width: 900px; margin: 0 auto; padding-inline: 16px; padding-block: 22px 20px; }
+  .eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: .1em;
+             text-transform: uppercase; color: var(--accent); margin: 0 0 6px; }
+  h1 { font-size: 28px; font-weight: 600; margin: 0 0 8px; letter-spacing: -.012em;
+       text-wrap: balance; }
+  .lede { margin: 0; color: var(--muted); max-width: 64ch; }
+  .lede strong { color: var(--ink); font-weight: 500; }
+  nav { margin-top: 12px; font-size: 13.5px; }
+  nav a { color: var(--accent); text-decoration: none; }
+  nav a:hover { text-decoration: underline; }
+
+  section { margin-top: 28px; }
+  h2 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em;
+       color: var(--faint); margin: 0 0 11px; font-family: var(--mono); }
+  h3 { font-size: 18px; font-weight: 600; margin: 26px 0 8px; }
+
+  .panel { background: var(--surface); border: 1px solid var(--border);
+           border-radius: 6px; padding: 16px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+  label.f { display: block; font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+  input { width: 100%; box-sizing: border-box; font-family: var(--mono); font-size: 16px;
+          color: var(--ink); background: var(--surface-2); border: 1px solid var(--border);
+          border-radius: 5px; padding: 9px 11px; }
+  input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .hint { font-size: 12.5px; color: var(--faint); margin: 10px 0 0; }
+
+  .scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 6px;
+            background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--border); }
+  th { font-family: var(--mono); font-size: 10.5px; letter-spacing: .06em;
+       text-transform: uppercase; color: var(--faint); font-weight: 500; white-space: nowrap; }
+  tbody tr:last-child td { border-bottom: none; }
+  td.num { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums;
+           white-space: nowrap; }
+  tr.best td { background: var(--good-soft); }
+  tr.best td:first-child::after { content: " best"; font-family: var(--mono);
+    font-size: 9.5px; letter-spacing: .06em; text-transform: uppercase;
+    color: var(--good); margin-left: 7px; }
+  .bar { height: 4px; background: var(--meter); border-radius: 2px; margin-top: 5px;
+         overflow: hidden; }
+  .bar > i { display: block; height: 100%; background: var(--accent); }
+  tr.best .bar > i { background: var(--good); }
+  .basis { font-family: var(--mono); font-size: 10.5px; color: var(--muted); }
+
+  .callout { background: var(--accent-soft); border-radius: 6px; padding: 14px 16px;
+             margin-top: 16px; font-size: 14.5px; }
+  .callout strong { font-weight: 600; }
+  p { max-width: 68ch; }
+  .note { border-left: 2px solid var(--accent); padding: 2px 0 2px 14px;
+          color: var(--muted); font-size: 14px; max-width: 66ch; }
+  footer { margin-top: 36px; padding-top: 18px; border-top: 1px solid var(--border);
+           color: var(--faint); font-size: 12.5px; }
+  footer a { color: var(--accent); }
+  @media (max-width: 560px) { h1 { font-size: 23px; } }
+</style>
+
+<header>
+  <div class="head">
+    <p class="eyebrow">Free · 2026 rates</p>
+    <h1>What you actually keep</h1>
+    <p class="lede">Enter what an item sells for and see what lands in your account on
+      eight marketplaces side by side &mdash; using <strong>the fee basis each one really
+      charges on</strong>, which is where most comparisons get it wrong.</p>
+    <nav><a href="./">&larr; Title Budget, the free listing title auditor</a></nav>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section>
+    <h2>Your sale</h2>
+    <div class="panel">
+      <div class="grid">
+        <div><label class="f" for="price">Item sells for</label>
+          <input type="number" id="price" value="24.00" min="0" step="0.5"></div>
+        <div><label class="f" for="ship">Shipping the buyer pays</label>
+          <input type="number" id="ship" value="5.95" min="0" step="0.25"></div>
+        <div><label class="f" for="cost">What the item cost you</label>
+          <input type="number" id="cost" value="4.00" min="0" step="0.5"></div>
+        <div><label class="f" for="label">Your actual postage</label>
+          <input type="number" id="label" value="5.20" min="0" step="0.25"></div>
+      </div>
+      <p class="hint">Everything runs in your browser. Nothing is uploaded, and there is
+        no account to make.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Side by side</h2>
+    <div class="scroll">
+      <table id="out">
+        <thead><tr>
+          <th>Marketplace</th>
+          <th class="num">Fees</th>
+          <th class="num">You receive</th>
+          <th class="num">Profit</th>
+          <th>Charged on</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="callout" id="spread"></div>
+  </section>
+
+  <section>
+    <h2>The bit most calculators get wrong</h2>
+
+    <h3>Poshmark charges on the item price. Almost everyone else charges on the total.</h3>
+    <p>eBay, Etsy, Mercari and Facebook all take their cut of <em>the whole amount the
+      buyer paid</em> &mdash; the item plus the shipping. Poshmark does not. Its
+      commission applies to the item price alone; the shipping the buyer pays is a
+      separate pass-through.</p>
+    <p>That difference is not academic, because Poshmark's rate has a cliff at $15. Sell a
+      <strong>$10 item with $7.97 shipping</strong> and a calculator using the total sees
+      $17.97, decides you are over the line, and charges 20% &mdash; <strong>$3.59</strong>.
+      The real fee is the flat <strong>$2.95</strong>. It overstates what Poshmark costs
+      you by 22% on that sale, and it does it in the direction that makes Poshmark look
+      worse than it is.</p>
+
+    <h3>The rates this page uses</h3>
+    <div class="scroll" style="margin-top:12px">
+      <table id="rates">
+        <thead><tr>
+          <th>Marketplace</th><th>Commission</th><th>Payment processing</th>
+          <th>Charged on</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="note" style="margin-top:14px">Researched September 2026. Rates change, and
+      some vary by category, by seller standing and by country. Check a row against your
+      own most recent payout statement before relying on it. Etsy also charges $0.20 per
+      listing, which is counted below as a cost rather than a fee, since you pay it
+      whether or not the item sells.</p>
+  </section>
+
+  <section>
+    <h2>What this does not cover</h2>
+    <p>Promoted listing and advertising fees, international and cross-border surcharges,
+      below-standard-seller penalties, category-specific rates, and sales tax &mdash;
+      which the marketplaces collect and remit for you in most US states. It compares the
+      ordinary case, which is the one you are usually deciding about.</p>
+  </section>
+
+  <footer>
+    Built by the same person as <a href="./">Title Budget</a>, a free eBay listing title
+    auditor. There are also a few small paid tools &mdash; a
+    <a href="https://bookmonger.gumroad.com/l/reseller-profit-tracker">profit tracker</a>,
+    a <a href="https://bookmonger.gumroad.com/l/bin-label-maker">barcode label maker</a>
+    and a <a href="https://bookmonger.gumroad.com/l/lot-breakeven">lot break-even
+    calculator</a> &mdash; but this page is complete on its own and always will be.
+  </footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* Fee structures researched September 2026.
+
+     `basis` is the field that matters and the one most comparisons omit: commission is
+     charged on the gross the buyer paid for most marketplaces, but on the item price
+     alone for Poshmark. `min` is a fee floor. `listing` is a per-listing charge, counted
+     as a cost rather than a commission because it is paid whether or not the item sells. */
+  var MARKETS = [
+    { name: "eBay", pct: 0.136, per: 0.40, thr: 0, flat: 0, min: 0,
+      basis: "gross", ppct: 0, pfix: 0, listing: 0,
+      note: "13.6% + $0.40 per order" },
+    { name: "Etsy", pct: 0.065, per: 0, thr: 0, flat: 0, min: 0,
+      basis: "gross", ppct: 0.03, pfix: 0.25, listing: 0.20,
+      note: "6.5% transaction" },
+    { name: "Poshmark", pct: 0.20, per: 0, thr: 15, flat: 2.95, min: 0,
+      basis: "item", ppct: 0, pfix: 0, listing: 0,
+      note: "$2.95 under $15, else 20%" },
+    { name: "Mercari", pct: 0.10, per: 0, thr: 0, flat: 0, min: 0,
+      basis: "gross", ppct: 0, pfix: 0, listing: 0,
+      note: "flat 10%" },
+    { name: "Depop", pct: 0, per: 0, thr: 0, flat: 0, min: 0,
+      basis: "gross", ppct: 0.033, pfix: 0.45, listing: 0,
+      note: "no selling fee (US/UK)" },
+    { name: "Whatnot", pct: 0.08, per: 0, thr: 0, flat: 0, min: 0,
+      basis: "gross", ppct: 0.029, pfix: 0.30, listing: 0,
+      note: "8% commission" },
+    { name: "Facebook", pct: 0.10, per: 0, thr: 0, flat: 0, min: 0.80,
+      basis: "gross", ppct: 0, pfix: 0, listing: 0,
+      note: "10%, minimum $0.80" }
+  ];
+
+  function fees(price, ship, m) {
+    var gross = price + ship;
+    var base = (m.basis === "item") ? price : gross;
+    var commission = base < m.thr ? m.flat : base * m.pct + m.per;
+    if (m.min) { commission = Math.max(commission, m.min); }
+    return commission + gross * m.ppct + m.pfix;
+  }
+
+  var $ = function (id) { return document.getElementById(id); };
+  var n = function (id) { var v = parseFloat($(id).value); return isFinite(v) ? v : 0; };
+  function money(v) {
+    return (v < 0 ? "-$" : "$") + Math.abs(v).toFixed(2)
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
+  function compute() {
+    var price = n("price"), ship = n("ship"), cost = n("cost"), label = n("label");
+    var gross = price + ship;
+    return MARKETS.map(function (m) {
+      var f = fees(price, ship, m);
+      var received = gross - f;
+      var profit = received - cost - label - m.listing;
+      return { name: m.name, fees: f, received: received, profit: profit,
+               basis: m.basis === "item" ? "item price only" : "item + shipping",
+               note: m.note, listing: m.listing };
+    });
+  }
+
+  function render() {
+    var rows = compute();
+    var sorted = rows.slice().sort(function (a, b) { return b.profit - a.profit; });
+    var best = sorted[0], worst = sorted[sorted.length - 1];
+    var span = Math.max(0.01, best.profit - Math.min(0, worst.profit));
+
+    $("out").querySelector("tbody").innerHTML = sorted.map(function (r) {
+      var pct = Math.max(0, Math.min(100, (r.profit / span) * 100));
+      return '<tr class="' + (r === best ? "best" : "") + '">'
+        + "<td>" + esc(r.name) + "</td>"
+        + '<td class="num">' + money(r.fees) + "</td>"
+        + '<td class="num">' + money(r.received) + "</td>"
+        + '<td class="num">' + money(r.profit)
+        + '<div class="bar"><i style="width:' + pct.toFixed(1) + '%"></i></div></td>'
+        + '<td class="basis">' + esc(r.basis)
+        + (r.listing ? " + $" + r.listing.toFixed(2) + " listing" : "") + "</td></tr>";
+    }).join("");
+
+    var gap = best.profit - worst.profit;
+    $("spread").innerHTML = "<strong>" + esc(best.name) + "</strong> keeps you the most on "
+      + "this sale, " + money(gap) + " more than " + esc(worst.name)
+      + ". On a hundred sales that is " + money(gap * 100)
+      + " &mdash; which is why the fee basis is worth getting right.";
+  }
+
+  $("rates").querySelector("tbody").innerHTML = MARKETS.map(function (m) {
+    var proc = (m.ppct || m.pfix)
+      ? (m.ppct ? (m.ppct * 100).toFixed(1) + "%" : "")
+        + (m.ppct && m.pfix ? " + " : "") + (m.pfix ? "$" + m.pfix.toFixed(2) : "")
+      : "included";
+    return "<tr><td>" + esc(m.name) + "</td><td>" + esc(m.note) + "</td><td>" + proc
+      + '</td><td class="basis">'
+      + (m.basis === "item" ? "<strong>item price only</strong>" : "item + shipping")
+      + "</td></tr>";
+  }).join("");
+
+  ["price", "ship", "cost", "label"].forEach(function (id) {
+    $(id).addEventListener("input", render);
+  });
+
+  window.__fees = { fees: fees, MARKETS: MARKETS, compute: compute };
+
+  render();   // open on a worked example rather than an empty form
+})();
+</script>

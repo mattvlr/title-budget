@@ -129,6 +129,17 @@ python tests/verify_webapp.py --url https://mattvlr.github.io/title-budget/
 - CLI: Python 3.8+. Standard library only, except `openpyxl` if you want `.xlsx` input
   (`pip install openpyxl`).
 
+## Also free: a marketplace fee comparison
+
+**[What you actually keep](https://mattvlr.github.io/title-budget/fees.html)** compares what a
+sale nets you across eBay, Etsy, Poshmark, Mercari, Depop, Whatnot and Facebook, using the fee
+basis each one really charges on.
+
+That last part is the point. Poshmark charges commission on the **item price alone**, while
+almost everyone else charges on the total including shipping. Apply the wrong rule to a $10
+item with $7.97 shipping and you get $3.59 instead of the correct $2.95 - a 22% overstatement,
+in the direction that makes Poshmark look worse than it is.
+
 ## A paid companion, if you want it
 
 This tool tells you what's wrong with your titles. It doesn't tell you what you actually
