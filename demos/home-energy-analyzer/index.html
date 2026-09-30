@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home Energy Analyzer &mdash; screenshots</title>
+<meta name="description" content="Measure your house's heat loss from 35 billing cycles of gas against degree days. Self-hosted Flask, no utility login, no scraping.">
+<link rel="canonical" href="https://mattvlr.github.io/title-budget/demos/home-energy-analyzer/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mattvlr.github.io/title-budget/demos/home-energy-analyzer/">
+<meta property="og:title" content="Home Energy Analyzer &mdash; screenshots">
+<meta property="og:description" content="Measure your house's heat loss from 35 billing cycles of gas against degree days. Self-hosted Flask, no utility login, no scraping.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#F5F7F9; --surface:#FFFFFF; --surface-2:#EFF3F6;
+    --ink:#16202E; --muted:#5C6B7F; --faint:#8595A8; --border:#DCE3EA;
+    --accent:#A85D00; --accent-soft:#F5E4CC;
+    --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#0E141C; --surface:#161F2A; --surface-2:#1D2835;
+      --ink:#E7EDF4; --muted:#9AAABC; --faint:#74869A; --border:#2A3745;
+      --accent:#E8A13A; --accent-soft:#3A2C16;
+    }
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans);
+         font-size:15px; line-height:1.55; }
+  .wrap { max-width:900px; margin:0 auto; padding:32px 16px 64px; }
+  h1 { font-size:28px; font-weight:600; margin:0 0 6px; letter-spacing:-.012em; }
+  h2 { font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:.08em;
+        color:var(--faint); margin:36px 0 12px; }
+  h3 { font-size:18px; font-weight:600; margin:0 0 4px; }
+  .lede { color:var(--muted); margin:0 0 4px; }
+  .eyebrow { font-family:var(--mono); font-size:12px; color:var(--accent);
+              text-transform:uppercase; letter-spacing:.06em; margin:0 0 6px; }
+  .panel { background:var(--surface); border:1px solid var(--border); border-radius:10px;
+            padding:16px 18px; }
+  .note { background:var(--accent-soft); border:1px solid var(--border); border-radius:10px;
+           padding:14px 16px; color:var(--ink); font-size:14px; }
+  figure { margin:0 0 26px; }
+  figure img { width:100%; height:auto; display:block; border:1px solid var(--border);
+                border-radius:10px; background:var(--surface-2); }
+  figcaption { color:var(--muted); font-size:14px; margin-top:8px; }
+  .btn { display:inline-block; padding:9px 15px; border-radius:8px; border:1px solid var(--border);
+          background:var(--surface); color:var(--ink); text-decoration:none; font-size:14px;
+          font-weight:500; }
+  .btn.primary { background:var(--accent); border-color:var(--accent); color:#fff; }
+  .row { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  .grow { flex:1 1 260px; }
+  ul.plain { margin:0; padding-left:18px; }
+  ul.plain li { margin:4px 0; }
+  nav a, footer a { color:var(--accent); text-decoration:none; }
+  footer { margin-top:44px; padding-top:18px; border-top:1px solid var(--border);
+            color:var(--faint); font-size:14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="eyebrow">Static snapshot &middot; $9</p>
+<h1>Home Energy Analyzer</h1>
+<p class="lede">Your bills already contain a measurement of your building. This gets it out of them &mdash; no utility login, no scraping, no API.</p>
+<nav style="margin-top:10px"><a href="../">&larr; All demos</a></nav>
+
+<section>
+  <div class="note">
+    Every shot uses the included synthetic demo house &mdash; 14 Larkspur Lane, Fairhaven, fictional, IECC zone 4A. No real bills, addresses or account numbers appear in any image. Captured from the packaged build.
+  </div>
+</section>
+
+<section>
+  <h2>What it looks like</h2>
+<figure>
+  <img src="../img/hea-1.png" alt="Heat loss, measured &mdash; not estimated." loading="lazy">
+  <figcaption><b>Heat loss, measured &mdash; not estimated.</b> 35 billing cycles of gas against heating degree days give a UA of 567&ndash;673 BTU/h/&deg;F at r&nbsp;=&nbsp;0.989. The figure is a <i>range</i>, not a number, because furnace efficiency is the one link in the chain nobody measured &mdash; and the panel says so on the page rather than in the small print.</figcaption>
+</figure>
+<figure>
+  <img src="../img/hea-2.png" alt="The same measurement from the ordinary end of the product." loading="lazy">
+  <figcaption><b>The same measurement from the ordinary end of the product.</b> One point per billing cycle against heating demand; the dashed line is the building envelope.</figcaption>
+</figure>
+<figure>
+  <img src="../img/hea-3.png" alt="Every stored statement, spread across the days it actually covers" loading="lazy">
+  <figcaption><b>Every stored statement, spread across the days it actually covers</b> &mdash; so a 50-day cycle is not one month, and a missing month is not a cheap one.</figcaption>
+</figure>
+<figure>
+  <img src="../img/hea-4.png" alt="The fixed floor." loading="lazy">
+  <figcaption><b>The fixed floor.</b> Per service, split into the part that responds to using less and the part that does not: $89.98 a cycle on electric, $16.73 on gas, $48.23 on water, before a single unit is consumed.</figcaption>
+</figure>
+<figure>
+  <img src="../img/hea-5.png" alt="Bring your own bills." loading="lazy">
+  <figcaption><b>Bring your own bills.</b> A CSV template with 95 recognised header spellings and a Green Button (NAESB/ESPI) importer, plus the house facts that turn a fitted slope into a statement about a building.</figcaption>
+</figure>
+</section>
+
+<section>
+  <h2>How it was checked</h2>
+  <div class="panel"><ul class="plain">
+    <li><b>55 tests pass</b> from the exact zip a buyer downloads, in a clean virtualenv on Windows 11 / Python 3.12.</li>
+    <li><b>The envelope fit was recomputed independently.</b> A separate OLS over the same 35 stored cycles returns slope 0.16502 and intercept 1.61 &mdash; identical to what the app prints.</li>
+    <li><b>Zero JavaScript.</b> No <code>&lt;script&gt;</code>, no <code>onclick</code>, no listener in any template; no external URL; and no <code>requests</code>, <code>urllib</code> or <code>socket</code> import anywhere in the package.</li>
+    <li>A Windows timezone defect was found and fixed before packaging &mdash; Windows ships no IANA database, so every zone silently fell back to UTC and filed interval readings under the wrong local hour.</li>
+  </ul></div>
+</section>
+
+<section>
+  <h2>Not included</h2>
+  <div class="panel"><ul class="plain">
+    <li><b>The headline anomaly detectors cannot be demonstrated.</b> The seeded demo house is clean, so the findings panel prints &ldquo;Nothing anomalous&rdquo;, and the dead-meter and late-fee detectors have no test covering them. <b>You would be buying those on a reading of the code, not on a demonstration.</b></li>
+    <li><b>No utility login, no API, no scraping, no PDF bill parsing.</b> You import CSV or Green Button files you download yourself.</li>
+    <li><b>UA is a range because furnace efficiency is unmeasured</b>, and the field EER is a lower bound &mdash; latent load is invisible to cooling degree days.</li>
+    <li>It refuses to fit below <code>MIN_CYCLES = 6</code>. No sensors, no thermostat, no solar, no equipment-sizing verdict, no multi-house, no mobile app, no support.</li>
+    <li><code>thermal.py</code> is 625 lines with 13 tests and <b>is not wired to any page</b> &mdash; the web layer computes its own fits.</li>
+    <li>Not an energy audit, and it performs no safety function.</li>
+  </ul></div>
+</section>
+
+<section>
+  <h2>Get it</h2>
+  <div class="panel">
+    <div class="row">
+      <div class="grow">
+        <h3>Home Energy Analyzer &mdash; $9</h3>
+        <p style="margin:0;color:var(--muted);font-size:14px">Complete Flask source, 7,480 lines of application Python. SQLite or Postgres, a synthetic demo house so it is populated on first run, and no credentials anywhere.</p>
+      </div>
+      <a class="btn primary" href="https://bookmonger.gumroad.com/tools">See the store &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="../">All demos</a> &middot;
+  <a href="https://bookmonger.gumroad.com">All products</a> &middot;
+  <a href="https://github.com/mattvlr/title-budget">Source of the free tools</a>
+</footer>
+</div>
+</body>
+</html>
