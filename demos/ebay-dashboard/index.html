@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>eBay Seller Dashboard &mdash; screenshots</title>
+<meta name="description" content="Turn the CSV exports eBay already gives you into one page that says what to do today. 75 panels, 36 charts, no API keys.">
+<link rel="canonical" href="https://mattvlr.github.io/title-budget/demos/ebay-dashboard/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mattvlr.github.io/title-budget/demos/ebay-dashboard/">
+<meta property="og:title" content="eBay Seller Dashboard &mdash; screenshots">
+<meta property="og:description" content="Turn the CSV exports eBay already gives you into one page that says what to do today. 75 panels, 36 charts, no API keys.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#F5F7F9; --surface:#FFFFFF; --surface-2:#EFF3F6;
+    --ink:#16202E; --muted:#5C6B7F; --faint:#8595A8; --border:#DCE3EA;
+    --accent:#A85D00; --accent-soft:#F5E4CC;
+    --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#0E141C; --surface:#161F2A; --surface-2:#1D2835;
+      --ink:#E7EDF4; --muted:#9AAABC; --faint:#74869A; --border:#2A3745;
+      --accent:#E8A13A; --accent-soft:#3A2C16;
+    }
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans);
+         font-size:15px; line-height:1.55; }
+  .wrap { max-width:900px; margin:0 auto; padding:32px 16px 64px; }
+  h1 { font-size:28px; font-weight:600; margin:0 0 6px; letter-spacing:-.012em; }
+  h2 { font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:.08em;
+        color:var(--faint); margin:36px 0 12px; }
+  h3 { font-size:18px; font-weight:600; margin:0 0 4px; }
+  .lede { color:var(--muted); margin:0 0 4px; }
+  .eyebrow { font-family:var(--mono); font-size:12px; color:var(--accent);
+              text-transform:uppercase; letter-spacing:.06em; margin:0 0 6px; }
+  .panel { background:var(--surface); border:1px solid var(--border); border-radius:10px;
+            padding:16px 18px; }
+  .note { background:var(--accent-soft); border:1px solid var(--border); border-radius:10px;
+           padding:14px 16px; color:var(--ink); font-size:14px; }
+  figure { margin:0 0 26px; }
+  figure img { width:100%; height:auto; display:block; border:1px solid var(--border);
+                border-radius:10px; background:var(--surface-2); }
+  figcaption { color:var(--muted); font-size:14px; margin-top:8px; }
+  .btn { display:inline-block; padding:9px 15px; border-radius:8px; border:1px solid var(--border);
+          background:var(--surface); color:var(--ink); text-decoration:none; font-size:14px;
+          font-weight:500; }
+  .btn.primary { background:var(--accent); border-color:var(--accent); color:#fff; }
+  .row { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  .grow { flex:1 1 260px; }
+  ul.plain { margin:0; padding-left:18px; }
+  ul.plain li { margin:4px 0; }
+  nav a, footer a { color:var(--accent); text-decoration:none; }
+  footer { margin-top:44px; padding-top:18px; border-top:1px solid var(--border);
+            color:var(--faint); font-size:14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="eyebrow">Static snapshot &middot; $9</p>
+<h1>eBay Seller Dashboard</h1>
+<p class="lede">Reads the exports you already download. No API keys, no OAuth, no marketplace password &mdash; and one page that ends in instructions rather than graphs.</p>
+<nav style="margin-top:10px"><a href="../">&larr; All demos</a></nav>
+
+<section>
+  <div class="note">
+    Captures of the real application against its bundled demo store &mdash; 26 uploads and 2,275 item costs written by the included seeder. The store is invented, the arithmetic is not. Nothing here is mocked up or retouched.
+  </div>
+</section>
+
+<section>
+  <h2>What it looks like</h2>
+<figure>
+  <img src="../img/ebay-1.png" alt="The Today briefing." loading="lazy">
+  <figcaption><b>The Today briefing.</b> Pricing, sourcing, shipping, money and listing, each line a conclusion with the figure behind it &mdash; &ldquo;stop buying in the &lt;$10 band, &minus;2.5% margin on 260 sales&rdquo;. The footer says it plainly: <i>every line here is a conclusion reached further down this page</i>, and each heading links to its working.</figcaption>
+</figure>
+<figure>
+  <img src="../img/ebay-2.png" alt="The inventory action queue." loading="lazy">
+  <figcaption><b>The inventory action queue.</b> Every active listing gets exactly one instruction &mdash; liquidate, end and relist, lower 10%, add promotion, send offer, raise price or hold. The choice comes from age, watcher velocity, how long the category normally takes to sell, and whether the suggested discount still leaves $7.00 of profit after fees, label and packaging. Listings inside their normal window are held and not shown.</figcaption>
+</figure>
+<figure>
+  <img src="../img/ebay-3.png" alt="How the year-end forecast has moved." loading="lazy">
+  <figcaption><b>How the year-end forecast has moved.</b> The model re-run as each batch of data arrived, so you can see the projection change rather than trust today's number alone. Hollow points are reconstructed and labelled as such.</figcaption>
+</figure>
+</section>
+
+<section>
+  <h2>How it was checked</h2>
+  <div class="panel"><ul class="plain">
+    <li><b>29 tests pass</b>, and the whole buyer path was run from a clean extract of the shipped zip: install, seed, serve, sign in, every page.</li>
+    <li><b>The panel counts on the listing were recounted, not estimated</b> &mdash; 75 panels, 55 tables and 36 charts, measured in the rendered DOM. An earlier draft claimed &ldquo;eighty panels&rdquo;; the real number is lower and it is the one used.</li>
+    <li>Two Windows-blocking defects were found and fixed before it was packaged.</li>
+    <li>Personal data confirmed scrubbed: the dashboard was carved out of a private project, and the demo store is entirely synthetic.</li>
+  </ul></div>
+</section>
+
+<section>
+  <h2>Not included</h2>
+  <div class="panel"><ul class="plain">
+    <li><b>No eBay API, no OAuth, no marketplace password.</b> It reads the CSV exports you download yourself. That is deliberate &mdash; nothing breaks when eBay changes its API terms &mdash; but if you want live sync, this is the wrong product.</li>
+    <li><b>Nothing syncs and nothing writes back to eBay.</b> It tells you what to do; you do it.</li>
+    <li>Fee figures <b>fall back to estimates</b> if you do not upload the transaction report.</li>
+    <li>A single password gate, meant for one operator on a machine they control. It is not multi-user and has no accounts.</li>
+  </ul></div>
+</section>
+
+<section>
+  <h2>Get it</h2>
+  <div class="panel">
+    <div class="row">
+      <div class="grow">
+        <h3>eBay Seller Dashboard &mdash; $9</h3>
+        <p style="margin:0;color:var(--muted);font-size:14px">Complete Flask source. SQLite or Postgres, a bundled demo store so it is populated on first run, and no API credentials anywhere.</p>
+      </div>
+      <a class="btn primary" href="https://bookmonger.gumroad.com/tools">See the store &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="../">All demos</a> &middot;
+  <a href="https://bookmonger.gumroad.com">All products</a> &middot;
+  <a href="https://github.com/mattvlr/title-budget">Source of the free tools</a>
+</footer>
+</div>
+</body>
+</html>
