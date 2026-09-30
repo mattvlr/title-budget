@@ -149,24 +149,24 @@ This tool tells you what's wrong with your titles. It doesn't tell you what you 
 earned.
 
 **[Reseller Profit & Inventory Tracker](https://bookmonger.gumroad.com/l/reseller-profit-tracker)**
-($19) is a spreadsheet that does: cost, fees, net profit, margin, ROI and days-to-sell per
+($1) is a spreadsheet that does: cost, fees, net profit, margin, ROI and days-to-sell per
 item, with a dashboard and an editable fee table for 8 marketplaces.
 
 It exists because most homemade trackers calculate marketplace fees on the item price alone.
 eBay charges its fee on the **total the buyer paid, shipping included** - so those trackers
 understate fees on every order. This one doesn't.
 
-Also **[Bin Label Maker](https://bookmonger.gumroad.com/l/bin-label-maker)** ($3) - generates a
+Also **[Bin Label Maker](https://bookmonger.gumroad.com/l/bin-label-maker)** ($1) - generates a
 consistent SKU scheme and prints real scannable Code 128 barcodes onto Avery label sheets. One
 HTML file, runs offline, nothing uploaded. Its encoder is checked by decoding every barcode back
 the way a scanner reads it.
 
-And **[Lot Break-Even Calculator](https://bookmonger.gumroad.com/l/lot-breakeven)** ($3) - works
+And **[Lot Break-Even Calculator](https://bookmonger.gumroad.com/l/lot-breakeven)** ($1) - works
 out the most you can bid on a pallet or estate-sale box lot and still make money, counting the
 10-40% you will throw away and the buyer's premium people forget. Runs offline on a phone,
 which is where that decision actually gets made.
 
-And **[Billable Weight](https://bookmonger.gumroad.com/l/billable-weight)** ($3) - carriers
+And **[Billable Weight](https://bookmonger.gumroad.com/l/billable-weight)** ($1) - carriers
 bill for the size of your box, not just its weight. Shows how many pounds of air you are
 paying for and what to change so you stop. USPS moved its divisor from 166 to 139 in July
 2026, and applies dimensional pricing only above one cubic foot *and* only to zones 5-9 -
