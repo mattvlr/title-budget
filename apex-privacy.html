@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Apex Drive Log — Privacy Policy</title>
+<meta name="description" content="Privacy policy for the Apex Drive Log iPhone app. Your drives stay on your iPhone.">
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #16181d;
+    --muted: #5b6069;
+    --accent: #0a7f77;
+    --rule: #e3e5e9;
+    --card: #f6f7f9;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #101216;
+      --fg: #e8eaee;
+      --muted: #9aa1ab;
+      --accent: #2fc9bd;
+      --rule: #272b32;
+      --card: #191c22;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+    -webkit-text-size-adjust: 100%;
+  }
+  main { max-width: 42rem; margin: 0 auto; padding: 3rem 16px 5rem; }
+  h1 { font-size: 1.85rem; line-height: 1.2; margin: 0 0 .35rem; letter-spacing: -.01em; }
+  h2 {
+    font-size: 1.1rem; margin: 2.5rem 0 .6rem; padding-top: 1.4rem;
+    border-top: 1px solid var(--rule); letter-spacing: -.005em;
+  }
+  h3 { font-size: .98rem; margin: 1.6rem 0 .4rem; }
+  p, li { margin: 0 0 .85rem; }
+  ul { padding-left: 1.3rem; }
+  .sub { color: var(--muted); margin-bottom: 2.2rem; font-size: .93rem; }
+  .lede {
+    background: var(--card); border-left: 3px solid var(--accent);
+    padding: 1rem 1.1rem; border-radius: 0 8px 8px 0; margin: 0 0 2rem;
+  }
+  .lede p:last-child { margin-bottom: 0; }
+  code {
+    font: .875em ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    background: var(--card); padding: .1em .35em; border-radius: 4px;
+  }
+  a { color: var(--accent); }
+  table { width: 100%; border-collapse: collapse; margin: 0 0 1.2rem; font-size: .92rem; }
+  th, td { text-align: left; padding: .55rem .6rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { font-weight: 600; }
+  footer { margin-top: 3.5rem; padding-top: 1.2rem; border-top: 1px solid var(--rule); color: var(--muted); font-size: .88rem; }
+</style>
+</head>
+<body>
+<main>
+
+  <h1>Apex Drive Log — Privacy Policy</h1>
+  <p class="sub">Last updated: 29 September 2026</p>
+
+  <div class="lede">
+    <p><strong>The short version.</strong> Apex records your drives into a
+    database file on your iPhone and leaves them there. There is no
+    account, no server of ours, and no analytics. One optional feature —
+    reading a fuel receipt from a photo — sends that photo to OpenAI, and
+    only if you have set up your own OpenAI API key. Nothing else you do
+    in Apex leaves your device except the map and place-name lookups
+    Apple's own maps need in order to draw a map.</p>
+  </div>
+
+  <h2>Who is responsible</h2>
+  <p>Apex Drive Log is published by an independent developer. Questions
+  about this policy or about your data:
+  <a href="mailto:bookmonger990@gmail.com">bookmonger990@gmail.com</a>.</p>
+
+  <h2>What Apex records, and where it goes</h2>
+
+  <h3>Location</h3>
+  <p>While a drive is recording — that is, between the moment you tap
+  <strong>Start</strong> and the moment you tap <strong>Stop</strong>, and
+  at no other time — Apex reads your precise GPS position roughly once a
+  second. Each reading includes latitude, longitude, altitude, speed,
+  heading and the accuracy iOS reports for those values.</p>
+  <p>Those readings are written to a database file inside the app's own
+  storage on your iPhone. <strong>They are not uploaded anywhere.</strong>
+  Apex has no server, no account system and no cloud backup. If you delete
+  the app, the drives are deleted with it.</p>
+  <p>Apex asks for the <em>Always</em> location permission so that a drive
+  you have started keeps recording when your screen locks or you switch to
+  another app. Without it, locking your phone mid-drive ends the recording.
+  You can decline; drives will then record only while Apex is open on
+  screen, and the app will say so. While Apex is recording, iOS shows the
+  blue location indicator in your status bar, so you can always tell.</p>
+
+  <h3>Camera and photo library</h3>
+  <p>If you log a fuel fillup by photographing the pump display or the
+  receipt, that photo is stored in the app's own storage on your iPhone and
+  shown alongside the fillup. Apex does not write anything to your photo
+  library.</p>
+
+  <h3>Fuel and vehicle records</h3>
+  <p>Prices, gallons, totals, odometer readings and the notes on a fillup
+  are stored on your iPhone only.</p>
+
+  <h3>Your OpenAI API key</h3>
+  <p>If you choose to use the photo-reading feature, the key you paste is
+  stored in this app's preferences on your iPhone. It is sent only to
+  OpenAI, as the authorisation header of the requests described below, and
+  to nobody else. Be aware that it is stored in the app's preference file
+  rather than in the iOS Keychain.</p>
+
+  <h2>Data sent off your device</h2>
+  <p>There are exactly four destinations. Three of them are unavoidable
+  parts of showing you a map; one is optional and off by default.</p>
+
+  <table>
+    <tr><th>Goes to</th><th>What</th><th>When</th></tr>
+    <tr>
+      <td><strong>OpenAI</strong><br><code>api.openai.com</code></td>
+      <td>One photograph of a fuel pump or receipt, and a fixed instruction
+      asking for the price, gallons, total, date and odometer in it. No
+      account, name or device identifier is attached, and the request asks
+      OpenAI not to store it. Apex re-encodes the image before sending,
+      which removes the camera's EXIF metadata — including any GPS
+      coordinates the original photo carried.</td>
+      <td><strong>Only</strong> when you tap Analyze on a fuel photo and
+      have entered your own OpenAI API key. If you have not entered a key,
+      this never happens.</td>
+    </tr>
+    <tr>
+      <td><strong>OpenAI</strong><br><code>api.openai.com</code></td>
+      <td>Your API key alone, to confirm it works. No personal data.</td>
+      <td>Only when you tap “Test key” in Settings.</td>
+    </tr>
+    <tr>
+      <td><strong>Apple</strong> — Maps</td>
+      <td>The area of the map being displayed, so Apple can send the map
+      tiles for it.</td>
+      <td>Whenever a map is on screen.</td>
+    </tr>
+    <tr>
+      <td><strong>Apple</strong> — geocoding</td>
+      <td>A single coordinate, so Apple can tell Apex the name of the
+      street there. Apex uses it to name the road segments it discovers.</td>
+      <td>When Apex finds a new stretch of road in one of your drives.</td>
+    </tr>
+  </table>
+
+  <p>Data Apple receives through its Maps and geocoding services is
+  handled under
+  <a href="https://www.apple.com/legal/privacy/">Apple's privacy policy</a>,
+  and data you send to OpenAI under
+  <a href="https://openai.com/policies/privacy-policy/">OpenAI's</a>.</p>
+
+  <h2>What Apex does not do</h2>
+  <ul>
+    <li><strong>No tracking.</strong> Apex does not read the advertising
+    identifier, does not build a profile of you, and does not share
+    anything with data brokers or advertisers. There is no App Tracking
+    Transparency prompt because there is nothing to ask permission for.</li>
+    <li><strong>No analytics and no crash reporting.</strong> There is no
+    Firebase, Google Analytics, Amplitude, Mixpanel, Sentry or Crashlytics
+    in the app. Apex has no idea how you use it.</li>
+    <li><strong>No advertising.</strong> No ads, no ad networks.</li>
+    <li><strong>No account.</strong> Nothing to sign up for, so no email
+    address, name or password is collected.</li>
+    <li><strong>No selling of data.</strong> Apex collects almost nothing
+    and sells none of it.</li>
+  </ul>
+
+  <h2>Children</h2>
+  <p>Apex is not directed at children and collects no personal information
+  from anyone, including children under 13.</p>
+
+  <h2>Your control over your data</h2>
+  <ul>
+    <li><strong>Turn recording off:</strong> Settings → Privacy &amp;
+    Security → Location Services → Apex. Apex cannot record without it.</li>
+    <li><strong>Delete one drive:</strong> swipe it in the Feed.</li>
+    <li><strong>Delete everything:</strong> delete the app. Its database,
+    its fillup photos and your stored API key go with it.</li>
+    <li><strong>Take your data with you:</strong> any drive can be exported
+    as a GPX file from its detail screen and shared or saved wherever you
+    like.</li>
+  </ul>
+  <p>Because Apex holds nothing on a server, there is no account for us to
+  look up, export or erase on request — everything is already in your
+  hands, on your device.</p>
+
+  <h2>Changes to this policy</h2>
+  <p>If Apex ever starts collecting something it does not collect today,
+  this page will be updated before the version that does it ships, and the
+  date at the top will change.</p>
+
+  <footer>
+    Apex Drive Log · <a href="apex-support.html">Support</a>
+  </footer>
+
+</main>
+</body>
+</html>

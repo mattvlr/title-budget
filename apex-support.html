@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Apex Drive Log — Support</title>
+<meta name="description" content="Support and FAQ for the Apex Drive Log iPhone app.">
+<style>
+  :root {
+    --bg: #ffffff; --fg: #16181d; --muted: #5b6069;
+    --accent: #0a7f77; --rule: #e3e5e9; --card: #f6f7f9;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #101216; --fg: #e8eaee; --muted: #9aa1ab;
+      --accent: #2fc9bd; --rule: #272b32; --card: #191c22;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+    -webkit-text-size-adjust: 100%;
+  }
+  main { max-width: 42rem; margin: 0 auto; padding: 3rem 16px 5rem; }
+  h1 { font-size: 1.85rem; line-height: 1.2; margin: 0 0 .35rem; letter-spacing: -.01em; }
+  h2 { font-size: 1.1rem; margin: 2.5rem 0 .6rem; padding-top: 1.4rem; border-top: 1px solid var(--rule); }
+  h3 { font-size: .98rem; margin: 1.7rem 0 .35rem; }
+  p, li { margin: 0 0 .85rem; }
+  ul { padding-left: 1.3rem; }
+  .sub { color: var(--muted); margin-bottom: 2rem; font-size: .93rem; }
+  .contact {
+    background: var(--card); border-left: 3px solid var(--accent);
+    padding: 1rem 1.1rem; border-radius: 0 8px 8px 0; margin: 0 0 2rem;
+  }
+  .contact p:last-child { margin-bottom: 0; }
+  a { color: var(--accent); }
+  code {
+    font: .875em ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    background: var(--card); padding: .1em .35em; border-radius: 4px;
+  }
+  footer { margin-top: 3.5rem; padding-top: 1.2rem; border-top: 1px solid var(--rule); color: var(--muted); font-size: .88rem; }
+</style>
+</head>
+<body>
+<main>
+
+  <h1>Apex Drive Log — Support</h1>
+  <p class="sub">iPhone drive tracker. Records your route, times the roads
+  you repeat, and tracks what the fuel costs.</p>
+
+  <div class="contact">
+    <p><strong>Need help?</strong> Email
+    <a href="mailto:bookmonger990@gmail.com">bookmonger990@gmail.com</a>.
+    Include your iPhone model and iOS version, and what you were doing when
+    it went wrong. One person answers these, usually within a few days.</p>
+  </div>
+
+  <h2>Common questions</h2>
+
+  <h3>My drive stopped recording when I locked my phone</h3>
+  <p>Apex needs the <strong>Always</strong> location permission to keep
+  recording with the screen off. Open Settings → Privacy &amp; Security →
+  Location Services → Apex and choose <strong>Always</strong>. Apex only
+  gets one chance to ask for that, so if you said no the first time it has
+  to be changed here.</p>
+  <p>Also check that Precise Location is on in the same screen. Without it
+  iOS gives Apex a rough area instead of a position, and the trace will be
+  useless.</p>
+
+  <h3>Does Apex record when I am not driving?</h3>
+  <p>No. It records between the moment you tap Start and the moment you tap
+  Stop, and at no other time. While it is recording, iOS shows the blue
+  location indicator in your status bar. If you do not see that indicator,
+  Apex is not using your location.</p>
+
+  <h3>Where are my drives stored? Can I get them back?</h3>
+  <p>In a database file inside the app on your iPhone. There is no cloud
+  backup — that is deliberate, and it means deleting the app deletes the
+  drives. Export any drive you want to keep as a GPX file from its detail
+  screen.</p>
+
+  <h3>No segments have appeared</h3>
+  <p>Apex only creates a segment when it finds at least a quarter of a mile
+  covered in at least 30 seconds along one named street. Short trips and
+  routes that turn constantly will not produce one. Drive the same stretch
+  of road a second time and you will get a leaderboard with two entries on
+  it.</p>
+
+  <h3>The leaderboard only has me on it</h3>
+  <p>That is how it works. Apex ranks you against your own previous runs of
+  a segment. There is no leaderboard shared with other people.</p>
+
+  <h3>Photographing the pump does nothing</h3>
+  <p>That feature needs your own OpenAI API key, which you create at
+  <a href="https://platform.openai.com/api-keys">platform.openai.com/api-keys</a>
+  and paste into Settings → OpenAI. Tap “Test key” there to check it. A
+  key with no billing set up on the OpenAI account will return an error.
+  Each photo costs about a tenth of a cent, billed by OpenAI to you.</p>
+  <p>You do not need it. Every fillup can be typed in by hand and
+  everything else in the fuel section works the same either way.</p>
+
+  <h3>My MPG looks wrong</h3>
+  <p>Real MPG is calculated from the difference between odometer readings
+  on consecutive fillups, so it needs an odometer reading on each one and
+  it needs you to fill the tank each time. Miss a fillup and the next
+  figure will be too high.</p>
+
+  <h3>Does it work on iPad, Apple Watch or CarPlay?</h3>
+  <p>No. iPhone only, portrait only.</p>
+
+  <h3>Battery</h3>
+  <p>Recording a drive keeps the GPS at navigation accuracy, which uses
+  real power — expect roughly what a turn-by-turn navigation app uses.
+  Keep the phone on a charger for long drives. Apex does not use the GPS
+  at all when a drive is not recording.</p>
+
+  <h2>Privacy</h2>
+  <p>See the <a href="apex-privacy.html">privacy policy</a>. In short:
+  your drives stay on your iPhone, there is no account, there is no
+  analytics, and the only optional thing that leaves the device is a fuel
+  receipt photo if you have set up your own OpenAI key.</p>
+
+  <h2>Reporting a bug</h2>
+  <p>Email the address above with: what you expected, what happened, your
+  iPhone model, your iOS version, and the Version and Build numbers from
+  Apex's Settings → About. If it involves a specific drive, say roughly
+  when you recorded it.</p>
+
+  <footer>
+    Apex Drive Log · <a href="apex-privacy.html">Privacy policy</a>
+  </footer>
+
+</main>
+</body>
+</html>
