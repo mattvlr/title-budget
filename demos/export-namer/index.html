@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Export Namer &mdash; real output from the naming core</title>
+<meta name="description" content="Every filename on this page was produced by running the script's own naming core, not typed by hand. Five templates over the same eight layers, including one deliberately wrong template.">
+<link rel="canonical" href="https://mattvlr.github.io/title-budget/demos/export-namer/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mattvlr.github.io/title-budget/demos/export-namer/">
+<meta property="og:title" content="Export Namer &mdash; real output from the naming core">
+<meta property="og:description" content="Every filename on this page was produced by running the script's own naming core, not typed by hand. Five templates over the same eight layers, including one deliberately wrong template.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#F5F7F9; --surface:#FFFFFF; --surface-2:#EFF3F6;
+    --ink:#16202E; --muted:#5C6B7F; --faint:#8595A8; --border:#DCE3EA;
+    --accent:#A85D00; --accent-soft:#F5E4CC; --good:#1F7A4D;
+    --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#0E141C; --surface:#161F2A; --surface-2:#1D2835;
+      --ink:#E7EDF4; --muted:#9AAABC; --faint:#74869A; --border:#2A3745;
+      --accent:#E8A13A; --accent-soft:#3A2C16; --good:#5CC48B;
+    }
+  }
+  :root[data-theme="dark"] {
+      --bg:#0E141C; --surface:#161F2A; --surface-2:#1D2835;
+      --ink:#E7EDF4; --muted:#9AAABC; --faint:#74869A; --border:#2A3745;
+      --accent:#E8A13A; --accent-soft:#3A2C16; --good:#5CC48B;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans);
+         font-size:15px; line-height:1.55; }
+  .wrap { max-width:900px; margin:0 auto; padding-block:32px 64px; padding-left:16px;
+          padding-right:16px; }
+  h1 { font-size:28px; font-weight:600; margin:0 0 6px; letter-spacing:-.012em;
+       text-wrap:balance; }
+  h2 { font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:.08em;
+       color:var(--faint); margin:36px 0 12px; }
+  h3 { font-family:var(--mono); font-size:15px; font-weight:600; margin:30px 0 4px; }
+  .lede { color:var(--muted); margin:0 0 4px; }
+  .eyebrow { font-family:var(--mono); font-size:12px; color:var(--accent);
+             text-transform:uppercase; letter-spacing:.06em; margin:0 0 6px; }
+  .panel { background:var(--surface); border:1px solid var(--border); border-radius:10px;
+           padding:16px 18px; }
+  .note { background:var(--accent-soft); border:1px solid var(--border); border-radius:10px;
+          padding:14px 16px; color:var(--ink); font-size:14px; }
+  .note-sm { color:var(--muted); font-size:14px; margin:0 0 10px; }
+  .tok { font-family:var(--mono); font-size:12.5px; color:var(--faint); margin:0 0 6px; }
+  code { font-family:var(--mono); font-size:.92em; background:var(--surface-2);
+         padding:1px 5px; border-radius:4px; }
+  h3 code { background:none; padding:0; }
+  .tblwrap { overflow-x:auto; }
+  table.nm { border-collapse:collapse; width:100%; background:var(--surface);
+             border:1px solid var(--border); border-radius:10px; font-family:var(--mono);
+             font-size:13.5px; }
+  table.nm th { text-align:left; font-family:var(--sans); font-size:12px; font-weight:600;
+                text-transform:uppercase; letter-spacing:.06em; color:var(--faint);
+                padding:10px 14px; border-bottom:1px solid var(--border); white-space:nowrap; }
+  table.nm td { padding:8px 14px; border-bottom:1px solid var(--border); white-space:nowrap; }
+  table.nm tr:last-child td { border-bottom:none; }
+  td.was { color:var(--muted); }
+  td.now { color:var(--good); }
+  .btn { display:inline-block; padding:9px 15px; border-radius:8px;
+         border:1px solid var(--border); background:var(--surface); color:var(--ink);
+         text-decoration:none; font-size:14px; font-weight:500; }
+  .btn.primary { background:var(--accent); border-color:var(--accent); color:#fff; }
+  .btn:focus-visible, nav a:focus-visible, footer a:focus-visible {
+         outline:2px solid var(--accent); outline-offset:2px; }
+  .row { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  .grow { flex:1 1 260px; }
+  ul.plain { margin:0; padding-left:18px; }
+  ul.plain li { margin:5px 0; }
+  nav a, footer a { color:var(--accent); text-decoration:none; }
+  footer { margin-top:44px; padding-top:18px; border-top:1px solid var(--border);
+           color:var(--faint); font-size:14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="eyebrow">Real output &middot; not a mock-up</p>
+<h1>Export Namer &mdash; what it actually produces</h1>
+<p class="lede">One ExtendScript file for Photoshop and Illustrator that names exports from
+the document, instead of leaving you with <code>Artboard 1 copy 2.png</code>.</p>
+<nav style="margin-top:10px"><a href="../">&larr; All demos</a></nav>
+
+<section style="margin-top:22px">
+  <div class="note">
+    <b>Every filename below was generated by running the product's own naming core</b>
+    under Windows Script Host at <code>//E:jscript</code> &mdash; the same ES3 language
+    level ExtendScript uses. The same eight layer names go into all five templates.
+    Nothing here was typed by hand or edited afterwards.
+  </div>
+</section>
+
+<h2>Five templates, the same eight layers</h2>
+<section>
+  <h3><code>{doc:kebab}-{name:kebab}-{n:2}</code></h3>
+  <p class="tok">tokens used: doc name n</p>
+  <p class="note-sm">The everyday one. Note <code>icon/small</code> &rarr; <code>icon-small</code>: a path separator would make a filename your OS refuses, so it is treated as a word break.</p>
+  <div class="tblwrap"><table class="nm"><thead><tr><th>What the app gives you</th><th>What you get</th></tr></thead><tbody>
+  <tr><td class="was">Artboard 1</td><td class="now">brand-kit-artboard-1-01.png</td></tr>
+  <tr><td class="was">Artboard 1 copy</td><td class="now">brand-kit-artboard-1-copy-02.png</td></tr>
+  <tr><td class="was">Artboard 1 copy 2</td><td class="now">brand-kit-artboard-1-copy-2-03.png</td></tr>
+  <tr><td class="was">Untitled-3</td><td class="now">brand-kit-untitled-3-04.png</td></tr>
+  <tr><td class="was">Logo</td><td class="now">brand-kit-logo-05.png</td></tr>
+  <tr><td class="was">Logo</td><td class="now">brand-kit-logo-06.png</td></tr>
+  <tr><td class="was">Hero Banner@2x</td><td class="now">brand-kit-hero-banner@2x-07.png</td></tr>
+  <tr><td class="was">icon/small</td><td class="now">brand-kit-icon-small-08.png</td></tr>
+  </tbody></table></div>
+</section>
+<section>
+  <h3><code>{name:snake}_{w}x{h}</code></h3>
+  <p class="tok">tokens used: name w h</p>
+  <p class="note-sm">Dimensions come from the document, so the two <code>Logo</code> layers no longer collide &mdash; they differ at 512 and 256.</p>
+  <div class="tblwrap"><table class="nm"><thead><tr><th>What the app gives you</th><th>What you get</th></tr></thead><tbody>
+  <tr><td class="was">Artboard 1</td><td class="now">artboard_1_1200x630.png</td></tr>
+  <tr><td class="was">Artboard 1 copy</td><td class="now">artboard_1_copy_1200x630.png</td></tr>
+  <tr><td class="was">Artboard 1 copy 2</td><td class="now">artboard_1_copy_2_1200x630.png</td></tr>
+  <tr><td class="was">Untitled-3</td><td class="now">untitled_3_512x512.png</td></tr>
+  <tr><td class="was">Logo</td><td class="now">logo_512x512.png</td></tr>
+  <tr><td class="was">Logo</td><td class="now">logo_256x256.png</td></tr>
+  <tr><td class="was">Hero Banner@2x</td><td class="now">hero_banner@2x_2400x1260.png</td></tr>
+  <tr><td class="was">icon/small</td><td class="now">icon_small_64x64.png</td></tr>
+  </tbody></table></div>
+</section>
+<section>
+  <h3><code>{doc:camel}{name:pascal}</code></h3>
+  <p class="tok">tokens used: doc name</p>
+  <p class="note-sm"><b>Deliberately wrong, and shown on purpose.</b> There is no <code>camel</code> or <code>pascal</code> modifier. An unrecognised one returns the value unchanged, so this looks like it worked and did not &mdash; the spaces are still there. The four real modifiers are <code>kebab</code>, <code>snake</code>, <code>lower</code> and <code>upper</code>, plus numeric zero-padding.</p>
+  <div class="tblwrap"><table class="nm"><thead><tr><th>What the app gives you</th><th>What you get</th></tr></thead><tbody>
+  <tr><td class="was">Artboard 1</td><td class="now">brand kitArtboard 1.webp</td></tr>
+  <tr><td class="was">Artboard 1 copy</td><td class="now">brand kitArtboard 1 copy.webp</td></tr>
+  <tr><td class="was">Artboard 1 copy 2</td><td class="now">brand kitArtboard 1 copy 2.webp</td></tr>
+  <tr><td class="was">Untitled-3</td><td class="now">brand kitUntitled-3.webp</td></tr>
+  <tr><td class="was">Logo</td><td class="now">brand kitLogo.webp</td></tr>
+  <tr><td class="was">Logo</td><td class="now">brand kitLogo-2.webp</td></tr>
+  <tr><td class="was">Hero Banner@2x</td><td class="now">brand kitHero Banner@2x.webp</td></tr>
+  <tr><td class="was">icon/small</td><td class="now">brand kiticon_small.webp</td></tr>
+  </tbody></table></div>
+</section>
+<section>
+  <h3><code>{date}_{n:3}_{name:kebab}</code></h3>
+  <p class="tok">tokens used: date n name</p>
+  <p class="note-sm">Zero-padding via <code>{n:3}</code>, so 10 sorts after 9 instead of after 1.</p>
+  <div class="tblwrap"><table class="nm"><thead><tr><th>What the app gives you</th><th>What you get</th></tr></thead><tbody>
+  <tr><td class="was">Artboard 1</td><td class="now">2026-09-30_001_artboard-1.jpg</td></tr>
+  <tr><td class="was">Artboard 1 copy</td><td class="now">2026-09-30_002_artboard-1-copy.jpg</td></tr>
+  <tr><td class="was">Artboard 1 copy 2</td><td class="now">2026-09-30_003_artboard-1-copy-2.jpg</td></tr>
+  <tr><td class="was">Untitled-3</td><td class="now">2026-09-30_004_untitled-3.jpg</td></tr>
+  <tr><td class="was">Logo</td><td class="now">2026-09-30_005_logo.jpg</td></tr>
+  <tr><td class="was">Logo</td><td class="now">2026-09-30_006_logo.jpg</td></tr>
+  <tr><td class="was">Hero Banner@2x</td><td class="now">2026-09-30_007_hero-banner@2x.jpg</td></tr>
+  <tr><td class="was">icon/small</td><td class="now">2026-09-30_008_icon-small.jpg</td></tr>
+  </tbody></table></div>
+</section>
+<section>
+  <h3><code>{name:kebab}_{nope}</code></h3>
+  <p class="tok">tokens used: name nope</p>
+  <p class="note-sm">A mistyped token is left in the output verbatim rather than silently vanishing, so you see the typo in the preview instead of in a folder of 200 files.</p>
+  <div class="tblwrap"><table class="nm"><thead><tr><th>What the app gives you</th><th>What you get</th></tr></thead><tbody>
+  <tr><td class="was">Artboard 1</td><td class="now">artboard-1_{nope}.png</td></tr>
+  <tr><td class="was">Artboard 1 copy</td><td class="now">artboard-1-copy_{nope}.png</td></tr>
+  <tr><td class="was">Artboard 1 copy 2</td><td class="now">artboard-1-copy-2_{nope}.png</td></tr>
+  <tr><td class="was">Untitled-3</td><td class="now">untitled-3_{nope}.png</td></tr>
+  <tr><td class="was">Logo</td><td class="now">logo_{nope}.png</td></tr>
+  <tr><td class="was">Logo</td><td class="now">logo_{nope}-2.png</td></tr>
+  <tr><td class="was">Hero Banner@2x</td><td class="now">hero-banner@2x_{nope}.png</td></tr>
+  <tr><td class="was">icon/small</td><td class="now">icon-small_{nope}.png</td></tr>
+  </tbody></table></div>
+</section>
+
+<h2>What is verified, and what is not</h2>
+<section>
+  <div class="panel">
+    <ul class="plain">
+      <li><b>46 assertions pass on the naming logic</b> &mdash; every token, every modifier,
+      the padding, the collision handling and the illegal-character rules. They run at the
+      same ES3 level ExtendScript uses, so a construct that would fail inside Adobe fails in
+      the harness too.</li>
+      <li><b>16 static checks pass on the adapter</b> &mdash; it parses at ES3, uses no ES5
+      built-in that ExtendScript lacks, and calls only functions the core exports.</li>
+      <li><b>The adapter has never been run inside Photoshop or Illustrator.</b> There is no
+      Adobe installation on the machine this was built on. The tables above exercise the
+      naming core, which is the half that can be tested outside Adobe; the adapter is the
+      half that cannot, and it is unproven. The harness says so itself when you run it.</li>
+      <li><b>That is why it ships in dry-run mode.</b> The first run lists the filenames it
+      would write and exports nothing, so finding out costs you nothing.</li>
+    </ul>
+  </div>
+</section>
+
+<h2>Get it</h2>
+<section>
+  <div class="panel">
+    <div class="row">
+      <div class="grow">
+        <h3 style="font-family:var(--sans);font-size:18px;margin:0 0 4px">Export Namer
+        &mdash; Photoshop &amp; Illustrator</h3>
+        <p style="margin:0;color:var(--muted);font-size:14px">One <code>.jsx</code> file.
+        No install, no panel, no Creative Cloud add-on. Sold as-is, no support.</p>
+      </div>
+      <a class="btn primary" href="https://bookmonger.gumroad.com/tools">See the store &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="../">All demos</a> &middot;
+  <a href="https://bookmonger.gumroad.com">All products</a> &middot;
+  <a href="https://github.com/mattvlr/title-budget">Source of the free tools</a>
+</footer>
+</div>
+</body>
+</html>
