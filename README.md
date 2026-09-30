@@ -129,6 +129,9 @@ python tests/verify_webapp.py --url https://mattvlr.github.io/title-budget/
 - CLI: Python 3.8+. Standard library only, except `openpyxl` if you want `.xlsx` input
   (`pip install openpyxl`).
 
+Both free tools are also packaged as a [download on Gumroad](https://bookmonger.gumroad.com/l/free-reseller-toolkit)
+(pay what you want, including nothing) if you would rather have the files than a bookmark.
+
 ## Also free: a marketplace fee comparison
 
 **[What you actually keep](https://mattvlr.github.io/title-budget/fees.html)** compares what a
