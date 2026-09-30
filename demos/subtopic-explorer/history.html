@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>History · Subtopic Explorer</title>
+    <link rel="stylesheet" href="static/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="static/css/style.css">
+    
+  </head>
+  <body>
+<div id="demoSnapshotBanner" style="background:#7c2d12;color:#ffedd5;font:500 13px/1.55 system-ui,-apple-system,'Segoe UI',sans-serif;padding:11px 16px;text-align:center;border-bottom:1px solid #9a3412">
+  <strong>Static snapshot &mdash; not a live app.</strong> Saved copies of pages Subtopic Explorer produced
+  on a local machine. The Explore button does nothing here: the real app is Flask and calls a
+  language-model API with <strong>your own key</strong>, which is what the call-budget panel is counting.
+  <a href="https://bookmonger.gumroad.com/l/wikibuilder-encyclopedia" style="color:#fed7aa;text-decoration:underline">What is for sale is the Python source &rarr;</a>
+  &middot; <a href="../" style="color:#fed7aa;text-decoration:underline">All demos</a>
+</div>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">Subtopic Explorer</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link " href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="history.html">History</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link " href="settings.html">Settings</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <main class="py-4">
+      <div class="container">
+        
+          
+        
+        
+<div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
+  <div>
+    <h1 class="h3 mb-1">Generation history</h1>
+    <p class="text-muted mb-0">Browse, search, and curate every topic map you have created.</p>
+  </div>
+  <div class="d-flex gap-2">
+    <a class="btn btn-outline-primary" href="index.html">New generation</a>
+    
+    <a class="btn btn-outline-secondary" href="#" data-needs-server="/history/export">Export all</a>
+    <form method="post" action="/history/clear" onsubmit="return confirm('Clear all saved history? This cannot be undone.');">
+      <button type="submit" class="btn btn-outline-danger">Clear history</button>
+    </form>
+    
+  </div>
+</div>
+
+<form class="row gy-2 gx-3 align-items-center mb-4" method="get" action="/history">
+  <div class="col-sm-6 col-lg-4">
+    <label class="visually-hidden" for="history-search">Search topics</label>
+    <div class="input-group">
+      <span class="input-group-text">🔍</span>
+      <input type="search" class="form-control" id="history-search" name="q" placeholder="Search topics or subtopics" value="">
+    </div>
+  </div>
+  <div class="col-auto">
+    <button type="submit" class="btn btn-primary">Search</button>
+  </div>
+  
+  <div class="col-lg ms-lg-auto text-muted small">
+    Showing 1 of 1 saved runs.
+  </div>
+</form>
+
+
+
+
+<div class="table-responsive">
+  <table class="table align-middle">
+    <thead>
+      <tr>
+        <th scope="col" class="text-center">★</th>
+        <th scope="col">Topics</th>
+        <th scope="col">Depth</th>
+        <th scope="col">Nodes</th>
+        <th scope="col">Model</th>
+        <th scope="col">Mode</th>
+        <th scope="col">Created</th>
+        <th scope="col" class="text-end"></th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      <tr class="">
+        <td class="text-center">
+          <form method="post" action="/history/bc3983452fca49bb93ae231d3b38a3e9/favorite">
+            <input type="hidden" name="value" value="1">
+            <input type="hidden" name="next" value="/history?">
+            <button type="submit" class="btn btn-link p-0 align-baseline favorite-toggle" aria-label="Toggle favorite">
+              ☆
+            </button>
+          </form>
+        </td>
+        <td>Lighthouses, Movable type printing</td>
+        <td>3</td>
+        <td>80</td>
+        <td>gpt-3.5-turbo</td>
+        <td>
+          
+            <span class="badge bg-secondary">Demo</span>
+          
+        </td>
+        <td>Sep 30, 2026 03:14 AM</td>
+        <td class="text-end">
+          <div class="btn-group btn-group-sm" role="group">
+            <a class="btn btn-outline-secondary" href="#" data-needs-server="/history/bc3983452fca49bb93ae231d3b38a3e9/json">JSON</a>
+            <a class="btn btn-outline-primary" href="history_bc3983452fca49bb93ae231d3b38a3e9.html">Open</a>
+          </div>
+        </td>
+      </tr>
+      
+    </tbody>
+  </table>
+</div>
+
+
+      </div>
+    </main>
+    <footer class="footer bg-light py-3 border-top">
+      <div class="container text-center small">
+        Crafted with Flask · Demo mode available when no API key is configured.
+      </div>
+    </footer>
+    <script src="static/vendor/bootstrap.bundle.min.js"></script>
+    <script>
+      document.addEventListener('click', function (event) {
+        if (!event.target.matches('.tree-toggle')) return;
+        const target = event.target.closest('li');
+        target.classList.toggle('collapsed');
+      });
+    </script>
+    
+  
+<div id="demoToast" role="status" style="display:none;position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:99999;background:#111827;border:1px solid #f97316;color:#fed7aa;border-radius:8px;padding:10px 16px;font:500 13px system-ui,sans-serif;box-shadow:0 10px 25px rgba(0,0,0,.5)"></div>
+<script>
+(function(){
+  var toast=null,timer=null;
+  function notice(msg){
+    toast = toast || document.getElementById('demoToast');
+    if(!toast) return;
+    toast.textContent = msg;
+    toast.style.display='block';
+    clearTimeout(timer);
+    timer=setTimeout(function(){toast.style.display='none';},4500);
+  }
+  window.__demoNotice = notice;
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a[data-needs-server]');
+    if(a){ e.preventDefault();
+      notice('Static snapshot \u2014 "' + a.getAttribute('data-needs-server') + '" needs the running app. This page is a saved copy.'); }
+  }, true);
+  document.addEventListener('submit', function(e){
+    e.preventDefault();
+    notice('Static snapshot \u2014 nothing can be generated here. In the real app this posts to the server and calls the model API.');
+  }, true);
+  if(window.fetch){
+    var real = window.fetch.bind(window);
+    window.fetch = function(input, init){
+      var url = (typeof input==='string')? input : (input && input.url) || '';
+      if(/^(static\/|\.\/|[a-z0-9_-]+\.(json|html))/i.test(url)) return real(input, init);
+      notice('Static snapshot \u2014 this calls the running server, which is not here.');
+      return Promise.resolve(new Response('{"error":"static snapshot: no server"}',
+        {status:200, headers:{'Content-Type':'application/json'}}));
+    };
+  }
+})();
+</script>
+
+<script>
+/* Snapshot only: the form starts with a topic already typed and depth 6 selected,
+   so the page lands showing the app's own call-budget projection instead of an
+   empty state. Every field is still editable and the projection is the app's own
+   JavaScript recalculating live. */
+(function(){
+  if(!document.getElementById('cost-estimate')) return;
+  function set(id, v){
+    var e = document.getElementById(id); if(!e) return;
+    if(e.type === 'checkbox'){ if(e.checked !== v) e.click(); return; }
+    e.value = v;
+    e.dispatchEvent(new Event('input', {bubbles:true}));
+    e.dispatchEvent(new Event('change', {bubbles:true}));
+  }
+  window.addEventListener('DOMContentLoaded', function(){
+    set('topics', 'Lighthouses');
+    set('depth', '6');
+    set('max_children', '5');
+    set('call_budget', '150');
+    set('demo_mode', false);
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <link rel="icon" href="assets/logo.png" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings - Greenhouse</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .card { background-color: rgb(30 41 59); border-radius: 0.75rem; padding:1.25rem; box-shadow:0 4px 6px -1px rgba(0,0,0,.4); border:1px solid rgb(51 65 85); }
+    .value { font-size:2.25rem; line-height:2.5rem; font-weight:600; color: #f1f5f9; }
+    .label { color:#94a3b8; text-transform:uppercase; letter-spacing:.05em; font-size:.75rem; }
+    .tab-active { background-color: rgb(30 41 59); color:#f1f5f9; }
+    .logo-pepper { width:32px; height:32px; }
+  </style>
+  
+</head>
+<body class="h-full bg-slate-900 text-slate-100 flex flex-col min-h-screen">
+<div id="demoSnapshotBanner" style="background:#7c2d12;border-bottom:1px solid #9a3412;color:#ffedd5;font:500 13px/1.55 Inter,system-ui,sans-serif;padding:10px 16px;text-align:center">
+  <strong>Static snapshot &mdash; not a live app.</strong> These are saved files, not the running program.
+  Every reading is <strong>simulated demo data</strong>, frozen at the moment of capture, and the charts are
+  drawn from saved API responses. Buttons, forms and the 5-second live refresh do nothing here.
+  <a href="https://bookmonger.gumroad.com/l/greenhouse-dashboard" style="color:#fed7aa;text-decoration:underline">What is for sale is the Flask source you run yourself &rarr;</a>
+  &middot; <a href="../" style="color:#fed7aa;text-decoration:underline">All demos</a>
+</div>
+<div id="demoToast" role="status" style="display:none;position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:9999;background:#111827;border:1px solid #f97316;color:#fed7aa;border-radius:8px;padding:10px 16px;font:500 13px Inter,system-ui,sans-serif;box-shadow:0 10px 25px rgba(0,0,0,.5)"></div>
+
+  <!-- Title Bar -->
+  <header class="w-full border-b border-slate-800 bg-slate-950/70 backdrop-blur supports-[backdrop-filter]:bg-slate-950/50">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-6">
+        <a href="index.html" class="flex items-center gap-2 group">
+          <!-- Logo holder: place your own static/logo.svg file (app/static/logo.svg) -->
+          <img src="assets/logo.png" alt="Logo" class="h-8 w-8 select-none" onerror="this.style.display='none'" />
+          <span class="text-xl font-semibold tracking-tight bg-gradient-to-r from-emerald-400 to-cyan-400 text-transparent bg-clip-text group-hover:from-emerald-300 group-hover:to-cyan-300 transition">Demo Greenhouse</span>
+        </a>
+        <nav class="hidden md:flex items-center gap-4 text-sm">
+          <a href="index.html" class="px-3 py-1 rounded hover:bg-slate-800/70 text-slate-400 hover:text-slate-200">Dashboard</a>
+          <a href="settings.html" class="px-3 py-1 rounded hover:bg-slate-800/70 bg-slate-800 text-slate-100">Settings</a>
+          <a href="camera.html" class="px-3 py-1 rounded hover:bg-slate-800/70 text-slate-400 hover:text-slate-200">Camera</a>
+          <a href="docs.html" class="px-3 py-1 rounded hover:bg-slate-800/70 text-slate-400 hover:text-slate-200">Documentation</a>
+        </nav>
+        <!-- Mobile hamburger -->
+        <button id="mobileMenuBtn" class="md:hidden inline-flex items-center justify-center rounded-lg p-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500" aria-label="Open menu" aria-expanded="false">
+          <svg id="mobileMenuIconOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg id="mobileMenuIconClose" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="flex items-center gap-4">
+        
+      </div>
+    </div>
+    <!-- Mobile dropdown panel -->
+    <div id="mobileMenu" class="md:hidden hidden border-t border-slate-800 bg-slate-950/95 backdrop-blur px-6 py-4 space-y-2">
+      <a href="index.html" class="block px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:bg-slate-800/70">Dashboard</a>
+      <a href="settings.html" class="block px-3 py-2 rounded-md text-sm font-medium bg-slate-800 text-slate-100">Settings</a>
+      <a href="camera.html" class="block px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:bg-slate-800/70">Camera</a>
+      <a href="docs.html" class="block px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:bg-slate-800/70">Documentation</a>
+      <!-- Optional: replicate header actions on mobile -->
+      <div class="pt-3 mt-3 border-t border-slate-800">
+        
+      </div>
+    </div>
+  </header>
+
+  <div class="flex-1 w-full">
+    <main class="max-w-7xl mx-auto px-6 py-8">
+      
+<h1 class="text-2xl font-semibold mb-8">Settings</h1>
+
+<section class="mb-10">
+  <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-3">Database Statistics</h2>
+  
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+    <div class="bg-slate-800/50 rounded p-3">
+      <div class="text-xs uppercase text-slate-400">Total Rows</div>
+      <div class="font-mono text-lg">9443</div>
+    </div>
+    <div class="bg-slate-800/50 rounded p-3">
+      <div class="text-xs uppercase text-slate-400">Rows / Day (avg)</div>
+      <div class="font-mono text-lg">674.4</div>
+    </div>
+    <div class="bg-slate-800/50 rounded p-3">
+      <div class="text-xs uppercase text-slate-400">Date Span (days)</div>
+      <div class="font-mono text-lg">14.00</div>
+    </div>
+    <div class="bg-slate-800/50 rounded p-3">
+      <div class="text-xs uppercase text-slate-400">DB File Size</div>
+      <div class="font-mono text-lg">500.0 KB</div>
+    </div>
+    <div class="bg-slate-800/50 rounded p-3">
+      <div class="text-xs uppercase text-slate-400">Last 24h</div>
+      <div class="font-mono text-lg">700</div>
+    </div>
+    <div class="bg-slate-800/50 rounded p-3">
+      <div class="text-xs uppercase text-slate-400">Last 7d</div>
+      <div class="font-mono text-lg">4732</div>
+    </div>
+    <div class="bg-slate-800/50 rounded p-3">
+      <div class="text-xs uppercase text-slate-400">Last 30d</div>
+      <div class="font-mono text-lg">9443</div>
+    </div>
+    <div class="bg-slate-800/50 rounded p-3">
+      <div class="text-xs uppercase text-slate-400">Distinct Sensors</div>
+      <div class="font-mono text-lg">6</div>
+    </div>
+    <div class="bg-slate-800/50 rounded p-3">
+      <div class="text-xs uppercase text-slate-400">Distinct Plants</div>
+      <div class="font-mono text-lg">2</div>
+    </div>
+    <div class="bg-slate-800/50 rounded p-3">
+      <div class="text-xs uppercase text-slate-400">Rows w/ Plant ID</div>
+      <div class="font-mono text-lg">2698</div>
+    </div>
+    <div class="bg-slate-800/50 rounded p-3">
+      <div class="text-xs uppercase text-slate-400">Rows w/o Plant ID</div>
+      <div class="font-mono text-lg">6745</div>
+    </div>
+  </div>
+  <p class="mt-3 text-xs text-slate-500">Oldest: 2026-09-16 03:02:00 | Newest: 2026-09-30 03:05:50</p>
+  
+</section>
+
+<section class="mb-10" >
+  <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-3">Per-Sensor Aggregates</h2>
+  <div class="overflow-x-auto">
+    <table class="min-w-full text-sm">
+      <thead>
+        <tr class="text-slate-400 text-xs uppercase tracking-wider">
+          <th class="text-left py-2 pr-4">Sensor</th>
+          <th class="text-left py-2 pr-4">Count</th>
+          <th class="text-left py-2 pr-4">Min</th>
+          <th class="text-left py-2 pr-4">Max</th>
+          <th class="text-left py-2 pr-4">Avg</th>
+          <th class="text-left py-2 pr-4">First</th>
+          <th class="text-left py-2 pr-4">Last</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+          
+          <tr class="border-t border-slate-800">
+            <td class="py-2 pr-4 font-mono">bh1750_lux</td>
+            <td class="py-2 pr-4">1349</td>
+            <td class="py-2 pr-4">0.00</td>
+            <td class="py-2 pr-4">19970.50</td>
+            <td class="py-2 pr-4">12120.78</td>
+            <td class="py-2 pr-4 font-mono">2026-09-16 03:02:00</td>
+            <td class="py-2 pr-4 font-mono">2026-09-30 03:05:50</td>
+          </tr>
+          
+          <tr class="border-t border-slate-800">
+            <td class="py-2 pr-4 font-mono">bme280_altitude_m</td>
+            <td class="py-2 pr-4">1349</td>
+            <td class="py-2 pr-4">61.70</td>
+            <td class="py-2 pr-4">90.70</td>
+            <td class="py-2 pr-4">75.66</td>
+            <td class="py-2 pr-4 font-mono">2026-09-16 03:02:00</td>
+            <td class="py-2 pr-4 font-mono">2026-09-30 03:05:50</td>
+          </tr>
+          
+          <tr class="border-t border-slate-800">
+            <td class="py-2 pr-4 font-mono">bme280_humidity_pct</td>
+            <td class="py-2 pr-4">1349</td>
+            <td class="py-2 pr-4">48.22</td>
+            <td class="py-2 pr-4">67.15</td>
+            <td class="py-2 pr-4">58.02</td>
+            <td class="py-2 pr-4 font-mono">2026-09-16 03:02:00</td>
+            <td class="py-2 pr-4 font-mono">2026-09-30 03:05:50</td>
+          </tr>
+          
+          <tr class="border-t border-slate-800">
+            <td class="py-2 pr-4 font-mono">bme280_pressure_hpa</td>
+            <td class="py-2 pr-4">1349</td>
+            <td class="py-2 pr-4">1002.40</td>
+            <td class="py-2 pr-4">1005.86</td>
+            <td class="py-2 pr-4">1004.20</td>
+            <td class="py-2 pr-4 font-mono">2026-09-16 03:02:00</td>
+            <td class="py-2 pr-4 font-mono">2026-09-30 03:05:50</td>
+          </tr>
+          
+          <tr class="border-t border-slate-800">
+            <td class="py-2 pr-4 font-mono">bme280_temp_f</td>
+            <td class="py-2 pr-4">1349</td>
+            <td class="py-2 pr-4">72.12</td>
+            <td class="py-2 pr-4">81.25</td>
+            <td class="py-2 pr-4">75.87</td>
+            <td class="py-2 pr-4 font-mono">2026-09-16 03:02:00</td>
+            <td class="py-2 pr-4 font-mono">2026-09-30 03:05:50</td>
+          </tr>
+          
+          <tr class="border-t border-slate-800">
+            <td class="py-2 pr-4 font-mono">moisture</td>
+            <td class="py-2 pr-4">2698</td>
+            <td class="py-2 pr-4">32.20</td>
+            <td class="py-2 pr-4">69.90</td>
+            <td class="py-2 pr-4">47.78</td>
+            <td class="py-2 pr-4 font-mono">2026-09-16 03:02:00</td>
+            <td class="py-2 pr-4 font-mono">2026-09-30 03:05:50</td>
+          </tr>
+          
+        
+      </tbody>
+    </table>
+  </div>
+  <p class="mt-2 text-xs text-slate-500">Timestamps are UTC. Stats computed live.</p>
+</section>
+
+<!-- Outlier Inspector -->
+<section class="mb-10">
+  <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-3">Outlier Inspector</h2>
+  <p class="text-xs text-slate-500 mb-3">Shows single-point anomalies per sensor using robust MAD-based scoring with Z-score fallback. Adjust sensitivity and window, then delete selected rows.</p>
+  <form method="get" data-disabled-action="/settings" class="flex flex-wrap gap-4 items-end mb-4">
+    <div>
+      <label class="block text-xs mb-1 text-slate-400">Window (days)</label>
+      <input type="number" min="1" name="outlier_days" value="30" class="bg-slate-800 border border-slate-700 rounded px-2 py-1 w-28">
+    </div>
+    <div>
+      <label class="block text-xs mb-1 text-slate-400">MAD threshold</label>
+      <input type="number" step="0.1" min="1" name="outlier_mad_thresh" value="6.0" class="bg-slate-800 border border-slate-700 rounded px-2 py-1 w-28">
+    </div>
+    <div>
+      <label class="block text-xs mb-1 text-slate-400">Z threshold</label>
+      <input type="number" step="0.1" min="1" name="outlier_z_thresh" value="4.0" class="bg-slate-800 border border-slate-700 rounded px-2 py-1 w-28">
+    </div>
+    <button class="px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded text-sm font-medium">Apply</button>
+  </form>
+
+  
+    <p class="text-slate-500 text-sm">No outliers found with current settings.</p>
+  
+
+  <p class="mt-3 text-xs text-slate-500">Tip: Start with a high MAD threshold (6–7). Lower only if needed. This tool looks at single points, not trends.</p>
+</section>
+
+<!-- System configuration (moved up for logical flow before DB management) -->
+<div class="card mb-10">
+    <h3 class="text-lg font-medium mb-4">System</h3>
+    <form method="POST" class="space-y-4 mb-4">
+        <input type="hidden" name="action" value="update_light_on_hour">
+        <div>
+            <label for="light_on_time" class="block text-sm font-medium text-slate-300">Light On Time (HH:MM, Central)</label>
+            <input type="time" name="light_on_time" id="light_on_time" value="18:00" class="mt-1 w-40 bg-slate-800 border border-slate-700 rounded px-2 py-1 text-slate-200">
+            <button type="submit" class="px-4 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-sm font-medium ml-2">Save</button>
+        </div>
+    </form>
+    <!-- Added: Light Off Time setting -->
+    <form method="POST" class="space-y-4 mb-6">
+        <input type="hidden" name="action" value="update_light_off_hour">
+        <div>
+            <label for="light_off_time" class="block text-sm font-medium text-slate-300">Light Off Time (HH:MM, Central)</label>
+            <input type="time" name="light_off_time" id="light_off_time" value="12:00" class="mt-1 w-40 bg-slate-800 border border-slate-700 rounded px-2 py-1 text-slate-200">
+            <button type="submit" class="px-4 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-sm font-medium ml-2">Save</button>
+        </div>
+    </form>
+    <form method="POST" class="space-y-4">
+        <input type="hidden" name="action" value="update_interval">
+        <div>
+            <label for="interval" class="block text-sm font-medium text-slate-300">Capture Interval (seconds) for Timelapse</label>
+            <input type="number" name="interval" id="interval" min="60" value="900" class="mt-1 w-32 bg-slate-800 border border-slate-700 rounded px-2 py-1 text-slate-200">
+            <button type="submit" class="px-4 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-sm font-medium ml-2">Update</button>
+        </div>
+    </form>
+</div>
+
+<section class="mb-10">
+  <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-3">Database Management</h2>
+  <div class="flex gap-4 items-start flex-wrap">
+    <form method="post" data-disabled-action="/settings" onsubmit="return confirm('This will create the database schema. If tables exist, they will be dropped first. Continue?')" class="flex gap-3 items-end">
+      <input type="hidden" name="action" value="db_create" />
+      <button class="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded text-sm font-medium">Create/Reset Tables</button>
+    </form>
+    <form method="post" class="flex gap-3 items-end" data-disabled-action="/settings">
+      <input type="hidden" name="action" value="db_prune" />
+      <div>
+        <label class="block text-xs mb-1 text-slate-400">Prune data older than (days)</label>
+        <input type="number" min="1" name="days" value="30" class="bg-slate-800 border border-slate-700 rounded px-2 py-1 w-32" />
+      </div>
+      <button class="px-4 py-2 bg-red-600 hover:bg-red-500 rounded text-sm font-medium">Prune Data</button>
+    </form>
+  </div>
+  <div class="mt-6">
+    <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">Latest 5 Readings</h3>
+    <table class="min-w-full text-sm">
+      <thead>
+        <tr class="text-slate-400 text-xs uppercase tracking-wider">
+          <th class="text-left py-2 pr-4">Timestamp (UTC)</th>
+          <th class="text-left py-2 pr-4">Sensor</th>
+          <th class="text-left py-2 pr-4">Plant ID</th>
+          <th class="text-left py-2 pr-4">Reading</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+          
+          <tr class="border-t border-slate-800">
+            <td class="py-2 pr-4 font-mono">2026-09-30 03:05:50</td>
+            <td class="py-2 pr-4">bme280_temp_f</td>
+            <td class="py-2 pr-4">N/A</td>
+            <td class="py-2 pr-4">75.46</td>
+          </tr>
+          
+          <tr class="border-t border-slate-800">
+            <td class="py-2 pr-4 font-mono">2026-09-30 03:05:50</td>
+            <td class="py-2 pr-4">bme280_humidity_pct</td>
+            <td class="py-2 pr-4">N/A</td>
+            <td class="py-2 pr-4">59.87</td>
+          </tr>
+          
+          <tr class="border-t border-slate-800">
+            <td class="py-2 pr-4 font-mono">2026-09-30 03:05:50</td>
+            <td class="py-2 pr-4">bme280_pressure_hpa</td>
+            <td class="py-2 pr-4">N/A</td>
+            <td class="py-2 pr-4">1002.4</td>
+          </tr>
+          
+          <tr class="border-t border-slate-800">
+            <td class="py-2 pr-4 font-mono">2026-09-30 03:05:50</td>
+            <td class="py-2 pr-4">bme280_altitude_m</td>
+            <td class="py-2 pr-4">N/A</td>
+            <td class="py-2 pr-4">90.7</td>
+          </tr>
+          
+          <tr class="border-t border-slate-800">
+            <td class="py-2 pr-4 font-mono">2026-09-30 03:05:50</td>
+            <td class="py-2 pr-4">bh1750_lux</td>
+            <td class="py-2 pr-4">N/A</td>
+            <td class="py-2 pr-4">16191.7</td>
+          </tr>
+          
+        
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="mb-10">
+  <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-3">Manual Timelapse Build</h2>
+  <form method="post" data-disabled-action="/timelapse" onsubmit="return confirm('Build new timelapse from all frames? This can take a while.')">
+    <button class="px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded text-sm font-medium" formdata-disabled-action="/timelapse" formmethod="post">Build Timelapse Now</button>
+  </form>
+</section>
+
+<section class="mb-10">
+  <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-3">Existing Timelapses</h2>
+  <div class="overflow-x-auto">
+    <table class="min-w-full text-sm">
+      <thead>
+        <tr class="text-slate-400 text-xs uppercase tracking-wider">
+          <th class="text-left py-2 pr-4">Filename</th>
+          <th class="text-left py-2 pr-4">Size</th>
+          <th class="text-left py-2 pr-4">Modified (UTC)</th>
+          <th class="py-2 pr-4">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+          <tr><td colspan="4" class="py-4 text-slate-500 text-center">No timelapses yet.</td></tr>
+        
+      </tbody>
+    </table>
+  </div>
+  <p class="mt-2 text-xs text-slate-500">MP4 + WebM pairs are shown; deleting one removes both formats.</p>
+</section>
+
+<section class="mb-10">
+  <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-3">Prune Old Captures</h2>
+  <form method="post" class="flex gap-3 items-end" data-disabled-action="/settings">
+    <input type="hidden" name="action" value="prune_captures" />
+    <div>
+      <label class="block text-xs mb-1 text-slate-400">Keep Last (days)</label>
+      <input type="number" min="1" name="days" value="14" class="bg-slate-800 border border-slate-700 rounded px-2 py-1 w-32" />
+    </div>
+    <button class="px-4 py-2 bg-red-600 hover:bg-red-500 rounded text-sm font-medium">Prune</button>
+  </form>
+  <p class="mt-2 text-xs text-slate-500">Deletes entire dated folders older than threshold.</p>
+</section>
+
+
+
+    </main>
+  </div>
+  <footer class="w-full border-t border-slate-800 bg-slate-950/70 backdrop-blur py-4 mt-auto">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2 text-sm text-slate-400">
+        <img src="assets/logo.png" alt="Logo" class="h-6 w-6" onerror="this.style.display='none'" />
+        
+        <span>&copy; <span id="yearSpan"></span></span>
+      </div>
+      <div class="text-xs text-slate-500">Static demo snapshot - simulated data</div>
+    </div>
+  </footer>
+  <script>
+    document.getElementById('yearSpan').textContent = new Date().getFullYear();
+    (function(){
+      const btn = document.getElementById('mobileMenuBtn');
+      const panel = document.getElementById('mobileMenu');
+      if(!btn || !panel) return;
+      const iconOpen = document.getElementById('mobileMenuIconOpen');
+      const iconClose = document.getElementById('mobileMenuIconClose');
+      function closeMenu(){
+        panel.classList.add('hidden');
+        iconOpen.classList.remove('hidden');
+        iconClose.classList.add('hidden');
+        btn.setAttribute('aria-expanded','false');
+      }
+      function openMenu(){
+        panel.classList.remove('hidden');
+        iconOpen.classList.add('hidden');
+        iconClose.classList.remove('hidden');
+        btn.setAttribute('aria-expanded','true');
+      }
+      btn.addEventListener('click', ()=>{
+        const isOpen = btn.getAttribute('aria-expanded') === 'true';
+        isOpen ? closeMenu() : openMenu();
+      });
+      document.addEventListener('click', (e)=>{
+        if(!panel.contains(e.target) && !btn.contains(e.target)) closeMenu();
+      });
+      window.addEventListener('resize', ()=>{
+        if(window.innerWidth >= 768) closeMenu();
+      });
+      document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeMenu(); });
+    })();
+  </script>
+  
+
+<script>
+/* Static-snapshot shim. Anything that needed the Flask server is answered here
+   with an explicit on-screen notice rather than a silent failure. */
+(function(){
+  var toast = null, timer = null;
+  function notice(msg){
+    toast = toast || document.getElementById('demoToast');
+    if(!toast) return;
+    toast.textContent = msg;
+    toast.style.display = 'block';
+    clearTimeout(timer);
+    timer = setTimeout(function(){ toast.style.display='none'; }, 4200);
+  }
+  window.__demoNotice = notice;
+  var realFetch = window.fetch.bind(window);
+  var LIVE = /^(api\/|assets\/)/;
+  window.fetch = function(input, init){
+    var url = (typeof input === 'string') ? input : (input && input.url) || '';
+    var method = ((init && init.method) || 'GET').toUpperCase();
+    if(method === 'GET' && LIVE.test(url)) return realFetch(input, init);
+    notice('Static snapshot \u2014 this action needs the Flask server, which is not running here.');
+    return Promise.resolve(new Response('{"error":"static snapshot: no server"}',
+      {status:200, headers:{'Content-Type':'application/json'}}));
+  };
+  document.addEventListener('submit', function(e){
+    e.preventDefault();
+    notice('Static snapshot \u2014 settings are read-only here. In the real app this posts to Flask and is saved.');
+  }, true);
+})();
+</script>
+</body>
+</html>

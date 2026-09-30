@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <link rel="icon" href="assets/logo.png" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Documentation - Soil Moisture</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .card { background-color: rgb(30 41 59); border-radius: 0.75rem; padding:1.25rem; box-shadow:0 4px 6px -1px rgba(0,0,0,.4); border:1px solid rgb(51 65 85); }
+    .value { font-size:2.25rem; line-height:2.5rem; font-weight:600; color: #f1f5f9; }
+    .label { color:#94a3b8; text-transform:uppercase; letter-spacing:.05em; font-size:.75rem; }
+    .tab-active { background-color: rgb(30 41 59); color:#f1f5f9; }
+    .logo-pepper { width:32px; height:32px; }
+  </style>
+  
+</head>
+<body class="h-full bg-slate-900 text-slate-100 flex flex-col min-h-screen">
+<div id="demoSnapshotBanner" style="background:#7c2d12;border-bottom:1px solid #9a3412;color:#ffedd5;font:500 13px/1.55 Inter,system-ui,sans-serif;padding:10px 16px;text-align:center">
+  <strong>Static snapshot &mdash; not a live app.</strong> These are saved files, not the running program.
+  Every reading is <strong>simulated demo data</strong>, frozen at the moment of capture, and the charts are
+  drawn from saved API responses. Buttons, forms and the 5-second live refresh do nothing here.
+  <a href="https://bookmonger.gumroad.com/l/greenhouse-dashboard" style="color:#fed7aa;text-decoration:underline">What is for sale is the Flask source you run yourself &rarr;</a>
+  &middot; <a href="../" style="color:#fed7aa;text-decoration:underline">All demos</a>
+</div>
+<div id="demoToast" role="status" style="display:none;position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:9999;background:#111827;border:1px solid #f97316;color:#fed7aa;border-radius:8px;padding:10px 16px;font:500 13px Inter,system-ui,sans-serif;box-shadow:0 10px 25px rgba(0,0,0,.5)"></div>
+
+  <!-- Title Bar -->
+  <header class="w-full border-b border-slate-800 bg-slate-950/70 backdrop-blur supports-[backdrop-filter]:bg-slate-950/50">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-6">
+        <a href="index.html" class="flex items-center gap-2 group">
+          <!-- Logo holder: place your own static/logo.svg file (app/static/logo.svg) -->
+          <img src="assets/logo.png" alt="Logo" class="h-8 w-8 select-none" onerror="this.style.display='none'" />
+          <span class="text-xl font-semibold tracking-tight bg-gradient-to-r from-emerald-400 to-cyan-400 text-transparent bg-clip-text group-hover:from-emerald-300 group-hover:to-cyan-300 transition">Demo Greenhouse</span>
+        </a>
+        <nav class="hidden md:flex items-center gap-4 text-sm">
+          <a href="index.html" class="px-3 py-1 rounded hover:bg-slate-800/70 text-slate-400 hover:text-slate-200">Dashboard</a>
+          <a href="settings.html" class="px-3 py-1 rounded hover:bg-slate-800/70 text-slate-400 hover:text-slate-200">Settings</a>
+          <a href="camera.html" class="px-3 py-1 rounded hover:bg-slate-800/70 text-slate-400 hover:text-slate-200">Camera</a>
+          <a href="docs.html" class="px-3 py-1 rounded hover:bg-slate-800/70 bg-slate-800 text-slate-100">Documentation</a>
+        </nav>
+        <!-- Mobile hamburger -->
+        <button id="mobileMenuBtn" class="md:hidden inline-flex items-center justify-center rounded-lg p-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500" aria-label="Open menu" aria-expanded="false">
+          <svg id="mobileMenuIconOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg id="mobileMenuIconClose" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="flex items-center gap-4">
+        
+      </div>
+    </div>
+    <!-- Mobile dropdown panel -->
+    <div id="mobileMenu" class="md:hidden hidden border-t border-slate-800 bg-slate-950/95 backdrop-blur px-6 py-4 space-y-2">
+      <a href="index.html" class="block px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:bg-slate-800/70">Dashboard</a>
+      <a href="settings.html" class="block px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:bg-slate-800/70">Settings</a>
+      <a href="camera.html" class="block px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:bg-slate-800/70">Camera</a>
+      <a href="docs.html" class="block px-3 py-2 rounded-md text-sm font-medium bg-slate-800 text-slate-100">Documentation</a>
+      <!-- Optional: replicate header actions on mobile -->
+      <div class="pt-3 mt-3 border-t border-slate-800">
+        
+      </div>
+    </div>
+  </header>
+
+  <div class="flex-1 w-full">
+    <main class="max-w-7xl mx-auto px-6 py-8">
+      
+<h1 class="text-2xl font-semibold mb-4">Soil Moisture Sensor</h1>
+<p class="text-slate-300 mb-4">Generic resistive / capacitive probe (sensor_type: <code class="bg-slate-800 px-1 rounded">moisture</code> with plant_id differentiation).</p>
+<ul class="list-disc pl-6 text-slate-400 space-y-1">
+  <li>Raw scale is device-defined (higher = wetter or drier depending on calibration)</li>
+  <li>Calibrate: Record value in dry medium then saturated - map to 0-100%</li>
+  <li>Avoid corrosion: prefer capacitive probes</li>
+</ul>
+<p class="mt-6"><a class="text-emerald-400 hover:underline" href="docs.html">Back to index</a></p>
+
+    </main>
+  </div>
+  <footer class="w-full border-t border-slate-800 bg-slate-950/70 backdrop-blur py-4 mt-auto">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2 text-sm text-slate-400">
+        <img src="assets/logo.png" alt="Logo" class="h-6 w-6" onerror="this.style.display='none'" />
+        
+        <span>&copy; <span id="yearSpan"></span></span>
+      </div>
+      <div class="text-xs text-slate-500">Static demo snapshot - simulated data</div>
+    </div>
+  </footer>
+  <script>
+    document.getElementById('yearSpan').textContent = new Date().getFullYear();
+    (function(){
+      const btn = document.getElementById('mobileMenuBtn');
+      const panel = document.getElementById('mobileMenu');
+      if(!btn || !panel) return;
+      const iconOpen = document.getElementById('mobileMenuIconOpen');
+      const iconClose = document.getElementById('mobileMenuIconClose');
+      function closeMenu(){
+        panel.classList.add('hidden');
+        iconOpen.classList.remove('hidden');
+        iconClose.classList.add('hidden');
+        btn.setAttribute('aria-expanded','false');
+      }
+      function openMenu(){
+        panel.classList.remove('hidden');
+        iconOpen.classList.add('hidden');
+        iconClose.classList.remove('hidden');
+        btn.setAttribute('aria-expanded','true');
+      }
+      btn.addEventListener('click', ()=>{
+        const isOpen = btn.getAttribute('aria-expanded') === 'true';
+        isOpen ? closeMenu() : openMenu();
+      });
+      document.addEventListener('click', (e)=>{
+        if(!panel.contains(e.target) && !btn.contains(e.target)) closeMenu();
+      });
+      window.addEventListener('resize', ()=>{
+        if(window.innerWidth >= 768) closeMenu();
+      });
+      document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeMenu(); });
+    })();
+  </script>
+  
+
+<script>
+/* Static-snapshot shim. Anything that needed the Flask server is answered here
+   with an explicit on-screen notice rather than a silent failure. */
+(function(){
+  var toast = null, timer = null;
+  function notice(msg){
+    toast = toast || document.getElementById('demoToast');
+    if(!toast) return;
+    toast.textContent = msg;
+    toast.style.display = 'block';
+    clearTimeout(timer);
+    timer = setTimeout(function(){ toast.style.display='none'; }, 4200);
+  }
+  window.__demoNotice = notice;
+  var realFetch = window.fetch.bind(window);
+  var LIVE = /^(api\/|assets\/)/;
+  window.fetch = function(input, init){
+    var url = (typeof input === 'string') ? input : (input && input.url) || '';
+    var method = ((init && init.method) || 'GET').toUpperCase();
+    if(method === 'GET' && LIVE.test(url)) return realFetch(input, init);
+    notice('Static snapshot \u2014 this action needs the Flask server, which is not running here.');
+    return Promise.resolve(new Response('{"error":"static snapshot: no server"}',
+      {status:200, headers:{'Content-Type':'application/json'}}));
+  };
+  document.addEventListener('submit', function(e){
+    e.preventDefault();
+    notice('Static snapshot \u2014 settings are read-only here. In the real app this posts to Flask and is saved.');
+  }, true);
+})();
+</script>
+</body>
+</html>

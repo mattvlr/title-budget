@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Product demos — Title Budget</title>
+<meta name="description" content="Browsable static snapshots of the Flask apps and full-page screenshots of the browser tools. Every page says plainly which parts are not live.">
+<link rel="canonical" href="https://mattvlr.github.io/title-budget/demos/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mattvlr.github.io/title-budget/demos/">
+<meta property="og:title" content="Product demos — Title Budget">
+<meta property="og:description" content="Browsable static snapshots of the Flask apps and full-page screenshots of the browser tools. Every page says plainly which parts are not live.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#F5F7F9; --surface:#FFFFFF; --surface-2:#EFF3F6;
+    --ink:#16202E; --muted:#5C6B7F; --faint:#8595A8; --border:#DCE3EA;
+    --accent:#A85D00; --accent-soft:#F5E4CC;
+    --good:#1F6B4A; --good-soft:#E2F0E9; --bad:#B02A1F;
+    --warn:#7C2D12; --warn-soft:#FCEBDD;
+    --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#0E141C; --surface:#161F2A; --surface-2:#1D2835;
+      --ink:#E7EDF4; --muted:#9AAABC; --faint:#74869A; --border:#2A3745;
+      --accent:#E8A13A; --accent-soft:#3A2C16;
+      --good:#5CC08D; --good-soft:#143026; --bad:#F08074;
+      --warn:#F5B78A; --warn-soft:#3A2011;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#0E141C; --surface:#161F2A; --surface-2:#1D2835;
+    --ink:#E7EDF4; --muted:#9AAABC; --faint:#74869A; --border:#2A3745;
+    --accent:#E8A13A; --accent-soft:#3A2C16;
+    --good:#5CC08D; --good-soft:#143026; --bad:#F08074;
+    --warn:#F5B78A; --warn-soft:#3A2011;
+  }
+  *,*::before,*::after { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink);
+         font-family:var(--sans); font-size:15px; line-height:1.55; }
+  .wrap { max-width:900px; margin:0 auto; padding:0 16px 64px; }
+  header { background:var(--surface); border-bottom:1px solid var(--border); }
+  .head { max-width:900px; margin:0 auto; padding:22px 16px 20px; }
+  .eyebrow { font-family:var(--mono); font-size:11px; letter-spacing:.1em;
+             text-transform:uppercase; color:var(--accent); margin:0 0 6px; }
+  h1 { font-size:28px; font-weight:600; margin:0 0 8px; letter-spacing:-.012em; text-wrap:balance; }
+  .lede { margin:0; color:var(--muted); max-width:66ch; }
+  .lede strong { color:var(--ink); font-weight:500; }
+  nav { margin-top:12px; font-size:13.5px; }
+  nav a { color:var(--accent); text-decoration:none; }
+  nav a:hover { text-decoration:underline; }
+  section { margin-top:30px; }
+  h2 { font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:.08em;
+       color:var(--faint); margin:0 0 11px; font-family:var(--mono); }
+  h3 { font-size:18px; font-weight:600; margin:0 0 6px; }
+  .panel { background:var(--surface); border:1px solid var(--border);
+           border-radius:6px; padding:16px; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:14px; }
+  .card { background:var(--surface); border:1px solid var(--border); border-radius:6px;
+          padding:16px; display:flex; flex-direction:column; gap:8px; }
+  .card p { margin:0; color:var(--muted); font-size:14px; }
+  .tag { display:inline-block; font-family:var(--mono); font-size:10.5px; letter-spacing:.07em;
+         text-transform:uppercase; padding:3px 7px; border-radius:4px;
+         background:var(--surface-2); color:var(--faint); border:1px solid var(--border); }
+  .tag.live { background:var(--good-soft); color:var(--good); border-color:transparent; }
+  .tag.shots { background:var(--accent-soft); color:var(--accent); border-color:transparent; }
+  .row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+  .grow { flex:1; }
+  a.btn { display:inline-block; font-size:14px; font-weight:500; text-decoration:none;
+          padding:8px 13px; border-radius:5px; border:1px solid var(--border);
+          background:var(--surface-2); color:var(--ink); }
+  a.btn:hover { border-color:var(--accent); color:var(--accent); }
+  a.btn.primary { background:var(--accent); color:#fff; border-color:var(--accent); }
+  a.btn.primary:hover { filter:brightness(1.08); color:#fff; }
+  .note { border-left:3px solid var(--accent); background:var(--warn-soft);
+          color:var(--ink); padding:12px 14px; border-radius:0 6px 6px 0; font-size:14px; }
+  .note strong { font-weight:600; }
+  ul.plain { margin:8px 0 0; padding-left:20px; color:var(--muted); font-size:14px; }
+  ul.plain li { margin:4px 0; }
+  figure { margin:0 0 26px; }
+  figure img { width:100%; height:auto; display:block; border:1px solid var(--border);
+               border-radius:6px; background:var(--surface); }
+  figcaption { font-size:13.5px; color:var(--muted); margin-top:8px; }
+  figcaption b { color:var(--ink); font-weight:600; }
+  table { border-collapse:collapse; width:100%; font-size:13.5px; }
+  th,td { text-align:left; padding:8px 12px; border-bottom:1px solid var(--border);
+          vertical-align:top; }
+  th { font-family:var(--mono); font-size:11px; letter-spacing:.06em;
+       text-transform:uppercase; color:var(--faint); font-weight:600; }
+  td.mono { font-family:var(--mono); font-size:12.5px; }
+  .scroll { overflow-x:auto; border:1px solid var(--border); border-radius:6px;
+            background:var(--surface); }
+  footer { margin-top:44px; padding-top:18px; border-top:1px solid var(--border);
+           color:var(--faint); font-size:13px; }
+  footer a { color:var(--accent); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head">
+    <p class="eyebrow">Demos</p>
+    <h1>See it before you buy it</h1>
+    <p class="lede">Eight products, each with something real to look at. Two kinds of demo,
+    and <strong>the difference is stated on every page</strong>: applications you run yourself
+    get a browsable snapshot of the running program, and single-file browser tools get
+    screenshots, because publishing a working copy of one would be giving the product away.</p>
+    <nav><a href="../">Free title auditor</a> &middot;
+      <a href="../fees.html">Free marketplace fee comparison</a> &middot;
+      <a href="https://bookmonger.gumroad.com">Store</a></nav>
+  </div>
+</header>
+<div class="wrap">
+
+<section>
+  <h2>Applications &mdash; browse a snapshot</h2>
+  <div class="note">
+    <strong>These are saved files, not running programs.</strong> GitHub Pages serves static
+    files and cannot run Python, so each of these is a capture of the real app taken while it
+    was running on a local machine, with its API responses saved alongside the pages. Charts,
+    navigation and layout are genuine and interactive. Anything that needed the server is
+    intercepted and tells you so on screen rather than failing quietly. Every page carries a
+    banner saying the same thing.
+  </div>
+  <div class="cards" style="margin-top:14px"><div class="card">
+  <div class="row"><span class="tag live">Static snapshot</span>
+    <span class="tag">$19</span></div>
+  <h3>Greenhouse Dashboard</h3>
+  <p>A Flask grow-tent monitor: live tiles, VPD and dew point, 24-hour to 90-day charts, sun position, a light-cycle schedule and an in-app sensor wiring guide. Ten pages captured from the running app with its demo data.</p>
+  <p style="font-size:13px;color:var(--faint);margin-top:2px"><b style="color:var(--muted)">Not live here:</b> Readings are simulated and frozen. Nothing writes: Capture Now, Build Timelapse and the settings forms are intercepted and say so.</p>
+  <div class="row" style="margin-top:auto;padding-top:8px">
+    <a class="btn" href="greenhouse-dashboard/">Open the demo &rarr;</a>
+    <a class="btn primary" href="https://bookmonger.gumroad.com/l/greenhouse-dashboard">Buy &mdash; $19</a>
+  </div>
+</div>
+<div class="card">
+  <div class="row"><span class="tag live">Static snapshot</span>
+    <span class="tag">$29 (bundle)</span></div>
+  <h3>Wikibuilder</h3>
+  <p>A local encyclopedia generator. Twenty-three pages: three full articles with tables of contents, per-section deep links, automatic cross-linking between articles, a category explorer and the cost panel you see before generating.</p>
+  <p style="font-size:13px;color:var(--faint);margin-top:2px"><b style="color:var(--muted)">Not live here:</b> No generation. The create-topic form, the background queue and the regenerate buttons need Flask and a model API key. The article text was written by a language model and is not fact-checked.</p>
+  <div class="row" style="margin-top:auto;padding-top:8px">
+    <a class="btn" href="wikibuilder/">Open the demo &rarr;</a>
+    <a class="btn primary" href="https://bookmonger.gumroad.com/l/wikibuilder-encyclopedia">Buy &mdash; $29 (bundle)</a>
+  </div>
+</div>
+<div class="card">
+  <div class="row"><span class="tag live">Static snapshot</span>
+    <span class="tag">included in the bundle</span></div>
+  <h3>Subtopic Explorer</h3>
+  <p>The other half of the bundle: turn a topic into a tree of subtopics you can feed to Wikibuilder as article titles. Includes a real depth-3 run and the call-budget projection that warns you before you spend anything.</p>
+  <p style="font-size:13px;color:var(--faint);margin-top:2px"><b style="color:var(--muted)">Not live here:</b> The Explore button does nothing. The topic map shown was made in the app's built-in demo mode, which synthesises subtopic names from a fixed list and makes no API calls, so the names repeat.</p>
+  <div class="row" style="margin-top:auto;padding-top:8px">
+    <a class="btn" href="subtopic-explorer/">Open the demo &rarr;</a>
+    <a class="btn primary" href="https://bookmonger.gumroad.com/l/wikibuilder-encyclopedia">Buy &mdash; included in the bundle</a>
+  </div>
+</div></div>
+</section>
+
+<section>
+  <h2>Browser tools &mdash; screenshots of the real thing</h2>
+  <div class="note">
+    <strong>Why there is no working demo of these.</strong> Each of these products <em>is</em>
+    one self-contained HTML file. A hosted working copy would not be a preview of the product,
+    it would be the product. So these pages show the actual tool running, captured at full page
+    height, with the numbers it actually produced.
+  </div>
+  <div class="cards" style="margin-top:14px"><div class="card">
+  <div class="row"><span class="tag shots">Screenshots</span>
+    <span class="tag">$3</span></div>
+  <h3>Return Cost</h3>
+  <p>What an eBay return actually costs after the fee eBay keeps and the two shipping labels nobody counts. A $42 sale returned in resellable condition still costs $13.95.</p>
+  
+  <div class="row" style="margin-top:auto;padding-top:8px">
+    <a class="btn" href="return-cost/">Open the demo &rarr;</a>
+    <a class="btn primary" href="https://bookmonger.gumroad.com/l/return-cost">Buy &mdash; $3</a>
+  </div>
+</div>
+<div class="card">
+  <div class="row"><span class="tag shots">Screenshots</span>
+    <span class="tag">$3</span></div>
+  <h3>Billable Weight</h3>
+  <p>Dimensional weight for USPS, UPS and FedEx side by side, each with its own threshold rules. USPS moved its divisor from 166 to 139 in July 2026.</p>
+  
+  <div class="row" style="margin-top:auto;padding-top:8px">
+    <a class="btn" href="billable-weight/">Open the demo &rarr;</a>
+    <a class="btn primary" href="https://bookmonger.gumroad.com/l/billable-weight">Buy &mdash; $3</a>
+  </div>
+</div>
+<div class="card">
+  <div class="row"><span class="tag shots">Screenshots</span>
+    <span class="tag">$3</span></div>
+  <h3>Lot Break-Even Calculator</h3>
+  <p>Pallets, box lots and storage units: the highest bid that still clears the profit you asked for, counting the junk you will throw away.</p>
+  
+  <div class="row" style="margin-top:auto;padding-top:8px">
+    <a class="btn" href="lot-breakeven/">Open the demo &rarr;</a>
+    <a class="btn primary" href="https://bookmonger.gumroad.com/l/lot-breakeven">Buy &mdash; $3</a>
+  </div>
+</div>
+<div class="card">
+  <div class="row"><span class="tag shots">Screenshots</span>
+    <span class="tag">$3</span></div>
+  <h3>Bin Label Maker</h3>
+  <p>A consistent SKU scheme plus real scannable Code 128 barcodes laid out for four Avery sheets, with a warning when a SKU is too long to scan.</p>
+  
+  <div class="row" style="margin-top:auto;padding-top:8px">
+    <a class="btn" href="bin-label-maker/">Open the demo &rarr;</a>
+    <a class="btn primary" href="https://bookmonger.gumroad.com/l/bin-label-maker">Buy &mdash; $3</a>
+  </div>
+</div>
+<div class="card">
+  <div class="row"><span class="tag shots">Contents</span>
+    <span class="tag">$2</span></div>
+  <h3>Reseller Profit & Inventory Tracker</h3>
+  <p>An .xlsx workbook: 300 item rows, 25 columns, fees and margins worked out per marketplace and totalled on a dashboard.</p>
+  
+  <div class="row" style="margin-top:auto;padding-top:8px">
+    <a class="btn" href="reseller-profit-tracker/">Open the demo &rarr;</a>
+    <a class="btn primary" href="https://bookmonger.gumroad.com/l/reseller-profit-tracker">Buy &mdash; $2</a>
+  </div>
+</div></div>
+</section>
+
+<section>
+  <h2>Free, and genuinely working</h2>
+  <div class="panel">
+    <p style="margin:0 0 10px;font-size:14px;color:var(--muted)">Two tools on this site are
+    free, open source and fully usable right now &mdash; no snapshot, no screenshots.</p>
+    <div class="row">
+      <a class="btn" href="../">Listing title auditor</a>
+      <a class="btn" href="../fees.html">Marketplace fee comparison</a>
+      <a class="btn" href="https://github.com/mattvlr/title-budget">Source on GitHub (MIT)</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Demos captured 2026-09-30. &middot;
+  <a href="https://bookmonger.gumroad.com">All products</a> &middot;
+  <a href="https://github.com/mattvlr/title-budget">Source of the free tools</a>
+</footer>
+</div>
+
+</body>
+</html>

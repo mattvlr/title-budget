@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Origins and Ancient Beacons · Lighthouses · Wikibuilder</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            color-scheme: light;
+            font-size: 16px;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: #f8f9fa;
+            color: #202122;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(180deg, #fdfdfd 0%, #f5f6f8 40%, #eef1f5 100%);
+            color: #1d1f23;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            color: #1a4a8c;
+            text-decoration: none;
+        }
+
+        a:hover,
+        a:focus {
+            text-decoration: underline;
+        }
+
+        a.internal-link {
+            text-decoration: none;
+            border-bottom: 1px dotted rgba(26, 74, 140, 0.45);
+        }
+
+        a.internal-link:hover,
+        a.internal-link:focus {
+            border-bottom-color: #1a4a8c;
+        }
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(255, 255, 255, 0.92);
+            border-bottom: 1px solid #dfe1e5;
+            backdrop-filter: blur(12px);
+            left: 0;
+            right: 0;
+            margin: 0;
+        }
+
+        .site-header__inner {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            justify-content: space-between;
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 0.75rem 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .site-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: inherit;
+        }
+
+        .site-brand__mark {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #4b74c1, #1a4a8c);
+            color: #fff;
+            display: grid;
+            place-items: center;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        .site-brand__text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+        }
+
+        .site-brand__title {
+            font-weight: 600;
+            font-size: 1.15rem;
+        }
+
+        .site-brand__tagline {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: #6b7280;
+        }
+
+        .site-header__nav-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-left: auto;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .site-nav {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .site-nav a {
+            padding: 0.45rem 0.85rem;
+            border-radius: 999px;
+            font-weight: 500;
+            color: #1d1f23;
+        }
+
+        .site-nav a.active,
+        .site-nav a:hover {
+            background: #e4e8f2;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #f1f3f8;
+            border-radius: 999px;
+            padding: 0.35rem 0.75rem;
+            border: 1px solid #d9dce5;
+        }
+
+        .search-bar input[type="search"] {
+            border: none;
+            background: transparent;
+            font-size: 0.95rem;
+            min-width: 14rem;
+            outline: none;
+            color: inherit;
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+
+        .search-bar button {
+            border: none;
+            background: #1a4a8c;
+            color: #fff;
+            border-radius: 999px;
+            padding: 0.35rem 0.85rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .search-bar button:hover {
+            background: #133b6d;
+        }
+
+        .generation-indicator {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.9rem;
+            padding: 0.85rem 1rem;
+            border-radius: 16px;
+            border: 1px solid rgba(26, 74, 140, 0.18);
+            background: linear-gradient(135deg, rgba(26, 74, 140, 0.08), rgba(26, 74, 140, 0.02));
+            color: #153a73;
+            font-size: 0.82rem;
+            max-width: 360px;
+            box-shadow: 0 16px 35px rgba(26, 74, 140, 0.15);
+        }
+
+        .generation-indicator[hidden] {
+            display: none !important;
+        }
+
+        .generation-indicator__pulse {
+            width: 6px;
+            border-radius: 999px;
+            background: linear-gradient(180deg, rgba(26, 74, 140, 0.65), rgba(26, 74, 140, 0.3));
+            align-self: stretch;
+        }
+
+        .generation-indicator__content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            width: 100%;
+        }
+
+        .generation-indicator__title {
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        .generation-indicator__summary {
+            font-size: 0.7rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: #385994;
+        }
+
+        .generation-indicator__list {
+            display: grid;
+            gap: 0.45rem;
+        }
+
+        .generation-indicator__item {
+            display: flex;
+            gap: 0.55rem;
+            align-items: flex-start;
+            line-height: 1.35;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }
+
+        .generation-indicator__status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 999px;
+            background: #1a4a8c;
+            margin-top: 0.3rem;
+            flex-shrink: 0;
+        }
+
+        .generation-indicator__item-body {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .generation-indicator__item-title {
+            font-weight: 600;
+        }
+
+        .generation-indicator__item-note {
+            font-size: 0.74rem;
+            color: #4b5563;
+        }
+
+        .generation-indicator__item--running .generation-indicator__status-dot {
+            animation: generationPulse 1.2s ease-in-out infinite;
+        }
+
+        .generation-indicator__item--queued .generation-indicator__status-dot {
+            background: #8aa0d8;
+        }
+
+        .generation-indicator__item--completed .generation-indicator__status-dot {
+            background: #2f855a;
+        }
+
+        .generation-indicator__item--failed .generation-indicator__status-dot {
+            background: #c53030;
+            animation: none;
+        }
+
+        .generation-indicator__item--failed .generation-indicator__item-note {
+            color: #7c1f1f;
+        }
+
+        .generation-indicator__item--cancelled .generation-indicator__status-dot {
+            background: #9ca3af;
+        }
+
+        .generation-indicator__item a {
+            color: inherit;
+            font-weight: 600;
+        }
+
+        .generation-indicator--success {
+            background: linear-gradient(135deg, rgba(39, 103, 72, 0.18), rgba(39, 103, 72, 0.05));
+            border-color: rgba(39, 103, 72, 0.32);
+            color: #22543d;
+            box-shadow: 0 16px 32px rgba(39, 103, 72, 0.22);
+        }
+
+        .generation-indicator--success .generation-indicator__pulse {
+            background: linear-gradient(180deg, rgba(47, 133, 90, 0.75), rgba(47, 133, 90, 0.4));
+        }
+
+        .generation-indicator--error {
+            background: linear-gradient(135deg, rgba(197, 48, 48, 0.16), rgba(197, 48, 48, 0.05));
+            border-color: rgba(197, 48, 48, 0.32);
+            color: #7c1f1f;
+            box-shadow: 0 16px 32px rgba(197, 48, 48, 0.22);
+        }
+
+        .generation-indicator--error .generation-indicator__pulse {
+            background: linear-gradient(180deg, rgba(197, 48, 48, 0.7), rgba(197, 48, 48, 0.35));
+        }
+
+        @keyframes generationPulse {
+            0% {
+                transform: scale(0.9);
+                opacity: 0.45;
+            }
+            50% {
+                transform: scale(1.25);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0.9);
+                opacity: 0.45;
+            }
+        }
+
+        .global-explore {
+            border-bottom: 1px solid #dfe1e5;
+            background: #f6f7fb;
+        }
+
+        .global-explore__inner {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 0.65rem 1.5rem;
+            overflow-x: auto;
+        }
+
+        .global-explore__inner::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .global-explore__inner::-webkit-scrollbar-thumb {
+            background: #c4c8d4;
+            border-radius: 999px;
+        }
+
+        .global-explore__label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #4b5563;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            flex: 0 0 auto;
+        }
+
+        .global-explore a {
+            flex: 0 0 auto;
+            padding: 0.35rem 0.75rem;
+            border-radius: 999px;
+            border: 1px solid #d6dae5;
+            background: #fff;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .global-explore__category {
+            background: #1a4a8c;
+            border-color: #1a4a8c;
+            color: #fff;
+        }
+
+        .layout {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem 3.5rem;
+            display: grid;
+            grid-template-columns: minmax(0, 3fr) minmax(220px, 1fr);
+            gap: 2.5rem;
+            flex: 1 0 auto;
+        }
+
+        @media (max-width: 960px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .search-bar input[type="search"] {
+                min-width: 8rem;
+            }
+
+            .site-header__nav-group {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .generation-indicator {
+                order: 2;
+                width: 100%;
+                max-width: none;
+            }
+
+            .guidance-form__grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .site-header__inner {
+                padding: 0.75rem 1rem;
+                gap: 0.75rem;
+            }
+
+            .site-header__nav-group {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.75rem;
+                margin-left: 0;
+            }
+
+            .site-nav {
+                width: 100%;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.5rem;
+            }
+
+            .site-nav a {
+                flex: 1 1 calc(50% - 0.5rem);
+                text-align: center;
+            }
+
+            .search-bar {
+                width: 100%;
+            }
+
+            .search-bar input[type="search"] {
+                min-width: 0;
+            }
+
+            .global-explore__inner {
+                padding: 0.5rem 1rem;
+            }
+
+            .layout {
+                padding: 1.5rem 1rem 2.5rem;
+                gap: 1.5rem;
+            }
+
+            .sidebar {
+                position: static;
+            }
+
+            .guidance-form select {
+                font-size: 0.9rem;
+            }
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 94px;
+            align-self: start;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .sidebar-card {
+            background: #ffffff;
+            border: 1px solid #dfe1e5;
+            border-radius: 16px;
+            padding: 1.25rem;
+            box-shadow: 0 12px 28px rgba(15, 23, 42, 0.05);
+        }
+
+        .sidebar-card h3 {
+            margin: 0 0 0.75rem;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: #6b7280;
+        }
+
+        .sidebar-card ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            gap: 0.5rem;
+        }
+
+        .sidebar-card li {
+            font-size: 0.92rem;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .content-card {
+            background: #ffffff;
+            border-radius: 18px;
+            border: 1px solid #dfe1e5;
+            padding: 2rem;
+            box-shadow: 0 18px 45px rgba(15, 23, 42, 0.05);
+        }
+
+        .content-card h1,
+        .content-card h2,
+        .content-card h3,
+        .content-card h4 {
+            font-family: 'Source Serif 4', 'Times New Roman', serif;
+            color: #16181d;
+        }
+
+        .content-card table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 1.5rem 0;
+            background: #ffffff;
+            border: 1px solid #d7dbe8;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 16px 36px rgba(15, 23, 42, 0.06);
+        }
+
+        .model-indicator {
+            font-size: 0.65rem;
+            line-height: 1;
+            vertical-align: super;
+            color: #1a4a8c;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            margin-left: 0.25rem;
+            position: relative;
+            cursor: help;
+        }
+
+        .model-indicator::before {
+            content: "[";
+            margin-right: 0.12rem;
+        }
+
+        .model-indicator::after {
+            content: attr(data-model-label) "]";
+        }
+
+        .model-indicator:hover,
+        .model-indicator:focus {
+            color: #0f2f5c;
+        }
+
+        .content-card table caption {
+            padding: 0.85rem 1.25rem;
+            font-weight: 600;
+            text-align: left;
+            background: linear-gradient(135deg, rgba(26, 74, 140, 0.08), rgba(26, 74, 140, 0.02));
+        }
+
+        .content-card thead th {
+            background: linear-gradient(180deg, #f4f6fb 0%, #eef1f8 100%);
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: #1f3e7a;
+        }
+
+        .content-card th,
+        .content-card td {
+            padding: 0.85rem 1.1rem;
+            border-bottom: 1px solid #e3e7f0;
+            border-right: 1px solid #e3e7f0;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .content-card th:last-child,
+        .content-card td:last-child {
+            border-right: none;
+        }
+
+        .content-card tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .content-card tbody tr:nth-child(even) {
+            background: rgba(248, 250, 252, 0.65);
+        }
+
+        .content-card tbody tr:hover {
+            background: rgba(229, 235, 246, 0.75);
+        }
+
+        .guidance-card {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .guidance-card p {
+            margin: 0;
+            color: #4b5563;
+            line-height: 1.6;
+        }
+
+        .guidance-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .guidance-form__grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(220px, 0.55fr);
+            gap: 1rem;
+            align-items: stretch;
+        }
+
+        .guidance-field {
+            display: flex;
+            flex-direction: column;
+            gap: 0.55rem;
+        }
+
+        .guidance-field--model {
+            min-width: 0;
+        }
+
+        .guidance-form textarea {
+            min-height: 140px;
+            padding: 1rem 1.1rem;
+            border-radius: 14px;
+            border: 1px solid #cdd4e3;
+            font-size: 1rem;
+            line-height: 1.5;
+            resize: vertical;
+            font-family: inherit;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .guidance-form textarea:focus {
+            outline: none;
+            border-color: #1a4a8c;
+            box-shadow: 0 0 0 3px rgba(26, 74, 140, 0.15);
+        }
+
+        .guidance-form select {
+            border-radius: 14px;
+            border: 1px solid #cdd4e3;
+            padding: 0.7rem 0.9rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            background: #f7f9fd;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+            width: 100%;
+        }
+
+        .guidance-form select:focus {
+            outline: none;
+            border-color: #1a4a8c;
+            box-shadow: 0 0 0 3px rgba(26, 74, 140, 0.12);
+        }
+
+        .guidance-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .guidance-status {
+            font-size: 0.9rem;
+            color: #4b5563;
+        }
+
+        .guidance-status.is-success {
+            color: #166534;
+        }
+
+        .guidance-status.is-error {
+            color: #b91c1c;
+        }
+
+        .guidance-hint {
+            font-size: 0.8rem;
+            color: #6b7280;
+            margin: 0;
+        }
+
+        .flash-messages {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .flash-message {
+            border-radius: 14px;
+            padding: 0.85rem 1rem;
+            border: 1px solid;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .flash-success {
+            background: #f2fbf4;
+            border-color: #7ac997;
+            color: #276748;
+        }
+
+        .flash-error {
+            background: #fff5f5;
+            border-color: #f19999;
+            color: #7c1f1f;
+        }
+
+        .flash-warning {
+            background: #fff9ed;
+            border-color: #f2c97d;
+            color: #7a5417;
+        }
+
+        .flash-info {
+            background: #f4f8ff;
+            border-color: #93b4f5;
+            color: #1f3e7a;
+        }
+
+        .generation-indicator__item-note--model {
+            color: #1a4a8c;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        .toc-card {
+            border-radius: 16px;
+            border: 1px solid #dfe1e5;
+            padding: 1.5rem;
+            background: #f9fbfe;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+        }
+
+        .toc-card h2 {
+            margin-top: 0;
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: #4b5563;
+        }
+
+        .toc-list {
+            margin: 0;
+            padding-left: 1.25rem;
+            display: grid;
+            gap: 0.4rem;
+        }
+
+        .action-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-radius: 999px;
+            padding: 0.65rem 1.2rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: background 0.15s ease, border-color 0.15s ease;
+        }
+
+        .action-primary {
+            background: #1a4a8c;
+            color: #fff;
+            box-shadow: 0 12px 30px rgba(26, 74, 140, 0.25);
+        }
+
+        .action-primary:hover {
+            background: #133b6d;
+        }
+
+        .action-secondary {
+            background: #eef1f7;
+            color: #1d1f23;
+            border-color: #d7dbe8;
+        }
+
+        .action-secondary:hover {
+            border-color: #c2c8d8;
+        }
+
+        footer {
+            border-top: 1px solid #dfe1e5;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+    </style>
+    
+<style>
+    .section-meta {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+    }
+
+    .section-meta h1 {
+        margin: 0;
+        font-size: 2rem;
+    }
+
+    .section-meta .meta-row {
+        font-size: 0.9rem;
+        color: #4b5563;
+    }
+
+    .article-content section {
+        margin-bottom: 2rem;
+    }
+
+    .article-content h2,
+    .article-content h3 {
+        font-family: 'Source Serif 4', 'Times New Roman', serif;
+        color: #111827;
+    }
+
+    .article-content p {
+        line-height: 1.7;
+        color: #374151;
+        margin-bottom: 0.85rem;
+    }
+
+    .article-content a {
+        color: #1a4a8c;
+        text-decoration: underline;
+    }
+
+    .article-content a.internal-link {
+        text-decoration: none;
+        border-bottom: 1px dotted rgba(26, 74, 140, 0.45);
+    }
+
+    .section-nav {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 0.5rem;
+    }
+
+    .section-nav li {
+        border: 1px solid #dfe1e5;
+        border-radius: 12px;
+        padding: 0.6rem 0.85rem;
+        background: #f9fbfe;
+    }
+
+    .section-nav li span.meta {
+        display: block;
+        font-size: 0.8rem;
+        color: #6b7280;
+        margin-top: 0.25rem;
+    }
+</style>
+
+</head>
+<body>
+<div id="demoSnapshotBanner" style="background:#7c2d12;color:#ffedd5;font:500 13px/1.55 system-ui,-apple-system,'Segoe UI',sans-serif;padding:11px 16px;text-align:center;border-bottom:1px solid #9a3412">
+  <strong>Static snapshot &mdash; not a live app.</strong> Saved copies of pages Wikibuilder produced on a
+  local machine. Nothing here can generate: the &ldquo;create topic&rdquo; form, the queue and the cost
+  panel do nothing, because the real app runs Flask and calls a language-model API with
+  <em>your own</em> key. <strong>The articles below were written by a language model and have not been
+  fact-checked</strong> &mdash; they are here to show the format and the cross-linking, not as a reference.
+  <a href="https://bookmonger.gumroad.com/l/wikibuilder-encyclopedia" style="color:#fed7aa;text-decoration:underline">What is for sale is the Python source &rarr;</a>
+  &middot; <a href="../" style="color:#fed7aa;text-decoration:underline">All demos</a>
+</div>
+
+    <header class="site-header">
+        <div class="site-header__inner">
+            <a href="index.html" class="site-brand">
+                <span class="site-brand__mark">W</span>
+                <span class="site-brand__text">
+                    <span class="site-brand__title">Wikibuilder</span>
+                    <span class="site-brand__tagline">AI knowledge studio</span>
+                </span>
+            </a>
+            <div class="site-header__nav-group">
+                <nav class="site-nav">
+                    <a href="index.html" class="">Home</a>
+                    <a href="topics_create.html" class="">Create topic</a>
+                    <a href="categories.html" class="">Categories</a>
+                    <a href="settings.html" class="">Settings</a>
+                    <form class="search-bar" method="get" action="/">
+                        
+                        <input type="search" name="q" placeholder="Search entries" value="" aria-label="Search topics">
+                        <button type="submit">Search</button>
+                    </form>
+                </nav>
+                <div id="generation-indicator" class="generation-indicator" hidden role="status" aria-live="polite" aria-atomic="true">
+                    <span class="generation-indicator__pulse" aria-hidden="true"></span>
+                    <div class="generation-indicator__content">
+                        <span class="generation-indicator__title">Background generation</span>
+                        <div class="generation-indicator__details" data-generation-details></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    
+    <div class="global-explore">
+        <div class="global-explore__inner">
+            <span class="global-explore__label">Explore</span>
+            
+                <a href="topics_lighthouses.html">Lighthouses</a>
+            
+                <a href="topics_movable-type-printing.html">Movable Type Printing</a>
+            
+                <a href="topics_fresnel-lens.html">Fresnel Lens</a>
+            
+            
+                <a class="global-explore__category" href="index_category-science-and-technology.html">#Science and technology</a>
+            
+                <a class="global-explore__category" href="index_category-architecture-and-engineering.html">#Architecture and engineering</a>
+            
+            
+                <a class="global-explore__category" href="categories.html">All categories →</a>
+            
+        </div>
+    </div>
+    
+
+    <div class="layout">
+        <main>
+            
+                
+            
+            
+<section class="content-card">
+    <div class="section-meta">
+        <a href="topics_lighthouses.html">← Back to Lighthouses</a>
+        <h1>Origins and Ancient Beacons</h1>
+        <p class="meta-row">Part of <a href="topics_lighthouses.html">Lighthouses</a> · <a href="index_category-architecture-and-engineering.html">Architecture and engineering</a> (1 topic)</p>
+    </div>
+</section>
+
+<section class="content-card article-content">
+    <section id="section-origins-and-ancient-beacons">
+<h2>Origins and Ancient Beacons</h2><p>The earliest navigational lights were open fires kept burning on headlands, tended by communities whose livelihoods depended on returning boats. Written descriptions of deliberate, permanent beacons begin with the Mediterranean, where dense coastal traffic and treacherous approaches made an unmarked harbour mouth a standing hazard.</p><p>The most celebrated of these was the Pharos of Alexandria, raised on the island of Pharos off the Egyptian coast during the third century BCE under the Ptolemies. Ancient accounts describe a tiered stone tower of extraordinary height topped by a fire and a mirror arrangement said to project the light far out to sea. The structure survived for well over a millennium before a sequence of earthquakes brought it down, and its name passed into several European languages as the ordinary word for a lighthouse.</p><p>Roman engineers built beacon towers across the empire's coastlines, including the tower at Brigantium in what is now A Coruña, Spain. Rebuilt in the sixteenth century, it remains in service and is generally regarded as the oldest lighthouse still operating.</p><p>These early beacons shared a common limitation: an open flame is dim, consumes fuel at a punishing rate, and is at the mercy of weather. The light they produced was less a precise navigational instrument than a rough assurance that land, and a harbour, lay in a particular direction.</p>
+</section>
+</section>
+
+
+<section class="content-card">
+    <h2 style="margin-top:0;">Other sections in Lighthouses</h2>
+    <ul class="section-nav">
+        
+            <li>
+                <a href="topics_lighthouses_sections_origins-and-ancient-beacons.html">Origins and Ancient Beacons</a>
+            </li>
+        
+            <li>
+                <a href="topics_lighthouses_sections_the-age-of-masonry-towers.html">The Age of Masonry Towers</a>
+            </li>
+        
+            <li>
+                <a href="topics_lighthouses_sections_optics-and-the-fresnel-revolution.html">Optics and the Fresnel Revolution</a>
+            </li>
+        
+            <li>
+                <a href="topics_lighthouses_sections_automation-and-decline.html">Automation and Decline</a>
+            </li>
+        
+            <li>
+                <a href="topics_lighthouses_sections_preservation-and-modern-role.html">Preservation and Modern Role</a>
+            </li>
+        
+    </ul>
+</section>
+
+
+
+
+
+<section class="content-card">
+    <h2 style="margin-top:0;">Discover other topics</h2>
+    <ul class="section-nav">
+        
+            <li>
+                <a href="topics_movable-type-printing.html">Movable Type Printing</a>
+                <span class="meta">Science and technology · 5 sections</span>
+            </li>
+        
+            <li>
+                <a href="topics_fresnel-lens.html">Fresnel Lens</a>
+                <span class="meta">Science and technology · 4 sections</span>
+            </li>
+        
+    </ul>
+</section>
+
+
+<section class="content-card" style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+    <a class="action-button action-secondary" href="topics_lighthouses.html">Browse full article</a>
+    <a class="action-button action-primary" href="topics_create.html">Generate another topic</a>
+</section>
+
+<section class="content-card guidance-card">
+    <h2 style="margin-top:0;">Steer the next revision</h2>
+    <p>Flag missing context, people, or timelines so the entire article is regenerated with your direction in mind.</p>
+    <form
+        class="guidance-form"
+        method="post"
+        data-guidance-form
+        data-endpoint="/api/topics/lighthouses/regenerate"
+        data-topic-name="Lighthouses"
+    >
+        <div class="guidance-form__grid">
+            <div class="guidance-field">
+                <label for="section-guidance-notes" style="font-weight:600; color:#1f2937;">Guidance for Lighthouses</label>
+                <textarea
+                    id="section-guidance-notes"
+                    name="extra_context"
+                    placeholder="Describe the information this section or topic should emphasize next time."
+                    required
+                ></textarea>
+            </div>
+            <div class="guidance-field guidance-field--model">
+                <label for="section-guidance-model" style="font-weight:600; color:#1f2937;">Model for this refresh</label>
+                <select id="section-guidance-model" name="model" data-guidance-model>
+                    
+                        <option value="gpt-4o" data-label="GPT-4o" >GPT-4o</option>
+                    
+                        <option value="gpt-4o-mini" data-label="GPT-4o Mini" >GPT-4o Mini</option>
+                    
+                        <option value="gpt-4.1" data-label="GPT-4.1" >GPT-4.1</option>
+                    
+                        <option value="gpt-4.1-mini" data-label="GPT-4.1 Mini" >GPT-4.1 Mini</option>
+                    
+                        <option value="gpt-4-turbo" data-label="GPT-4 Turbo" >GPT-4 Turbo</option>
+                    
+                        <option value="gpt-3.5-turbo" data-label="GPT-3.5 Turbo" selected>GPT-3.5 Turbo</option>
+                    
+                        <option value="o1-mini" data-label="o1-mini" >o1-mini</option>
+                    
+                        <option value="o1-preview" data-label="o1-preview" >o1-preview</option>
+                    
+                </select>
+                <p class="guidance-hint">Use a different model than your default for this regeneration.</p>
+            </div>
+        </div>
+        <div class="guidance-actions">
+            <button type="submit" class="action-button action-primary" data-guidance-submit>
+                Regenerate with these notes
+            </button>
+            <span class="guidance-status" data-guidance-status aria-live="polite">
+                Your notes shape the full article&rsquo;s update.
+            </span>
+        </div>
+    </form>
+</section>
+
+        </main>
+        <aside class="sidebar">
+            <div class="sidebar-card">
+                <h3>Quick links</h3>
+                <ul>
+                    <li><a href="topics_create.html">Start a new article</a></li>
+                    <li><a href="settings.html">OpenAI settings</a></li>
+                    <li><a href="#" data-needs-server="/?sort=name">Alphabetical directory</a></li>
+                    <li><a href="categories.html">Browse by category</a></li>
+                    <li><a href="#" data-needs-server="/?sort=sections">Most detailed entries</a></li>
+                </ul>
+            </div>
+            
+            <div class="sidebar-card">
+                <h3>Latest topics</h3>
+                <ul>
+                    
+                        <li><a href="topics_lighthouses.html">Lighthouses</a></li>
+                    
+                        <li><a href="topics_movable-type-printing.html">Movable Type Printing</a></li>
+                    
+                        <li><a href="topics_fresnel-lens.html">Fresnel Lens</a></li>
+                    
+                </ul>
+            </div>
+            
+        </aside>
+    </div>
+
+    <footer>
+        Crafted with care to help you curate a modern, link-rich knowledge base.
+    </footer>
+    <script>
+        (function () {
+            const indicator = document.getElementById('generation-indicator');
+            const detailsContainer = indicator ? indicator.querySelector('[data-generation-details]') : null;
+            const statusEndpoint = "/api/topics/generate/status";
+            const initialTasks = [];
+            const finalStates = new Set(['completed', 'failed', 'cancelled']);
+            const cleanupDelays = { completed: 15000, failed: 20000, cancelled: 8000 };
+            const statusPriority = { running: 0, queued: 1, completed: 2, failed: 3, cancelled: 4 };
+            const store = new Map();
+            let pollTimer = null;
+
+            if (!indicator || !detailsContainer) {
+                window.wikibuilderGeneration = {
+                    addTask() {},
+                    refresh() {},
+                };
+                return;
+            }
+
+            indicator.setAttribute('aria-hidden', 'true');
+
+            function updateGuidanceStatus(element, message, variant) {
+                if (!element) {
+                    return;
+                }
+                element.textContent = message;
+                element.classList.remove('is-success', 'is-error');
+                if (variant === 'success') {
+                    element.classList.add('is-success');
+                } else if (variant === 'error') {
+                    element.classList.add('is-error');
+                }
+            }
+
+            function clearIndicatorState() {
+                indicator.classList.remove('generation-indicator--success', 'generation-indicator--error');
+            }
+
+            function scheduleCleanup(taskId, delay) {
+                const task = store.get(taskId);
+                if (!task || task.cleanupTimer) {
+                    return;
+                }
+                task.cleanupTimer = window.setTimeout(() => {
+                    const current = store.get(taskId);
+                    if (current && finalStates.has(current.status || '')) {
+                        store.delete(taskId);
+                        updateIndicator();
+                    }
+                }, delay);
+            }
+
+            function describeTopic(task) {
+                if (!task || typeof task.topic !== 'string') {
+                    return 'topic request';
+                }
+                const trimmed = task.topic.trim();
+                return trimmed ? `“${trimmed}”` : 'topic request';
+            }
+
+            function updateIndicator() {
+                if (!indicator || !detailsContainer) {
+                    return;
+                }
+
+                const tasks = Array.from(store.values());
+                if (tasks.length === 0) {
+                    indicator.hidden = true;
+                    indicator.setAttribute('aria-hidden', 'true');
+                    clearIndicatorState();
+                    detailsContainer.replaceChildren();
+                    return;
+                }
+
+                indicator.hidden = false;
+                indicator.setAttribute('aria-hidden', 'false');
+
+                const running = tasks.filter((task) => task.status === 'running');
+                const queued = tasks.filter((task) => (task.status || 'queued') === 'queued');
+                const completed = tasks.filter((task) => task.status === 'completed');
+                const failed = tasks.filter((task) => task.status === 'failed');
+                const cancelled = tasks.filter((task) => task.status === 'cancelled');
+
+                clearIndicatorState();
+                const activeCount = running.length + queued.length;
+                if (!activeCount && failed.length && !completed.length) {
+                    indicator.classList.add('generation-indicator--error');
+                } else if (!activeCount && completed.length && !failed.length) {
+                    indicator.classList.add('generation-indicator--success');
+                }
+
+                detailsContainer.replaceChildren();
+
+                const summaryParts = [];
+                if (running.length) summaryParts.push(`${running.length} running`);
+                if (queued.length) summaryParts.push(`${queued.length} queued`);
+                if (completed.length) summaryParts.push(`${completed.length} ready`);
+                if (failed.length) summaryParts.push(`${failed.length} failed`);
+                if (cancelled.length) summaryParts.push(`${cancelled.length} cancelled`);
+
+                if (summaryParts.length) {
+                    const summary = document.createElement('div');
+                    summary.className = 'generation-indicator__summary';
+                    summary.textContent = summaryParts.join(' · ');
+                    detailsContainer.appendChild(summary);
+                }
+
+                const list = document.createElement('div');
+                list.className = 'generation-indicator__list';
+
+                const ordered = tasks.slice().sort((a, b) => {
+                    const aPriority = statusPriority[a.status || 'queued'] ?? 99;
+                    const bPriority = statusPriority[b.status || 'queued'] ?? 99;
+                    if (aPriority !== bPriority) {
+                        return aPriority - bPriority;
+                    }
+                    const aTime = a.updatedAt || 0;
+                    const bTime = b.updatedAt || 0;
+                    if (aTime !== bTime) {
+                        return bTime - aTime;
+                    }
+                    const aTopic = (a.topic || '').toLowerCase();
+                    const bTopic = (b.topic || '').toLowerCase();
+                    return aTopic.localeCompare(bTopic);
+                });
+
+                ordered.forEach((task) => {
+                    const status = task.status || 'queued';
+                    const item = document.createElement('div');
+                    item.className = `generation-indicator__item generation-indicator__item--${status}`;
+
+                    const dot = document.createElement('span');
+                    dot.className = 'generation-indicator__status-dot';
+                    dot.setAttribute('aria-hidden', 'true');
+                    item.appendChild(dot);
+
+                    const body = document.createElement('div');
+                    body.className = 'generation-indicator__item-body';
+
+                    const title = document.createElement('div');
+                    title.className = 'generation-indicator__item-title';
+                    const topicLabel = describeTopic(task);
+                    const modelLabel =
+                        typeof task.model_label === 'string' ? task.model_label.trim() : '';
+                    const modelId = typeof task.model === 'string' ? task.model.trim() : '';
+                    const effectiveModelLabel = modelLabel || modelId;
+
+                    if (status === 'running') {
+                        title.textContent = `Generating ${topicLabel}`;
+                        const note = document.createElement('div');
+                        note.className = 'generation-indicator__item-note';
+                        note.textContent = 'In progress…';
+                        body.appendChild(title);
+                        body.appendChild(note);
+                    } else if (status === 'queued') {
+                        title.textContent = `Queued ${topicLabel}`;
+                        const note = document.createElement('div');
+                        note.className = 'generation-indicator__item-note';
+                        note.textContent = 'Waiting for an available worker.';
+                        body.appendChild(title);
+                        body.appendChild(note);
+                    } else if (status === 'completed') {
+                        title.appendChild(document.createTextNode('Ready: '));
+                        if (task.url) {
+                            const link = document.createElement('a');
+                            link.href = task.url;
+                            link.textContent = task.topic || 'View topic';
+                            title.appendChild(link);
+                        } else {
+                            title.appendChild(document.createTextNode(task.topic || 'Topic ready'));
+                        }
+                        body.appendChild(title);
+                    } else if (status === 'failed') {
+                        title.textContent = `Failed: ${topicLabel}`;
+                        body.appendChild(title);
+                        const errorText = String(task.error || '').trim();
+                        if (errorText) {
+                            const note = document.createElement('div');
+                            note.className = 'generation-indicator__item-note';
+                            note.textContent = errorText.length > 160 ? `${errorText.slice(0, 157)}…` : errorText;
+                            body.appendChild(note);
+                        }
+                    } else if (status === 'cancelled') {
+                        title.textContent = `Cancelled: ${topicLabel}`;
+                        body.appendChild(title);
+                        const note = document.createElement('div');
+                        note.className = 'generation-indicator__item-note';
+                        note.textContent = 'Removed from the queue.';
+                        body.appendChild(note);
+                    } else {
+                        title.textContent = `${status.charAt(0).toUpperCase()}${status.slice(1)}: ${topicLabel}`;
+                        body.appendChild(title);
+                    }
+
+                    if (effectiveModelLabel) {
+                        const modelNote = document.createElement('div');
+                        modelNote.className =
+                            'generation-indicator__item-note generation-indicator__item-note--model';
+                        modelNote.textContent = `Model · ${effectiveModelLabel}`;
+                        body.appendChild(modelNote);
+                    }
+
+                    item.appendChild(body);
+                    list.appendChild(item);
+                });
+
+                detailsContainer.appendChild(list);
+            }
+
+            function stopPolling() {
+                if (pollTimer) {
+                    window.clearInterval(pollTimer);
+                    pollTimer = null;
+                }
+            }
+
+            function ensurePolling() {
+                if (!pollTimer) {
+                    pollTimer = window.setInterval(pollStatuses, 5000);
+                }
+            }
+
+            function mergeStatus(taskId, updates) {
+                const existing = store.get(taskId) || { id: taskId };
+                const merged = Object.assign({}, existing, updates);
+                if (existing.cleanupTimer) {
+                    merged.cleanupTimer = existing.cleanupTimer;
+                }
+                merged.updatedAt = Date.now();
+                store.set(taskId, merged);
+                if (finalStates.has(merged.status || '')) {
+                    const delay = cleanupDelays[merged.status] ?? 15000;
+                    scheduleCleanup(taskId, delay);
+                }
+            }
+
+            function pollStatuses() {
+                const pendingIds = Array.from(store.values())
+                    .filter((task) => !finalStates.has(task.status || ''))
+                    .map((task) => task.id);
+
+                if (!pendingIds.length) {
+                    stopPolling();
+                    updateIndicator();
+                    return;
+                }
+
+                const query = pendingIds.map((id) => encodeURIComponent(id)).join(',');
+                fetch(`${statusEndpoint}?ids=${query}`, {
+                    headers: { Accept: 'application/json' },
+                    credentials: 'same-origin',
+                })
+                    .then((response) => (response.ok ? response.json() : Promise.reject()))
+                    .then((payload) => {
+                        if (!payload || !payload.tasks) {
+                            return;
+                        }
+                        Object.entries(payload.tasks).forEach(([taskId, status]) => {
+                            if (!taskId) {
+                                return;
+                            }
+                            if (status && typeof status === 'object') {
+                                mergeStatus(taskId, status);
+                            }
+                        });
+                        updateIndicator();
+                    })
+                    .catch(() => {
+                        // Swallow errors to avoid disrupting the UI.
+                    });
+            }
+
+            function addTask(task, { immediate = true } = {}) {
+                if (!task || !task.id) {
+                    return;
+                }
+                const topicName = typeof task.topic === 'string' ? task.topic.trim() : '';
+                const status = typeof task.status === 'string' && task.status ? task.status : 'queued';
+                const modelId = typeof task.model === 'string' ? task.model.trim() : '';
+                const modelLabel =
+                    typeof task.model_label === 'string' ? task.model_label.trim() : '';
+                const extraContext =
+                    typeof task.extra_context === 'string' ? task.extra_context.trim() : '';
+                let updatedAt = Date.now();
+                if (typeof task.updated_at === 'number' && !Number.isNaN(task.updated_at)) {
+                    updatedAt = task.updated_at;
+                } else if (typeof task.updated_at === 'string' && task.updated_at) {
+                    const parsed = Date.parse(task.updated_at);
+                    if (!Number.isNaN(parsed)) {
+                        updatedAt = parsed;
+                    }
+                }
+                const url = typeof task.url === 'string' ? task.url.trim() : '';
+                const error = typeof task.error === 'string' ? task.error.trim() : '';
+                store.set(task.id, {
+                    id: task.id,
+                    topic: topicName,
+                    status,
+                    updatedAt,
+                    model: modelId,
+                    model_label: modelLabel || modelId,
+                    extra_context: extraContext,
+                    url,
+                    error,
+                });
+                if (finalStates.has(status)) {
+                    const delay = cleanupDelays[status] ?? 15000;
+                    scheduleCleanup(task.id, delay);
+                }
+                updateIndicator();
+                if (!finalStates.has(status)) {
+                    ensurePolling();
+                    if (immediate) {
+                        pollStatuses();
+                    }
+                }
+            }
+
+            if (Array.isArray(initialTasks)) {
+                initialTasks.forEach((task) => addTask(task, { immediate: false }));
+                if (initialTasks.length) {
+                    ensurePolling();
+                    pollStatuses();
+                }
+            }
+
+            window.wikibuilderGeneration = {
+                addTask(task) {
+                    addTask(task);
+                },
+                refresh() {
+                    pollStatuses();
+                },
+            };
+
+            function readModelInfo(select) {
+                if (!(select instanceof HTMLSelectElement)) {
+                    return { id: '', label: '' };
+                }
+                const value = select.value.trim();
+                if (!value) {
+                    return { id: '', label: '' };
+                }
+                const option = select.options[select.selectedIndex];
+                const labelSource = option
+                    ? option.dataset.label || option.textContent || value
+                    : value;
+                const label = typeof labelSource === 'string' ? labelSource.trim() : value;
+                return { id: value, label: label || value };
+            }
+
+            const guidanceForms = document.querySelectorAll('[data-guidance-form]');
+            guidanceForms.forEach((form) => {
+                if (!(form instanceof HTMLFormElement)) {
+                    return;
+                }
+
+                const endpoint = form.dataset.endpoint || '';
+                const topicName = form.dataset.topicName || '';
+                const textarea = form.querySelector('textarea[name="extra_context"]');
+                const statusEl = form.querySelector('[data-guidance-status]');
+                const submitButton = form.querySelector('[data-guidance-submit]');
+                const modelSelect = form.querySelector('[data-guidance-model]');
+
+                if (!endpoint || !(textarea instanceof HTMLTextAreaElement) || !(submitButton instanceof HTMLButtonElement)) {
+                    return;
+                }
+
+                form.addEventListener('submit', async (event) => {
+                    event.preventDefault();
+
+                    const notes = textarea.value.trim();
+                    if (!notes) {
+                        updateGuidanceStatus(statusEl, 'Please share a little guidance before submitting.', 'error');
+                        textarea.focus();
+                        return;
+                    }
+
+                    const modelInfo = readModelInfo(modelSelect);
+
+                    submitButton.disabled = true;
+                    submitButton.classList.add('is-loading');
+                    const queueMessage = modelInfo.label
+                        ? `Queuing a fresh take with ${modelInfo.label}…`
+                        : 'Queuing a fresh take…';
+                    updateGuidanceStatus(statusEl, queueMessage, undefined);
+
+                    try {
+                        const requestPayload = { extra_context: notes };
+                        if (modelInfo.id) {
+                            requestPayload.model = modelInfo.id;
+                        }
+                        const response = await fetch(endpoint, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                Accept: 'application/json',
+                                'X-Requested-With': 'XMLHttpRequest',
+                            },
+                            body: JSON.stringify(requestPayload),
+                            credentials: 'same-origin',
+                        });
+
+                        const payload = await response.json().catch(() => ({}));
+                        if (!response.ok) {
+                            const message = payload && payload.error ? payload.error : 'Unable to queue regeneration.';
+                            throw new Error(message);
+                        }
+
+                        textarea.value = '';
+                        const responseModelLabel =
+                            (payload && (payload.model_label || payload.model)) || modelInfo.label;
+                        updateGuidanceStatus(
+                            statusEl,
+                            responseModelLabel
+                                ? `Regeneration queued on ${responseModelLabel}. Check the status panel for progress.`
+                                : 'Regeneration queued! Check the status panel for progress.',
+                            'success'
+                        );
+
+                        if (
+                            window.wikibuilderGeneration &&
+                            typeof window.wikibuilderGeneration.addTask === 'function' &&
+                            payload && payload.task_id
+                        ) {
+                            window.wikibuilderGeneration.addTask({
+                                id: payload.task_id,
+                                topic: topicName || payload.topic || '',
+                                model: payload.model || modelInfo.id,
+                                model_label: payload.model_label || responseModelLabel || modelInfo.label,
+                            });
+                        }
+                    } catch (error) {
+                        const message = error && error.message ? error.message : 'Unable to queue regeneration.';
+                        updateGuidanceStatus(statusEl, message, 'error');
+                    } finally {
+                        submitButton.disabled = false;
+                        submitButton.classList.remove('is-loading');
+                    }
+                });
+            });
+
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden) {
+                    pollStatuses();
+                }
+            });
+        })();
+    </script>
+    
+
+<div id="demoToast" role="status" style="display:none;position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:99999;background:#111827;border:1px solid #f97316;color:#fed7aa;border-radius:8px;padding:10px 16px;font:500 13px system-ui,sans-serif;box-shadow:0 10px 25px rgba(0,0,0,.5)"></div>
+<script>
+(function(){
+  var toast=null,timer=null;
+  function notice(msg){
+    toast = toast || document.getElementById('demoToast');
+    if(!toast) return;
+    toast.textContent = msg;
+    toast.style.display='block';
+    clearTimeout(timer);
+    timer=setTimeout(function(){toast.style.display='none';},4500);
+  }
+  window.__demoNotice = notice;
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a[data-needs-server]');
+    if(a){ e.preventDefault();
+      notice('Static snapshot \u2014 "' + a.getAttribute('data-needs-server') + '" needs the running app. This page is a saved copy.'); }
+  }, true);
+  document.addEventListener('submit', function(e){
+    e.preventDefault();
+    notice('Static snapshot \u2014 nothing can be generated here. In the real app this posts to the server and calls the model API.');
+  }, true);
+  if(window.fetch){
+    var real = window.fetch.bind(window);
+    window.fetch = function(input, init){
+      var url = (typeof input==='string')? input : (input && input.url) || '';
+      if(/^(static\/|\.\/|[a-z0-9_-]+\.(json|html))/i.test(url)) return real(input, init);
+      notice('Static snapshot \u2014 this calls the running server, which is not here.');
+      return Promise.resolve(new Response('{"error":"static snapshot: no server"}',
+        {status:200, headers:{'Content-Type':'application/json'}}));
+    };
+  }
+})();
+</script>
+</body>
+</html>

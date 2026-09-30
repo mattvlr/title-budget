@@ -2,12 +2,57 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://mattvlr.github.io/title-budget/</loc>
-    <lastmod>2026-09-29</lastmod>
+    <lastmod>2026-09-30</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://mattvlr.github.io/title-budget/fees.html</loc>
-    <lastmod>2026-09-29</lastmod>
+    <lastmod>2026-09-30</lastmod>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://mattvlr.github.io/title-budget/demos/</loc>
+    <lastmod>2026-09-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mattvlr.github.io/title-budget/demos/greenhouse-dashboard/</loc>
+    <lastmod>2026-09-30</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mattvlr.github.io/title-budget/demos/wikibuilder/</loc>
+    <lastmod>2026-09-30</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mattvlr.github.io/title-budget/demos/subtopic-explorer/</loc>
+    <lastmod>2026-09-30</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mattvlr.github.io/title-budget/demos/return-cost/</loc>
+    <lastmod>2026-09-30</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mattvlr.github.io/title-budget/demos/billable-weight/</loc>
+    <lastmod>2026-09-30</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mattvlr.github.io/title-budget/demos/lot-breakeven/</loc>
+    <lastmod>2026-09-30</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mattvlr.github.io/title-budget/demos/bin-label-maker/</loc>
+    <lastmod>2026-09-30</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mattvlr.github.io/title-budget/demos/reseller-profit-tracker/</loc>
+    <lastmod>2026-09-30</lastmod>
+    <priority>0.7</priority>
   </url>
 </urlset>

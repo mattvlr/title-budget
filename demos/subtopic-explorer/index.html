@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Subtopic Explorer</title>
+    <link rel="stylesheet" href="static/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="static/css/style.css">
+    
+  </head>
+  <body>
+<div id="demoSnapshotBanner" style="background:#7c2d12;color:#ffedd5;font:500 13px/1.55 system-ui,-apple-system,'Segoe UI',sans-serif;padding:11px 16px;text-align:center;border-bottom:1px solid #9a3412">
+  <strong>Static snapshot &mdash; not a live app.</strong> Saved copies of pages Subtopic Explorer produced
+  on a local machine. The Explore button does nothing here: the real app is Flask and calls a
+  language-model API with <strong>your own key</strong>, which is what the call-budget panel is counting.
+  <a href="https://bookmonger.gumroad.com/l/wikibuilder-encyclopedia" style="color:#fed7aa;text-decoration:underline">What is for sale is the Python source &rarr;</a>
+  &middot; <a href="../" style="color:#fed7aa;text-decoration:underline">All demos</a>
+</div>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">Subtopic Explorer</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link active" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link " href="history.html">History</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link " href="settings.html">Settings</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <main class="py-4">
+      <div class="container">
+        
+          
+        
+        
+<div class="row g-4 align-items-stretch">
+  <div class="col-lg-7">
+    <div class="card shadow-sm h-100">
+      <div class="card-body">
+        <h2 class="card-title h4 mb-3">Generate new subtopic maps</h2>
+        <p class="text-muted">Enter one or more top-level topics separated by commas or line breaks. Choose how deep the generator should explore each topic and whether to run in demo mode.</p>
+        <form method="post" action="/generate" class="needs-validation" novalidate>
+          <div class="mb-3">
+            <label for="topics" class="form-label">Topics</label>
+            <textarea class="form-control" id="topics" name="topics" rows="4" placeholder="e.g. Renewable Energy, Space Exploration, Machine Learning"></textarea>
+            
+            <div class="form-text">Tip: click any starter topic to add it to the list.</div>
+            <div class="form-check mt-2">
+              <input class="form-check-input" type="checkbox" value="1" id="use_default_topics" name="use_default_topics">
+              <label class="form-check-label small" for="use_default_topics">
+                If the box above is empty, use all 17 starter topics
+              </label>
+            </div>
+            <div class="topic-suggestions mt-2">
+              
+                <button type="button" class="btn btn-sm btn-outline-primary me-1 mb-1 topic-chip" data-topic="Agriculture">Agriculture</button>
+              
+                <button type="button" class="btn btn-sm btn-outline-primary me-1 mb-1 topic-chip" data-topic="Anthropology">Anthropology</button>
+              
+                <button type="button" class="btn btn-sm btn-outline-primary me-1 mb-1 topic-chip" data-topic="Architecture">Architecture</button>
+              
+                <button type="button" class="btn btn-sm btn-outline-primary me-1 mb-1 topic-chip" data-topic="Art">Art</button>
+              
+                <button type="button" class="btn btn-sm btn-outline-primary me-1 mb-1 topic-chip" data-topic="Astronomy">Astronomy</button>
+              
+                <button type="button" class="btn btn-sm btn-outline-primary me-1 mb-1 topic-chip" data-topic="Biology">Biology</button>
+              
+                <button type="button" class="btn btn-sm btn-outline-primary me-1 mb-1 topic-chip" data-topic="Business">Business</button>
+              
+                <button type="button" class="btn btn-sm btn-outline-primary me-1 mb-1 topic-chip" data-topic="Computer Science">Computer Science</button>
+              
+                <button type="button" class="btn btn-sm btn-outline-primary me-1 mb-1 topic-chip" data-topic="Education">Education</button>
+              
+                <button type="button" class="btn btn-sm btn-outline-primary me-1 mb-1 topic-chip" data-topic="Engineering">Engineering</button>
+              
+                <button type="button" class="btn btn-sm btn-outline-primary me-1 mb-1 topic-chip" data-topic="Environment">Environment</button>
+              
+                <button type="button" class="btn btn-sm btn-outline-primary me-1 mb-1 topic-chip" data-topic="Health">Health</button>
+              
+                <button type="button" class="btn btn-sm btn-outline-primary me-1 mb-1 topic-chip" data-topic="History">History</button>
+              
+                <button type="button" class="btn btn-sm btn-outline-primary me-1 mb-1 topic-chip" data-topic="Mathematics">Mathematics</button>
+              
+                <button type="button" class="btn btn-sm btn-outline-primary me-1 mb-1 topic-chip" data-topic="Psychology">Psychology</button>
+              
+                <button type="button" class="btn btn-sm btn-outline-primary me-1 mb-1 topic-chip" data-topic="Science">Science</button>
+              
+                <button type="button" class="btn btn-sm btn-outline-primary me-1 mb-1 topic-chip" data-topic="Technology">Technology</button>
+              
+            </div>
+            
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <label for="depth" class="form-label">Depth</label>
+              <input type="number" min="1" max="6" class="form-control" id="depth" name="depth" value="3">
+              <div class="form-text">Levels of recursion (1 = only direct subtopics).</div>
+            </div>
+            <div class="col-md-6">
+              <label for="temperature" class="form-label">Creativity</label>
+              <input type="number" step="0.1" min="0" max="1" class="form-control" id="temperature" name="temperature" value="0.2">
+              <div class="form-text">Higher values provide more varied subtopics.</div>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-6">
+              <label for="max_children" class="form-label">Subtopics per node</label>
+              <input type="number" min="1" max="10" class="form-control" id="max_children" name="max_children" value="5">
+              <div class="form-text">Branching factor.</div>
+            </div>
+            <div class="col-md-6">
+              <label for="call_budget" class="form-label">Model-call budget</label>
+              <input type="number" min="1" max="2000" class="form-control" id="call_budget" name="call_budget" value="150">
+              <div class="form-text">Hard cap on billable calls.</div>
+            </div>
+          </div>
+          <div id="cost-estimate" class="alert alert-secondary mt-3 mb-0 small" role="status"></div>
+          <div class="row mt-3">
+            <div class="col-md-6">
+              <label for="model" class="form-label">Model</label>
+              <select id="model" name="model" class="form-select">
+                
+                  <option value="gpt-4o-mini" >gpt-4o-mini</option>
+                
+                  <option value="gpt-4o" >gpt-4o</option>
+                
+                  <option value="gpt-4.1-mini" >gpt-4.1-mini</option>
+                
+                  <option value="gpt-4.1" >gpt-4.1</option>
+                
+                  <option value="gpt-3.5-turbo" selected>gpt-3.5-turbo</option>
+                
+              </select>
+            </div>
+            <div class="col-md-6 d-flex align-items-end">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="1" id="demo_mode" name="demo_mode" checked>
+                <label class="form-check-label" for="demo_mode">
+                  Demo mode (no API key required)
+                </label>
+              </div>
+            </div>
+          </div>
+          
+          <div class="alert alert-info mt-3 mb-0">
+            No OpenAI API key detected. Demo mode is enabled automatically. Visit the <a href="settings.html" class="alert-link">settings page</a> to add one for live generations.
+          </div>
+          
+          <div id="generation-status" class="alert alert-info mt-3 d-none" role="status"></div>
+          <div class="d-grid mt-4">
+            <button class="btn btn-primary btn-lg" type="submit" id="generate-button">Make the subtopic map</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-5">
+    
+    <div class="card shadow-sm h-100">
+      <div class="card-body">
+        <h2 class="card-title h4 mb-3">Recent activity</h2>
+        
+          <div class="list-group list-group-flush">
+          
+            <a href="history_bc3983452fca49bb93ae231d3b38a3e9.html" class="list-group-item list-group-item-action">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">Lighthouses, Movable type printing</h5>
+                <small class="text-muted">Sep 30, 2026 03:14 AM</small>
+              </div>
+              <p class="mb-1 small text-muted">Depth 3 · gpt-3.5-turbo · Demo</p>
+            </a>
+          
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+      </div>
+    </main>
+    <footer class="footer bg-light py-3 border-top">
+      <div class="container text-center small">
+        Crafted with Flask · Demo mode available when no API key is configured.
+      </div>
+    </footer>
+    <script src="static/vendor/bootstrap.bundle.min.js"></script>
+    <script>
+      document.addEventListener('click', function (event) {
+        if (!event.target.matches('.tree-toggle')) return;
+        const target = event.target.closest('li');
+        target.classList.toggle('collapsed');
+      });
+    </script>
+    
+<script>
+  const textarea = document.getElementById('topics');
+  const form = document.querySelector('form[action="/generate"]');
+  const statusElement = document.getElementById('generation-status');
+  const modelSelect = document.getElementById('model');
+  const depthInput = document.getElementById('depth');
+  const temperatureInput = document.getElementById('temperature');
+  const demoModeCheckbox = document.getElementById('demo_mode');
+  const maxChildrenInput = document.getElementById('max_children');
+  const callBudgetInput = document.getElementById('call_budget');
+  const useDefaultsCheckbox = document.getElementById('use_default_topics');
+  const estimateElement = document.getElementById('cost-estimate');
+  const defaultTopicCount = 17;
+
+  // The tree issues one model call per node at every level, so the worst case is
+  // topics * (1 + b + b^2 + ... + b^(depth-1)). Surfacing that number before the
+  // user submits is the whole point: at depth 6 with b=5 it is over 3,900 calls.
+  function projectedCalls() {
+    let topicCount = textarea
+      ? textarea.value.split(/[\n,]/).map((t) => t.trim()).filter(Boolean).length
+      : 0;
+    if (!topicCount && useDefaultsCheckbox && useDefaultsCheckbox.checked) {
+      topicCount = defaultTopicCount;
+    }
+    const depth = Math.max(1, Math.min(6, parseInt(depthInput && depthInput.value, 10) || 1));
+    const branching = Math.max(1, Math.min(10, parseInt(maxChildrenInput && maxChildrenInput.value, 10) || 1));
+    let perTopic = 0;
+    for (let level = 0; level < depth; level += 1) {
+      perTopic += Math.pow(branching, level);
+    }
+    return { calls: Math.round(perTopic * topicCount), topicCount };
+  }
+
+  function renderEstimate() {
+    if (!estimateElement) return;
+    const { calls, topicCount } = projectedCalls();
+    const budget = Math.max(1, parseInt(callBudgetInput && callBudgetInput.value, 10) || 1);
+    const demo = demoModeCheckbox ? demoModeCheckbox.checked : false;
+    estimateElement.classList.remove('alert-secondary', 'alert-warning');
+    if (!topicCount) {
+      estimateElement.classList.add('alert-secondary');
+      estimateElement.textContent = 'Enter a topic to see how many OpenAI calls this run would make.';
+      return;
+    }
+    if (demo) {
+      estimateElement.classList.add('alert-secondary');
+      estimateElement.textContent = `Demo mode: ${calls.toLocaleString()} nodes will be synthesised locally. No OpenAI calls, no cost.`;
+      return;
+    }
+    if (calls > budget) {
+      estimateElement.classList.add('alert-warning');
+      estimateElement.textContent = `Worst case ${calls.toLocaleString()} OpenAI calls — above your ${budget.toLocaleString()}-call budget. Generation will stop at the budget and save a partial tree.`;
+    } else {
+      estimateElement.classList.add('alert-secondary');
+      estimateElement.textContent = `Worst case ${calls.toLocaleString()} OpenAI calls (budget ${budget.toLocaleString()}). Each call is a short JSON reply; see the README for cost guidance.`;
+    }
+  }
+
+  [textarea, depthInput, maxChildrenInput, callBudgetInput, demoModeCheckbox, useDefaultsCheckbox]
+    .filter(Boolean)
+    .forEach((el) => {
+      el.addEventListener('input', renderEstimate);
+      el.addEventListener('change', renderEstimate);
+    });
+  renderEstimate();
+  if (textarea) {
+    const chips = document.querySelectorAll('.topic-chip');
+    chips.forEach((chip) => {
+      chip.addEventListener('click', () => {
+        const value = chip.dataset.topic;
+        const existing = textarea.value.trim();
+        if (!existing) {
+          textarea.value = value;
+          textarea.dispatchEvent(new Event('input', { bubbles: true }));
+          return;
+        }
+        const segments = existing.split(/[,\n]/).map(part => part.trim()).filter(Boolean);
+        if (!segments.includes(value)) {
+          textarea.value = `${existing}\n${value}`;
+        }
+        textarea.dispatchEvent(new Event('input', { bubbles: true }));
+      });
+    });
+  }
+  if (form && statusElement) {
+    form.addEventListener('submit', () => {
+      const topics = textarea ? textarea.value.trim().split(/[\n,]/).map((item) => item.trim()).filter(Boolean) : [];
+      const selectedModel = modelSelect ? modelSelect.value : 'unknown model';
+      const depth = depthInput ? depthInput.value : 'N/A';
+      const temperature = temperatureInput ? temperatureInput.value : 'N/A';
+      const demoMode = demoModeCheckbox ? demoModeCheckbox.checked : false;
+      const summary = `Generating subtopic map with ${topics.length || 'no'} topic${topics.length === 1 ? '' : 's'} using ${selectedModel} at depth ${depth}.`;
+      statusElement.textContent = summary;
+      statusElement.classList.remove('d-none', 'alert-success', 'alert-danger');
+      statusElement.classList.add('alert-info');
+      console.log({
+        event: 'generate_subtopic_map',
+        topics,
+        model: selectedModel,
+        depth,
+        temperature,
+        demoMode,
+      });
+    });
+  }
+</script>
+
+  
+<div id="demoToast" role="status" style="display:none;position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:99999;background:#111827;border:1px solid #f97316;color:#fed7aa;border-radius:8px;padding:10px 16px;font:500 13px system-ui,sans-serif;box-shadow:0 10px 25px rgba(0,0,0,.5)"></div>
+<script>
+(function(){
+  var toast=null,timer=null;
+  function notice(msg){
+    toast = toast || document.getElementById('demoToast');
+    if(!toast) return;
+    toast.textContent = msg;
+    toast.style.display='block';
+    clearTimeout(timer);
+    timer=setTimeout(function(){toast.style.display='none';},4500);
+  }
+  window.__demoNotice = notice;
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a[data-needs-server]');
+    if(a){ e.preventDefault();
+      notice('Static snapshot \u2014 "' + a.getAttribute('data-needs-server') + '" needs the running app. This page is a saved copy.'); }
+  }, true);
+  document.addEventListener('submit', function(e){
+    e.preventDefault();
+    notice('Static snapshot \u2014 nothing can be generated here. In the real app this posts to the server and calls the model API.');
+  }, true);
+  if(window.fetch){
+    var real = window.fetch.bind(window);
+    window.fetch = function(input, init){
+      var url = (typeof input==='string')? input : (input && input.url) || '';
+      if(/^(static\/|\.\/|[a-z0-9_-]+\.(json|html))/i.test(url)) return real(input, init);
+      notice('Static snapshot \u2014 this calls the running server, which is not here.');
+      return Promise.resolve(new Response('{"error":"static snapshot: no server"}',
+        {status:200, headers:{'Content-Type':'application/json'}}));
+    };
+  }
+})();
+</script>
+
+<script>
+/* Snapshot only: the form starts with a topic already typed and depth 6 selected,
+   so the page lands showing the app's own call-budget projection instead of an
+   empty state. Every field is still editable and the projection is the app's own
+   JavaScript recalculating live. */
+(function(){
+  if(!document.getElementById('cost-estimate')) return;
+  function set(id, v){
+    var e = document.getElementById(id); if(!e) return;
+    if(e.type === 'checkbox'){ if(e.checked !== v) e.click(); return; }
+    e.value = v;
+    e.dispatchEvent(new Event('input', {bubbles:true}));
+    e.dispatchEvent(new Event('change', {bubbles:true}));
+  }
+  window.addEventListener('DOMContentLoaded', function(){
+    set('topics', 'Lighthouses');
+    set('depth', '6');
+    set('max_children', '5');
+    set('call_budget', '150');
+    set('demo_mode', false);
+  });
+})();
+</script>
+</body>
+</html>

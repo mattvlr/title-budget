@@ -1,4 +1,11 @@
 User-agent: *
 Allow: /
 
+# The demo hub and the per-product demo pages are meant to be indexed.
+# The article bodies inside the Wikibuilder snapshot are not: they were written
+# by a language model, they are not fact-checked, and they have no business
+# competing in search results with sources that are.
+Disallow: /demos/wikibuilder/topics_
+Disallow: /demos/subtopic-explorer/history_
+
 Sitemap: https://mattvlr.github.io/title-budget/sitemap.xml

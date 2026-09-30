@@ -1,0 +1,72 @@
+body {
+  background-color: #f5f6f8;
+}
+
+.alert-stack .alert + .alert {
+  margin-top: 0.5rem;
+}
+
+.topic-suggestions .btn {
+  border-radius: 999px;
+}
+
+.topic-tree,
+.topic-tree ul {
+  list-style: none;
+  padding-left: 1.2rem;
+}
+
+.topic-tree > li {
+  margin-bottom: 0.75rem;
+}
+
+.topic-tree .tree-node {
+  padding: 0.35rem 0.5rem;
+  background: #fff;
+  border-radius: 0.35rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.topic-tree .tree-node:hover {
+  background-color: #e7f1ff;
+}
+
+.topic-tree li.collapsed > ul {
+  display: none;
+}
+
+.topic-tree li.collapsed > .tree-node::after {
+  content: ' (collapsed)';
+  font-size: 0.75rem;
+  color: #6c757d;
+}
+
+.footer {
+  position: sticky;
+  top: 100%;
+}
+
+.favorite-toggle {
+  font-size: 1.5rem;
+  color: #f1b722;
+  line-height: 1;
+}
+
+.favorite-toggle:hover,
+.favorite-toggle:focus {
+  text-decoration: none;
+  color: #d48b00;
+}
+
+.favorite-toggle.btn-link {
+  text-decoration: none;
+}
+
+.table-warning {
+  transition: background-color 0.2s ease;
+}

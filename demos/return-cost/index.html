@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Return Cost — screenshots</title>
+<meta name="description" content="What an eBay return actually costs you, after the fee eBay keeps and the two shipping labels nobody counts.">
+<link rel="canonical" href="https://mattvlr.github.io/title-budget/demos/return-cost/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mattvlr.github.io/title-budget/demos/return-cost/">
+<meta property="og:title" content="Return Cost — screenshots">
+<meta property="og:description" content="What an eBay return actually costs you, after the fee eBay keeps and the two shipping labels nobody counts.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#F5F7F9; --surface:#FFFFFF; --surface-2:#EFF3F6;
+    --ink:#16202E; --muted:#5C6B7F; --faint:#8595A8; --border:#DCE3EA;
+    --accent:#A85D00; --accent-soft:#F5E4CC;
+    --good:#1F6B4A; --good-soft:#E2F0E9; --bad:#B02A1F;
+    --warn:#7C2D12; --warn-soft:#FCEBDD;
+    --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#0E141C; --surface:#161F2A; --surface-2:#1D2835;
+      --ink:#E7EDF4; --muted:#9AAABC; --faint:#74869A; --border:#2A3745;
+      --accent:#E8A13A; --accent-soft:#3A2C16;
+      --good:#5CC08D; --good-soft:#143026; --bad:#F08074;
+      --warn:#F5B78A; --warn-soft:#3A2011;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#0E141C; --surface:#161F2A; --surface-2:#1D2835;
+    --ink:#E7EDF4; --muted:#9AAABC; --faint:#74869A; --border:#2A3745;
+    --accent:#E8A13A; --accent-soft:#3A2C16;
+    --good:#5CC08D; --good-soft:#143026; --bad:#F08074;
+    --warn:#F5B78A; --warn-soft:#3A2011;
+  }
+  *,*::before,*::after { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink);
+         font-family:var(--sans); font-size:15px; line-height:1.55; }
+  .wrap { max-width:900px; margin:0 auto; padding:0 16px 64px; }
+  header { background:var(--surface); border-bottom:1px solid var(--border); }
+  .head { max-width:900px; margin:0 auto; padding:22px 16px 20px; }
+  .eyebrow { font-family:var(--mono); font-size:11px; letter-spacing:.1em;
+             text-transform:uppercase; color:var(--accent); margin:0 0 6px; }
+  h1 { font-size:28px; font-weight:600; margin:0 0 8px; letter-spacing:-.012em; text-wrap:balance; }
+  .lede { margin:0; color:var(--muted); max-width:66ch; }
+  .lede strong { color:var(--ink); font-weight:500; }
+  nav { margin-top:12px; font-size:13.5px; }
+  nav a { color:var(--accent); text-decoration:none; }
+  nav a:hover { text-decoration:underline; }
+  section { margin-top:30px; }
+  h2 { font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:.08em;
+       color:var(--faint); margin:0 0 11px; font-family:var(--mono); }
+  h3 { font-size:18px; font-weight:600; margin:0 0 6px; }
+  .panel { background:var(--surface); border:1px solid var(--border);
+           border-radius:6px; padding:16px; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:14px; }
+  .card { background:var(--surface); border:1px solid var(--border); border-radius:6px;
+          padding:16px; display:flex; flex-direction:column; gap:8px; }
+  .card p { margin:0; color:var(--muted); font-size:14px; }
+  .tag { display:inline-block; font-family:var(--mono); font-size:10.5px; letter-spacing:.07em;
+         text-transform:uppercase; padding:3px 7px; border-radius:4px;
+         background:var(--surface-2); color:var(--faint); border:1px solid var(--border); }
+  .tag.live { background:var(--good-soft); color:var(--good); border-color:transparent; }
+  .tag.shots { background:var(--accent-soft); color:var(--accent); border-color:transparent; }
+  .row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+  .grow { flex:1; }
+  a.btn { display:inline-block; font-size:14px; font-weight:500; text-decoration:none;
+          padding:8px 13px; border-radius:5px; border:1px solid var(--border);
+          background:var(--surface-2); color:var(--ink); }
+  a.btn:hover { border-color:var(--accent); color:var(--accent); }
+  a.btn.primary { background:var(--accent); color:#fff; border-color:var(--accent); }
+  a.btn.primary:hover { filter:brightness(1.08); color:#fff; }
+  .note { border-left:3px solid var(--accent); background:var(--warn-soft);
+          color:var(--ink); padding:12px 14px; border-radius:0 6px 6px 0; font-size:14px; }
+  .note strong { font-weight:600; }
+  ul.plain { margin:8px 0 0; padding-left:20px; color:var(--muted); font-size:14px; }
+  ul.plain li { margin:4px 0; }
+  figure { margin:0 0 26px; }
+  figure img { width:100%; height:auto; display:block; border:1px solid var(--border);
+               border-radius:6px; background:var(--surface); }
+  figcaption { font-size:13.5px; color:var(--muted); margin-top:8px; }
+  figcaption b { color:var(--ink); font-weight:600; }
+  table { border-collapse:collapse; width:100%; font-size:13.5px; }
+  th,td { text-align:left; padding:8px 12px; border-bottom:1px solid var(--border);
+          vertical-align:top; }
+  th { font-family:var(--mono); font-size:11px; letter-spacing:.06em;
+       text-transform:uppercase; color:var(--faint); font-weight:600; }
+  td.mono { font-family:var(--mono); font-size:12.5px; }
+  .scroll { overflow-x:auto; border:1px solid var(--border); border-radius:6px;
+            background:var(--surface); }
+  footer { margin-top:44px; padding-top:18px; border-top:1px solid var(--border);
+           color:var(--faint); font-size:13px; }
+  footer a { color:var(--accent); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head">
+    <p class="eyebrow">eBay returns &middot; screenshots</p>
+    <h1>Return Cost</h1>
+    <p class="lede">What an eBay return actually costs you, after the fee eBay keeps and the two shipping labels nobody counts.</p>
+    <nav><a href="../">&larr; All demos</a> &middot;
+      <a href="../../">Free title auditor</a> &middot;
+      <a href="../../fees.html">Free fee comparison</a></nav>
+  </div>
+</header>
+<div class="wrap">
+
+<section>
+  <div class="note">
+    <strong>Screenshots, not a working copy.</strong> This product <em>is</em> a single
+    self-contained HTML file, so publishing a usable one here would be handing it out for
+    free. What you see below is the real tool running, photographed at full page height with
+    the values shown &mdash; nothing is mocked up, redrawn or retouched.
+  </div>
+</section>
+
+<section>
+  <h2>What it looks like</h2>
+  <figure>
+  <img src="../img/return-cost-1.png" alt="A $42 sale that came back in resellable condition." loading="lazy">
+  <figcaption><b>A $42 sale that came back in resellable condition.</b> eBay credits the percentage final value fee on a full refund but keeps the per-order fee. The outbound label is spent, and a seller-paid return label means you shipped the same item twice. Total: <b>$13.95 out of pocket</b> on a sale you no longer have.</figcaption>
+</figure>
+<figure>
+  <img src="../img/return-cost-2.png" alt="The same return, but the item came back damaged." loading="lazy">
+  <figcaption><b>The same return, but the item came back damaged.</b> Switching the outcome to damaged removes the recovered-item credit, so the cost rises by exactly the item's cost. The three outcomes are tested against each other: damaged must cost exactly the item more than resellable.</figcaption>
+</figure>
+</section>
+
+<section>
+  <h2>How it was checked</h2>
+  <div class="panel"><ul class="plain"><li>65 assertions, each of the 8 return scenarios recomputed independently.</li>
+<li>The $10 per-order-fee tier tested on both sides — $10.00 and $10.01.</li>
+<li>Deliberately eBay-only. Poshmark, Mercari and Etsy post-sale refund rules could not be verified to the same standard, so they are excluded rather than guessed at.</li></ul></div>
+</section>
+
+<section>
+  <h2>Get it</h2>
+  <div class="panel">
+    <div class="row">
+      <div class="grow">
+        <h3>Return Cost &mdash; $3</h3>
+        <p style="margin:0;color:var(--muted);font-size:14px">One HTML file. Runs entirely in
+        your browser: no upload, no account, works offline once the page is open.</p>
+      </div>
+      <a class="btn primary" href="https://bookmonger.gumroad.com/l/return-cost">Buy on Gumroad &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="../">All demos</a> &middot;
+  <a href="https://bookmonger.gumroad.com">All products</a> &middot;
+  <a href="https://github.com/mattvlr/title-budget">Source of the free tools</a>
+</footer>
+</div>
+
+</body>
+</html>

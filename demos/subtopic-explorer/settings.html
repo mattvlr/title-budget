@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Settings · Subtopic Explorer</title>
+    <link rel="stylesheet" href="static/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="static/css/style.css">
+    
+  </head>
+  <body>
+<div id="demoSnapshotBanner" style="background:#7c2d12;color:#ffedd5;font:500 13px/1.55 system-ui,-apple-system,'Segoe UI',sans-serif;padding:11px 16px;text-align:center;border-bottom:1px solid #9a3412">
+  <strong>Static snapshot &mdash; not a live app.</strong> Saved copies of pages Subtopic Explorer produced
+  on a local machine. The Explore button does nothing here: the real app is Flask and calls a
+  language-model API with <strong>your own key</strong>, which is what the call-budget panel is counting.
+  <a href="https://bookmonger.gumroad.com/l/wikibuilder-encyclopedia" style="color:#fed7aa;text-decoration:underline">What is for sale is the Python source &rarr;</a>
+  &middot; <a href="../" style="color:#fed7aa;text-decoration:underline">All demos</a>
+</div>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">Subtopic Explorer</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link " href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link " href="history.html">History</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="settings.html">Settings</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <main class="py-4">
+      <div class="container">
+        
+          
+        
+        
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h1 class="h3 mb-3">Workspace settings</h1>
+        <p class="text-muted">Configure how topic maps are generated, manage your OpenAI API key, and customize quick-start topics.</p>
+        <form method="post" action="/settings">
+          <div class="mb-4">
+            <h2 class="h5">OpenAI connection</h2>
+            <div class="mb-3">
+              <label for="api_key" class="form-label">API key</label>
+              <input type="password" class="form-control" id="api_key" name="api_key" value="" autocomplete="off" placeholder="sk-...">
+              <div class="form-text">Current status: <strong>Not set</strong></div>
+              <div class="form-text">Leave blank to keep the stored key. The app falls back to demo mode when no key is provided.</div>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="1" id="clear_api_key" name="clear_api_key">
+              <label class="form-check-label" for="clear_api_key">Remove saved key</label>
+            </div>
+          </div>
+          <div class="mb-4">
+            <h2 class="h5">Default generation options</h2>
+            <div class="row g-3">
+              <div class="col-md-4">
+                <label for="default_model" class="form-label">Preferred model</label>
+                <select class="form-select" id="default_model" name="default_model">
+                  
+                    <option value="gpt-4o-mini" >gpt-4o-mini</option>
+                  
+                    <option value="gpt-4o" >gpt-4o</option>
+                  
+                    <option value="gpt-4.1-mini" >gpt-4.1-mini</option>
+                  
+                    <option value="gpt-4.1" >gpt-4.1</option>
+                  
+                    <option value="gpt-3.5-turbo" selected>gpt-3.5-turbo</option>
+                  
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label for="default_depth" class="form-label">Default depth</label>
+                <input type="number" min="1" max="6" class="form-control" id="default_depth" name="default_depth" value="3">
+                <div class="form-text">How many levels the recursion explores by default.</div>
+              </div>
+              <div class="col-md-4">
+                <label for="default_temperature" class="form-label">Creativity</label>
+                <input type="number" step="0.1" min="0" max="1" class="form-control" id="default_temperature" name="default_temperature" value="0.2">
+                <div class="form-text">Higher values produce more varied subtopics.</div>
+              </div>
+            </div>
+            <div class="row g-3 mt-1">
+              <div class="col-md-6">
+                <label for="default_max_children" class="form-label">Subtopics per node</label>
+                <input type="number" min="1" max="10" class="form-control" id="default_max_children" name="default_max_children" value="5">
+                <div class="form-text">Branching factor. Tree size grows as this value raised to the depth, so small changes here have a large effect on cost.</div>
+              </div>
+              <div class="col-md-6">
+                <label for="default_call_budget" class="form-label">Model-call budget</label>
+                <input type="number" min="1" max="2000" class="form-control" id="default_call_budget" name="default_call_budget" value="150">
+                <div class="form-text">Hard cap on billable OpenAI calls per generation. Generation stops here and saves what it has.</div>
+              </div>
+            </div>
+            <div class="form-check form-switch mt-3">
+              <input class="form-check-input" type="checkbox" role="switch" id="default_demo_mode" name="default_demo_mode" value="1" >
+              <label class="form-check-label" for="default_demo_mode">Enable demo mode by default</label>
+            </div>
+          </div>
+          <div class="mb-4">
+            <h2 class="h5">Starter topics</h2>
+            <label for="default_topics" class="form-label">Comma or newline separated topics</label>
+            <textarea class="form-control" id="default_topics" name="default_topics" rows="5" placeholder="e.g. Quantum Computing, Urban Farming"></textarea>
+            <div class="form-text">These topics appear as quick-add chips on the home page when the generation form is empty.</div>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <p class="text-muted small mb-0">Changes are saved locally to <code>instance/settings.json</code>.</p>
+            <button type="submit" class="btn btn-primary">Save settings</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+      </div>
+    </main>
+    <footer class="footer bg-light py-3 border-top">
+      <div class="container text-center small">
+        Crafted with Flask · Demo mode available when no API key is configured.
+      </div>
+    </footer>
+    <script src="static/vendor/bootstrap.bundle.min.js"></script>
+    <script>
+      document.addEventListener('click', function (event) {
+        if (!event.target.matches('.tree-toggle')) return;
+        const target = event.target.closest('li');
+        target.classList.toggle('collapsed');
+      });
+    </script>
+    
+<script>
+  const apiField = document.getElementById('api_key');
+  if (apiField) {
+    apiField.addEventListener('focus', () => {
+      apiField.type = 'text';
+    });
+    apiField.addEventListener('blur', () => {
+      apiField.type = 'password';
+    });
+  }
+</script>
+
+  
+<div id="demoToast" role="status" style="display:none;position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:99999;background:#111827;border:1px solid #f97316;color:#fed7aa;border-radius:8px;padding:10px 16px;font:500 13px system-ui,sans-serif;box-shadow:0 10px 25px rgba(0,0,0,.5)"></div>
+<script>
+(function(){
+  var toast=null,timer=null;
+  function notice(msg){
+    toast = toast || document.getElementById('demoToast');
+    if(!toast) return;
+    toast.textContent = msg;
+    toast.style.display='block';
+    clearTimeout(timer);
+    timer=setTimeout(function(){toast.style.display='none';},4500);
+  }
+  window.__demoNotice = notice;
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a[data-needs-server]');
+    if(a){ e.preventDefault();
+      notice('Static snapshot \u2014 "' + a.getAttribute('data-needs-server') + '" needs the running app. This page is a saved copy.'); }
+  }, true);
+  document.addEventListener('submit', function(e){
+    e.preventDefault();
+    notice('Static snapshot \u2014 nothing can be generated here. In the real app this posts to the server and calls the model API.');
+  }, true);
+  if(window.fetch){
+    var real = window.fetch.bind(window);
+    window.fetch = function(input, init){
+      var url = (typeof input==='string')? input : (input && input.url) || '';
+      if(/^(static\/|\.\/|[a-z0-9_-]+\.(json|html))/i.test(url)) return real(input, init);
+      notice('Static snapshot \u2014 this calls the running server, which is not here.');
+      return Promise.resolve(new Response('{"error":"static snapshot: no server"}',
+        {status:200, headers:{'Content-Type':'application/json'}}));
+    };
+  }
+})();
+</script>
+
+<script>
+/* Snapshot only: the form starts with a topic already typed and depth 6 selected,
+   so the page lands showing the app's own call-budget projection instead of an
+   empty state. Every field is still editable and the projection is the app's own
+   JavaScript recalculating live. */
+(function(){
+  if(!document.getElementById('cost-estimate')) return;
+  function set(id, v){
+    var e = document.getElementById(id); if(!e) return;
+    if(e.type === 'checkbox'){ if(e.checked !== v) e.click(); return; }
+    e.value = v;
+    e.dispatchEvent(new Event('input', {bubbles:true}));
+    e.dispatchEvent(new Event('change', {bubbles:true}));
+  }
+  window.addEventListener('DOMContentLoaded', function(){
+    set('topics', 'Lighthouses');
+    set('depth', '6');
+    set('max_children', '5');
+    set('call_budget', '150');
+    set('demo_mode', false);
+  });
+})();
+</script>
+</body>
+</html>
