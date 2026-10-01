@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Film grain and texture overlays for Final Cut Pro</title>
+<meta name="description" content="19 procedural 4K overlay plates - grain, dust, scratches, light leaks and vignettes - shown at 100% on one held-constant frame, with 188 assertions measured on the shipped PNGs.">
+<link rel="canonical" href="https://mattvlr.github.io/title-budget/demos/fcp-grain-overlays/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mattvlr.github.io/title-budget/demos/fcp-grain-overlays/">
+<meta property="og:title" content="Film grain and texture overlays for Final Cut Pro">
+<meta property="og:description" content="19 procedural 4K overlay plates - grain, dust, scratches, light leaks and vignettes - shown at 100% on one held-constant frame, with 188 assertions measured on the shipped PNGs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#F5F7F9; --surface:#FFFFFF; --surface-2:#EFF3F6;
+    --ink:#16202E; --muted:#5C6B7F; --faint:#8595A8; --border:#DCE3EA;
+    --accent:#A85D00; --accent-soft:#F5E4CC; --good:#1F7A4D;
+    --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#0E141C; --surface:#161F2A; --surface-2:#1D2835;
+      --ink:#E7EDF4; --muted:#9AAABC; --faint:#74869A; --border:#2A3745;
+      --accent:#E8A13A; --accent-soft:#3A2C16; --good:#5CC48B;
+    }
+  }
+  :root[data-theme="dark"] {
+      --bg:#0E141C; --surface:#161F2A; --surface-2:#1D2835;
+      --ink:#E7EDF4; --muted:#9AAABC; --faint:#74869A; --border:#2A3745;
+      --accent:#E8A13A; --accent-soft:#3A2C16; --good:#5CC48B;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans);
+         font-size:15px; line-height:1.55; }
+  .wrap { max-width:900px; margin:0 auto; padding-block:32px 64px;
+          padding-left:16px; padding-right:16px; }
+  h1 { font-size:28px; font-weight:600; margin:0 0 6px; letter-spacing:-.012em;
+       text-wrap:balance; }
+  h2 { font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:.08em;
+       color:var(--faint); margin:36px 0 12px; }
+  h3 { font-size:18px; font-weight:600; margin:0 0 4px; }
+  .lede { color:var(--muted); margin:0 0 4px; }
+  .eyebrow { font-family:var(--mono); font-size:12px; color:var(--accent);
+             text-transform:uppercase; letter-spacing:.06em; margin:0 0 6px; }
+  .panel { background:var(--surface); border:1px solid var(--border); border-radius:10px;
+           padding:16px 18px; }
+  .note { background:var(--accent-soft); border:1px solid var(--border); border-radius:10px;
+          padding:14px 16px; color:var(--ink); font-size:14px; }
+  figure { margin:0 0 28px; }
+  figure img { width:100%; max-width:100%; height:auto; display:block;
+               border:1px solid var(--border); border-radius:10px;
+               background:var(--surface-2); }
+  figcaption { color:var(--muted); font-size:14px; margin-top:8px; }
+  code { font-family:var(--mono); font-size:.92em; background:var(--surface-2);
+         padding:1px 5px; border-radius:4px; }
+  .stats { display:flex; flex-wrap:wrap; gap:10px; margin:0 0 6px; }
+  .stat { background:var(--surface); border:1px solid var(--border); border-radius:9px;
+          padding:10px 14px; flex:1 1 150px; }
+  .stat b { display:block; font-family:var(--mono); font-size:22px; color:var(--good);
+            line-height:1.2; }
+  .stat span { font-size:13px; color:var(--muted); }
+  .btn { display:inline-block; padding:9px 15px; border-radius:8px;
+         border:1px solid var(--border); background:var(--surface); color:var(--ink);
+         text-decoration:none; font-size:14px; font-weight:500; }
+  .btn.primary { background:var(--accent); border-color:var(--accent); color:#fff; }
+  .btn:focus-visible, nav a:focus-visible, footer a:focus-visible {
+         outline:2px solid var(--accent); outline-offset:2px; }
+  .row { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  .grow { flex:1 1 260px; }
+  ul.plain { margin:0; padding-left:18px; }
+  ul.plain li { margin:5px 0; }
+  nav a, footer a { color:var(--accent); text-decoration:none; }
+  footer { margin-top:44px; padding-top:18px; border-top:1px solid var(--border);
+           color:var(--faint); font-size:14px; }
+
+  .pair { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  @media (max-width:640px) { .pair { grid-template-columns:1fr; } }
+  .pair figure { margin:0; }
+  .pair img { width:100%; height:auto; display:block; border:1px solid var(--border);
+              border-radius:8px; }
+  .pair figcaption { font-family:var(--mono); font-size:12.5px; color:var(--faint);
+                     margin-top:6px; text-transform:uppercase; letter-spacing:.06em; }
+  h3 { font-size:20px; font-weight:600; margin:34px 0 4px; }
+  .note-sm { color:var(--muted); font-size:14px; margin:0 0 12px; max-width:62ch; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="eyebrow">19 plates at 3840&times;2160 &middot; $8</p>
+<h1>Grain that knows where to stop</h1>
+<p class="lede">Film grain is strongest in the midtones and vanishes in the blacks and
+the blown highlights. These are still plates &mdash; they cannot know what is underneath
+them. The <b>Overlay</b> blend mode supplies that for them, and the maths is below.</p>
+<nav style="margin-top:10px"><a href="../">&larr; All demos</a></nav>
+
+<section style="margin-top:22px">
+  <div class="note">
+    <b>Everything that is supposed to show grain on this page is a 100% crop.</b>
+    Grain is a one-to-five pixel structure; shrink the frame to fit a web page and it
+    averages away to nothing, so a reduced screenshot of a grain plate is a picture of
+    an invisible product. The whole-frame panels further down are labelled as reduced.
+  </div>
+</section>
+
+<h2>Where the grain goes, and where it does not</h2>
+<section>
+  <p class="note-sm">Overlay is
+  <code>out = 2&middot;L&middot;p</code> below mid grey and
+  <code>out = 1 &minus; 2(1&minus;L)(1&minus;p)</code> above it. Differentiate with
+  respect to the plate value <code>p</code> and you get
+  <code>2&middot;min(L, 1&minus;L)</code>: full strength at mid grey, nothing at pure
+  black and pure white. No mask, no keyframe.</p>
+  <div class="stats">
+    <div class="stat"><b>1.0%</b><span>worst gap between the measured grain and the
+    prediction, anywhere above the 8-bit quantisation floor</span></div>
+    <div class="stat"><b>0</b><span>code values out of 255 that a perfectly flat
+    code-128 plate shifts the picture by</span></div>
+    <div class="stat"><b>188</b><span>assertions passed, all measured on the
+    written PNGs rather than on the generator's memory</span></div>
+  </div>
+  <figure style="margin-top:16px">
+    <a href="response.jpg"><img src="response.jpg" alt="Each grain plate composited over
+    a black-to-white ramp, with the measured against predicted figures" loading="lazy"
+    width="1400"></a>
+    <figcaption>Each plate over a black-to-white ramp at 100%. The grain fades out at
+    both ends by itself, and the table underneath is the measurement, not the claim.
+    <b>This figure is scaled down to fit the page</b> &mdash; open it to see the strips
+    at their own size.</figcaption>
+  </figure>
+</section>
+
+<h2>The grain plates at 100%</h2>
+<section>
+  <figure>
+    <a href="grain100.jpg"><img src="grain100.jpg" alt="The eight grain plates shown at
+    100% with their measured figures" loading="lazy" width="1400"></a>
+    <figcaption><b>This figure is scaled down to fit the page</b> &mdash; open it to see
+    the eight plates at their own size. Measured autocorrelation radius 1.20&nbsp;px fine, 2.45&nbsp;px
+    medium, 4.80&nbsp;px coarse &mdash; coarse really is 4.0&times; the size of
+    fine, so the three are different plates rather than three names for one
+    texture.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <h3>Grain Fine 01</h3>
+  <p class="note-sm">35mm-scale grain. Reads as texture rather than as noise; survives compression better than the coarse plates do. Measured sigma 8.01, grain radius 1.20&nbsp;px, single channel, pure luminance.
+  Both crops below are cut at this page's own width and never resized, so you are
+  looking at the real pixels.</p>
+  <figure><img src="crop-clean.jpg" alt="The frame with no overlay, 100% crop" loading="lazy" width="868" height="488"><figcaption>no overlay &middot; 100%</figcaption></figure>
+  <figure><img src="crop-grain-fine-01.jpg" alt="Grain Fine 01 at 100%" loading="lazy" width="868" height="488"><figcaption>Grain Fine 01 &middot; Overlay &middot; 100%</figcaption></figure>
+</section>
+<section>
+  <h3>Grain Fine 02</h3>
+  <p class="note-sm">35mm-scale grain. Reads as texture rather than as noise; survives compression better than the coarse plates do. Measured sigma 8.01, grain radius 1.20&nbsp;px, single channel, pure luminance.
+  Both crops below are cut at this page's own width and never resized, so you are
+  looking at the real pixels.</p>
+  <figure><img src="crop-clean.jpg" alt="The frame with no overlay, 100% crop" loading="lazy" width="868" height="488"><figcaption>no overlay &middot; 100%</figcaption></figure>
+  <figure><img src="crop-grain-fine-02.jpg" alt="Grain Fine 02 at 100%" loading="lazy" width="868" height="488"><figcaption>Grain Fine 02 &middot; Overlay &middot; 100%</figcaption></figure>
+</section>
+<section>
+  <h3>Grain Medium 01</h3>
+  <p class="note-sm">The default. Clearly visible at 100% without taking over the picture. Measured sigma 10.00, grain radius 2.45&nbsp;px, single channel, pure luminance.
+  Both crops below are cut at this page's own width and never resized, so you are
+  looking at the real pixels.</p>
+  <figure><img src="crop-clean.jpg" alt="The frame with no overlay, 100% crop" loading="lazy" width="868" height="488"><figcaption>no overlay &middot; 100%</figcaption></figure>
+  <figure><img src="crop-grain-medium-01.jpg" alt="Grain Medium 01 at 100%" loading="lazy" width="868" height="488"><figcaption>Grain Medium 01 &middot; Overlay &middot; 100%</figcaption></figure>
+</section>
+<section>
+  <h3>Grain Medium 02</h3>
+  <p class="note-sm">The default. Clearly visible at 100% without taking over the picture. Measured sigma 10.00, grain radius 2.46&nbsp;px, single channel, pure luminance.
+  Both crops below are cut at this page's own width and never resized, so you are
+  looking at the real pixels.</p>
+  <figure><img src="crop-clean.jpg" alt="The frame with no overlay, 100% crop" loading="lazy" width="868" height="488"><figcaption>no overlay &middot; 100%</figcaption></figure>
+  <figure><img src="crop-grain-medium-02.jpg" alt="Grain Medium 02 at 100%" loading="lazy" width="868" height="488"><figcaption>Grain Medium 02 &middot; Overlay &middot; 100%</figcaption></figure>
+</section>
+<section>
+  <h3>Grain Coarse 01</h3>
+  <p class="note-sm">16mm-scale grain. Obvious, and meant to be. Measured sigma 12.00, grain radius 4.83&nbsp;px, single channel, pure luminance.
+  Both crops below are cut at this page's own width and never resized, so you are
+  looking at the real pixels.</p>
+  <figure><img src="crop-clean.jpg" alt="The frame with no overlay, 100% crop" loading="lazy" width="868" height="488"><figcaption>no overlay &middot; 100%</figcaption></figure>
+  <figure><img src="crop-grain-coarse-01.jpg" alt="Grain Coarse 01 at 100%" loading="lazy" width="868" height="488"><figcaption>Grain Coarse 01 &middot; Overlay &middot; 100%</figcaption></figure>
+</section>
+<section>
+  <h3>Grain Coarse 02</h3>
+  <p class="note-sm">16mm-scale grain. Obvious, and meant to be. Measured sigma 12.00, grain radius 4.78&nbsp;px, single channel, pure luminance.
+  Both crops below are cut at this page's own width and never resized, so you are
+  looking at the real pixels.</p>
+  <figure><img src="crop-clean.jpg" alt="The frame with no overlay, 100% crop" loading="lazy" width="868" height="488"><figcaption>no overlay &middot; 100%</figcaption></figure>
+  <figure><img src="crop-grain-coarse-02.jpg" alt="Grain Coarse 02 at 100%" loading="lazy" width="868" height="488"><figcaption>Grain Coarse 02 &middot; Overlay &middot; 100%</figcaption></figure>
+</section>
+<section>
+  <h3>Grain Chroma Medium</h3>
+  <p class="note-sm">Independent noise in each channel, so the grain carries colour. Reads as older colour stock, or as a camera pushed too far. Measured sigma 9.45, grain radius 2.49&nbsp;px, inter-channel r 0.906, so the colour fluctuation rides on a shared luminance one.
+  Both crops below are cut at this page's own width and never resized, so you are
+  looking at the real pixels.</p>
+  <figure><img src="crop-clean.jpg" alt="The frame with no overlay, 100% crop" loading="lazy" width="868" height="488"><figcaption>no overlay &middot; 100%</figcaption></figure>
+  <figure><img src="crop-grain-chroma-medium.jpg" alt="Grain Chroma Medium at 100%" loading="lazy" width="868" height="488"><figcaption>Grain Chroma Medium &middot; Overlay &middot; 100%</figcaption></figure>
+</section>
+<section>
+  <h3>Grain Chroma Coarse</h3>
+  <p class="note-sm">Independent noise in each channel, so the grain carries colour. Reads as older colour stock, or as a camera pushed too far. Measured sigma 11.55, grain radius 4.85&nbsp;px, inter-channel r 0.906, so the colour fluctuation rides on a shared luminance one.
+  Both crops below are cut at this page's own width and never resized, so you are
+  looking at the real pixels.</p>
+  <figure><img src="crop-clean.jpg" alt="The frame with no overlay, 100% crop" loading="lazy" width="868" height="488"><figcaption>no overlay &middot; 100%</figcaption></figure>
+  <figure><img src="crop-grain-chroma-coarse.jpg" alt="Grain Chroma Coarse at 100%" loading="lazy" width="868" height="488"><figcaption>Grain Chroma Coarse &middot; Overlay &middot; 100%</figcaption></figure>
+</section>
+
+<h2>Dust and scratches</h2>
+<section>
+  <p class="note-sm">Real alpha channels, so they composite at Normal. Every mark is pure white or pure black &mdash; never a muddy grey &mdash; and most of the frame is left completely untouched. Shown whole-frame and reduced.</p>
+  <div class="pair">
+<figure><img src="dust-light.jpg" alt="Dust Light on the demo frame" loading="lazy" width="1100"><figcaption>Dust Light &middot; 1.27% of the frame marked</figcaption></figure>
+<figure><img src="dust-heavy.jpg" alt="Dust Heavy on the demo frame" loading="lazy" width="1100"><figcaption>Dust Heavy &middot; 4.34% of the frame marked</figcaption></figure>
+<figure><img src="scratches-light.jpg" alt="Scratches Light on the demo frame" loading="lazy" width="1100"><figcaption>Scratches Light &middot; 0.99% of the frame marked</figcaption></figure>
+<figure><img src="scratches-heavy.jpg" alt="Scratches Heavy on the demo frame" loading="lazy" width="1100"><figcaption>Scratches Heavy &middot; 3.04% of the frame marked</figcaption></figure>
+  </div>
+</section>
+
+<h2>Light leaks</h2>
+<section>
+  <p class="note-sm">Sums of anisotropic Gaussian fields on genuinely pure black, so Screen is an identity everywhere outside the leak. These are not photographs of real light leaks and are not presented as any. Shown whole-frame and reduced.</p>
+  <div class="pair">
+<figure><img src="leak-corner-warm.jpg" alt="Leak Corner Warm on the demo frame" loading="lazy" width="1100"><figcaption>Leak Corner Warm &middot; 63.2% of the frame pure black</figcaption></figure>
+<figure><img src="leak-edge-amber.jpg" alt="Leak Edge Amber on the demo frame" loading="lazy" width="1100"><figcaption>Leak Edge Amber &middot; 53.9% of the frame pure black</figcaption></figure>
+<figure><img src="leak-streak-red.jpg" alt="Leak Streak Red on the demo frame" loading="lazy" width="1100"><figcaption>Leak Streak Red &middot; 79.9% of the frame pure black</figcaption></figure>
+<figure><img src="leak-bloom-cool.jpg" alt="Leak Bloom Cool on the demo frame" loading="lazy" width="1100"><figcaption>Leak Bloom Cool &middot; 52.3% of the frame pure black</figcaption></figure>
+  </div>
+</section>
+
+<h2>Vignettes</h2>
+<section>
+  <p class="note-sm">Pure black with a radial alpha ramp. Exactly transparent at the centre pixel, rising monotonically outward along every diagonal. Shown whole-frame and reduced.</p>
+  <div class="pair">
+<figure><img src="vignette-soft.jpg" alt="Vignette Soft on the demo frame" loading="lazy" width="1100"><figcaption>Vignette Soft &middot; alpha 0 centre, 97 corners</figcaption></figure>
+<figure><img src="vignette-medium.jpg" alt="Vignette Medium on the demo frame" loading="lazy" width="1100"><figcaption>Vignette Medium &middot; alpha 0 centre, 153 corners</figcaption></figure>
+<figure><img src="vignette-hard.jpg" alt="Vignette Hard on the demo frame" loading="lazy" width="1100"><figcaption>Vignette Hard &middot; alpha 0 centre, 209 corners</figcaption></figure>
+  </div>
+</section>
+
+<h2>Four grain fields out of every grain file</h2>
+<section>
+  <div class="panel">
+    <p style="margin:0 0 8px">A grain plate is uncorrelated with its own mirror images.
+    Worst measured correlation between a plate and its own horizontal flip, vertical
+    flip or 180&deg; rotation: <b>0.0040</b>. So flipping gives you three more usable
+    fields that will not read as the same texture.</p>
+    <p style="margin:0">8 grain files, <b>32 distinct grain fields</b>. The two
+    plates of each size are independent of each other too &mdash; worst measured
+    correlation between a pair, <b>0.0038</b>.</p>
+  </div>
+</section>
+
+<h2>What was checked before this shipped</h2>
+<section>
+  <div class="panel"><ul class="plain">
+    <li><b>Every plate 3840&times;2160 and 8-bit</b>, in the colour mode its family
+    requires &mdash; single-channel grey for monochrome grain, RGB for chromatic grain
+    and leaks, RGBA for dust, scratches and vignettes.</li>
+    <li><b>Grain zero-mean on code 128</b> to within 0.05, within 2% of the sigma it
+    claims, and <b>nothing clipped at 0 or 255</b> in any of the 8 plates &mdash; a
+    clipped grain field is a truncated distribution and it shows in the darks.</li>
+    <li><b>Grain size measured, not assumed.</b> The autocorrelation radius is computed
+    from the written pixels rather than read off the blur setting.</li>
+    <li><b>The Overlay response curve itself</b>, by compositing each plate over a grey
+    ramp, quantising to 8 bits as a renderer would, and comparing the measured standard
+    deviation against the prediction at seven levels.</li>
+    <li><b>Dust and scratch plates mark 1.27% to 4.34% of the frame</b> and leave
+    the rest completely untouched, and every mark is pure white or pure black.</li>
+    <li><b>Light leaks sit on at least 52% genuinely pure black</b>, so Screen is an
+    identity outside the leak, and each leak's measured brightness centroid really is
+    where its name puts it.</li>
+    <li><b>Vignettes are exactly transparent at the centre pixel</b>, carry no colour of
+    their own, and rise monotonically outward along every diagonal.</li>
+    <li><b>188 assertions, all passing, 157,593,600 pixels examined.</b></li>
+  </ul></div>
+</section>
+
+<h2>What they will not do</h2>
+<section>
+  <div class="panel"><ul class="plain">
+    <li><b>These are still images, not video. Held across a clip, the grain does not
+    move.</b> Real film grain changes every frame. If you want moving grain in one
+    click, this is not that pack. You can cut between plates, flip them for a fresh
+    field, or animate a small offset &mdash; but that is manual work, and it is better
+    said here than discovered later.</li>
+    <li><b>These have never been opened in Final Cut Pro.</b> There is no Mac and no
+    copy of Final Cut Pro on the machine they were built on. PNG is an ordinary still
+    image format and these are valid 8-bit PNGs, which was checked &mdash; but "it
+    imports and composites correctly in Final Cut Pro" was not testable here and is not
+    claimed.</li>
+    <li><b>Procedural, not photographed.</b> Filtered Gaussian noise, Gaussian light
+    fields, drawn specks and lines. Nothing is a scan of real film.</li>
+    <li><b>Nothing in the pack is AI-generated.</b> The demonstration photograph on this
+    page <em>is</em> AI-generated and the person in it is not real. It is a test frame
+    and it is not in the download.</li>
+    <li><b>4K plates on a 1080p timeline read one step finer</b>, because the plate is
+    being scaled to half size. Reach for Coarse where you would have used Medium.</li>
+    <li><b>19 plates, not 300.</b> A small deliberate set. <b>No support</b> &mdash;
+    one-time download, sold as-is.</li>
+  </ul></div>
+</section>
+
+<h2>Get it</h2>
+<section>
+  <div class="panel">
+    <div class="row">
+      <div class="grow">
+        <h3 style="margin:0 0 4px">Film Grain and Texture Overlays for Final Cut Pro
+        &mdash; $8</h3>
+        <p style="margin:0;color:var(--muted);font-size:14px">19 PNG plates at
+        3840&times;2160, about 46&nbsp;MB. No plugin, no installer, no account. Works in
+        any editor that imports a PNG and offers blend modes.</p>
+      </div>
+      <a class="btn primary" href="https://bookmonger.gumroad.com">See the store &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="../">All demos</a> &middot;
+  <a href="../fcp-luts/">The colour grades</a> &middot;
+  <a href="../fcp-bw-luts/">The black-and-white conversions</a> &middot;
+  <a href="https://bookmonger.gumroad.com">All products</a>
+</footer>
+</div>
+</body>
+</html>

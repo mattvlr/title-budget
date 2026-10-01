@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Twelve black-and-white conversions for Final Cut Pro</title>
+<meta name="description" content="Twelve .cube black-and-white conversions shown on one held-constant frame. Darkroom contrast filters as channel weightings, mixed in linear light and validated with 177 assertions on the shipped files.">
+<link rel="canonical" href="https://mattvlr.github.io/title-budget/demos/fcp-bw-luts/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mattvlr.github.io/title-budget/demos/fcp-bw-luts/">
+<meta property="og:title" content="Twelve black-and-white conversions for Final Cut Pro">
+<meta property="og:description" content="Twelve .cube black-and-white conversions shown on one held-constant frame. Darkroom contrast filters as channel weightings, mixed in linear light and validated with 177 assertions on the shipped files.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#F5F7F9; --surface:#FFFFFF; --surface-2:#EFF3F6;
+    --ink:#16202E; --muted:#5C6B7F; --faint:#8595A8; --border:#DCE3EA;
+    --accent:#A85D00; --accent-soft:#F5E4CC; --good:#1F7A4D;
+    --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#0E141C; --surface:#161F2A; --surface-2:#1D2835;
+      --ink:#E7EDF4; --muted:#9AAABC; --faint:#74869A; --border:#2A3745;
+      --accent:#E8A13A; --accent-soft:#3A2C16; --good:#5CC48B;
+    }
+  }
+  :root[data-theme="dark"] {
+      --bg:#0E141C; --surface:#161F2A; --surface-2:#1D2835;
+      --ink:#E7EDF4; --muted:#9AAABC; --faint:#74869A; --border:#2A3745;
+      --accent:#E8A13A; --accent-soft:#3A2C16; --good:#5CC48B;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans);
+         font-size:15px; line-height:1.55; }
+  .wrap { max-width:900px; margin:0 auto; padding-block:32px 64px;
+          padding-left:16px; padding-right:16px; }
+  h1 { font-size:28px; font-weight:600; margin:0 0 6px; letter-spacing:-.012em;
+       text-wrap:balance; }
+  h2 { font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:.08em;
+       color:var(--faint); margin:36px 0 12px; }
+  h3 { font-size:18px; font-weight:600; margin:0 0 4px; }
+  .lede { color:var(--muted); margin:0 0 4px; }
+  .eyebrow { font-family:var(--mono); font-size:12px; color:var(--accent);
+             text-transform:uppercase; letter-spacing:.06em; margin:0 0 6px; }
+  .panel { background:var(--surface); border:1px solid var(--border); border-radius:10px;
+           padding:16px 18px; }
+  .note { background:var(--accent-soft); border:1px solid var(--border); border-radius:10px;
+          padding:14px 16px; color:var(--ink); font-size:14px; }
+  figure { margin:0 0 28px; }
+  figure img { width:100%; max-width:100%; height:auto; display:block;
+               border:1px solid var(--border); border-radius:10px;
+               background:var(--surface-2); }
+  figcaption { color:var(--muted); font-size:14px; margin-top:8px; }
+  code { font-family:var(--mono); font-size:.92em; background:var(--surface-2);
+         padding:1px 5px; border-radius:4px; }
+  .stats { display:flex; flex-wrap:wrap; gap:10px; margin:0 0 6px; }
+  .stat { background:var(--surface); border:1px solid var(--border); border-radius:9px;
+          padding:10px 14px; flex:1 1 150px; }
+  .stat b { display:block; font-family:var(--mono); font-size:22px; color:var(--good);
+            line-height:1.2; }
+  .stat span { font-size:13px; color:var(--muted); }
+  .btn { display:inline-block; padding:9px 15px; border-radius:8px;
+         border:1px solid var(--border); background:var(--surface); color:var(--ink);
+         text-decoration:none; font-size:14px; font-weight:500; }
+  .btn.primary { background:var(--accent); border-color:var(--accent); color:#fff; }
+  .btn:focus-visible, nav a:focus-visible, footer a:focus-visible {
+         outline:2px solid var(--accent); outline-offset:2px; }
+  .row { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  .grow { flex:1 1 260px; }
+  ul.plain { margin:0; padding-left:18px; }
+  ul.plain li { margin:5px 0; }
+  nav a, footer a { color:var(--accent); text-decoration:none; }
+  footer { margin-top:44px; padding-top:18px; border-top:1px solid var(--border);
+           color:var(--faint); font-size:14px; }
+
+  .pair { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  @media (max-width:640px) { .pair { grid-template-columns:1fr; } }
+  .pair figure { margin:0; }
+  .pair img { width:100%; height:auto; display:block; border:1px solid var(--border);
+              border-radius:8px; }
+  .pair figcaption { font-family:var(--mono); font-size:12.5px; color:var(--faint);
+                     margin-top:6px; text-transform:uppercase; letter-spacing:.06em; }
+  h3 { font-size:20px; font-weight:600; margin:34px 0 4px; }
+  .note-sm { color:var(--muted); font-size:14px; margin:0 0 12px; max-width:62ch; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="eyebrow">Every conversion, on the same frame &middot; $7</p>
+<h1>Twelve black-and-white conversions for Final Cut Pro</h1>
+<p class="lede">Pulling saturation to zero gives you one black-and-white image and no say
+in it. A darkroom printer had a say: a red filter darkens a blue sky, a green filter lifts
+foliage, an orange filter flatters skin. Each file below is a documented channel
+weighting, applied to the same photograph.</p>
+<nav style="margin-top:10px"><a href="../">&larr; All demos</a></nav>
+
+<section style="margin-top:22px">
+  <div class="note">
+    <b>The frame on the left is the same in every pair.</b> A conversion can only be judged
+    against the colour it came from, so the comparison is held fixed. Each right-hand image
+    was produced by running the shipped <code>.cube</code> file through a trilinear
+    interpolation of its 3D lattice &mdash; the same operation the editor performs.
+  </div>
+</section>
+
+<h2>The case a saturation slider cannot handle</h2>
+<section>
+  <p class="note-sm">A red flower against a green leaf. Converted by luminance alone, both
+  land on the same grey and the picture dies. A filter is a weighted mix of all three
+  channels at once, so it can separate them &mdash; and which filter decides which way
+  round. The numbers are 0&ndash;255 output codes read back out of the shipped files.</p>
+  <div class="stats">
+    <div class="stat"><b>100 / 99</b><span>Neutral Luminance &mdash; flower and leaf,
+    1 apart. The same grey.</span></div>
+    <div class="stat"><b>+106</b><span>Red Filter Dramatic separates them, flower
+    lighter at 174 against 68.</span></div>
+    <div class="stat"><b>+41</b><span>Green Filter Foliage separates them the other
+    way, leaf lighter at 102 against 61.</span></div>
+  </div>
+  <figure style="margin-top:16px">
+    <img src="chart.jpg" alt="Six reference colours pushed through eight of the shipped
+    files, each patch labelled with its measured output code" loading="lazy" width="1400">
+    <figcaption>Six reference colours through eight of the files. The last column is the
+    proof that the channel weights sum to exactly 1: mid grey goes in at 128 and comes out
+    at 128 under every one of them.</figcaption>
+  </figure>
+</section>
+
+<h2>Every hue, under every file</h2>
+<section>
+  <figure>
+    <img src="sweep.jpg" alt="A full-saturation hue sweep rendered through each of the
+    twelve files" loading="lazy" width="1400">
+    <figcaption>A full-saturation sweep from red round to red again. Where a band goes
+    bright, that file lightens that hue; where it goes dark, it darkens it. The bottom two
+    rows are the two toned files &mdash; the only ones that are not pure grey.</figcaption>
+  </figure>
+</section>
+
+<h2>All twelve, on one frame</h2>
+<section>
+  <h3>Neutral Luminance</h3>
+  <p class="note-sm">Rec.709 relative luminance weights, mixed in linear light and nothing else done to it. Each colour becomes the grey of the same brightness. Start here, then reach for a filter when two colours collapse onto the same grey.</p>
+  <div class="pair">
+    <figure><img src="original.jpg" alt="The original colour frame" loading="lazy" width="1100"><figcaption>in colour</figcaption></figure>
+    <figure><img src="neutral-luminance.jpg" alt="Neutral Luminance applied to the same frame" loading="lazy" width="1100"><figcaption>Neutral Luminance</figcaption></figure>
+  </div>
+</section>
+<section>
+  <h3>Panchromatic Flat</h3>
+  <p class="note-sm">Every channel counted the same, which is the simplest model of an emulsion sensitive right across the visible spectrum. Reds and blues come out lighter than true luminance renders them, greens darker.</p>
+  <div class="pair">
+    <figure><img src="original.jpg" alt="The original colour frame" loading="lazy" width="1100"><figcaption>in colour</figcaption></figure>
+    <figure><img src="panchromatic-flat.jpg" alt="Panchromatic Flat applied to the same frame" loading="lazy" width="1100"><figcaption>Panchromatic Flat</figcaption></figure>
+  </div>
+</section>
+<section>
+  <h3>Yellow Filter Natural</h3>
+  <p class="note-sm">The gentlest of the contrast filters and the one most often left on the lens all day. Blue is cut back, so skies gain some tone and clouds separate, while skin and foliage stay close to where luminance puts them.</p>
+  <div class="pair">
+    <figure><img src="original.jpg" alt="The original colour frame" loading="lazy" width="1100"><figcaption>in colour</figcaption></figure>
+    <figure><img src="yellow-filter-natural.jpg" alt="Yellow Filter Natural applied to the same frame" loading="lazy" width="1100"><figcaption>Yellow Filter Natural</figcaption></figure>
+  </div>
+</section>
+<section>
+  <h3>Orange Filter Portrait</h3>
+  <p class="note-sm">Between yellow and red. Red-toned skin detail - blemishes, broken capillaries, uneven colour - is lightened toward the surrounding tone instead of being drawn as texture, and the sky darkens more than yellow takes it.</p>
+  <div class="pair">
+    <figure><img src="original.jpg" alt="The original colour frame" loading="lazy" width="1100"><figcaption>in colour</figcaption></figure>
+    <figure><img src="orange-filter-portrait.jpg" alt="Orange Filter Portrait applied to the same frame" loading="lazy" width="1100"><figcaption>Orange Filter Portrait</figcaption></figure>
+  </div>
+</section>
+<section>
+  <h3>Red Filter Dramatic</h3>
+  <p class="note-sm">Blue is almost entirely removed, so a blue sky falls away and anything red jumps forward. The strongest of the classic filters and the easiest to overdo: skin goes very pale and green foliage goes very dark.</p>
+  <div class="pair">
+    <figure><img src="original.jpg" alt="The original colour frame" loading="lazy" width="1100"><figcaption>in colour</figcaption></figure>
+    <figure><img src="red-filter-dramatic.jpg" alt="Red Filter Dramatic applied to the same frame" loading="lazy" width="1100"><figcaption>Red Filter Dramatic</figcaption></figure>
+  </div>
+</section>
+<section>
+  <h3>Green Filter Foliage</h3>
+  <p class="note-sm">The opposite instrument to the red filter. Foliage separates from everything around it and red subjects go dark. On faces it does the reverse of orange: it draws skin texture rather than smoothing it, which is sometimes exactly what a portrait wants.</p>
+  <div class="pair">
+    <figure><img src="original.jpg" alt="The original colour frame" loading="lazy" width="1100"><figcaption>in colour</figcaption></figure>
+    <figure><img src="green-filter-foliage.jpg" alt="Green Filter Foliage applied to the same frame" loading="lazy" width="1100"><figcaption>Green Filter Foliage</figcaption></figure>
+  </div>
+</section>
+<section>
+  <h3>Blue Filter Ortho</h3>
+  <p class="note-sm">Early photographic emulsions were insensitive to red light, which is why portraits from that era show dark lips and heavy skin texture and why their skies are blank white paper. This weighting reproduces that tonal signature by starving the red channel.</p>
+  <div class="pair">
+    <figure><img src="original.jpg" alt="The original colour frame" loading="lazy" width="1100"><figcaption>in colour</figcaption></figure>
+    <figure><img src="blue-filter-ortho.jpg" alt="Blue Filter Ortho applied to the same frame" loading="lazy" width="1100"><figcaption>Blue Filter Ortho</figcaption></figure>
+  </div>
+</section>
+<section>
+  <h3>Infrared Look</h3>
+  <p class="note-sm">An approximation of the TONAL signature of infrared film: foliage renders very bright, blue sky renders dark. This is the only look in the pack with a NEGATIVE channel weight - blue is subtracted rather than added, which is the only way a lookup table can push a blue sky down while lifting green. The three weights still sum to exactly 1, so neutral greys pass through untouched. It cannot reproduce the halation glow around highlights that real infrared film shows: that is a spatial effect, and a lookup table has no neighbouring pixels to work with.</p>
+  <div class="pair">
+    <figure><img src="original.jpg" alt="The original colour frame" loading="lazy" width="1100"><figcaption>in colour</figcaption></figure>
+    <figure><img src="infrared-look.jpg" alt="Infrared Look applied to the same frame" loading="lazy" width="1100"><figcaption>Infrared Look</figcaption></figure>
+  </div>
+</section>
+<section>
+  <h3>High Contrast Print</h3>
+  <p class="note-sm">Luminance conversion driven through a strong S-curve, the way a hard grade of printing paper behaves. Good for graphic, high-key subjects and for rescuing flat footage; punishing on anything that needs shadow detail.</p>
+  <div class="pair">
+    <figure><img src="original.jpg" alt="The original colour frame" loading="lazy" width="1100"><figcaption>in colour</figcaption></figure>
+    <figure><img src="high-contrast-print.jpg" alt="High Contrast Print applied to the same frame" loading="lazy" width="1100"><figcaption>High Contrast Print</figcaption></figure>
+  </div>
+</section>
+<section>
+  <h3>Low Contrast Print</h3>
+  <p class="note-sm">The soft grade: the black point is raised and the white point pulled down, so the whole image sits inside a narrower band. Reads as an old print behind glass. Deliberately refuses to make a true black.</p>
+  <div class="pair">
+    <figure><img src="original.jpg" alt="The original colour frame" loading="lazy" width="1100"><figcaption>in colour</figcaption></figure>
+    <figure><img src="low-contrast-print.jpg" alt="Low Contrast Print applied to the same frame" loading="lazy" width="1100"><figcaption>Low Contrast Print</figcaption></figure>
+  </div>
+</section>
+<section>
+  <h3>Warm Tone Print</h3>
+  <p class="note-sm">A neutral conversion carrying a warm brown tone through the midtones. The tone is scaled by a bell curve that reaches zero at both ends, so pure black and pure white stay neutral and only the middle of the scale takes the colour. Warm Tone and Cool Tone are the only two files here that are not pure grey, and that is the point of them.</p>
+  <div class="pair">
+    <figure><img src="original.jpg" alt="The original colour frame" loading="lazy" width="1100"><figcaption>in colour</figcaption></figure>
+    <figure><img src="warm-tone-print.jpg" alt="Warm Tone Print applied to the same frame" loading="lazy" width="1100"><figcaption>Warm Tone Print</figcaption></figure>
+  </div>
+</section>
+<section>
+  <h3>Cool Tone Print</h3>
+  <p class="note-sm">The same construction as the warm tone, pushed the other way: a blue-grey cast through the midtones, black and white left neutral. Suits architecture, winter and anything that should feel unwelcoming.</p>
+  <div class="pair">
+    <figure><img src="original.jpg" alt="The original colour frame" loading="lazy" width="1100"><figcaption>in colour</figcaption></figure>
+    <figure><img src="cool-tone-print.jpg" alt="Cool Tone Print applied to the same frame" loading="lazy" width="1100"><figcaption>Cool Tone Print</figcaption></figure>
+  </div>
+</section>
+
+<h2>What was checked before this shipped</h2>
+<section>
+  <div class="panel"><ul class="plain">
+    <li><b>35,937 entries in each file</b> &mdash; 33&times;33&times;33, the size the
+    Adobe Cube spec requires. 431,244 across the pack, 1,293,732 individual floats
+    examined.</li>
+    <li><b>Every value inside 0&ndash;1</b>, every value finite, every file monotonic along
+    the tone axis.</li>
+    <li><b>10 of the 12 are achromatic at every single entry</b> &mdash; R, G and B
+    identical to the last written digit. Trilinear interpolation is a convex combination of
+    lattice values, so they stay neutral <em>between</em> lattice points too, which is
+    where a renderer actually samples.</li>
+    <li><b>The 2 toned files are deliberately not achromatic</b>, their cast stays
+    inside a stated ceiling, and pure black and pure white are still exactly neutral in
+    both.</li>
+    <li><b>Mid grey is 128 in and 128 out under every file</b>, because every weight set
+    sums to exactly 1.0.</li>
+    <li><b>The filter claims themselves were asserted</b>, as orderings between measured
+    patch codes: blue sky 156 neutral &rarr; 149 yellow &rarr; 140 orange
+    &rarr; 126 red; light skin 182 neutral &rarr; 206 orange &rarr;
+    218 red, and 157 under the ortho look.</li>
+    <li><b>177 assertions, all passing</b>, re-parsed from the written ASCII rather
+    than taken from the generator's memory.</li>
+  </ul></div>
+</section>
+
+<h2>What they will not do</h2>
+<section>
+  <div class="panel"><ul class="plain">
+    <li><b>These have never been opened in Final Cut Pro.</b> There is no Mac and no copy
+    of Final Cut Pro on the machine they were built on. The claims rest on the published
+    Adobe Cube format and on 177 assertions against the files, not on a screenshot of
+    the host application.</li>
+    <li><b>Not film emulations, and no film stock is named anywhere in the pack.</b> That
+    is on purpose: an emulation claim cannot be verified without the film, a densitometer
+    and a lab. These reproduce the documented <em>direction</em> of each classic contrast
+    filter, which is a claim that can be checked, and was.</li>
+    <li><b>The frame is AI-generated, and the person in it is not real.</b> It was made
+    once as a deliberately flat, neutral test frame. It is not part of the download &mdash;
+    what you buy is 12 <code>.cube</code> files.</li>
+    <li><b>A conversion is not a repair.</b> It cannot fix exposure, white balance or
+    focus. Correct the shot first.</li>
+    <li><b>Log footage needs converting first.</b> Apply your camera's own log-to-Rec.709
+    conversion, then one of these on top.</li>
+    <li><b>On the file format, plainly:</b> <code>.cube</code> is the standard interchange
+    format for 3D LUTs and is what LUT packs for Final Cut Pro ship as. Apple's public
+    documentation describes importing a "3DLUT file" and does not publish a list of
+    accepted extensions, so that claim rests on the format's ubiquity rather than on a line
+    in Apple's manual.</li>
+    <li><b>Twelve files, not a hundred.</b> A small deliberate set. <b>No support</b>
+    &mdash; one-time download, sold as-is.</li>
+  </ul></div>
+</section>
+
+<h2>Get it</h2>
+<section>
+  <div class="panel">
+    <div class="row">
+      <div class="grow">
+        <h3 style="margin:0 0 4px">Twelve Black-and-White Conversions for Final Cut Pro
+        &mdash; $7</h3>
+        <p style="margin:0;color:var(--muted);font-size:14px">12 <code>.cube</code> files.
+        No plugin, no installer, no account. Also works in Premiere, DaVinci Resolve and
+        Affinity.</p>
+      </div>
+      <a class="btn primary" href="https://bookmonger.gumroad.com">See the store &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="../">All demos</a> &middot;
+  <a href="../fcp-luts/">The colour grades</a> &middot;
+  <a href="https://bookmonger.gumroad.com">All products</a>
+</footer>
+</div>
+</body>
+</html>
