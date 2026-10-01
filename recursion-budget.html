@@ -4,6 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Recursion Budget</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#A85D00">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Reseller Toolkit">
 <meta name="description" content="Free browser calculator for recursive AI generation. Work out the worst-case number of model calls and what they cost before you press run. Depth 6 at branching 5 is 3,906 calls, not a few hundred. Nothing is uploaded.">
 <link rel="canonical" href="https://mattvlr.github.io/title-budget/recursion-budget.html">
 <meta property="og:type" content="website">
@@ -321,6 +328,18 @@ render();
 // Exposed so the test harness can call the same functions the page uses, rather than
 // a copy of them.
 window.__rb = { callsPerRoot: callsPerRoot, totalCalls: totalCalls };
+</script>
+<script>
+/* Register the service worker so the tools keep working with no signal.
+   Guarded on every side: no SW support, an insecure origin, or a failed
+   registration must all leave the page working exactly as it did before -
+   offline support is a bonus here, never a dependency. */
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("sw.js", { scope: "/title-budget/" })
+      .catch(function () { /* the page works fine without it */ });
+  });
+}
 </script>
 </body>
 </html>

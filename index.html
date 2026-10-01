@@ -1,4 +1,11 @@
 <title>Title Budget</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#A85D00">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Reseller Toolkit">
 <meta name="description" content="Free browser tool that audits eBay listing titles against the 80-character limit. Finds wasted keyword space, seller shorthand buyers never search, and missing category keywords. Nothing is uploaded.">
 <link rel="canonical" href="https://mattvlr.github.io/title-budget/">
 <meta property="og:type" content="website">
@@ -712,4 +719,16 @@
   run();
   $("status").textContent = "Showing an audit of 20 example titles. Replace them with your own and run it again.";
 })();
+</script>
+<script>
+/* Register the service worker so the tools keep working with no signal.
+   Guarded on every side: no SW support, an insecure origin, or a failed
+   registration must all leave the page working exactly as it did before -
+   offline support is a bonus here, never a dependency. */
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("sw.js", { scope: "/title-budget/" })
+      .catch(function () { /* the page works fine without it */ });
+  });
+}
 </script>

@@ -1,0 +1,47 @@
+{
+  "id": "/title-budget/",
+  "name": "Reseller Toolkit - Title Auditor and Fee Comparison",
+  "short_name": "Reseller Toolkit",
+  "description": "Two free tools for people who resell online: an eBay listing-title auditor that finds the characters you are wasting against the 80-character limit, and a fee comparison that shows what you actually keep on eBay, Etsy, Poshmark, Mercari, Depop and Whatnot. Both run entirely in your browser. Nothing is uploaded, and they keep working offline.",
+  "start_url": "/title-budget/",
+  "scope": "/title-budget/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "browser"],
+  "orientation": "any",
+  "lang": "en",
+  "dir": "ltr",
+  "background_color": "#F5F7F9",
+  "theme_color": "#A85D00",
+  "categories": ["business", "productivity", "utilities", "shopping"],
+  "icons": [
+    { "src": "icons/icon-48.png",  "sizes": "48x48",   "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-72.png",  "sizes": "72x72",   "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-96.png",  "sizes": "96x96",   "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-128.png", "sizes": "128x128", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-144.png", "sizes": "144x144", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-152.png", "sizes": "152x152", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-256.png", "sizes": "256x256", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-384.png", "sizes": "384x384", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Audit a listing title",
+      "short_name": "Title auditor",
+      "description": "Check a title against the 80-character limit",
+      "url": "/title-budget/",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Compare marketplace fees",
+      "short_name": "Fee comparison",
+      "description": "What you keep on each marketplace after fees",
+      "url": "/title-budget/fees.html",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ],
+  "prefer_related_applications": false
+}
