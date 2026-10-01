@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How many items do I need to list a week to make $1,000 a month?</title>
+<meta name="description" content="About 10, at $23.80 of profit a sale — and the number barely moves with your sell-through rate, because at a steady state you sell what you list. What the rate decides is the 430 active listings you have to own, and that from an empty shelf it is month 36 before a month clears $1,000.">
+<link rel="canonical" href="https://mattvlr.github.io/title-budget/listings-per-week.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://mattvlr.github.io/title-budget/listings-per-week.html">
+<meta property="og:title" content="How many items do I need to list a week to make $1,000 a month?">
+<meta property="og:description" content="About 10, at $23.80 of profit a sale — and the number barely moves with your sell-through rate, because at a steady state you sell what you list. What the rate decides is the 430 active listings you have to own, and that from an empty shelf it is month 36 before a month clears $1,000.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#A85D00">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"How many items do I need to list a week to make $1,000 a month?","acceptedAnswer":{"@type":"Answer","text":"About 10, at $23.80 of profit a sale \u2014 but only once you already hold about 430 active listings. 10 listings a week is 43 a month, and at a steady state the number you sell in a month equals the number you listed. Starting from an empty shelf at that pace, month 36 is the first one that actually clears $1,000. Listing 14 a week instead gets you there inside a year."}},
+    {"@type":"Question","name":"Does a better sell-through rate mean I can list fewer items?","acceptedAnswer":{"@type":"Answer","text":"No. It means you need to own fewer. At a steady state, sales per month equal listings per month whatever the rate, so the listings-per-week figure is 10 either way. What changes is the shelf: 144 active listings at a 30% monthly sell-through against 860 at 5%, a factor of 6."}},
+    {"@type":"Question","name":"How many active listings do I need for $1,000 a month?","acceptedAnswer":{"@type":"Answer","text":"About 430 at a 10% monthly sell-through and $23.80 of profit a sale: 43 sales a month divided by the rate at which your stock sells. Halve the sell-through and you double the shelf; the table on this page has the others."}},
+    {"@type":"Question","name":"Why does it take so long at the right number of listings a week?","acceptedAnswer":{"@type":"Answer","text":"Because the inventory has to exist before it can produce. Listing 10 a week from an empty shelf, your first month is 43 listings and about 4 sales \u2014 roughly $102, not $1,000. Each month's new listings land on a shelf that is also selling down, so the active count approaches 430 rather than jumping to it, and 36 months pass before a month's own profit reaches the target. The 22 months to 90% of the stock is the honest milestone; the last stretch is the slowest part."}},
+    {"@type":"Question","name":"Is \u201clist ten a day\u201d good advice?","acceptedAnswer":{"@type":"Answer","text":"It is a pace, not advice, and it is a bigger one than most people asking this question want. Ten a day is 303 listings a month, which at $23.80 of profit a sale settles at about $7,219 a month \u2014 excellent if that is the target, and a lot of evenings wasted if $1,000 is."}},
+    {"@type":"Question","name":"Does it matter which marketplace I list on?","acceptedAnswer":{"@type":"Answer","text":"Barely, for this question. The same $1,000 needs between 9 and 11 listings a week across the seven marketplaces compared here, because the fee difference moves the profit per sale by a few dollars. The sell-through rate moves the stock you have to own by a factor of 6. Which you sell on is a smaller decision than how fast it moves."}}
+]}
+</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --bg: #F5F7F9; --surface: #FFFFFF; --surface-2: #EFF3F6;
+    --ink: #16202E; --muted: #5C6B7F; --faint: #8595A8; --border: #DCE3EA;
+    --accent: #A85D00; --accent-soft: #F5E4CC;
+    --good: #1F6B4A; --good-soft: #E2F0E9;
+    --bad: #B02A1F; --bad-soft: #F8E0DD;
+    --meter: #E2E8EE;
+    --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0E141C; --surface: #161F2A; --surface-2: #1D2835;
+      --ink: #E7EDF4; --muted: #9AAABC; --faint: #74869A; --border: #2A3745;
+      --accent: #E8A13A; --accent-soft: #3A2C16;
+      --good: #5CC08D; --good-soft: #143026;
+      --bad: #F08074; --bad-soft: #351A17; --meter: #26333F;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0E141C; --surface: #161F2A; --surface-2: #1D2835;
+    --ink: #E7EDF4; --muted: #9AAABC; --faint: #74869A; --border: #2A3745;
+    --accent: #E8A13A; --accent-soft: #3A2C16;
+    --good: #5CC08D; --good-soft: #143026;
+    --bad: #F08074; --bad-soft: #351A17; --meter: #26333F;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font-family: var(--sans); font-size: 15px; line-height: 1.55;
+         -webkit-text-size-adjust: 100%; }
+  .wrap { max-width: 900px; margin: 0 auto; padding-inline: 16px; padding-block: 0 56px; }
+
+  header { background: var(--surface); border-bottom: 1px solid var(--border); }
+  .head { max-width: 900px; margin: 0 auto; padding-inline: 16px; padding-block: 22px 20px; }
+  .eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: .1em;
+             text-transform: uppercase; color: var(--accent); margin: 0 0 6px; }
+  h1 { font-size: 28px; font-weight: 600; margin: 0 0 8px; letter-spacing: -.012em;
+       text-wrap: balance; }
+  .lede { margin: 0; color: var(--muted); max-width: 64ch; }
+  .lede strong { color: var(--ink); font-weight: 500; }
+  nav { margin-top: 12px; font-size: 13.5px; }
+  nav a { color: var(--accent); text-decoration: none; }
+  nav a:hover { text-decoration: underline; }
+
+  section { margin-top: 28px; }
+  h2 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em;
+       color: var(--faint); margin: 0 0 11px; font-family: var(--mono); }
+  h3 { font-size: 18px; font-weight: 600; margin: 26px 0 8px; }
+
+  .panel { background: var(--surface); border: 1px solid var(--border);
+           border-radius: 6px; padding: 16px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+  label.f { display: block; font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+  input { width: 100%; box-sizing: border-box; font-family: var(--mono); font-size: 16px;
+          color: var(--ink); background: var(--surface-2); border: 1px solid var(--border);
+          border-radius: 5px; padding: 9px 11px; }
+  input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .hint { font-size: 12.5px; color: var(--faint); margin: 10px 0 0; max-width: 68ch; }
+
+  .verdict { background: var(--surface); border: 1px solid var(--border);
+             border-radius: 6px; padding: 18px; }
+  .verdict.trs { border-color: var(--good); background: var(--good-soft); }
+  .verdict.below { border-color: var(--bad); background: var(--bad-soft); }
+  .level { font-family: var(--mono); font-size: 26px; font-weight: 500; margin: 0;
+           letter-spacing: -.01em; }
+  .verdict.trs .level { color: var(--good); }
+  .verdict.below .level { color: var(--bad); }
+  .because { margin: 8px 0 0; color: var(--muted); font-size: 14.5px; max-width: 66ch; }
+  .window { font-family: var(--mono); font-size: 11px; letter-spacing: .06em;
+            text-transform: uppercase; color: var(--faint); margin: 0 0 8px; }
+
+  .scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 6px;
+            background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--border);
+           vertical-align: top; }
+  th { font-family: var(--mono); font-size: 10.5px; letter-spacing: .06em;
+       text-transform: uppercase; color: var(--faint); font-weight: 500; white-space: nowrap; }
+  tbody tr:last-child td { border-bottom: none; }
+  td.num { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums;
+           white-space: nowrap; }
+  tr.fail td { background: var(--bad-soft); }
+  tr.fail td.st { color: var(--bad); font-weight: 500; }
+  td.st { font-family: var(--mono); font-size: 11px; letter-spacing: .05em;
+          text-transform: uppercase; white-space: nowrap; }
+  tr.pass td.st { color: var(--good); }
+  .basis { font-family: var(--mono); font-size: 10.5px; color: var(--muted);
+           text-transform: none; letter-spacing: 0; }
+
+  .callout { background: var(--accent-soft); border-radius: 6px; padding: 14px 16px;
+             margin-top: 16px; font-size: 14.5px; }
+  .callout strong { font-weight: 600; }
+  p { max-width: 68ch; }
+  .note { border-left: 2px solid var(--accent); padding: 2px 0 2px 14px;
+          color: var(--muted); font-size: 14px; max-width: 66ch; }
+  blockquote { margin: 10px 0 0; padding: 0 0 0 14px; border-left: 2px solid var(--border);
+               color: var(--muted); font-size: 13.5px; max-width: 66ch; }
+  details { background: var(--surface); border: 1px solid var(--border);
+            border-radius: 6px; padding: 12px 15px; margin-bottom: 9px; }
+  details[open] { border-color: var(--accent); }
+  summary { cursor: pointer; font-weight: 500; font-size: 15.5px; }
+  summary::marker { color: var(--accent); }
+  details p { margin: 9px 0 0; color: var(--muted); font-size: 14.5px; }
+  code { font-family: var(--mono); font-size: 0.9em; background: var(--surface-2);
+         padding: 1px 5px; border-radius: 4px; }
+  footer { margin-top: 36px; padding-top: 18px; border-top: 1px solid var(--border);
+           color: var(--faint); font-size: 12.5px; }
+  footer a { color: var(--accent); }
+  .tools { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 11px; }
+  .tools a { display: inline-block; padding: 6px 11px; background: var(--surface);
+             border: 1px solid var(--border); border-radius: 6px;
+             text-decoration: none; font-size: 13px; }
+  @media (max-width: 560px) { h1 { font-size: 23px; } }
+
+
+  table { border-collapse:collapse; width:100%; font-size:14.5px; }
+  th, td { text-align:left; padding:9px 12px; border-bottom:1px solid var(--border);
+           vertical-align:top; }
+  /* house.css sets th to nowrap, which a long question-shaped header turns into a
+     table two viewports wide. These headers are sentences, so let them wrap. */
+  th { font-size:12px; text-transform:uppercase; letter-spacing:.07em; color:var(--faint);
+       font-weight:600; white-space:normal; }
+  td.num { text-align:right; font-family:var(--mono); font-variant-numeric:tabular-nums;
+           white-space:nowrap; }
+  /* NOT .st - the house stylesheet uses that for an uppercase monospace status badge,
+     which turns a sentence in a table cell into shouting. */
+  td.why { color:var(--muted); font-size:13.5px; line-height:1.5; white-space:normal;
+           font-family:var(--sans); text-transform:none; letter-spacing:0; }
+  tbody tr:last-child td { border-bottom:0; }
+  tr.here td { background:var(--accent-soft); }
+  details { border:1px solid var(--border); border-radius:9px; padding:12px 14px;
+            margin:0 0 9px; background:var(--surface); }
+  details summary { cursor:pointer; font-weight:600; font-size:15px; }
+  details p { margin:9px 0 0; color:var(--muted); font-size:14.5px; }
+  .sum { font-family:var(--mono); font-size:14px; line-height:1.85; margin:0;
+         white-space:pre; overflow-x:auto; }
+  @media (max-width:560px) { .sum { font-size:11.5px; } }
+  /* The h2 sits outside its section, so it inherits no top margin and lands flush
+     against the paragraph above it. Give the rules some air. */
+  h2 { margin-top:34px; }
+  ul.plain { margin:0; padding-left:20px; }
+  ul.plain li { margin-bottom:9px; }
+  ul.plain li:last-child { margin-bottom:0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="eyebrow">Reselling arithmetic &middot; listing pace</p>
+<h1>How many items do I need to list a week to make $1,000 a month?</h1>
+<p class="lede"><strong>About 10 &mdash; and that number barely moves with your
+sell-through rate.</strong> At a steady state you sell what you list, whatever the rate.
+What the rate decides is how much stock you must own to produce it, and how long the climb
+from an empty shelf takes. Advice that gives you the first number without the second two
+is the thing this page is for.</p>
+
+<div class="callout">
+  <b>The short answer.</b> At <b>$23.80</b> of profit a sale you need
+  <b>43 sales a month</b>, which is <b>10 listings a week</b> &mdash; once
+  you already hold about <b>430 active listings</b>. Starting from nothing at
+  10 a week, month <b>36</b> is the first one that actually clears
+  $1,000. Listing <b>14 a week</b> gets you there inside a year.
+</div>
+
+<h2>Where the 43 comes from</h2>
+<section>
+  <div class="panel">
+    <p class="sum">Item price                      $42.00
+Shipping the buyer paid          $8.00
+eBay's fee, 13.6% + $0.40       -$7.20
+                               -------
+You receive                     $42.80
+What you paid for the item     -$12.00
+Postage label                   -$6.40
+Packaging                       -$0.60
+                               -------
+<b>Profit on one sale              $23.80</b>
+
+$1,000 / $23.80        = <b>43 sales</b> a month
+43 sales / 4.33 weeks  = <b>10 listings</b> a week</p>
+  </div>
+  <p class="hint">42 sales would leave you $0.40 short, which is why the
+  figure rounds up. Your own profit per sale is the number that matters here and it is
+  almost certainly not $23.80 &mdash;
+  <a href="fees.html">put your own price, postage, item cost and label into the free fee
+  comparison</a> and read the profit column, then divide.</p>
+</section>
+
+<h2>Why the sell-through rate does not change how much you list</h2>
+<section>
+  <div class="scroll">
+  <table>
+    <thead><tr><th class="num">Monthly sell-through</th>
+      <th class="num">Active listings you must hold</th>
+      <th class="num">Months to 90% of that shelf</th>
+      <th class="num">Listings a week</th></tr></thead>
+    <tbody>
+    <tr><td class="num">5%</td><td class="num">860</td><td class="num">45</td><td class="num">10</td></tr>
+    <tr class="here"><td class="num">10%</td><td class="num">430</td><td class="num">22</td><td class="num">10</td></tr>
+    <tr><td class="num">15%</td><td class="num">287</td><td class="num">15</td><td class="num">10</td></tr>
+    <tr><td class="num">20%</td><td class="num">215</td><td class="num">11</td><td class="num">10</td></tr>
+    <tr><td class="num">30%</td><td class="num">144</td><td class="num">7</td><td class="num">10</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="hint">The last column is the point: it does not move. At a steady state the
+  number of items you sell in a month equals the number you listed that month, whatever
+  fraction of the shelf is turning over &mdash; a slow shelf is simply a bigger one. The
+  stock you must own swings from 144 to 860, a factor of 6,
+  and so does the patience. <b>Sell-through is defined here as items sold divided by items
+  active, over one month.</b> Other people define it over 90 days or against sold plus
+  active; a rate from somewhere else is not necessarily this rate.</p>
+</section>
+
+<h2>The climb, which is the part nobody mentions</h2>
+<section>
+  <div class="scroll">
+  <table>
+    <thead><tr><th class="num">To arrive by month</th><th class="num">List a month</th>
+      <th class="num">List a week</th>
+      <th class="num">Active listings by then</th></tr></thead>
+    <tbody>
+    <tr><td class="num">6</td><td class="num">90</td><td class="num">21</td><td class="num">422</td></tr>
+    <tr class="here"><td class="num">12</td><td class="num">59</td><td class="num">14</td><td class="num">424</td></tr>
+    <tr><td class="num">18</td><td class="num">50</td><td class="num">12</td><td class="num">425</td></tr>
+    <tr><td class="num">24</td><td class="num">46</td><td class="num">11</td><td class="num">424</td></tr>
+    <tr><td class="num">36</td><td class="num">43</td><td class="num">10</td><td class="num">421</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="hint">Every row ends on the same shelf &mdash; about 430 listings
+  &mdash; and the only difference is how fast you build it. Listing the steady-state
+  10 a week from nothing, your <b>first month is 43 listings and about
+  4 sales: roughly $102</b>. The money is late because the inventory
+  comes first. That is also why the slowest row is 36 months rather than the
+  22 it takes to get within 10% of the shelf: the last stretch of an
+  approach like this one is the longest.</p>
+</section>
+
+<h2>The same target, on seven marketplaces</h2>
+<section>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Marketplace</th><th>Headline rate</th><th class="num">Profit a sale</th>
+      <th class="num">Sales a month</th><th class="num">Listings a week</th></tr></thead>
+    <tbody>
+    <tr><td>Etsy</td><td class="why">6.5% transaction</td><td class="num">$25.80</td><td class="num">39</td><td class="num">9</td></tr>
+    <tr><td>Mercari</td><td class="why">flat 10%</td><td class="num">$26.00</td><td class="num">39</td><td class="num">9</td></tr>
+    <tr><td>Depop</td><td class="why">no selling fee (US/UK)</td><td class="num">$28.90</td><td class="num">35</td><td class="num">9</td></tr>
+    <tr><td>Facebook</td><td class="why">10%, minimum $0.80</td><td class="num">$26.00</td><td class="num">39</td><td class="num">9</td></tr>
+    <tr><td>eBay</td><td class="why">13.6% + $0.40 per order</td><td class="num">$23.80</td><td class="num">43</td><td class="num">10</td></tr>
+    <tr><td>Whatnot</td><td class="why">8% commission</td><td class="num">$25.25</td><td class="num">40</td><td class="num">10</td></tr>
+    <tr><td>Poshmark</td><td class="why">$2.95 under $15, else 20%</td><td class="num">$22.60</td><td class="num">45</td><td class="num">11</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="hint">The same $42 item with $8 postage and $19 of item
+  cost, label and packaging. The spread is 9 to 11 listings a week for the
+  same $1,000 &mdash; which is to say that where you list is a far smaller lever than
+  how fast it moves. <a href="ebay-payout.html">Why the fee is bigger than the headline
+  rate suggests &rarr;</a></p>
+</section>
+
+<h2>Other targets, same arithmetic</h2>
+<section>
+  <div class="scroll">
+  <table>
+    <thead><tr><th class="num">Monthly profit</th><th class="num">Sales a month</th>
+      <th class="num">Listings a week</th>
+      <th class="num">Active listings at 10%</th></tr></thead>
+    <tbody>
+    <tr><td class="num">$500</td><td class="num">22</td><td class="num">6</td><td class="num">220</td></tr>
+    <tr class="here"><td class="num">$1,000</td><td class="num">43</td><td class="num">10</td><td class="num">430</td></tr>
+    <tr><td class="num">$2,000</td><td class="num">85</td><td class="num">20</td><td class="num">850</td></tr>
+    <tr><td class="num">$3,000</td><td class="num">127</td><td class="num">30</td><td class="num">1,270</td></tr>
+    <tr><td class="num">$5,000</td><td class="num">211</td><td class="num">49</td><td class="num">2,110</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="hint">All of it scales straight off the profit per sale, which is the lever
+  worth pulling. Finding $5 more profit in each item &mdash; a better price, a
+  cheaper label, a lower source cost &mdash; takes the 1,000-a-month shelf from
+  430 listings down to 350. That is 80 items you never have
+  to buy, photograph, title or store.</p>
+</section>
+
+<h2>The bits most summaries get wrong</h2>
+<section>
+  <div class="panel"><ul class="plain">
+    <li><b>The listings-a-week number does not depend on your sell-through rate.</b> At a
+    steady state you sell what you list. The rate sets the size of the shelf
+    &mdash; 144 listings at the fastest rate here against 860 at the
+    slowest, a factor of 6 &mdash; and the length of the climb. Not the
+    pace.</li>
+    <li><b>Your first month is not a share of the target.</b> At 10 a week it is
+    about $102, because you are selling out of a shelf that is still nearly empty.
+    Anyone promising the target in the first month is selling something.</li>
+    <li><b>&ldquo;List ten a day&rdquo; is a pace, not advice.</b> Ten a day is
+    303 listings a month, which at $23.80 a sale settles at about
+    $7,219 a month. That is excellent if it is your target and a lot of wasted
+    evenings if $1,000 is.</li>
+    <li><b>Where you list barely matters to this question.</b> 9 to 11
+    listings a week across seven marketplaces, against a factor of 6 in the
+    stock you must own from the sell-through rate alone.</li>
+    <li><b>A target in dollars is not a target in sales.</b> It is a target in dollars
+    divided by profit per sale, and the second number is the one you control. $5
+    more per item is worth 80 fewer listings on the shelf.</li>
+  </ul></div>
+</section>
+
+<h2>The two levers, and the free tools for them</h2>
+<section>
+  <div class="panel">
+    <p style="margin:0 0 10px"><b>Profit per sale</b> is the
+    <a href="fees.html">free fee comparison</a>: price, postage, item cost and label in,
+    profit on seven marketplaces out. <b>Sell-through</b> starts with whether the item can
+    be found at all, which is the <a href="./">free title auditor</a> &mdash; it reads a
+    listing title and shows which of the eighty characters went on words buyers do not
+    type. Neither needs an account and neither uploads anything.</p>
+    <p style="margin:0;font-size:14px;color:var(--muted)">The one number this page cannot
+    give you is your <em>own</em> average profit per sale and your own sell-through, which
+    come from your order history. If you keep none, there is a small paid
+    <a href="https://bookmonger.gumroad.com/l/reseller-profit-tracker">reseller profit
+    tracker</a>, $1, that records per-order figures you can average. The arithmetic on
+    this page is complete without it.</p>
+  </div>
+</section>
+
+<h2>Questions people actually ask</h2>
+<section>
+  <details><summary>How many items do I need to list a week to make $1,000 a month?</summary><p>About 10, at $23.80 of profit a sale — but only once you already hold about 430 active listings. 10 listings a week is 43 a month, and at a steady state the number you sell in a month equals the number you listed. Starting from an empty shelf at that pace, month 36 is the first one that actually clears $1,000. Listing 14 a week instead gets you there inside a year.</p></details>
+  <details><summary>Does a better sell-through rate mean I can list fewer items?</summary><p>No. It means you need to own fewer. At a steady state, sales per month equal listings per month whatever the rate, so the listings-per-week figure is 10 either way. What changes is the shelf: 144 active listings at a 30% monthly sell-through against 860 at 5%, a factor of 6.</p></details>
+  <details><summary>How many active listings do I need for $1,000 a month?</summary><p>About 430 at a 10% monthly sell-through and $23.80 of profit a sale: 43 sales a month divided by the rate at which your stock sells. Halve the sell-through and you double the shelf; the table on this page has the others.</p></details>
+  <details><summary>Why does it take so long at the right number of listings a week?</summary><p>Because the inventory has to exist before it can produce. Listing 10 a week from an empty shelf, your first month is 43 listings and about 4 sales — roughly $102, not $1,000. Each month's new listings land on a shelf that is also selling down, so the active count approaches 430 rather than jumping to it, and 36 months pass before a month's own profit reaches the target. The 22 months to 90% of the stock is the honest milestone; the last stretch is the slowest part.</p></details>
+  <details><summary>Is “list ten a day” good advice?</summary><p>It is a pace, not advice, and it is a bigger one than most people asking this question want. Ten a day is 303 listings a month, which at $23.80 of profit a sale settles at about $7,219 a month — excellent if that is the target, and a lot of evenings wasted if $1,000 is.</p></details>
+  <details><summary>Does it matter which marketplace I list on?</summary><p>Barely, for this question. The same $1,000 needs between 9 and 11 listings a week across the seven marketplaces compared here, because the fee difference moves the profit per sale by a few dollars. The sell-through rate moves the stock you have to own by a factor of 6. Which you sell on is a smaller decision than how fast it moves.</p></details>
+</section>
+
+<h2>Where these numbers come from, and what they are not</h2>
+<section>
+  <div class="note">
+    <b>The profit per sale is computed from the fee model inside the free
+    <a href="fees.html">fee comparison</a></b>, parsed out of that page rather than
+    retyped, so the two cannot drift apart. The rest is arithmetic on one recurrence: each
+    month the shelf loses the fraction that sells and gains what you listed. Rates are
+    standard selling fees checked September 2026, excluding promoted-listing ad rates,
+    store subscriptions, international fees and category exceptions. The worked sale is the
+    same $42 item with $8 postage used on
+    <a href="ebay-payout.html">the payout page</a> and
+    <a href="ebay-accept-offer.html">the offer page</a>, so all three agree.
+  </div>
+</section>
+
+<h2>What this page does not cover</h2>
+<section>
+  <p>It is arithmetic on a steady rate, not a forecast. It assumes your sell-through and
+  your profit per sale hold still, which nobody's do; it ignores seasonality, price
+  changes, markdowns, items that end unsold and items you give up on. It does not price
+  your time, your storage, or the money tied up in 430 unsold items &mdash; which
+  at $12 of cost each is the real reason the slow row is hard, and it is a number
+  only you can put on. It says nothing about what any marketplace's search or
+  recommendation system does with more listings, because that is not knowable from here:
+  more listings give more chances to be found, and this page will not pretend to know the
+  rate. It does not cover sourcing, promoted listings, store subscriptions, taxes, or
+  whether any of this is a good use of your evenings. One thing only: how a monthly profit
+  target turns into a number of listings, and what it actually takes to get there.</p>
+</section>
+
+<footer>
+  <a href="./">Free title auditor</a> &middot;
+  <a href="fees.html">Free fee comparison</a> &middot;
+  <a href="ebay-payout.html">Why your payout is less than the sale price</a> &middot;
+  <a href="ebay-accept-offer.html">Should you take the offer or relist?</a> &middot;
+  <a href="ebay-title-length.html">How many characters is an eBay title?</a> &middot;
+  <a href="seller-standards.html">Seller standards checker</a> &middot;
+  <a href="https://bookmonger.gumroad.com">Store</a>
+</footer>
+</div>
+</body>
+</html>

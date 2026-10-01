@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Is it worth relisting, or should I take the eBay offer?</title>
+<meta name="description" content="Take it unless a full-price sale is more than 83% likely. A $7 discount on a $42 item costs you $6.05, not $7, because the fee falls with the price — and what you paid for the item does not belong in the decision at all. Worked through on seven marketplaces.">
+<link rel="canonical" href="https://mattvlr.github.io/title-budget/ebay-accept-offer.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://mattvlr.github.io/title-budget/ebay-accept-offer.html">
+<meta property="og:title" content="Is it worth relisting, or should I take the eBay offer?">
+<meta property="og:description" content="Take it unless a full-price sale is more than 83% likely. A $7 discount on a $42 item costs you $6.05, not $7, because the fee falls with the price — and what you paid for the item does not belong in the decision at all. Worked through on seven marketplaces.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#A85D00">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"Should I accept a Best Offer or hold out for the asking price?","acceptedAnswer":{"@type":"Answer","text":"Hold out only if you think the chance of selling at the asking price is better than 83%. On a $42 item with $8 shipping, a $35 offer puts $29.75 in your pocket now against $35.80 if the full-price sale happens, so the offer is worth taking unless a full-price buyer is close to certain."}},
+    {"@type":"Question","name":"How much does accepting a lower offer actually cost me?","acceptedAnswer":{"@type":"Answer","text":"Less than the discount, because the fee is charged on what the buyer pays and a smaller payment carries a smaller fee. A $7 reduction on a $42 eBay item costs you $6.05, not $7 \u2014 eBay stops charging $0.95 of it. Every dollar you come down costs you $0.864."}},
+    {"@type":"Question","name":"What is the lowest offer worth accepting?","acceptedAnswer":{"@type":"Answer","text":"The one that still covers what you paid for the item, the label and the packaging. On the worked order here \u2014 $12.00 of item cost, $6.40 of postage and $0.60 of packaging \u2014 that floor is $14.46 on eBay, which is $27.54 below the asking price. Below it you are paying a stranger to take your stock."}},
+    {"@type":"Question","name":"Does what I paid for the item change whether I should accept?","acceptedAnswer":{"@type":"Answer","text":"No, and this is the mistake that keeps items on the shelf. The money you spent is spent whichever button you press, so it does not belong in the comparison. Counting it makes holding out look better than it is: on this order it moves the threshold from 83% down to 75%, which is the difference between taking the offer and refusing it."}},
+    {"@type":"Question","name":"Does relisting cost anything?","acceptedAnswer":{"@type":"Answer","text":"On 6 of the 7 marketplaces modelled here, nothing \u2014 relisting is free and the only cost of holding is the money sitting in the item. Etsy is the exception at $0.20 per listing. What relisting costs everywhere is the chance to change something: if the title is the reason nobody bid, relisting it unchanged buys another stretch of silence."}},
+    {"@type":"Question","name":"Is a discount worth more on a cheap marketplace or an expensive one?","acceptedAnswer":{"@type":"Answer","text":"The opposite of what people expect. The higher the fee rate, the more of your discount the marketplace absorbs, so the same $7 off costs you $5.60 on Poshmark and $6.77 on Depop. The low-fee marketplace is still the better place to sell \u2014 it just gives you less help when you negotiate."}}
+]}
+</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --bg: #F5F7F9; --surface: #FFFFFF; --surface-2: #EFF3F6;
+    --ink: #16202E; --muted: #5C6B7F; --faint: #8595A8; --border: #DCE3EA;
+    --accent: #A85D00; --accent-soft: #F5E4CC;
+    --good: #1F6B4A; --good-soft: #E2F0E9;
+    --bad: #B02A1F; --bad-soft: #F8E0DD;
+    --meter: #E2E8EE;
+    --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0E141C; --surface: #161F2A; --surface-2: #1D2835;
+      --ink: #E7EDF4; --muted: #9AAABC; --faint: #74869A; --border: #2A3745;
+      --accent: #E8A13A; --accent-soft: #3A2C16;
+      --good: #5CC08D; --good-soft: #143026;
+      --bad: #F08074; --bad-soft: #351A17; --meter: #26333F;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0E141C; --surface: #161F2A; --surface-2: #1D2835;
+    --ink: #E7EDF4; --muted: #9AAABC; --faint: #74869A; --border: #2A3745;
+    --accent: #E8A13A; --accent-soft: #3A2C16;
+    --good: #5CC08D; --good-soft: #143026;
+    --bad: #F08074; --bad-soft: #351A17; --meter: #26333F;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font-family: var(--sans); font-size: 15px; line-height: 1.55;
+         -webkit-text-size-adjust: 100%; }
+  .wrap { max-width: 900px; margin: 0 auto; padding-inline: 16px; padding-block: 0 56px; }
+
+  header { background: var(--surface); border-bottom: 1px solid var(--border); }
+  .head { max-width: 900px; margin: 0 auto; padding-inline: 16px; padding-block: 22px 20px; }
+  .eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: .1em;
+             text-transform: uppercase; color: var(--accent); margin: 0 0 6px; }
+  h1 { font-size: 28px; font-weight: 600; margin: 0 0 8px; letter-spacing: -.012em;
+       text-wrap: balance; }
+  .lede { margin: 0; color: var(--muted); max-width: 64ch; }
+  .lede strong { color: var(--ink); font-weight: 500; }
+  nav { margin-top: 12px; font-size: 13.5px; }
+  nav a { color: var(--accent); text-decoration: none; }
+  nav a:hover { text-decoration: underline; }
+
+  section { margin-top: 28px; }
+  h2 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em;
+       color: var(--faint); margin: 0 0 11px; font-family: var(--mono); }
+  h3 { font-size: 18px; font-weight: 600; margin: 26px 0 8px; }
+
+  .panel { background: var(--surface); border: 1px solid var(--border);
+           border-radius: 6px; padding: 16px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+  label.f { display: block; font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+  input { width: 100%; box-sizing: border-box; font-family: var(--mono); font-size: 16px;
+          color: var(--ink); background: var(--surface-2); border: 1px solid var(--border);
+          border-radius: 5px; padding: 9px 11px; }
+  input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .hint { font-size: 12.5px; color: var(--faint); margin: 10px 0 0; max-width: 68ch; }
+
+  .verdict { background: var(--surface); border: 1px solid var(--border);
+             border-radius: 6px; padding: 18px; }
+  .verdict.trs { border-color: var(--good); background: var(--good-soft); }
+  .verdict.below { border-color: var(--bad); background: var(--bad-soft); }
+  .level { font-family: var(--mono); font-size: 26px; font-weight: 500; margin: 0;
+           letter-spacing: -.01em; }
+  .verdict.trs .level { color: var(--good); }
+  .verdict.below .level { color: var(--bad); }
+  .because { margin: 8px 0 0; color: var(--muted); font-size: 14.5px; max-width: 66ch; }
+  .window { font-family: var(--mono); font-size: 11px; letter-spacing: .06em;
+            text-transform: uppercase; color: var(--faint); margin: 0 0 8px; }
+
+  .scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 6px;
+            background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--border);
+           vertical-align: top; }
+  th { font-family: var(--mono); font-size: 10.5px; letter-spacing: .06em;
+       text-transform: uppercase; color: var(--faint); font-weight: 500; white-space: nowrap; }
+  tbody tr:last-child td { border-bottom: none; }
+  td.num { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums;
+           white-space: nowrap; }
+  tr.fail td { background: var(--bad-soft); }
+  tr.fail td.st { color: var(--bad); font-weight: 500; }
+  td.st { font-family: var(--mono); font-size: 11px; letter-spacing: .05em;
+          text-transform: uppercase; white-space: nowrap; }
+  tr.pass td.st { color: var(--good); }
+  .basis { font-family: var(--mono); font-size: 10.5px; color: var(--muted);
+           text-transform: none; letter-spacing: 0; }
+
+  .callout { background: var(--accent-soft); border-radius: 6px; padding: 14px 16px;
+             margin-top: 16px; font-size: 14.5px; }
+  .callout strong { font-weight: 600; }
+  p { max-width: 68ch; }
+  .note { border-left: 2px solid var(--accent); padding: 2px 0 2px 14px;
+          color: var(--muted); font-size: 14px; max-width: 66ch; }
+  blockquote { margin: 10px 0 0; padding: 0 0 0 14px; border-left: 2px solid var(--border);
+               color: var(--muted); font-size: 13.5px; max-width: 66ch; }
+  details { background: var(--surface); border: 1px solid var(--border);
+            border-radius: 6px; padding: 12px 15px; margin-bottom: 9px; }
+  details[open] { border-color: var(--accent); }
+  summary { cursor: pointer; font-weight: 500; font-size: 15.5px; }
+  summary::marker { color: var(--accent); }
+  details p { margin: 9px 0 0; color: var(--muted); font-size: 14.5px; }
+  code { font-family: var(--mono); font-size: 0.9em; background: var(--surface-2);
+         padding: 1px 5px; border-radius: 4px; }
+  footer { margin-top: 36px; padding-top: 18px; border-top: 1px solid var(--border);
+           color: var(--faint); font-size: 12.5px; }
+  footer a { color: var(--accent); }
+  .tools { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 11px; }
+  .tools a { display: inline-block; padding: 6px 11px; background: var(--surface);
+             border: 1px solid var(--border); border-radius: 6px;
+             text-decoration: none; font-size: 13px; }
+  @media (max-width: 560px) { h1 { font-size: 23px; } }
+
+
+  table { border-collapse:collapse; width:100%; font-size:14.5px; }
+  th, td { text-align:left; padding:9px 12px; border-bottom:1px solid var(--border);
+           vertical-align:top; }
+  /* house.css sets th to nowrap, which a long question-shaped header turns into a
+     table two viewports wide. These headers are sentences, so let them wrap. */
+  th { font-size:12px; text-transform:uppercase; letter-spacing:.07em; color:var(--faint);
+       font-weight:600; white-space:normal; }
+  td.num { text-align:right; font-family:var(--mono); font-variant-numeric:tabular-nums;
+           white-space:nowrap; }
+  /* NOT .st - the house stylesheet uses that for an uppercase monospace status badge,
+     which turns a sentence in a table cell into shouting. */
+  td.why { color:var(--muted); font-size:13.5px; line-height:1.5; white-space:normal;
+           font-family:var(--sans); text-transform:none; letter-spacing:0; }
+  tbody tr:last-child td { border-bottom:0; }
+  tr.here td { background:var(--accent-soft); }
+  details { border:1px solid var(--border); border-radius:9px; padding:12px 14px;
+            margin:0 0 9px; background:var(--surface); }
+  details summary { cursor:pointer; font-weight:600; font-size:15px; }
+  details p { margin:9px 0 0; color:var(--muted); font-size:14.5px; }
+  .sum { font-family:var(--mono); font-size:14px; line-height:1.85; margin:0;
+         white-space:pre; overflow-x:auto; }
+  @media (max-width:560px) { .sum { font-size:11.5px; } }
+  /* The h2 sits outside its section, so it inherits no top margin and lands flush
+     against the paragraph above it. Give the rules some air. */
+  h2 { margin-top:34px; }
+  ul.plain { margin:0; padding-left:20px; }
+  ul.plain li { margin-bottom:9px; }
+  ul.plain li:last-child { margin-bottom:0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="eyebrow">eBay Best Offer &middot; the arithmetic</p>
+<h1>Is it worth relisting, or should I take the eBay offer?</h1>
+<p class="lede">Take it, unless a full-price sale is close to certain. The reason is
+arithmetic almost nobody does: <strong>a discount is partly paid by the fee you no longer
+owe</strong>, so it costs less than its face value &mdash; and the money you spent buying
+the item does not belong in the decision at all.</p>
+
+<div class="callout">
+  <b>The short answer.</b> On a $42 listing with $8 postage, a
+  $35 offer leaves you <b>$29.75</b> in hand today against
+  <b>$35.80</b> if the full-price sale eventually happens. Holding out is the better
+  bet only if the chance of that sale is above <b>83%</b>. Ask yourself honestly
+  how likely that is; everything below is the arithmetic behind it.
+</div>
+
+<h2>The two outcomes, side by side</h2>
+<section>
+  <div class="panel">
+    <p class="sum">                          Full price  The offer
+Item price                    $42.00     $35.00
+Shipping the buyer paid        $8.00      $8.00
+                             -------    -------
+Buyer pays                    $50.00     $43.00
+Fee, 13.6% + $0.40            -$7.20     -$6.25
+                             -------    -------
+You receive                   $42.80     $36.75
+Label and packaging           -$7.00     -$7.00
+                             -------    -------
+<b>Cash in hand                  $35.80     $29.75</b></p>
+  </div>
+  <p class="hint">The $7 you came down cost you <b>$6.05</b>, not
+  $7. eBay's fee fell by $0.95 when the price did, so the marketplace paid
+  that much of your discount for you &mdash; 86% of the face value reaches your
+  pocket as a loss, and the rest never existed. The item cost sits outside this table on
+  purpose: it is spent either way, and the section below explains why putting it in here
+  leads people to the wrong answer.</p>
+</section>
+
+<h2>Every offer on the table, and the odds that would justify refusing it</h2>
+<section>
+  <div class="scroll">
+  <table>
+    <thead><tr><th class="num">Offer</th><th class="num">You receive</th>
+      <th class="num">Profit</th><th class="num">The discount costs</th>
+      <th class="num">Odds that would justify refusing</th></tr></thead>
+    <tbody>
+    <tr><td class="num">$40</td><td class="num">$41.07</td><td class="num">$22.07</td><td class="num">$1.73</td><td class="num">95%</td></tr>
+    <tr><td class="num">$38</td><td class="num">$39.34</td><td class="num">$20.34</td><td class="num">$3.46</td><td class="num">90%</td></tr>
+    <tr><td class="num">$36</td><td class="num">$37.62</td><td class="num">$18.62</td><td class="num">$5.18</td><td class="num">86%</td></tr>
+    <tr class="here"><td class="num">$35</td><td class="num">$36.75</td><td class="num">$17.75</td><td class="num">$6.05</td><td class="num">83%</td></tr>
+    <tr><td class="num">$34</td><td class="num">$35.89</td><td class="num">$16.89</td><td class="num">$6.91</td><td class="num">81%</td></tr>
+    <tr><td class="num">$32</td><td class="num">$34.16</td><td class="num">$15.16</td><td class="num">$8.64</td><td class="num">76%</td></tr>
+    <tr><td class="num">$30</td><td class="num">$32.43</td><td class="num">$13.43</td><td class="num">$10.37</td><td class="num">71%</td></tr>
+    <tr><td class="num">$28</td><td class="num">$30.70</td><td class="num">$11.70</td><td class="num">$12.10</td><td class="num">66%</td></tr>
+    <tr><td class="num">$25</td><td class="num">$28.11</td><td class="num">$9.11</td><td class="num">$14.69</td><td class="num">59%</td></tr>
+    <tr><td class="num">$22</td><td class="num">$25.52</td><td class="num">$6.52</td><td class="num">$17.28</td><td class="num">52%</td></tr>
+    <tr><td class="num">$20</td><td class="num">$23.79</td><td class="num">$4.79</td><td class="num">$19.01</td><td class="num">47%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="hint">Read the last column as a question about your own item, not a
+  prediction: refusing the $35 is a bet that more than 83 in 100 listings
+  like this one go on to sell at the asking price. The threshold crosses half at
+  <b>$21.28</b> &mdash; above that offer you should refuse only if you are more than
+  half sure of the full-price sale, and below it a less-than-even chance is already enough
+  to justify holding on.
+  <a href="fees.html">Put your own ask, offer and costs in &rarr;</a></p>
+</section>
+
+<h2>What a dollar off actually costs you, on seven marketplaces</h2>
+<section>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Marketplace</th><th>Headline rate</th><th>Fee charged on</th>
+      <th class="num">Cost of $1 off</th>
+      <th class="num">Cost of $7 off</th></tr></thead>
+    <tbody>
+    <tr><td>Poshmark</td><td class="why">$2.95 under $15, else 20%</td><td class="why">item price only</td><td class="num">$0.800</td><td class="num">$5.60</td></tr>
+    <tr><td>eBay</td><td class="why">13.6% + $0.40 per order</td><td class="why">item + shipping</td><td class="num">$0.864</td><td class="num">$6.05</td></tr>
+    <tr><td>Whatnot</td><td class="why">8% commission</td><td class="why">item + shipping</td><td class="num">$0.891</td><td class="num">$6.24</td></tr>
+    <tr><td>Mercari</td><td class="why">flat 10%</td><td class="why">item + shipping</td><td class="num">$0.900</td><td class="num">$6.30</td></tr>
+    <tr><td>Facebook</td><td class="why">10%, minimum $0.80</td><td class="why">item + shipping</td><td class="num">$0.900</td><td class="num">$6.30</td></tr>
+    <tr><td>Etsy</td><td class="why">6.5% transaction</td><td class="why">item + shipping</td><td class="num">$0.905</td><td class="num">$6.33</td></tr>
+    <tr><td>Depop</td><td class="why">no selling fee (US/UK)</td><td class="why">item + shipping</td><td class="num">$0.967</td><td class="num">$6.77</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="hint">The order is the surprise: the <em>cheaper</em> the marketplace, the
+  <em>more</em> a discount costs you, because there is less fee for the price cut to save.
+  The same $7 off costs $5.60 on Poshmark and $6.77 on
+  Depop. Depop is still the better place to sell this item &mdash; it just
+  gives you less help when you negotiate.</p>
+</section>
+
+<h2>The lowest offer worth taking at all</h2>
+<section>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Marketplace</th><th class="num">Break-even offer</th>
+      <th class="num">Room below the ask</th><th class="num">As a discount</th></tr></thead>
+    <tbody>
+    <tr><td>Depop</td><td class="num">$12.12</td><td class="num">$29.88</td><td class="num">71%</td></tr>
+    <tr><td>Mercari</td><td class="num">$13.12</td><td class="num">$28.88</td><td class="num">69%</td></tr>
+    <tr><td>Facebook</td><td class="num">$13.12</td><td class="num">$28.88</td><td class="num">69%</td></tr>
+    <tr><td>Etsy</td><td class="num">$13.50</td><td class="num">$28.50</td><td class="num">68%</td></tr>
+    <tr><td>Whatnot</td><td class="num">$13.67</td><td class="num">$28.33</td><td class="num">67%</td></tr>
+    <tr><td>Poshmark</td><td class="num">$13.95</td><td class="num">$28.05</td><td class="num">67%</td></tr>
+    <tr><td>eBay</td><td class="num">$14.46</td><td class="num">$27.54</td><td class="num">66%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="hint">With $12 in the item, $6.40 of postage and $0.60 of
+  packaging, this is the offer at which you break even. Accepting below it means paying a
+  stranger to take your stock. Note that the floor is lowest exactly where a discount
+  costs most: a low-fee marketplace lets you go further down before you lose money, while
+  charging you more for each step down.</p>
+</section>
+
+<h2>The bits most advice gets wrong</h2>
+<section>
+  <div class="panel"><ul class="plain">
+    <li><b>What you paid for it is not part of the decision.</b> That money is spent
+    whichever button you press. Counting it moves the threshold on this order from
+    83% to 75% &mdash; the difference between taking the offer and refusing
+    it, decided by a number that nothing you do now can change.</li>
+    <li><b>A $7 discount is not a $7 loss.</b> It is $6.05, because
+    the fee comes down with the price. Every comparison that treats a discount at face
+    value overstates what you are giving up.</li>
+    <li><b>Free shipping changes the percentage, not the money.</b> The same
+    $7 is 16.7% off a $42 item and 14% off the same
+    listing at $50 with free postage. eBay's fee is identical either way, because
+    it is charged on the total the buyer paid. Only the discount <em>looks</em>
+    smaller.</li>
+    <li><b>Relisting is free, and that is the trap.</b> Six of the
+    seven marketplaces here charge nothing to list; only Etsy does, at
+    $0.20. Because it is free it feels like no decision &mdash; so the item goes
+    back up unchanged and buys another stretch of silence.</li>
+    <li><b>Holding is not free, even when relisting is.</b> The $12 in the item is
+    money you cannot spend on the next one, and the shelf space is real. This page will
+    not put a number on your time, because anyone who does is making it up.</li>
+  </ul></div>
+</section>
+
+<h2>If you do relist, change the title</h2>
+<section>
+  <div class="panel">
+    <p style="margin:0 0 10px">A relisted item with the same title is the same item in
+    front of the same searches. The free <a href="./">title auditor</a> on this site reads
+    a title, flags the characters spent on words buyers do not type, and shows what the
+    eighty are going on &mdash; and <a href="ebay-title-length.html">what the eighty
+    characters are for</a> sets out the rules it applies.</p>
+    <p style="margin:0;font-size:14px;color:var(--muted)">If the $12 item cost is a
+    guess because the item came out of a box lot, there is a small paid
+    <a href="https://bookmonger.gumroad.com/l/lot-breakeven">lot break-even
+    calculator</a>, $1, that splits a lot price across what was in it. This page and the
+    fee comparison are complete without it.</p>
+  </div>
+</section>
+
+<h2>Questions people actually ask</h2>
+<section>
+  <details><summary>Should I accept a Best Offer or hold out for the asking price?</summary><p>Hold out only if you think the chance of selling at the asking price is better than 83%. On a $42 item with $8 shipping, a $35 offer puts $29.75 in your pocket now against $35.80 if the full-price sale happens, so the offer is worth taking unless a full-price buyer is close to certain.</p></details>
+  <details><summary>How much does accepting a lower offer actually cost me?</summary><p>Less than the discount, because the fee is charged on what the buyer pays and a smaller payment carries a smaller fee. A $7 reduction on a $42 eBay item costs you $6.05, not $7 — eBay stops charging $0.95 of it. Every dollar you come down costs you $0.864.</p></details>
+  <details><summary>What is the lowest offer worth accepting?</summary><p>The one that still covers what you paid for the item, the label and the packaging. On the worked order here — $12.00 of item cost, $6.40 of postage and $0.60 of packaging — that floor is $14.46 on eBay, which is $27.54 below the asking price. Below it you are paying a stranger to take your stock.</p></details>
+  <details><summary>Does what I paid for the item change whether I should accept?</summary><p>No, and this is the mistake that keeps items on the shelf. The money you spent is spent whichever button you press, so it does not belong in the comparison. Counting it makes holding out look better than it is: on this order it moves the threshold from 83% down to 75%, which is the difference between taking the offer and refusing it.</p></details>
+  <details><summary>Does relisting cost anything?</summary><p>On 6 of the 7 marketplaces modelled here, nothing — relisting is free and the only cost of holding is the money sitting in the item. Etsy is the exception at $0.20 per listing. What relisting costs everywhere is the chance to change something: if the title is the reason nobody bid, relisting it unchanged buys another stretch of silence.</p></details>
+  <details><summary>Is a discount worth more on a cheap marketplace or an expensive one?</summary><p>The opposite of what people expect. The higher the fee rate, the more of your discount the marketplace absorbs, so the same $7 off costs you $5.60 on Poshmark and $6.77 on Depop. The low-fee marketplace is still the better place to sell — it just gives you less help when you negotiate.</p></details>
+</section>
+
+<h2>Where these numbers come from, and what they are not</h2>
+<section>
+  <div class="note">
+    <b>Every figure on this page is computed from the fee model inside the free
+    <a href="fees.html">fee comparison</a></b>, parsed out of that page rather than
+    retyped, so the two cannot drift apart. The rates are standard selling fees checked
+    September 2026 and do <b>not</b> include promoted-listing ad rates, store
+    subscriptions, international fees or category exceptions &mdash; eBay's rate varies by
+    category and 13.6% is the common one, not the only one. The worked order is the same
+    $42 item with $8 postage used on
+    <a href="ebay-payout.html">the payout page</a>, so the two agree.
+  </div>
+</section>
+
+<h2>What this page does not cover</h2>
+<section>
+  <p>It does not tell you whether your item will sell. The last column of the ladder is a
+  threshold, not a forecast: it says what you would have to believe to justify refusing,
+  and the believing is yours. It does not price your time, model seasonality, or know what
+  the item sold for last month. It says nothing about what any search engine or any
+  marketplace's own recommendation system will do with a relisted item, because that is
+  not knowable from here. It does not cover counter-offers, auction reserves, the offers
+  eBay sends on your behalf to people watching, or whether a low offer deserves a reply.
+  One thing only: the arithmetic of accepting a number, and the odds that would justify
+  turning it down.</p>
+</section>
+
+<footer>
+  <a href="./">Free title auditor</a> &middot;
+  <a href="fees.html">Free fee comparison</a> &middot;
+  <a href="ebay-payout.html">Why your payout is less than the sale price</a> &middot;
+  <a href="ebay-title-length.html">How many characters is an eBay title?</a> &middot;
+  <a href="listings-per-week.html">How many to list a week for $1,000 a month</a> &middot;
+  <a href="seller-standards.html">Seller standards checker</a> &middot;
+  <a href="https://bookmonger.gumroad.com">Store</a>
+</footer>
+</div>
+</body>
+</html>
