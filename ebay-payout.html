@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why is my eBay payout less than the sale price?</title>
+<meta name="description" content="eBay's fee is 13.6% plus $0.40, and it is charged on what the buyer paid including shipping — not on the item price. On a $42 item with $8 postage that is $7.20, of which $1.09 comes off the shipping alone. Worked through, and compared against six other marketplaces.">
+<link rel="canonical" href="https://mattvlr.github.io/title-budget/ebay-payout.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://mattvlr.github.io/title-budget/ebay-payout.html">
+<meta property="og:title" content="Why is my eBay payout less than the sale price?">
+<meta property="og:description" content="eBay's fee is 13.6% plus $0.40, and it is charged on what the buyer paid including shipping — not on the item price. On a $42 item with $8 postage that is $7.20, of which $1.09 comes off the shipping alone. Worked through, and compared against six other marketplaces.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#A85D00">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"Does eBay charge its fee on shipping?","acceptedAnswer":{"@type":"Answer","text":"Yes. eBay's final value fee is charged on the total the buyer paid, and that includes the shipping they paid. On a $42 item with $8 shipping the fee is calculated on $50, not on $42 \u2014 which adds $1.09 you may not have budgeted for. The same is true on Etsy, Mercari and Facebook."}},
+    {"@type":"Question","name":"What is the $0.40 on every eBay order?","acceptedAnswer":{"@type":"Answer","text":"A per-order fee charged once per order on top of the percentage. It is $0.30 on orders of $10 and under and $0.40 above that. It is small, it is easy to forget, and it is the part eBay does not give back when you refund."}},
+    {"@type":"Question","name":"Why do I get less back than I expected after a refund?","acceptedAnswer":{"@type":"Answer","text":"Because only part of the fee comes back. eBay credits the percentage final value fee when you refund in full, but it does not credit the per-order fee, and shipping is never refunded \u2014 so the outbound label is simply gone. On a $42 sale returned in resellable condition, with $6.40 each way in postage and $0.60 of packaging, the return costs $13.80."}},
+    {"@type":"Question","name":"Which marketplace actually pays the most?","acceptedAnswer":{"@type":"Answer","text":"On a $42 item with $8 shipping, out of the seven compared here, Depop leaves you the most at $47.90 and Poshmark the least at $41.60. It changes with price: Poshmark charges a flat $2.95 below $15 and 20% at or above it, so it is the cheapest on small items and among the dearest on large ones."}},
+    {"@type":"Question","name":"Does this include promoted listings or a store subscription?","acceptedAnswer":{"@type":"Answer","text":"No. These are the standard selling fees only. Promoted listing ad rates, store subscriptions, international fees and category exceptions are all on top, and they vary too much to put a single number on."}}
+]}
+</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --bg: #F5F7F9; --surface: #FFFFFF; --surface-2: #EFF3F6;
+    --ink: #16202E; --muted: #5C6B7F; --faint: #8595A8; --border: #DCE3EA;
+    --accent: #A85D00; --accent-soft: #F5E4CC;
+    --good: #1F6B4A; --good-soft: #E2F0E9;
+    --bad: #B02A1F; --bad-soft: #F8E0DD;
+    --meter: #E2E8EE;
+    --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0E141C; --surface: #161F2A; --surface-2: #1D2835;
+      --ink: #E7EDF4; --muted: #9AAABC; --faint: #74869A; --border: #2A3745;
+      --accent: #E8A13A; --accent-soft: #3A2C16;
+      --good: #5CC08D; --good-soft: #143026;
+      --bad: #F08074; --bad-soft: #351A17; --meter: #26333F;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0E141C; --surface: #161F2A; --surface-2: #1D2835;
+    --ink: #E7EDF4; --muted: #9AAABC; --faint: #74869A; --border: #2A3745;
+    --accent: #E8A13A; --accent-soft: #3A2C16;
+    --good: #5CC08D; --good-soft: #143026;
+    --bad: #F08074; --bad-soft: #351A17; --meter: #26333F;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font-family: var(--sans); font-size: 15px; line-height: 1.55;
+         -webkit-text-size-adjust: 100%; }
+  .wrap { max-width: 900px; margin: 0 auto; padding-inline: 16px; padding-block: 0 56px; }
+
+  header { background: var(--surface); border-bottom: 1px solid var(--border); }
+  .head { max-width: 900px; margin: 0 auto; padding-inline: 16px; padding-block: 22px 20px; }
+  .eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: .1em;
+             text-transform: uppercase; color: var(--accent); margin: 0 0 6px; }
+  h1 { font-size: 28px; font-weight: 600; margin: 0 0 8px; letter-spacing: -.012em;
+       text-wrap: balance; }
+  .lede { margin: 0; color: var(--muted); max-width: 64ch; }
+  .lede strong { color: var(--ink); font-weight: 500; }
+  nav { margin-top: 12px; font-size: 13.5px; }
+  nav a { color: var(--accent); text-decoration: none; }
+  nav a:hover { text-decoration: underline; }
+
+  section { margin-top: 28px; }
+  h2 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em;
+       color: var(--faint); margin: 0 0 11px; font-family: var(--mono); }
+  h3 { font-size: 18px; font-weight: 600; margin: 26px 0 8px; }
+
+  .panel { background: var(--surface); border: 1px solid var(--border);
+           border-radius: 6px; padding: 16px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+  label.f { display: block; font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+  input { width: 100%; box-sizing: border-box; font-family: var(--mono); font-size: 16px;
+          color: var(--ink); background: var(--surface-2); border: 1px solid var(--border);
+          border-radius: 5px; padding: 9px 11px; }
+  input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .hint { font-size: 12.5px; color: var(--faint); margin: 10px 0 0; max-width: 68ch; }
+
+  .verdict { background: var(--surface); border: 1px solid var(--border);
+             border-radius: 6px; padding: 18px; }
+  .verdict.trs { border-color: var(--good); background: var(--good-soft); }
+  .verdict.below { border-color: var(--bad); background: var(--bad-soft); }
+  .level { font-family: var(--mono); font-size: 26px; font-weight: 500; margin: 0;
+           letter-spacing: -.01em; }
+  .verdict.trs .level { color: var(--good); }
+  .verdict.below .level { color: var(--bad); }
+  .because { margin: 8px 0 0; color: var(--muted); font-size: 14.5px; max-width: 66ch; }
+  .window { font-family: var(--mono); font-size: 11px; letter-spacing: .06em;
+            text-transform: uppercase; color: var(--faint); margin: 0 0 8px; }
+
+  .scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 6px;
+            background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--border);
+           vertical-align: top; }
+  th { font-family: var(--mono); font-size: 10.5px; letter-spacing: .06em;
+       text-transform: uppercase; color: var(--faint); font-weight: 500; white-space: nowrap; }
+  tbody tr:last-child td { border-bottom: none; }
+  td.num { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums;
+           white-space: nowrap; }
+  tr.fail td { background: var(--bad-soft); }
+  tr.fail td.st { color: var(--bad); font-weight: 500; }
+  td.st { font-family: var(--mono); font-size: 11px; letter-spacing: .05em;
+          text-transform: uppercase; white-space: nowrap; }
+  tr.pass td.st { color: var(--good); }
+  .basis { font-family: var(--mono); font-size: 10.5px; color: var(--muted);
+           text-transform: none; letter-spacing: 0; }
+
+  .callout { background: var(--accent-soft); border-radius: 6px; padding: 14px 16px;
+             margin-top: 16px; font-size: 14.5px; }
+  .callout strong { font-weight: 600; }
+  p { max-width: 68ch; }
+  .note { border-left: 2px solid var(--accent); padding: 2px 0 2px 14px;
+          color: var(--muted); font-size: 14px; max-width: 66ch; }
+  blockquote { margin: 10px 0 0; padding: 0 0 0 14px; border-left: 2px solid var(--border);
+               color: var(--muted); font-size: 13.5px; max-width: 66ch; }
+  details { background: var(--surface); border: 1px solid var(--border);
+            border-radius: 6px; padding: 12px 15px; margin-bottom: 9px; }
+  details[open] { border-color: var(--accent); }
+  summary { cursor: pointer; font-weight: 500; font-size: 15.5px; }
+  summary::marker { color: var(--accent); }
+  details p { margin: 9px 0 0; color: var(--muted); font-size: 14.5px; }
+  code { font-family: var(--mono); font-size: 0.9em; background: var(--surface-2);
+         padding: 1px 5px; border-radius: 4px; }
+  footer { margin-top: 36px; padding-top: 18px; border-top: 1px solid var(--border);
+           color: var(--faint); font-size: 12.5px; }
+  footer a { color: var(--accent); }
+  .tools { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 11px; }
+  .tools a { display: inline-block; padding: 6px 11px; background: var(--surface);
+             border: 1px solid var(--border); border-radius: 6px;
+             text-decoration: none; font-size: 13px; }
+  @media (max-width: 560px) { h1 { font-size: 23px; } }
+
+  table { border-collapse:collapse; width:100%; font-size:14.5px; }
+  th, td { text-align:left; padding:9px 12px; border-bottom:1px solid var(--border); }
+  th { font-size:12px; text-transform:uppercase; letter-spacing:.07em; color:var(--faint);
+       font-weight:600; }
+  td.num { text-align:right; font-family:var(--mono); font-variant-numeric:tabular-nums; }
+  td.st { color:var(--muted); font-size:13.5px; }
+  tbody tr:last-child td { border-bottom:0; }
+  details { border:1px solid var(--border); border-radius:9px; padding:12px 14px;
+            margin:0 0 9px; background:var(--surface); }
+  details summary { cursor:pointer; font-weight:600; font-size:15px; }
+  details p { margin:9px 0 0; color:var(--muted); font-size:14.5px; }
+  .sum { font-family:var(--mono); font-size:15px; line-height:1.9; margin:0;
+         white-space:pre-wrap; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="eyebrow">eBay fees &middot; worked through</p>
+<h1>Why is my eBay payout less than the sale price?</h1>
+<p class="lede">Because the fee is charged on what the <em>buyer</em> paid, not on what you
+listed the item for &mdash; and because there is a flat charge per order that most
+summaries leave out. Here is the arithmetic on a real order, and what the other six
+marketplaces do with the same sale.</p>
+
+<div class="callout">
+  <b>The short answer.</b> eBay takes <b>13.6% + $0.40</b> per order, and the 13.6% is
+  applied to the item price <em>plus the shipping the buyer paid</em>. On a $42 item with
+  $8 postage that is <b>$7.20</b>, not the $6.11 you would get from 13.6% of $42.
+  The extra <b>$1.09</b> is the fee on the shipping.
+</div>
+
+<h2>The arithmetic, on one order</h2>
+<section>
+  <div class="panel">
+    <p class="sum">Item price                      $42.00
+Shipping the buyer paid         $ 8.00
+                                -------
+What the buyer paid (gross)     $50.00
+
+13.6% of $50.00                 $ 6.80
+Per-order fee                   $ 0.40
+                                -------
+eBay's cut                      $7.20
+<b>You receive                      $42.80</b></p>
+  </div>
+  <p class="hint">The fee is the same whether you charged for postage separately or built
+  it into the price &mdash; eBay looks at the total. Free shipping does not avoid it; it
+  just moves which number it is hidden in.</p>
+</section>
+
+<h2>The same sale, on seven marketplaces</h2>
+<section>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Marketplace</th><th>Headline rate</th><th>Fee</th><th>You keep</th></tr></thead>
+    <tbody>
+    <tr><td>Depop</td><td class="st">no selling fee (US/UK)</td><td class="num">$2.10</td><td class="num">$47.90</td></tr>
+    <tr><td>Mercari</td><td class="st">flat 10%</td><td class="num">$5.00</td><td class="num">$45.00</td></tr>
+    <tr><td>Facebook</td><td class="st">10%, minimum $0.80</td><td class="num">$5.00</td><td class="num">$45.00</td></tr>
+    <tr><td>Etsy</td><td class="st">6.5% transaction</td><td class="num">$5.20</td><td class="num">$44.80</td></tr>
+    <tr><td>Whatnot</td><td class="st">8% commission</td><td class="num">$5.75</td><td class="num">$44.25</td></tr>
+    <tr><td>eBay</td><td class="st">13.6% + $0.40 per order</td><td class="num">$7.20</td><td class="num">$42.80</td></tr>
+    <tr><td>Poshmark</td><td class="st">$2.95 under $15, else 20%</td><td class="num">$8.40</td><td class="num">$41.60</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="hint">$42 item, $8 shipping, standard selling fees only. Ordering changes with
+  price &mdash; Poshmark is a flat $2.95 below $15 and 20% at or above it, so it is the
+  cheapest place to sell a $12 item and one of the dearest for a $90 one.
+  <a href="fees.html">Put your own numbers in &rarr;</a></p>
+</section>
+
+<h2>The bits most summaries get wrong</h2>
+<section>
+  <div class="panel"><ul class="plain">
+    <li><b>The fee is on the gross, not the item.</b> This is the single most common
+    mistake in fee comparisons, and it matters most on cheap items with real postage: on a
+    $10 item with $8 shipping, 38% of the fee is being charged on the
+    postage.</li>
+    <li><b>The per-order fee is not a rounding error.</b> $0.40 on a $5 item is 8% on its
+    own, on top of the 13.6%.</li>
+    <li><b>Poshmark is charged on the item price, not the gross.</b> It is the only one of
+    the seven that is, which is why it moves around the table as the price changes.</li>
+    <li><b>Facebook has a floor, not just a rate.</b> 10%, but never less than $0.80 &mdash;
+    so on a $4 sale the effective rate is 20%.</li>
+    <li><b>A refund does not undo the fee.</b> eBay credits the percentage when you refund
+    in full. It does not credit the per-order fee, and shipping is never refunded.</li>
+  </ul></div>
+</section>
+
+<h2>What a return costs, since it is the same question one step later</h2>
+<section>
+  <div class="panel">
+    <p style="margin:0 0 10px">A $42 sale that comes back resellable, with $6.40 of
+    postage each way and $0.60 of packaging, costs <b>$13.80</b> &mdash; even though the
+    item is back on the shelf and the percentage fee was credited. The money goes on the
+    per-order fee eBay keeps, both labels, and the packaging.</p>
+    <p style="margin:0;font-size:14px;color:var(--muted)">That breakdown is a separate
+    one-file tool, <a href="https://bookmonger.gumroad.com/l/return-cost">Return Cost</a>,
+    $1. The fee comparison above stays free.</p>
+  </div>
+</section>
+
+<h2>Questions people actually ask</h2>
+<section>
+  <details><summary>Does eBay charge its fee on shipping?</summary><p>Yes. eBay's final value fee is charged on the total the buyer paid, and that includes the shipping they paid. On a $42 item with $8 shipping the fee is calculated on $50, not on $42 — which adds $1.09 you may not have budgeted for. The same is true on Etsy, Mercari and Facebook.</p></details>
+  <details><summary>What is the $0.40 on every eBay order?</summary><p>A per-order fee charged once per order on top of the percentage. It is $0.30 on orders of $10 and under and $0.40 above that. It is small, it is easy to forget, and it is the part eBay does not give back when you refund.</p></details>
+  <details><summary>Why do I get less back than I expected after a refund?</summary><p>Because only part of the fee comes back. eBay credits the percentage final value fee when you refund in full, but it does not credit the per-order fee, and shipping is never refunded — so the outbound label is simply gone. On a $42 sale returned in resellable condition, with $6.40 each way in postage and $0.60 of packaging, the return costs $13.80.</p></details>
+  <details><summary>Which marketplace actually pays the most?</summary><p>On a $42 item with $8 shipping, out of the seven compared here, Depop leaves you the most at $47.90 and Poshmark the least at $41.60. It changes with price: Poshmark charges a flat $2.95 below $15 and 20% at or above it, so it is the cheapest on small items and among the dearest on large ones.</p></details>
+  <details><summary>Does this include promoted listings or a store subscription?</summary><p>No. These are the standard selling fees only. Promoted listing ad rates, store subscriptions, international fees and category exceptions are all on top, and they vary too much to put a single number on.</p></details>
+</section>
+
+<h2>Where these numbers come from, and what they are not</h2>
+<section>
+  <div class="note">
+    <b>These are standard selling rates, modelled.</b> They are the same rates the free
+    <a href="fees.html">fee comparison</a> computes with, taken from that page rather than
+    retyped, so the two cannot drift apart. They do <b>not</b> include promoted-listing ad
+    rates, store subscriptions, international or cross-border fees, or category exceptions
+    &mdash; eBay's rate varies by category and 13.6% is the common one, not the only one.
+    Check your own category before planning around a number on someone else's page,
+    including this one.
+  </div>
+</section>
+
+<footer>
+  <a href="./">Free title auditor</a> &middot;
+  <a href="fees.html">Free fee comparison</a> &middot;
+  <a href="seller-standards.html">Seller standards checker</a> &middot;
+  <a href="demos/">Demos</a> &middot;
+  <a href="https://bookmonger.gumroad.com">Store</a>
+</footer>
+</div>
+</body>
+</html>
