@@ -148,7 +148,11 @@
   th { font-size:12px; text-transform:uppercase; letter-spacing:.07em; color:var(--faint);
        font-weight:600; }
   td.num { text-align:right; font-family:var(--mono); font-variant-numeric:tabular-nums; }
-  td.st { color:var(--muted); font-size:13.5px; }
+  /* NOT .st - the house stylesheet uses that for an uppercase monospace status
+     badge, which turned every sentence in these columns into shouting. */
+  td.why { color:var(--muted); font-size:13.5px; line-height:1.5;
+           white-space:normal; font-family:var(--sans); text-transform:none;
+           letter-spacing:0; }
   tbody tr:last-child td { border-bottom:0; }
   details { border:1px solid var(--border); border-radius:9px; padding:12px 14px;
             margin:0 0 9px; background:var(--surface); }
@@ -223,18 +227,18 @@ holding a title back; what the eighty get <em>spent on</em> is.</p>
   <table>
     <thead><tr><th>Character</th><th>Why</th></tr></thead>
     <tbody>
-    <tr><td><code>…</code></td><td class="st">ellipsis — usually means the title was cut off and is incomplete</td></tr>
-    <tr><td><code>•</code></td><td class="st">bullet character — not searchable and wastes a character</td></tr>
-    <tr><td><code>™</code></td><td class="st">trademark symbol</td></tr>
-    <tr><td><code>®</code></td><td class="st">registered symbol</td></tr>
-    <tr><td><code>“</code></td><td class="st">curly quote</td></tr>
-    <tr><td><code>”</code></td><td class="st">curly quote</td></tr>
-    <tr><td><code>*</code></td><td class="st">asterisk — reads as spam</td></tr>
-    <tr><td><code>!</code></td><td class="st">exclamation mark — reads as spam</td></tr>
-    <tr><td><code>@</code></td><td class="st">at sign</td></tr>
-    <tr><td><code>#</code></td><td class="st">hash</td></tr>
-    <tr><td><code>~</code></td><td class="st">tilde</td></tr>
-    <tr><td><code>|</code></td><td class="st">pipe</td></tr>
+    <tr><td><code>…</code></td><td class="why">ellipsis — usually means the title was cut off and is incomplete</td></tr>
+    <tr><td><code>•</code></td><td class="why">bullet character — not searchable and wastes a character</td></tr>
+    <tr><td><code>™</code></td><td class="why">trademark symbol</td></tr>
+    <tr><td><code>®</code></td><td class="why">registered symbol</td></tr>
+    <tr><td><code>“</code></td><td class="why">curly quote</td></tr>
+    <tr><td><code>”</code></td><td class="why">curly quote</td></tr>
+    <tr><td><code>*</code></td><td class="why">asterisk — reads as spam</td></tr>
+    <tr><td><code>!</code></td><td class="why">exclamation mark — reads as spam</td></tr>
+    <tr><td><code>@</code></td><td class="why">at sign</td></tr>
+    <tr><td><code>#</code></td><td class="why">hash</td></tr>
+    <tr><td><code>~</code></td><td class="why">tilde</td></tr>
+    <tr><td><code>|</code></td><td class="why">pipe</td></tr>
     </tbody>
   </table>
   </div>
@@ -246,19 +250,19 @@ holding a title back; what the eighty get <em>spent on</em> is.</p>
   <table>
     <thead><tr><th>You wrote</th><th>They search for</th><th>Why it matters</th></tr></thead>
     <tbody>
-    <tr><td><code>Vtg</code></td><td><code>Vintage</code></td><td class="st">'Vtg' is not a term buyers type into search</td></tr>
-    <tr><td><code>Vint</code></td><td><code>Vintage</code></td><td class="st">'Vint' is not a term buyers type into search</td></tr>
-    <tr><td><code>Hard Cover</code></td><td><code>Hardcover</code></td><td class="st">buyers search the single word 'Hardcover'</td></tr>
-    <tr><td><code>HB</code></td><td><code>Hardcover</code></td><td class="st">'HB' is seller shorthand for Hardcover</td></tr>
-    <tr><td><code>HC</code></td><td><code>Hardcover</code></td><td class="st">'HC' is seller shorthand for Hardcover</td></tr>
-    <tr><td><code>TPB</code></td><td><code>Trade Paperback</code></td><td class="st">'TPB' is collector shorthand</td></tr>
-    <tr><td><code>PB</code></td><td><code>Paperback</code></td><td class="st">'PB' is seller shorthand for Paperback</td></tr>
-    <tr><td><code>SC</code></td><td><code>Softcover</code></td><td class="st">'SC' is seller shorthand</td></tr>
-    <tr><td><code>DJ</code></td><td><code>Dust Jacket</code></td><td class="st">'DJ' is seller shorthand</td></tr>
-    <tr><td><code>OSFM</code></td><td><code>One Size Fits Most</code></td><td class="st">'OSFM' is niche shorthand</td></tr>
-    <tr><td><code>NM</code></td><td><code>Near Mint</code></td><td class="st">'NM' is collector shorthand; include the words too</td></tr>
-    <tr><td><code>1st Ed</code></td><td><code>First Edition</code></td><td class="st">buyers search the spelled-out form</td></tr>
-    <tr><td><code>1st Edition</code></td><td><code>First Edition</code></td><td class="st">buyers search the spelled-out form</td></tr>
+    <tr><td><code>Vtg</code></td><td><code>Vintage</code></td><td class="why">'Vtg' is not a term buyers type into search</td></tr>
+    <tr><td><code>Vint</code></td><td><code>Vintage</code></td><td class="why">'Vint' is not a term buyers type into search</td></tr>
+    <tr><td><code>Hard Cover</code></td><td><code>Hardcover</code></td><td class="why">buyers search the single word 'Hardcover'</td></tr>
+    <tr><td><code>HB</code></td><td><code>Hardcover</code></td><td class="why">'HB' is seller shorthand for Hardcover</td></tr>
+    <tr><td><code>HC</code></td><td><code>Hardcover</code></td><td class="why">'HC' is seller shorthand for Hardcover</td></tr>
+    <tr><td><code>TPB</code></td><td><code>Trade Paperback</code></td><td class="why">'TPB' is collector shorthand</td></tr>
+    <tr><td><code>PB</code></td><td><code>Paperback</code></td><td class="why">'PB' is seller shorthand for Paperback</td></tr>
+    <tr><td><code>SC</code></td><td><code>Softcover</code></td><td class="why">'SC' is seller shorthand</td></tr>
+    <tr><td><code>DJ</code></td><td><code>Dust Jacket</code></td><td class="why">'DJ' is seller shorthand</td></tr>
+    <tr><td><code>OSFM</code></td><td><code>One Size Fits Most</code></td><td class="why">'OSFM' is niche shorthand</td></tr>
+    <tr><td><code>NM</code></td><td><code>Near Mint</code></td><td class="why">'NM' is collector shorthand; include the words too</td></tr>
+    <tr><td><code>1st Ed</code></td><td><code>First Edition</code></td><td class="why">buyers search the spelled-out form</td></tr>
+    <tr><td><code>1st Edition</code></td><td><code>First Edition</code></td><td class="why">buyers search the spelled-out form</td></tr>
     </tbody>
   </table>
   </div>

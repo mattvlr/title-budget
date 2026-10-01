@@ -147,7 +147,11 @@
   th { font-size:12px; text-transform:uppercase; letter-spacing:.07em; color:var(--faint);
        font-weight:600; }
   td.num { text-align:right; font-family:var(--mono); font-variant-numeric:tabular-nums; }
-  td.st { color:var(--muted); font-size:13.5px; }
+  /* NOT .st - the house stylesheet uses that for an uppercase monospace status
+     badge, which turned every sentence in these columns into shouting. */
+  td.why { color:var(--muted); font-size:13.5px; line-height:1.5;
+           white-space:normal; font-family:var(--sans); text-transform:none;
+           letter-spacing:0; }
   tbody tr:last-child td { border-bottom:0; }
   details { border:1px solid var(--border); border-radius:9px; padding:12px 14px;
             margin:0 0 9px; background:var(--surface); }
@@ -199,13 +203,13 @@ eBay's cut                      $7.20
   <table>
     <thead><tr><th>Marketplace</th><th>Headline rate</th><th>Fee</th><th>You keep</th></tr></thead>
     <tbody>
-    <tr><td>Depop</td><td class="st">no selling fee (US/UK)</td><td class="num">$2.10</td><td class="num">$47.90</td></tr>
-    <tr><td>Mercari</td><td class="st">flat 10%</td><td class="num">$5.00</td><td class="num">$45.00</td></tr>
-    <tr><td>Facebook</td><td class="st">10%, minimum $0.80</td><td class="num">$5.00</td><td class="num">$45.00</td></tr>
-    <tr><td>Etsy</td><td class="st">6.5% transaction</td><td class="num">$5.20</td><td class="num">$44.80</td></tr>
-    <tr><td>Whatnot</td><td class="st">8% commission</td><td class="num">$5.75</td><td class="num">$44.25</td></tr>
-    <tr><td>eBay</td><td class="st">13.6% + $0.40 per order</td><td class="num">$7.20</td><td class="num">$42.80</td></tr>
-    <tr><td>Poshmark</td><td class="st">$2.95 under $15, else 20%</td><td class="num">$8.40</td><td class="num">$41.60</td></tr>
+    <tr><td>Depop</td><td class="why">no selling fee (US/UK)</td><td class="num">$2.10</td><td class="num">$47.90</td></tr>
+    <tr><td>Mercari</td><td class="why">flat 10%</td><td class="num">$5.00</td><td class="num">$45.00</td></tr>
+    <tr><td>Facebook</td><td class="why">10%, minimum $0.80</td><td class="num">$5.00</td><td class="num">$45.00</td></tr>
+    <tr><td>Etsy</td><td class="why">6.5% transaction</td><td class="num">$5.20</td><td class="num">$44.80</td></tr>
+    <tr><td>Whatnot</td><td class="why">8% commission</td><td class="num">$5.75</td><td class="num">$44.25</td></tr>
+    <tr><td>eBay</td><td class="why">13.6% + $0.40 per order</td><td class="num">$7.20</td><td class="num">$42.80</td></tr>
+    <tr><td>Poshmark</td><td class="why">$2.95 under $15, else 20%</td><td class="num">$8.40</td><td class="num">$41.60</td></tr>
     </tbody>
   </table>
   </div>
