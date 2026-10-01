@@ -131,7 +131,7 @@
 </section>
 
 <section>
-  <h2>How it was checked</h2>
+  <h2>What I ran before shipping it</h2>
   <div class="panel"><ul class="plain"><li>139 assertions: spec-derived checksum comparison, a scanner-style round-trip decode of every test string, and a pattern-table cross-check against the python-barcode library.</li>
 <li>It computes the module width live and warns you when a SKU is too long for the chosen sheet. On Avery 5167 a 14-character SKU lands at 7.2 mil against GS1's 9.84 mil floor — it prints beautifully and scans as nothing.</li>
 <li>Avery 5167's horizontal pitch is 0.3125in, not the 0.3in gap that gets quoted. The other three sheets check out against their published specs.</li></ul></div>

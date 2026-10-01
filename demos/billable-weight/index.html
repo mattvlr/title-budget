@@ -135,7 +135,7 @@
 </section>
 
 <section>
-  <h2>How it was checked</h2>
+  <h2>What I ran before shipping it</h2>
   <div class="panel"><ul class="plain"><li>91 assertions across 8 box scenarios.</li>
 <li>USPS moved its divisor from 166 to 139 on 12 July 2026, roughly 19% more billable weight. Anything still dividing by 166 understates the cost.</li>
 <li>Each side rounds up to the next whole inch <em>before</em> the volume is worked out. The tests use a box where rounding sides first and rounding the volume after give different answers (5 lb vs 4 lb), so they prove which method the tool uses.</li></ul></div>

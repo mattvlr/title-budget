@@ -266,7 +266,7 @@ them. The <b>Overlay</b> blend mode supplies that for them, and the maths is bel
     <li><b>Grain zero-mean on code 128</b> to within 0.05, within 2% of the sigma it
     claims, and <b>nothing clipped at 0 or 255</b> in any of the 8 plates &mdash; a
     clipped grain field is a truncated distribution and it shows in the darks.</li>
-    <li><b>Grain size measured, not assumed.</b> The autocorrelation radius is computed
+    <li><b>Grain size, measured.</b> The autocorrelation radius is computed
     from the written pixels rather than read off the blur setting.</li>
     <li><b>The Overlay response curve itself</b>, by compositing each plate over a grey
     ramp, quantising to 8 bits as a renderer would, and comparing the measured standard

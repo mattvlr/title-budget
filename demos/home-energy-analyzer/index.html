@@ -99,12 +99,12 @@
 </section>
 
 <section>
-  <h2>How it was checked</h2>
+  <h2>What I ran before shipping it</h2>
   <div class="panel"><ul class="plain">
-    <li><b>55 tests pass</b> from the exact zip a buyer downloads, in a clean virtualenv on Windows 11 / Python 3.12.</li>
-    <li><b>The envelope fit was recomputed independently.</b> A separate OLS over the same 35 stored cycles returns slope 0.16502 and intercept 1.61 &mdash; identical to what the app prints.</li>
+    <li>59 tests pass, run out of the exact zip you would download rather than off my working copy.</li>
+    <li>I refitted the envelope by hand to check the app's arithmetic: a separate regression over the same 35 billing cycles gives slope 0.16502 and intercept 1.61, which is what it prints.</li>
     <li><b>Zero JavaScript.</b> No <code>&lt;script&gt;</code>, no <code>onclick</code>, no listener in any template; no external URL; and no <code>requests</code>, <code>urllib</code> or <code>socket</code> import anywhere in the package.</li>
-    <li>A Windows timezone defect was found and fixed before packaging &mdash; Windows ships no IANA database, so every zone silently fell back to UTC and filed interval readings under the wrong local hour.</li>
+    <li>It had a Windows timezone bug, now fixed. Windows ships no IANA database, so every zone quietly fell back to UTC and filed interval readings under the wrong local hour.</li>
   </ul></div>
 </section>
 

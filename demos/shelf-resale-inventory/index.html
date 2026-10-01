@@ -91,12 +91,12 @@
 </section>
 
 <section>
-  <h2>How it was checked</h2>
+  <h2>What I ran before shipping it</h2>
   <div class="panel"><ul class="plain">
-    <li><b>600 tests pass</b> (<code>python -m pytest -q</code>, 48 seconds) and <code>ruff check .</code> is clean.</li>
-    <li><b>All 36 pages load.</b> Every parameterless GET route was enumerated from Flask's own <code>app.url_map</code> &mdash; not a hand-written list &mdash; requested, and returned 200, with zero severe console errors.</li>
+    <li>The test suite passes &mdash; 601 of them &mdash; and the linter is clean.</li>
+    <li>All 36 pages load. I asked Flask for its own route table rather than writing one out, then opened every page on it: all 200, no console errors.</li>
     <li><b>9 Alembic migrations</b> apply from an empty database, and the seeder writes two fictional years of trading in one command.</li>
-    <li>Verified twice: once on the source tree, then again from inside the packaged zip in a clean virtualenv.</li>
+    <li>Run once on the source tree, then again out of the packaged zip in a clean virtualenv &mdash; because those are not always the same thing.</li>
   </ul></div>
 </section>
 
