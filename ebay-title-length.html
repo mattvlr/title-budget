@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How many characters is an eBay title, and do they all count?</title>
+<meta name="description" content="Eighty, and yes — spaces and punctuation included. The limit is rarely the problem; what the characters get spent on is. Here are the 13 filler phrases, 12 stray characters and the seller shorthand that a free auditor on this site flags, with what each one costs you.">
+<link rel="canonical" href="https://mattvlr.github.io/title-budget/ebay-title-length.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://mattvlr.github.io/title-budget/ebay-title-length.html">
+<meta property="og:title" content="How many characters is an eBay title, and do they all count?">
+<meta property="og:description" content="Eighty, and yes — spaces and punctuation included. The limit is rarely the problem; what the characters get spent on is. Here are the 13 filler phrases, 12 stray characters and the seller shorthand that a free auditor on this site flags, with what each one costs you.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#A85D00">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"How many characters does an eBay title get?","acceptedAnswer":{"@type":"Answer","text":"Eighty. The free auditor on this site uses 80 as its limit because that is what eBay's listing form enforces."}},
+    {"@type":"Question","name":"Do spaces and punctuation count?","acceptedAnswer":{"@type":"Answer","text":"Yes. Every character counts, including spaces, hyphens and exclamation marks. There is no free punctuation \u2014 an exclamation mark costs exactly as much as a letter of your brand name."}},
+    {"@type":"Question","name":"Does writing in capitals help?","acceptedAnswer":{"@type":"Answer","text":"No. eBay search ignores case, so capitals match nothing extra. They cost the same as lower case and read as shouting. The auditor flags a title once 40% or more of its significant words are capitalised."}},
+    {"@type":"Question","name":"What is the single most wasteful thing people put in titles?","acceptedAnswer":{"@type":"Answer","text":"Subjective filler \u2014 words describing how the seller feels about the item rather than what it is. 'BEAUTIFUL' alone spends 9 of the 80 characters, and buyers do not search for it. The auditor checks 13 such phrases; together they account for 88 characters."}},
+    {"@type":"Question","name":"Is seller shorthand like 'Vtg' a problem?","acceptedAnswer":{"@type":"Answer","text":"It is, because it is not what buyers type. Somebody looking for a vintage bowl searches \u201cvintage\u201d, not \u201cVtg\u201d. The three characters you save cost you the match. The auditor expands shorthand automatically when the full word still fits, and tells you to free up room first when it does not."}}
+]}
+</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --bg: #F5F7F9; --surface: #FFFFFF; --surface-2: #EFF3F6;
+    --ink: #16202E; --muted: #5C6B7F; --faint: #8595A8; --border: #DCE3EA;
+    --accent: #A85D00; --accent-soft: #F5E4CC;
+    --good: #1F6B4A; --good-soft: #E2F0E9;
+    --bad: #B02A1F; --bad-soft: #F8E0DD;
+    --meter: #E2E8EE;
+    --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0E141C; --surface: #161F2A; --surface-2: #1D2835;
+      --ink: #E7EDF4; --muted: #9AAABC; --faint: #74869A; --border: #2A3745;
+      --accent: #E8A13A; --accent-soft: #3A2C16;
+      --good: #5CC08D; --good-soft: #143026;
+      --bad: #F08074; --bad-soft: #351A17; --meter: #26333F;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0E141C; --surface: #161F2A; --surface-2: #1D2835;
+    --ink: #E7EDF4; --muted: #9AAABC; --faint: #74869A; --border: #2A3745;
+    --accent: #E8A13A; --accent-soft: #3A2C16;
+    --good: #5CC08D; --good-soft: #143026;
+    --bad: #F08074; --bad-soft: #351A17; --meter: #26333F;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font-family: var(--sans); font-size: 15px; line-height: 1.55;
+         -webkit-text-size-adjust: 100%; }
+  .wrap { max-width: 900px; margin: 0 auto; padding-inline: 16px; padding-block: 0 56px; }
+
+  header { background: var(--surface); border-bottom: 1px solid var(--border); }
+  .head { max-width: 900px; margin: 0 auto; padding-inline: 16px; padding-block: 22px 20px; }
+  .eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: .1em;
+             text-transform: uppercase; color: var(--accent); margin: 0 0 6px; }
+  h1 { font-size: 28px; font-weight: 600; margin: 0 0 8px; letter-spacing: -.012em;
+       text-wrap: balance; }
+  .lede { margin: 0; color: var(--muted); max-width: 64ch; }
+  .lede strong { color: var(--ink); font-weight: 500; }
+  nav { margin-top: 12px; font-size: 13.5px; }
+  nav a { color: var(--accent); text-decoration: none; }
+  nav a:hover { text-decoration: underline; }
+
+  section { margin-top: 28px; }
+  h2 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em;
+       color: var(--faint); margin: 0 0 11px; font-family: var(--mono); }
+  h3 { font-size: 18px; font-weight: 600; margin: 26px 0 8px; }
+
+  .panel { background: var(--surface); border: 1px solid var(--border);
+           border-radius: 6px; padding: 16px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+  label.f { display: block; font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+  input { width: 100%; box-sizing: border-box; font-family: var(--mono); font-size: 16px;
+          color: var(--ink); background: var(--surface-2); border: 1px solid var(--border);
+          border-radius: 5px; padding: 9px 11px; }
+  input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .hint { font-size: 12.5px; color: var(--faint); margin: 10px 0 0; max-width: 68ch; }
+
+  .verdict { background: var(--surface); border: 1px solid var(--border);
+             border-radius: 6px; padding: 18px; }
+  .verdict.trs { border-color: var(--good); background: var(--good-soft); }
+  .verdict.below { border-color: var(--bad); background: var(--bad-soft); }
+  .level { font-family: var(--mono); font-size: 26px; font-weight: 500; margin: 0;
+           letter-spacing: -.01em; }
+  .verdict.trs .level { color: var(--good); }
+  .verdict.below .level { color: var(--bad); }
+  .because { margin: 8px 0 0; color: var(--muted); font-size: 14.5px; max-width: 66ch; }
+  .window { font-family: var(--mono); font-size: 11px; letter-spacing: .06em;
+            text-transform: uppercase; color: var(--faint); margin: 0 0 8px; }
+
+  .scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 6px;
+            background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--border);
+           vertical-align: top; }
+  th { font-family: var(--mono); font-size: 10.5px; letter-spacing: .06em;
+       text-transform: uppercase; color: var(--faint); font-weight: 500; white-space: nowrap; }
+  tbody tr:last-child td { border-bottom: none; }
+  td.num { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums;
+           white-space: nowrap; }
+  tr.fail td { background: var(--bad-soft); }
+  tr.fail td.st { color: var(--bad); font-weight: 500; }
+  td.st { font-family: var(--mono); font-size: 11px; letter-spacing: .05em;
+          text-transform: uppercase; white-space: nowrap; }
+  tr.pass td.st { color: var(--good); }
+  .basis { font-family: var(--mono); font-size: 10.5px; color: var(--muted);
+           text-transform: none; letter-spacing: 0; }
+
+  .callout { background: var(--accent-soft); border-radius: 6px; padding: 14px 16px;
+             margin-top: 16px; font-size: 14.5px; }
+  .callout strong { font-weight: 600; }
+  p { max-width: 68ch; }
+  .note { border-left: 2px solid var(--accent); padding: 2px 0 2px 14px;
+          color: var(--muted); font-size: 14px; max-width: 66ch; }
+  blockquote { margin: 10px 0 0; padding: 0 0 0 14px; border-left: 2px solid var(--border);
+               color: var(--muted); font-size: 13.5px; max-width: 66ch; }
+  details { background: var(--surface); border: 1px solid var(--border);
+            border-radius: 6px; padding: 12px 15px; margin-bottom: 9px; }
+  details[open] { border-color: var(--accent); }
+  summary { cursor: pointer; font-weight: 500; font-size: 15.5px; }
+  summary::marker { color: var(--accent); }
+  details p { margin: 9px 0 0; color: var(--muted); font-size: 14.5px; }
+  code { font-family: var(--mono); font-size: 0.9em; background: var(--surface-2);
+         padding: 1px 5px; border-radius: 4px; }
+  footer { margin-top: 36px; padding-top: 18px; border-top: 1px solid var(--border);
+           color: var(--faint); font-size: 12.5px; }
+  footer a { color: var(--accent); }
+  .tools { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 11px; }
+  .tools a { display: inline-block; padding: 6px 11px; background: var(--surface);
+             border: 1px solid var(--border); border-radius: 6px;
+             text-decoration: none; font-size: 13px; }
+  @media (max-width: 560px) { h1 { font-size: 23px; } }
+
+  table { border-collapse:collapse; width:100%; font-size:14.5px; }
+  th, td { text-align:left; padding:8px 12px; border-bottom:1px solid var(--border);
+           vertical-align:top; }
+  th { font-size:12px; text-transform:uppercase; letter-spacing:.07em; color:var(--faint);
+       font-weight:600; }
+  td.num { text-align:right; font-family:var(--mono); font-variant-numeric:tabular-nums; }
+  td.st { color:var(--muted); font-size:13.5px; }
+  tbody tr:last-child td { border-bottom:0; }
+  details { border:1px solid var(--border); border-radius:9px; padding:12px 14px;
+            margin:0 0 9px; background:var(--surface); }
+  details summary { cursor:pointer; font-weight:600; font-size:15px; }
+  details p { margin:9px 0 0; color:var(--muted); font-size:14.5px; }
+  .cols { columns:2; column-gap:26px; }
+  @media (max-width:560px) { .cols { columns:1; } }
+  .ruler { font-family:var(--mono); font-size:13px; line-height:1.75; white-space:pre-wrap;
+           word-break:break-all; margin:0; }
+  .ruler .spent { background:var(--accent-soft); }
+  .ruler .waste { background:#F6D9D4; text-decoration:line-through; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="eyebrow">eBay titles &middot; what the 80 are for</p>
+<h1>How many characters is an eBay title, and do they all count?</h1>
+<p class="lede"><b>Eighty, and yes &mdash; all of them.</b> Spaces count. Hyphens count.
+Exclamation marks count. There is no free punctuation. But the limit is rarely what is
+holding a title back; what the eighty get <em>spent on</em> is.</p>
+
+<div class="callout">
+  <b>The short answer.</b> You get <b>80 characters</b> and every one is counted the
+  same way. Most sellers use about half, then fill the rest with words buyers never type.
+  The auditor on this site checks 13 such phrases, 12 characters that do not
+  belong in a title at all, and a list of seller shorthand &mdash; and it is free.
+</div>
+
+<h2>A real title, measured</h2>
+<section>
+  <div class="panel">
+    <p class="ruler"><span class="spent">Vintage Pyrex Mixing Bowl Set Milk Glass</span><span class="waste"> L@@K NR Nice!!</span></p>
+    <p class="hint" style="margin-top:12px">55 of 80 characters used. The struck-through
+    part is 15 of them &mdash; <code>L@@K</code> is filler, <code>NR</code> is seller
+    shorthand for a selling format rather than a thing anyone searches for, and
+    <code>Nice!!</code> describes a feeling. That is 15 characters that could have carried
+    the pattern name, the bowl size, or the year.</p>
+  </div>
+</section>
+
+<h2>The filler, and what each phrase costs</h2>
+<section>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Phrase</th><th>Characters</th></tr></thead>
+    <tbody>
+    <tr><td><code>BEAUTIFUL</code></td><td class="num">9</td></tr>
+    <tr><td><code>FAST SHIP</code></td><td class="num">9</td></tr>
+    <tr><td><code>FREE SHIP</code></td><td class="num">9</td></tr>
+    <tr><td><code>VERY RARE</code></td><td class="num">9</td></tr>
+    <tr><td><code>GORGEOUS</code></td><td class="num">8</td></tr>
+    <tr><td><code>MUST SEE</code></td><td class="num">8</td></tr>
+    <tr><td><code>STUNNING</code></td><td class="num">8</td></tr>
+    <tr><td><code>AMAZING</code></td><td class="num">7</td></tr>
+    <tr><td><code>AWESOME</code></td><td class="num">7</td></tr>
+    <tr><td><code>L@@K</code></td><td class="num">4</td></tr>
+    <tr><td><code>RARE</code></td><td class="num">4</td></tr>
+    <tr><td><code>HTF</code></td><td class="num">3</td></tr>
+    <tr><td><code>WOW</code></td><td class="num">3</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="hint">All 13 together are 88 characters &mdash; more than an entire
+  title's worth. None of them is a thing a buyer types into the search box.
+  <a href="./">Paste your own titles in &rarr;</a></p>
+</section>
+
+<h2>Characters that do not belong in a title</h2>
+<section>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Character</th><th>Why</th></tr></thead>
+    <tbody>
+    <tr><td><code>…</code></td><td class="st">ellipsis — usually means the title was cut off and is incomplete</td></tr>
+    <tr><td><code>•</code></td><td class="st">bullet character — not searchable and wastes a character</td></tr>
+    <tr><td><code>™</code></td><td class="st">trademark symbol</td></tr>
+    <tr><td><code>®</code></td><td class="st">registered symbol</td></tr>
+    <tr><td><code>“</code></td><td class="st">curly quote</td></tr>
+    <tr><td><code>”</code></td><td class="st">curly quote</td></tr>
+    <tr><td><code>*</code></td><td class="st">asterisk — reads as spam</td></tr>
+    <tr><td><code>!</code></td><td class="st">exclamation mark — reads as spam</td></tr>
+    <tr><td><code>@</code></td><td class="st">at sign</td></tr>
+    <tr><td><code>#</code></td><td class="st">hash</td></tr>
+    <tr><td><code>~</code></td><td class="st">tilde</td></tr>
+    <tr><td><code>|</code></td><td class="st">pipe</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<h2>Shorthand buyers do not type</h2>
+<section>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>You wrote</th><th>They search for</th><th>Why it matters</th></tr></thead>
+    <tbody>
+    <tr><td><code>Vtg</code></td><td><code>Vintage</code></td><td class="st">'Vtg' is not a term buyers type into search</td></tr>
+    <tr><td><code>Vint</code></td><td><code>Vintage</code></td><td class="st">'Vint' is not a term buyers type into search</td></tr>
+    <tr><td><code>Hard Cover</code></td><td><code>Hardcover</code></td><td class="st">buyers search the single word 'Hardcover'</td></tr>
+    <tr><td><code>HB</code></td><td><code>Hardcover</code></td><td class="st">'HB' is seller shorthand for Hardcover</td></tr>
+    <tr><td><code>HC</code></td><td><code>Hardcover</code></td><td class="st">'HC' is seller shorthand for Hardcover</td></tr>
+    <tr><td><code>TPB</code></td><td><code>Trade Paperback</code></td><td class="st">'TPB' is collector shorthand</td></tr>
+    <tr><td><code>PB</code></td><td><code>Paperback</code></td><td class="st">'PB' is seller shorthand for Paperback</td></tr>
+    <tr><td><code>SC</code></td><td><code>Softcover</code></td><td class="st">'SC' is seller shorthand</td></tr>
+    <tr><td><code>DJ</code></td><td><code>Dust Jacket</code></td><td class="st">'DJ' is seller shorthand</td></tr>
+    <tr><td><code>OSFM</code></td><td><code>One Size Fits Most</code></td><td class="st">'OSFM' is niche shorthand</td></tr>
+    <tr><td><code>NM</code></td><td><code>Near Mint</code></td><td class="st">'NM' is collector shorthand; include the words too</td></tr>
+    <tr><td><code>1st Ed</code></td><td><code>First Edition</code></td><td class="st">buyers search the spelled-out form</td></tr>
+    <tr><td><code>1st Edition</code></td><td><code>First Edition</code></td><td class="st">buyers search the spelled-out form</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="hint">Saving three characters costs you the match. The auditor expands these
+  automatically when the full word still fits inside 80, and tells you to free up room
+  first when it does not.</p>
+</section>
+
+<h2>The bits most advice gets wrong</h2>
+<section>
+  <div class="panel"><ul class="plain">
+    <li><b>"Use all 80" is not the advice.</b> Using all eighty on the wrong words is worse
+    than using fifty on the right ones. Fill them with attributes a buyer would type:
+    brand, model, size, material, year, colour.</li>
+    <li><b>Capitals win nothing.</b> eBay search ignores case. A title in capitals matches
+    exactly the same searches and reads as shouting.</li>
+    <li><b>Repeating a word does not rank it twice.</b> The second copy is spent characters
+    that could have been a different keyword.</li>
+    <li><b>An ellipsis usually means the title was cut off.</b> It is the clearest signal
+    that a title was pasted from somewhere narrower, and it tells a buyer nothing.</li>
+    <li><b>Punctuation is not free.</b> Three exclamation marks cost the same as the word
+    "red".</li>
+  </ul></div>
+</section>
+
+<h2>Questions people actually ask</h2>
+<section>
+  <details><summary>How many characters does an eBay title get?</summary><p>Eighty. The free auditor on this site uses 80 as its limit because that is what eBay's listing form enforces.</p></details>
+  <details><summary>Do spaces and punctuation count?</summary><p>Yes. Every character counts, including spaces, hyphens and exclamation marks. There is no free punctuation — an exclamation mark costs exactly as much as a letter of your brand name.</p></details>
+  <details><summary>Does writing in capitals help?</summary><p>No. eBay search ignores case, so capitals match nothing extra. They cost the same as lower case and read as shouting. The auditor flags a title once 40% or more of its significant words are capitalised.</p></details>
+  <details><summary>What is the single most wasteful thing people put in titles?</summary><p>Subjective filler — words describing how the seller feels about the item rather than what it is. 'BEAUTIFUL' alone spends 9 of the 80 characters, and buyers do not search for it. The auditor checks 13 such phrases; together they account for 88 characters.</p></details>
+  <details><summary>Is seller shorthand like 'Vtg' a problem?</summary><p>It is, because it is not what buyers type. Somebody looking for a vintage bowl searches “vintage”, not “Vtg”. The three characters you save cost you the match. The auditor expands shorthand automatically when the full word still fits, and tells you to free up room first when it does not.</p></details>
+</section>
+
+<h2>Where this comes from, and what it is not</h2>
+<section>
+  <div class="note">
+    <b>Every phrase and rule on this page is read out of the free auditor's own source</b>
+    rather than retyped, so the page and the tool cannot drift apart. What this is
+    <b>not</b>: a ranking guide. It can tell you which characters are being wasted; it
+    cannot tell you what eBay's search will do with the ones you keep, and anyone claiming
+    otherwise about a search engine they do not operate is guessing. Category limits can
+    also differ, and the character counter on eBay's own listing form is the authority,
+    not this page.
+  </div>
+</section>
+
+<footer>
+  <a href="./">Free title auditor</a> &middot;
+  <a href="fees.html">Free fee comparison</a> &middot;
+  <a href="ebay-payout.html">Why your payout is less than the sale price</a> &middot;
+  <a href="seller-standards.html">Seller standards checker</a> &middot;
+  <a href="https://bookmonger.gumroad.com">Store</a>
+</footer>
+</div>
+</body>
+</html>
