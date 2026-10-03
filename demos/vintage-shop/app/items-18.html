@@ -217,7 +217,7 @@ data-direction="cw" title="Rotate right 90°">
 <button type="button" class="btn btn-outline-info btn-sm js-remove-bg"
 data-item-id="18">
 <i class="bi bi-magic"></i>
-Remove backgrounds (2)
+Remove backgrounds (1)
 </button>
 <button type="button" class="btn btn-outline-danger btn-sm js-delete-photo"
 title="Delete the current photo">
@@ -227,43 +227,16 @@ Delete photo
 </div>
 <div class="position-relative" id="inventoryDetailGallery"
 data-item-id="18"
-data-photo-urls='["static/uploads/demo_VNT_JWL_0002_0.jpg?v=1759217384","static/uploads/demo_VNT_JWL_0002_1.jpg?v=1759217384"]'>
-<img src="static/uploads/demo_VNT_JWL_0002_0.jpg"
+data-photo-urls='["static/uploads/demo_photo_vnt-jwl-0002.jpg?v=1759272363"]'>
+<img src="static/uploads/demo_photo_vnt-jwl-0002.jpg"
 class="img-fluid rounded mb-2" alt="Moss Charm Bracelet" id="mainPhoto"
-data-photo-filename="demo_VNT_JWL_0002_0.jpg"
+data-photo-filename="demo_photo_vnt-jwl-0002.jpg"
 data-lightbox-trigger
-data-lightbox-photos='["static/uploads/demo_VNT_JWL_0002_0.jpg?v=1759217384","static/uploads/demo_VNT_JWL_0002_1.jpg?v=1759217384"]'
+data-lightbox-photos='["static/uploads/demo_photo_vnt-jwl-0002.jpg?v=1759272363"]'
 title="Click to enlarge">
 <div class="photo-rotate-loader" id="photoRotateLoader" hidden aria-hidden="true">
 <div class="spinner-border text-light" role="status" aria-label="Rotating photo…"></div>
 </div>
-<button type="button" class="btn btn-dark btn-sm position-absolute top-50 start-0 translate-middle-y ms-2" id="inventoryPhotoPrev" title="Previous photo">
-<i class="bi bi-chevron-left"></i>
-</button>
-<button type="button" class="btn btn-dark btn-sm position-absolute top-50 end-0 translate-middle-y me-2" id="inventoryPhotoNext" title="Next photo">
-<i class="bi bi-chevron-right"></i>
-</button>
-<span class="badge bg-dark position-absolute bottom-0 end-0 m-2" id="inventoryPhotoCount">1 / 2</span>
-</div>
-<div class="d-flex flex-wrap gap-1" id="inventoryPhotoThumbs">
-<span class="photo-thumb-wrap" data-photo-filename="demo_VNT_JWL_0002_0.jpg">
-<img src="static/uploads/demo_VNT_JWL_0002_0.jpg"
-class="rounded photo-thumb photo-thumb-active"
-style="width:48px;height:48px;object-fit:cover;cursor:pointer;border:2px solid var(--sidebar-accent)"
-data-index="0"
-data-photo-filename="demo_VNT_JWL_0002_0.jpg"
-alt="Photo 1"
-onclick="document.getElementById('mainPhoto').src=this.src; document.getElementById('mainPhoto').dataset.photoFilename=this.dataset.photoFilename; document.querySelectorAll('.photo-thumb').forEach(t=>{t.style.borderColor='transparent';t.classList.remove('photo-thumb-active')}); this.style.borderColor='var(--sidebar-accent)'; this.classList.add('photo-thumb-active');">
-</span>
-<span class="photo-thumb-wrap" data-photo-filename="demo_VNT_JWL_0002_1.jpg">
-<img src="static/uploads/demo_VNT_JWL_0002_1.jpg"
-class="rounded photo-thumb "
-style="width:48px;height:48px;object-fit:cover;cursor:pointer;border:2px solid transparent"
-data-index="1"
-data-photo-filename="demo_VNT_JWL_0002_1.jpg"
-alt="Photo 2"
-onclick="document.getElementById('mainPhoto').src=this.src; document.getElementById('mainPhoto').dataset.photoFilename=this.dataset.photoFilename; document.querySelectorAll('.photo-thumb').forEach(t=>{t.style.borderColor='transparent';t.classList.remove('photo-thumb-active')}); this.style.borderColor='var(--sidebar-accent)'; this.classList.add('photo-thumb-active');">
-</span>
 </div>
 </div>
 <div class="col-md-8">
@@ -330,13 +303,13 @@ onclick="document.getElementById('mainPhoto').src=this.src; document.getElementB
 <div class="card mb-3">
 <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
 <span>Shipping</span>
-<a href="#" data-snapshot-missing="/shipping?q=demo-order-3ee13e8a64b04945" class="btn btn-outline-secondary btn-sm">
+<a href="#" data-snapshot-missing="/shipping?q=demo-order-7354d39197f842a7" class="btn btn-outline-secondary btn-sm">
 Open Shipping Record
 </a>
 </div>
 <div class="card-body">
 <div class="row g-2 small">
-<div class="col-md-6"><strong>Square Order:</strong> demo-order-3ee13e8a64b04945</div>
+<div class="col-md-6"><strong>Square Order:</strong> demo-order-7354d39197f842a7</div>
 <div class="col-md-6"><strong>Status:</strong> <span class="badge bg-success">Delivered</span></div>
 <div class="col-md-6"><strong>Carrier:</strong> USPS</div>
 <div class="col-md-6"><strong>Tracking:</strong> 94005773887151601013</div>
@@ -355,7 +328,7 @@ Open Shipping Record
 </thead>
 <tbody>
 <tr>
-<td class="text-muted small">Feb 22, 2026 10:32</td>
+<td class="text-muted small">Feb 23, 2026 01:49</td>
 <td>
 <span class="badge bg-warning">Sold</span>
 </td>
@@ -363,7 +336,7 @@ Open Shipping Record
 <td class="text-muted small">Sold at the counter</td>
 </tr>
 <tr>
-<td class="text-muted small">Sep 30, 2025 02:29</td>
+<td class="text-muted small">Sep 30, 2025 17:46</td>
 <td>
 <span class="badge bg-success">In</span>
 </td>
@@ -399,7 +372,6 @@ last Feb 12, 2026
 <div class="d-flex justify-content-center align-items-center gap-2">
 <span class="text-muted">Storefront:</span>
 <span class="badge bg-secondary">Hidden</span>
-<span class="badge bg-info text-dark">Tagged</span>
 </div>
 <form method="POST" action="#" data-snapshot-action="/items/18/storefront-visibility" class="mt-2">
 <input type="hidden" name="show_on_storefront" value="1">
@@ -495,7 +467,7 @@ Jewelry category over the last 8 months.
 </div>
 <div class="d-flex justify-content-between">
 <span class="text-muted">Sold</span>
-<span>Feb 22, 2026</span>
+<span>Feb 23, 2026</span>
 </div>
 </div>
 </div>

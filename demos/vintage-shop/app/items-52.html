@@ -219,7 +219,7 @@ data-direction="cw" title="Rotate right 90°">
 <button type="button" class="btn btn-outline-info btn-sm js-remove-bg"
 data-item-id="52">
 <i class="bi bi-magic"></i>
-Remove backgrounds (4)
+Remove backgrounds (1)
 </button>
 <button type="button" class="btn btn-outline-danger btn-sm js-delete-photo"
 title="Delete the current photo">
@@ -229,61 +229,16 @@ Delete photo
 </div>
 <div class="position-relative" id="inventoryDetailGallery"
 data-item-id="52"
-data-photo-urls='["static/uploads/demo_VNT_BKS_0007_0.jpg?v=1781252209","static/uploads/demo_VNT_BKS_0007_1.jpg?v=1781252209","static/uploads/demo_VNT_BKS_0007_2.jpg?v=1781252209","static/uploads/demo_VNT_BKS_0007_3.jpg?v=1781252209"]'>
-<img src="static/uploads/demo_VNT_BKS_0007_0.jpg"
+data-photo-urls='["static/uploads/demo_photo_vnt-bks-0007.jpg?v=1781307188"]'>
+<img src="static/uploads/demo_photo_vnt-bks-0007.jpg"
 class="img-fluid rounded mb-2" alt="Field Guide to Coastal Birds" id="mainPhoto"
-data-photo-filename="demo_VNT_BKS_0007_0.jpg"
+data-photo-filename="demo_photo_vnt-bks-0007.jpg"
 data-lightbox-trigger
-data-lightbox-photos='["static/uploads/demo_VNT_BKS_0007_0.jpg?v=1781252209","static/uploads/demo_VNT_BKS_0007_1.jpg?v=1781252209","static/uploads/demo_VNT_BKS_0007_2.jpg?v=1781252209","static/uploads/demo_VNT_BKS_0007_3.jpg?v=1781252209"]'
+data-lightbox-photos='["static/uploads/demo_photo_vnt-bks-0007.jpg?v=1781307188"]'
 title="Click to enlarge">
 <div class="photo-rotate-loader" id="photoRotateLoader" hidden aria-hidden="true">
 <div class="spinner-border text-light" role="status" aria-label="Rotating photo…"></div>
 </div>
-<button type="button" class="btn btn-dark btn-sm position-absolute top-50 start-0 translate-middle-y ms-2" id="inventoryPhotoPrev" title="Previous photo">
-<i class="bi bi-chevron-left"></i>
-</button>
-<button type="button" class="btn btn-dark btn-sm position-absolute top-50 end-0 translate-middle-y me-2" id="inventoryPhotoNext" title="Next photo">
-<i class="bi bi-chevron-right"></i>
-</button>
-<span class="badge bg-dark position-absolute bottom-0 end-0 m-2" id="inventoryPhotoCount">1 / 4</span>
-</div>
-<div class="d-flex flex-wrap gap-1" id="inventoryPhotoThumbs">
-<span class="photo-thumb-wrap" data-photo-filename="demo_VNT_BKS_0007_0.jpg">
-<img src="static/uploads/demo_VNT_BKS_0007_0.jpg"
-class="rounded photo-thumb photo-thumb-active"
-style="width:48px;height:48px;object-fit:cover;cursor:pointer;border:2px solid var(--sidebar-accent)"
-data-index="0"
-data-photo-filename="demo_VNT_BKS_0007_0.jpg"
-alt="Photo 1"
-onclick="document.getElementById('mainPhoto').src=this.src; document.getElementById('mainPhoto').dataset.photoFilename=this.dataset.photoFilename; document.querySelectorAll('.photo-thumb').forEach(t=>{t.style.borderColor='transparent';t.classList.remove('photo-thumb-active')}); this.style.borderColor='var(--sidebar-accent)'; this.classList.add('photo-thumb-active');">
-</span>
-<span class="photo-thumb-wrap" data-photo-filename="demo_VNT_BKS_0007_1.jpg">
-<img src="static/uploads/demo_VNT_BKS_0007_1.jpg"
-class="rounded photo-thumb "
-style="width:48px;height:48px;object-fit:cover;cursor:pointer;border:2px solid transparent"
-data-index="1"
-data-photo-filename="demo_VNT_BKS_0007_1.jpg"
-alt="Photo 2"
-onclick="document.getElementById('mainPhoto').src=this.src; document.getElementById('mainPhoto').dataset.photoFilename=this.dataset.photoFilename; document.querySelectorAll('.photo-thumb').forEach(t=>{t.style.borderColor='transparent';t.classList.remove('photo-thumb-active')}); this.style.borderColor='var(--sidebar-accent)'; this.classList.add('photo-thumb-active');">
-</span>
-<span class="photo-thumb-wrap" data-photo-filename="demo_VNT_BKS_0007_2.jpg">
-<img src="static/uploads/demo_VNT_BKS_0007_2.jpg"
-class="rounded photo-thumb "
-style="width:48px;height:48px;object-fit:cover;cursor:pointer;border:2px solid transparent"
-data-index="2"
-data-photo-filename="demo_VNT_BKS_0007_2.jpg"
-alt="Photo 3"
-onclick="document.getElementById('mainPhoto').src=this.src; document.getElementById('mainPhoto').dataset.photoFilename=this.dataset.photoFilename; document.querySelectorAll('.photo-thumb').forEach(t=>{t.style.borderColor='transparent';t.classList.remove('photo-thumb-active')}); this.style.borderColor='var(--sidebar-accent)'; this.classList.add('photo-thumb-active');">
-</span>
-<span class="photo-thumb-wrap" data-photo-filename="demo_VNT_BKS_0007_3.jpg">
-<img src="static/uploads/demo_VNT_BKS_0007_3.jpg"
-class="rounded photo-thumb "
-style="width:48px;height:48px;object-fit:cover;cursor:pointer;border:2px solid transparent"
-data-index="3"
-data-photo-filename="demo_VNT_BKS_0007_3.jpg"
-alt="Photo 4"
-onclick="document.getElementById('mainPhoto').src=this.src; document.getElementById('mainPhoto').dataset.photoFilename=this.dataset.photoFilename; document.querySelectorAll('.photo-thumb').forEach(t=>{t.style.borderColor='transparent';t.classList.remove('photo-thumb-active')}); this.style.borderColor='var(--sidebar-accent)'; this.classList.add('photo-thumb-active');">
-</span>
 </div>
 </div>
 <div class="col-md-8">
@@ -374,7 +329,7 @@ onclick="document.getElementById('mainPhoto').src=this.src; document.getElementB
 </thead>
 <tbody>
 <tr>
-<td class="text-muted small">Jun 12, 2026 03:16</td>
+<td class="text-muted small">Jun 12, 2026 18:33</td>
 <td>
 <span class="badge bg-success">In</span>
 </td>
@@ -398,19 +353,18 @@ onclick="document.getElementById('mainPhoto').src=this.src; document.getElementB
 <div class="d-flex justify-content-center align-items-center gap-3 small text-muted mb-3 border-top pt-2">
 <div title="Total storefront page-views (bot-filtered, deduped per session)">
 <i class="bi bi-eye"></i>
-<strong class="text-body">30</strong>
+<strong class="text-body">24</strong>
 views
 </div>
 <div title="Most recent view">
 <i class="bi bi-clock-history"></i>
-last Oct 03, 2026
+last Oct 01, 2026
 </div>
 </div>
 <div class="small mb-3">
 <div class="d-flex justify-content-center align-items-center gap-2">
 <span class="text-muted">Storefront:</span>
 <span class="badge bg-success">Listed</span>
-<span class="badge bg-info text-dark">Tagged</span>
 </div>
 <form method="POST" action="#" data-snapshot-action="/items/52/storefront-visibility" class="mt-2">
 <input type="hidden" name="show_on_storefront" value="0">
