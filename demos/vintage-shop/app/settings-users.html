@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head><meta name="robots" content="noindex,follow"><script src="snapshot.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="csrf-token" content="read-only-snapshot">
+<title>Rosewater &amp; Rust — Inventory</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link href="static/css/style.css" rel="stylesheet">
+<link href="static/css/themes.css" rel="stylesheet">
+</head>
+<body class="theme-vintage" data-theme="vintage"><div id="snapBanner" role="note" style="position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#3b2414;color:#fbe9d7;border-top:2px solid #e8a13a;font:500 13px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:7px 14px;display:flex;gap:4px 14px;align-items:center;justify-content:center;flex-wrap:wrap;text-align:center;box-shadow:0 -4px 14px rgba(0,0,0,.25)"><span><strong>Read-only snapshot</strong> of the real Vintage Shop app, saved while it ran on <strong>demo data</strong> (a fictional shop). Buttons and forms that would change data are switched off.</span><a href="../" style="color:#ffd08a;text-decoration:underline;white-space:nowrap">About this demo &amp; the source code &rarr;</a></div><div id="snapToast" role="status" aria-live="polite" style="display:none;position:fixed;left:50%;bottom:72px;transform:translateX(-50%);z-index:2147483001;width:max-content;max-width:min(92vw,560px);background:#111827;border:1px solid #e8a13a;color:#fde3c0;border-radius:8px;padding:10px 16px;font:500 13.5px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;box-shadow:0 10px 25px rgba(0,0,0,.45);text-align:center"></div>
+<!-- Sidebar -->
+<nav id="sidebar" class="sidebar">
+<div class="sidebar-header">
+<i class="bi bi-shop"></i>
+<span>Rosewater &amp; Rust</span>
+</div>
+<ul class="sidebar-nav">
+<li class="">
+<a href="index.html">
+<i class="bi bi-speedometer2"></i> Dashboard
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-box-seam"></i> Inventory</li>
+<li class="sidebar-subitem ">
+<a href="items.html">
+<i class="bi bi-box-seam"></i> Items
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="categories.html">
+<i class="bi bi-grid"></i> Categories
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="tags.html">
+<i class="bi bi-tags"></i> Tags
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="labels.html">
+<i class="bi bi-printer"></i> Labels
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="suppliers.html">
+<i class="bi bi-truck"></i> Suppliers
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="consigners.html">
+<i class="bi bi-people"></i> Consigners
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-currency-dollar"></i> Sales</li>
+<li class="sidebar-subitem ">
+<a href="items-pos.html">
+<i class="bi bi-upc-scan"></i> Scan Checkout
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="orders.html">
+<i class="bi bi-receipt"></i> Orders
+<span class="badge bg-info ms-1">3</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="customers.html">
+<i class="bi bi-people"></i> Customers
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="returns.html">
+<i class="bi bi-arrow-counterclockwise"></i> Returns
+<span class="badge bg-danger ms-1">3</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="shipping.html">
+<i class="bi bi-box-arrow-up-right"></i> Shipping
+<span class="badge bg-warning text-dark ms-1">6</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="promo-codes.html">
+<i class="bi bi-tag-fill"></i> Promo Codes
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="reports.html">
+<i class="bi bi-bar-chart-line"></i> Reports
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-megaphone"></i> Listings</li>
+<li class="sidebar-subitem ">
+<a href="storefront.html" target="_blank">
+<i class="bi bi-globe"></i> Storefront
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-shield-lock"></i> Admin</li>
+<li class="sidebar-subitem ">
+<a href="activity.html">
+<i class="bi bi-clipboard-data"></i> Activity Log
+</a>
+</li>
+<li class="sidebar-subitem active">
+<a href="settings.html">
+<i class="bi bi-gear"></i> Settings
+</a>
+</li>
+<li class="">
+<a href="help.html">
+<i class="bi bi-life-preserver"></i> Help Wiki
+</a>
+</li>
+</ul>
+<div class="sidebar-alert">
+<i class="bi bi-exclamation-triangle"></i>
+<a href="items--status-In-Stock.html">3 low stock</a>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="main-content">
+<!-- Top Bar -->
+<header class="topbar">
+<div class="topbar-leading">
+<button class="btn btn-link sidebar-toggle d-md-none" type="button" onclick="toggleSidebar()" aria-label="Open menu">
+<i class="bi bi-list"></i>
+<span class="sidebar-toggle-label">Menu</span>
+</button>
+<div class="topbar-mobile-title d-md-none">Rosewater &amp; Rust</div>
+<div class="topbar-actions topbar-actions-mobile d-md-none">
+<a href="items-pos.html" class="btn btn-outline-success btn-sm" title="Scan Checkout" aria-label="Scan Checkout">
+<i class="bi bi-upc-scan"></i>
+</a>
+<a href="items-new.html" class="btn btn-primary btn-sm" title="Add Item" aria-label="Add Item">
+<i class="bi bi-plus-lg"></i>
+</a>
+<form method="POST" action="#" data-snapshot-action="/logout" class="d-inline">
+<button type="submit" class="btn btn-outline-secondary btn-sm" title="Logout" aria-label="Logout">
+<i class="bi bi-box-arrow-right"></i>
+</button>
+</form>
+</div>
+</div>
+<div class="search-bar topbar-search">
+<i class="bi bi-search"></i>
+<input type="text" id="globalSearch" placeholder="Search items by name, SKU, brand..."
+autocomplete="off">
+<div id="searchResults" class="search-results"></div>
+</div>
+<div class="topbar-actions topbar-actions-desktop">
+<span class="text-muted small">Demo Owner · Admin</span>
+<a href="items-pos.html" class="btn btn-outline-success btn-sm">
+<i class="bi bi-upc-scan"></i> Scan Checkout
+</a>
+<a href="help.html" class="btn btn-outline-secondary btn-sm">
+<i class="bi bi-life-preserver"></i> Help
+</a>
+<a href="items-new.html" class="btn btn-primary btn-sm">
+<i class="bi bi-plus-lg"></i> Add Item
+</a>
+<form method="POST" action="#" data-snapshot-action="/logout" class="d-inline">
+<button type="submit" class="btn btn-outline-secondary btn-sm">
+<i class="bi bi-box-arrow-right"></i> Logout
+</button>
+</form>
+</div>
+</header>
+<!-- Flash Messages -->
+<div class="content-area">
+<div class="page-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+<div>
+<h1><i class="bi bi-people"></i> Users & Permissions</h1>
+<div class="text-muted">Create staff accounts and control who gets full admin access.</div>
+</div>
+<a href="settings.html" class="btn btn-outline-secondary">
+<i class="bi bi-arrow-left"></i> Back to Settings
+</a>
+</div>
+<div class="row g-4">
+<div class="col-lg-4">
+<div class="card">
+<div class="card-header"><i class="bi bi-person-plus"></i> New User</div>
+<div class="card-body">
+<form method="POST" action="#" data-snapshot-action="/settings/users/create">
+<div class="mb-3">
+<label class="form-label">Username</label>
+<input type="text" name="username" class="form-control" placeholder="jane" required>
+<small class="text-muted">Use letters, numbers, dashes, underscores, or periods.</small>
+</div>
+<div class="mb-3">
+<label class="form-label">Display Name</label>
+<input type="text" name="display_name" class="form-control" placeholder="Jane Doe">
+</div>
+<div class="mb-3">
+<label class="form-label">Role</label>
+<select name="role" class="form-select">
+<option value="admin">Admin</option>
+<option value="cashier">Cashier</option>
+</select>
+</div>
+<div class="mb-3">
+<label class="form-label">Password</label>
+<input type="password" name="password" class="form-control" required>
+</div>
+<div class="mb-3">
+<label class="form-label">Confirm Password</label>
+<input type="password" name="confirm_password" class="form-control" required>
+</div>
+<button type="submit" class="btn btn-primary w-100">
+<i class="bi bi-person-check"></i> Create User
+</button>
+</form>
+</div>
+</div>
+<div class="card mt-3">
+<div class="card-header"><i class="bi bi-shield-check"></i> Role Guide</div>
+<div class="card-body small">
+<div class="mb-3">
+<div class="fw-semibold">Admin</div>
+<div class="text-muted">Can see reports, settings, orders, shipping, returns, suppliers, and all money-related data.</div>
+</div>
+<div>
+<div class="fw-semibold">Cashier</div>
+<div class="text-muted">Can browse inventory, print labels, and run in-store checkout without access to reports or settings.</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-lg-8">
+<div class="card">
+<div class="card-header"><i class="bi bi-list-ul"></i> Staff Accounts</div>
+<div class="card-body p-0">
+<div class="table-responsive">
+<table class="table align-middle mb-0">
+<thead>
+<tr>
+<th>User</th>
+<th>Role</th>
+<th>Status</th>
+<th style="min-width:320px">Update</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<div class="fw-semibold">Demo Owner</div>
+<div class="small text-muted">@demo</div>
+<div class="small text-muted">Created Nov 25, 2025</div>
+</td>
+<td>
+<span class="badge bg-dark">Admin</span>
+<div class="small text-muted mt-1">Full access to inventory, settings, reports, orders, and staff management.</div>
+</td>
+<td>
+<span class="badge bg-success">Active</span>
+</td>
+<td>
+<form method="POST" action="#" data-snapshot-action="/settings/users/1/update" class="border rounded p-2 mb-2">
+<div class="row g-2">
+<div class="col-md-5">
+<input type="text" name="display_name" class="form-control form-control-sm" value="Demo Owner" placeholder="Display name">
+</div>
+<div class="col-md-3">
+<select name="role" class="form-select form-select-sm">
+<option value="admin" selected>Admin</option>
+<option value="cashier" >Cashier</option>
+</select>
+</div>
+<div class="col-md-2">
+<select name="is_active" class="form-select form-select-sm">
+<option value="1" selected>Active</option>
+<option value="0" >Inactive</option>
+</select>
+</div>
+<div class="col-md-2">
+<button type="submit" class="btn btn-outline-primary btn-sm w-100">Save</button>
+</div>
+</div>
+</form>
+<form method="POST" action="#" data-snapshot-action="/settings/users/1/password">
+<div class="row g-2">
+<div class="col-md-5">
+<input type="password" name="password" class="form-control form-control-sm" placeholder="New password">
+</div>
+<div class="col-md-5">
+<input type="password" name="confirm_password" class="form-control form-control-sm" placeholder="Confirm password">
+</div>
+<div class="col-md-2">
+<button type="submit" class="btn btn-outline-secondary btn-sm w-100">Reset</button>
+</div>
+</div>
+</form>
+<form method="POST" action="#" data-snapshot-action="/settings/users/1/delete" class="mt-2">
+<input type="hidden" name="_csrf_token" value="read-only-snapshot">
+<button type="submit" class="btn btn-outline-danger btn-sm w-100"
+onclick="return confirm('Delete @demo? This cannot be undone.')">
+<i class="bi bi-trash"></i> Delete User
+</button>
+</form>
+</td>
+</tr>
+<tr>
+<td>
+<div class="fw-semibold">Front Counter</div>
+<div class="small text-muted">@cashier</div>
+<div class="small text-muted">Created Dec 31, 2025</div>
+</td>
+<td>
+<span class="badge bg-secondary">Cashier</span>
+<div class="small text-muted mt-1">Can browse inventory, print labels, and run in-store checkout without seeing reports or settings.</div>
+</td>
+<td>
+<span class="badge bg-success">Active</span>
+</td>
+<td>
+<form method="POST" action="#" data-snapshot-action="/settings/users/2/update" class="border rounded p-2 mb-2">
+<div class="row g-2">
+<div class="col-md-5">
+<input type="text" name="display_name" class="form-control form-control-sm" value="Front Counter" placeholder="Display name">
+</div>
+<div class="col-md-3">
+<select name="role" class="form-select form-select-sm">
+<option value="admin" >Admin</option>
+<option value="cashier" selected>Cashier</option>
+</select>
+</div>
+<div class="col-md-2">
+<select name="is_active" class="form-select form-select-sm">
+<option value="1" selected>Active</option>
+<option value="0" >Inactive</option>
+</select>
+</div>
+<div class="col-md-2">
+<button type="submit" class="btn btn-outline-primary btn-sm w-100">Save</button>
+</div>
+</div>
+</form>
+<form method="POST" action="#" data-snapshot-action="/settings/users/2/password">
+<div class="row g-2">
+<div class="col-md-5">
+<input type="password" name="password" class="form-control form-control-sm" placeholder="New password">
+</div>
+<div class="col-md-5">
+<input type="password" name="confirm_password" class="form-control form-control-sm" placeholder="Confirm password">
+</div>
+<div class="col-md-2">
+<button type="submit" class="btn btn-outline-secondary btn-sm w-100">Reset</button>
+</div>
+</div>
+</form>
+<form method="POST" action="#" data-snapshot-action="/settings/users/2/delete" class="mt-2">
+<input type="hidden" name="_csrf_token" value="read-only-snapshot">
+<button type="submit" class="btn btn-outline-danger btn-sm w-100"
+onclick="return confirm('Delete @cashier? This cannot be undone.')">
+<i class="bi bi-trash"></i> Delete User
+</button>
+</form>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Error Pill Toast -->
+<div id="errorPill" class="error-pill" role="alert" aria-live="assertive">
+<i class="bi bi-exclamation-triangle-fill me-2"></i>
+<span id="errorPillMsg"></span>
+<button type="button" class="error-pill-close" onclick="window._dismissPill()" aria-label="Close">&times;</button>
+</div>
+<style>
+.error-pill {
+position: fixed;
+bottom: 24px;
+left: 50%;
+transform: translateX(-50%) translateY(20px);
+background: #dc3545;
+color: #fff;
+padding: 10px 20px 10px 16px;
+border-radius: 50px;
+font-size: 0.875rem;
+font-weight: 500;
+box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+display: flex;
+align-items: center;
+gap: 4px;
+z-index: 9999;
+opacity: 0;
+pointer-events: none;
+transition: opacity 0.35s ease, transform 0.35s ease;
+max-width: 90vw;
+}
+.error-pill.error-pill--warn {
+background: #fd7e14;
+}
+.error-pill.error-pill--info {
+background: #0d6efd;
+}
+.error-pill.error-pill--success {
+background: #198754;
+}
+.error-pill.show {
+opacity: 1;
+pointer-events: auto;
+transform: translateX(-50%) translateY(0);
+}
+.error-pill-close {
+background: none;
+border: none;
+color: rgba(255,255,255,0.8);
+font-size: 1.15rem;
+line-height: 1;
+margin-left: 8px;
+cursor: pointer;
+padding: 0 2px;
+}
+.error-pill-close:hover { color: #fff; }
+</style>
+<div class="photo-lightbox" id="photoLightbox" role="dialog" aria-modal="true" aria-hidden="true" hidden>
+<button type="button" class="photo-lightbox-close" id="photoLightboxClose" aria-label="Close">
+<i class="bi bi-x-lg"></i>
+</button>
+<button type="button" class="photo-lightbox-nav prev" id="photoLightboxPrev" aria-label="Previous">
+<i class="bi bi-chevron-left"></i>
+</button>
+<button type="button" class="photo-lightbox-nav next" id="photoLightboxNext" aria-label="Next">
+<i class="bi bi-chevron-right"></i>
+</button>
+<img class="photo-lightbox-img" id="photoLightboxImg" alt="">
+<div class="photo-lightbox-count" id="photoLightboxCount"></div>
+</div>
+<link rel="stylesheet" href="static/snap/88a0be1cee2a.css">
+<script src="static/snap/1bb55beec05e.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script src="static/js/app.js"></script>
+</body>
+</html>

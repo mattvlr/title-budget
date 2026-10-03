@@ -1,0 +1,2717 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head><meta name="robots" content="noindex,follow"><script src="snapshot.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="csrf-token" content="read-only-snapshot">
+<title>Rosewater &amp; Rust — Inventory</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link href="static/css/style.css" rel="stylesheet">
+<link href="static/css/themes.css" rel="stylesheet">
+</head>
+<body class="theme-vintage" data-theme="vintage"><div id="snapBanner" role="note" style="position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#3b2414;color:#fbe9d7;border-top:2px solid #e8a13a;font:500 13px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:7px 14px;display:flex;gap:4px 14px;align-items:center;justify-content:center;flex-wrap:wrap;text-align:center;box-shadow:0 -4px 14px rgba(0,0,0,.25)"><span><strong>Read-only snapshot</strong> of the real Vintage Shop app, saved while it ran on <strong>demo data</strong> (a fictional shop). Buttons and forms that would change data are switched off.</span><a href="../" style="color:#ffd08a;text-decoration:underline;white-space:nowrap">About this demo &amp; the source code &rarr;</a></div><div id="snapToast" role="status" aria-live="polite" style="display:none;position:fixed;left:50%;bottom:72px;transform:translateX(-50%);z-index:2147483001;width:max-content;max-width:min(92vw,560px);background:#111827;border:1px solid #e8a13a;color:#fde3c0;border-radius:8px;padding:10px 16px;font:500 13.5px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;box-shadow:0 10px 25px rgba(0,0,0,.45);text-align:center"></div>
+<!-- Sidebar -->
+<nav id="sidebar" class="sidebar">
+<div class="sidebar-header">
+<i class="bi bi-shop"></i>
+<span>Rosewater &amp; Rust</span>
+</div>
+<ul class="sidebar-nav">
+<li class="">
+<a href="index.html">
+<i class="bi bi-speedometer2"></i> Dashboard
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-box-seam"></i> Inventory</li>
+<li class="sidebar-subitem ">
+<a href="items.html">
+<i class="bi bi-box-seam"></i> Items
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="categories.html">
+<i class="bi bi-grid"></i> Categories
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="tags.html">
+<i class="bi bi-tags"></i> Tags
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="labels.html">
+<i class="bi bi-printer"></i> Labels
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="suppliers.html">
+<i class="bi bi-truck"></i> Suppliers
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="consigners.html">
+<i class="bi bi-people"></i> Consigners
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-currency-dollar"></i> Sales</li>
+<li class="sidebar-subitem ">
+<a href="items-pos.html">
+<i class="bi bi-upc-scan"></i> Scan Checkout
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="orders.html">
+<i class="bi bi-receipt"></i> Orders
+<span class="badge bg-info ms-1">3</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="customers.html">
+<i class="bi bi-people"></i> Customers
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="returns.html">
+<i class="bi bi-arrow-counterclockwise"></i> Returns
+<span class="badge bg-danger ms-1">3</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="shipping.html">
+<i class="bi bi-box-arrow-up-right"></i> Shipping
+<span class="badge bg-warning text-dark ms-1">6</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="promo-codes.html">
+<i class="bi bi-tag-fill"></i> Promo Codes
+</a>
+</li>
+<li class="sidebar-subitem active">
+<a href="reports.html">
+<i class="bi bi-bar-chart-line"></i> Reports
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-megaphone"></i> Listings</li>
+<li class="sidebar-subitem ">
+<a href="storefront.html" target="_blank">
+<i class="bi bi-globe"></i> Storefront
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-shield-lock"></i> Admin</li>
+<li class="sidebar-subitem ">
+<a href="activity.html">
+<i class="bi bi-clipboard-data"></i> Activity Log
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="settings.html">
+<i class="bi bi-gear"></i> Settings
+</a>
+</li>
+<li class="">
+<a href="help.html">
+<i class="bi bi-life-preserver"></i> Help Wiki
+</a>
+</li>
+</ul>
+<div class="sidebar-alert">
+<i class="bi bi-exclamation-triangle"></i>
+<a href="items--status-In-Stock.html">3 low stock</a>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="main-content">
+<!-- Top Bar -->
+<header class="topbar">
+<div class="topbar-leading">
+<button class="btn btn-link sidebar-toggle d-md-none" type="button" onclick="toggleSidebar()" aria-label="Open menu">
+<i class="bi bi-list"></i>
+<span class="sidebar-toggle-label">Menu</span>
+</button>
+<div class="topbar-mobile-title d-md-none">Rosewater &amp; Rust</div>
+<div class="topbar-actions topbar-actions-mobile d-md-none">
+<a href="items-pos.html" class="btn btn-outline-success btn-sm" title="Scan Checkout" aria-label="Scan Checkout">
+<i class="bi bi-upc-scan"></i>
+</a>
+<a href="items-new.html" class="btn btn-primary btn-sm" title="Add Item" aria-label="Add Item">
+<i class="bi bi-plus-lg"></i>
+</a>
+<form method="POST" action="#" data-snapshot-action="/logout" class="d-inline">
+<button type="submit" class="btn btn-outline-secondary btn-sm" title="Logout" aria-label="Logout">
+<i class="bi bi-box-arrow-right"></i>
+</button>
+</form>
+</div>
+</div>
+<div class="search-bar topbar-search">
+<i class="bi bi-search"></i>
+<input type="text" id="globalSearch" placeholder="Search items by name, SKU, brand..."
+autocomplete="off">
+<div id="searchResults" class="search-results"></div>
+</div>
+<div class="topbar-actions topbar-actions-desktop">
+<span class="text-muted small">Demo Owner · Admin</span>
+<a href="items-pos.html" class="btn btn-outline-success btn-sm">
+<i class="bi bi-upc-scan"></i> Scan Checkout
+</a>
+<a href="help.html" class="btn btn-outline-secondary btn-sm">
+<i class="bi bi-life-preserver"></i> Help
+</a>
+<a href="items-new.html" class="btn btn-primary btn-sm">
+<i class="bi bi-plus-lg"></i> Add Item
+</a>
+<form method="POST" action="#" data-snapshot-action="/logout" class="d-inline">
+<button type="submit" class="btn btn-outline-secondary btn-sm">
+<i class="bi bi-box-arrow-right"></i> Logout
+</button>
+</form>
+</div>
+</header>
+<!-- Flash Messages -->
+<div class="content-area">
+<div class="page-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+<div>
+<h1 class="mb-0"><i class="bi bi-bar-chart-line"></i> Reports</h1>
+<div class="text-muted small">
+Showing: <strong>Year to date</strong>
+<span class="ms-1">(2026-01-01 → 2026-10-03)</span>
+</div>
+</div>
+<a href="#" data-snapshot-missing="/export/csv" class="btn btn-outline-secondary btn-sm"><i class="bi bi-download"></i> Export CSV</a>
+</div>
+<!-- ============================================================ -->
+<!--  PERIOD / DATE RANGE FILTER                                  -->
+<!-- ============================================================ -->
+<div class="card mb-4">
+<div class="card-body">
+<form method="get" class="row g-3 align-items-end" id="reportPeriodForm">
+<div class="col-md-3">
+<label for="period" class="form-label mb-1">Time period</label>
+<select name="period" id="period" class="form-select form-select-sm"
+onchange="
+var el = document.getElementById('customRangeFields');
+if (this.value === 'custom') { el.classList.remove('d-none'); el.classList.add('d-flex'); }
+else { el.classList.remove('d-flex'); el.classList.add('d-none'); }
+">
+<option value="7d" >Last 7 days</option>
+<option value="30d" >Last 30 days</option>
+<option value="90d" >Last 3 months</option>
+<option value="12m" >Last 12 months</option>
+<option value="ytd" selected>Year to date</option>
+<option value="mtd" >Month to date</option>
+<option value="all" >All time</option>
+<option value="custom" >Custom range</option>
+</select>
+</div>
+<div class="col-md-6 d-none gap-2" id="customRangeFields">
+<div class="flex-grow-1">
+<label for="start" class="form-label mb-1">Start date</label>
+<input type="date" name="start" id="start" class="form-control form-control-sm"
+value="">
+</div>
+<div class="flex-grow-1">
+<label for="end" class="form-label mb-1">End date</label>
+<input type="date" name="end" id="end" class="form-control form-control-sm"
+value="">
+</div>
+</div>
+<div class="col-md-auto">
+<button type="submit" class="btn btn-primary btn-sm">
+<i class="bi bi-funnel"></i> Apply
+</button>
+<a href="reports.html" class="btn btn-outline-secondary btn-sm ms-1">
+<i class="bi bi-arrow-counterclockwise"></i> Reset
+</a>
+</div>
+<div class="col-12 small text-muted mb-0">
+Time-based sections (revenue, profit, best sellers, margins, transactions) are
+scoped to this period. Current-inventory stats (units in stock, dead stock, category
+totals) always reflect the present state.
+</div>
+</form>
+</div>
+</div>
+<!-- ============================================================ -->
+<!--  KPI SUMMARY CARDS                                           -->
+<!-- ============================================================ -->
+<div class="row g-3 mb-4">
+<div class="col-6 col-lg-3">
+<div class="stat-card">
+<div class="stat-icon bg-success-subtle text-success"><i class="bi bi-cash-stack"></i></div>
+<div class="stat-info">
+<div class="stat-value">$2500.00</div>
+<div class="stat-label">Total Revenue (18 units sold)</div>
+</div>
+</div>
+</div>
+<div class="col-6 col-lg-3">
+<div class="stat-card">
+<div class="stat-icon bg-warning-subtle text-warning"><i class="bi bi-receipt"></i></div>
+<div class="stat-info">
+<div class="stat-value">$793.50</div>
+<div class="stat-label">Cost of Goods Sold</div>
+</div>
+</div>
+</div>
+<div class="col-6 col-lg-3">
+<div class="stat-card">
+<div class="stat-icon bg-primary-subtle text-primary"><i class="bi bi-graph-up-arrow"></i></div>
+<div class="stat-info">
+<div class="stat-value">$1706.50</div>
+<div class="stat-label">Gross Profit (68.3% avg margin)</div>
+</div>
+</div>
+</div>
+<div class="col-6 col-lg-3">
+<div class="stat-card">
+<div class="stat-icon bg-info-subtle text-info"><i class="bi bi-box-seam"></i></div>
+<div class="stat-info">
+<div class="stat-value">45</div>
+<div class="stat-label">Units In Stock ($5768 retail)</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ============================================================ -->
+<!--  REVENUE & PROFIT OVER TIME                                  -->
+<!-- ============================================================ -->
+<div class="card mb-4">
+<div class="card-header"><i class="bi bi-graph-up"></i> Revenue &amp; Profit — Year to date</div>
+<div class="card-body">
+<canvas id="revenueChart" height="90"></canvas>
+</div>
+</div>
+<!-- ============================================================ -->
+<!--  TWO-COLUMN: UNITS SOLD + AVG PRICE                          -->
+<!-- ============================================================ -->
+<div class="row g-3 mb-4">
+<div class="col-lg-6">
+<div class="card h-100">
+<div class="card-header"><i class="bi bi-box-seam"></i> Units Sold — Year to date</div>
+<div class="card-body">
+<canvas id="unitsSoldChart" height="120"></canvas>
+</div>
+</div>
+</div>
+<div class="col-lg-6">
+<div class="card h-100">
+<div class="card-header"><i class="bi bi-tag"></i> Avg Selling Price — Year to date</div>
+<div class="card-body">
+<canvas id="avgPriceChart" height="120"></canvas>
+</div>
+</div>
+</div>
+</div>
+<!-- ============================================================ -->
+<!--  TWO-COLUMN: CATEGORY REVENUE PIE + INVENTORY AGE            -->
+<!-- ============================================================ -->
+<div class="row g-3 mb-4">
+<div class="col-lg-5">
+<div class="card h-100">
+<div class="card-header"><i class="bi bi-pie-chart"></i> Revenue by Category</div>
+<div class="card-body d-flex align-items-center justify-content-center">
+<canvas id="catRevenueChart" style="max-height:280px"></canvas>
+</div>
+</div>
+</div>
+<div class="col-lg-7">
+<div class="card h-100">
+<div class="card-header"><i class="bi bi-clock-history"></i> Inventory Age Distribution</div>
+<div class="card-body d-flex align-items-center justify-content-center">
+<canvas id="ageChart" style="max-height:280px"></canvas>
+</div>
+</div>
+</div>
+</div>
+<!-- ============================================================ -->
+<!--  CATEGORY INVENTORY VALUE BAR CHART                          -->
+<!-- ============================================================ -->
+<div class="card mb-4">
+<div class="card-header"><i class="bi bi-bar-chart"></i> Inventory Value by Category (Cost vs Retail)</div>
+<div class="card-body">
+<canvas id="catValueChart" height="80"></canvas>
+</div>
+</div>
+<!-- ============================================================ -->
+<!--  STOREFRONT VIEWS                                            -->
+<!-- ============================================================ -->
+<div class="card mb-4">
+<div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+<span><i class="bi bi-eye"></i> Storefront Views Over Time</span>
+<small class="text-muted">730 views in Year to date</small>
+</div>
+<div class="card-body">
+<canvas id="viewsChart" height="90"></canvas>
+<div class="small text-muted mt-2">
+Counts the public storefront page-views for sellable items. Bot traffic is filtered and a
+shopper's repeat visits within 30 minutes are deduped per session.
+</div>
+</div>
+</div>
+<div class="card mb-4">
+<div class="card-header"><i class="bi bi-stars"></i> Top Items by Views (Lifetime)</div>
+<div class="card-body p-0">
+<div class="table-responsive">
+<table class="table table-sm table-hover align-middle mb-0">
+<thead>
+<tr>
+<th style="width:60px" class="text-center">#</th>
+<th>Item</th>
+<th>Category</th>
+<th>Status</th>
+<th class="text-end">Price</th>
+<th class="text-center">Stock</th>
+<th class="text-end">Views</th>
+<th class="text-muted small">Last Viewed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="text-center text-muted">1</td>
+<td>
+<a href="items-58.html">
+<code>VNT-JWL-0005</code>
+</a>
+— Amber Cuff Bracelet
+</td>
+<td>
+<span class="badge" style="background-color:#FFD700">Jewelry</span>
+</td>
+<td>
+<span class="badge bg-success">In Stock</span>
+</td>
+<td class="text-end">$60.00</td>
+<td class="text-center">1</td>
+<td class="text-end fw-bold">48</td>
+<td class="text-muted small">Oct 03, 2026</td>
+</tr>
+<tr>
+<td class="text-center text-muted">2</td>
+<td>
+<a href="items-59.html">
+<code>VNT-DEC-0004</code>
+</a>
+— Tapered Mushroom Table Lamp
+</td>
+<td>
+<span class="badge" style="background-color:#9370DB">Decor</span>
+</td>
+<td>
+<span class="badge bg-warning text-dark">Second Look</span>
+</td>
+<td class="text-end">$185.00</td>
+<td class="text-center">1</td>
+<td class="text-end fw-bold">45</td>
+<td class="text-muted small">Oct 03, 2026</td>
+</tr>
+<tr>
+<td class="text-center text-muted">3</td>
+<td>
+<a href="items-61.html">
+<code>VNT-TEX-0006</code>
+</a>
+— Sea Glass Patchwork Quilt
+</td>
+<td>
+<span class="badge" style="background-color:#B5838D">Linens &amp; Textiles</span>
+</td>
+<td>
+<span class="badge bg-secondary">Sold</span>
+</td>
+<td class="text-end">$125.00</td>
+<td class="text-center">0</td>
+<td class="text-end fw-bold">45</td>
+<td class="text-muted small">Feb 17, 2026</td>
+</tr>
+<tr>
+<td class="text-center text-muted">4</td>
+<td>
+<a href="items-75.html">
+<code>VNT-FUR-0006</code>
+</a>
+— Moss Nesting Table Set
+</td>
+<td>
+<span class="badge" style="background-color:#8B4513">Furniture</span>
+</td>
+<td>
+<span class="badge bg-secondary">Sold</span>
+</td>
+<td class="text-end">$230.00</td>
+<td class="text-center">0</td>
+<td class="text-end fw-bold">44</td>
+<td class="text-muted small">Mar 11, 2026</td>
+</tr>
+<tr>
+<td class="text-center text-muted">5</td>
+<td>
+<a href="items-10.html">
+<code>VNT-REC-0003</code>
+</a>
+— LP - Velvet Ossuary, &#39;Low Tide Hymns&#39;
+</td>
+<td>
+<span class="badge" style="background-color:#1F7A8C">Records &amp; Media</span>
+</td>
+<td>
+<span class="badge bg-warning text-dark">Second Look</span>
+</td>
+<td class="text-end">$37.00</td>
+<td class="text-center">1</td>
+<td class="text-end fw-bold">43</td>
+<td class="text-muted small">Oct 03, 2026</td>
+</tr>
+<tr>
+<td class="text-center text-muted">6</td>
+<td>
+<a href="items-18.html">
+<code>VNT-JWL-0002</code>
+</a>
+— Moss Charm Bracelet
+</td>
+<td>
+<span class="badge" style="background-color:#FFD700">Jewelry</span>
+</td>
+<td>
+<span class="badge bg-secondary">Sold</span>
+</td>
+<td class="text-end">$165.00</td>
+<td class="text-center">0</td>
+<td class="text-end fw-bold">40</td>
+<td class="text-muted small">Feb 12, 2026</td>
+</tr>
+<tr>
+<td class="text-center text-muted">7</td>
+<td>
+<a href="items-11.html">
+<code>VNT-KIT-0001</code>
+</a>
+— Sunfaded Nesting Mixing Bowls
+</td>
+<td>
+<span class="badge" style="background-color:#CD853F">Kitchenware</span>
+</td>
+<td>
+<span class="badge bg-warning text-dark">Second Look</span>
+</td>
+<td class="text-end">$120.00</td>
+<td class="text-center">1</td>
+<td class="text-end fw-bold">39</td>
+<td class="text-muted small">Oct 03, 2026</td>
+</tr>
+<tr>
+<td class="text-center text-muted">8</td>
+<td>
+<a href="items-52.html">
+<code>VNT-BKS-0007</code>
+</a>
+— Field Guide to Coastal Birds
+</td>
+<td>
+<span class="badge" style="background-color:#2E8B57">Books</span>
+</td>
+<td>
+<span class="badge bg-success">In Stock</span>
+</td>
+<td class="text-end">$27.00</td>
+<td class="text-center">1</td>
+<td class="text-end fw-bold">30</td>
+<td class="text-muted small">Oct 03, 2026</td>
+</tr>
+<tr>
+<td class="text-center text-muted">9</td>
+<td>
+<a href="items-62.html">
+<code>VNT-DEC-0005</code>
+</a>
+— Amber Rattan Wall Shelf
+</td>
+<td>
+<span class="badge" style="background-color:#9370DB">Decor</span>
+</td>
+<td>
+<span class="badge bg-success">In Stock</span>
+</td>
+<td class="text-end">$75.00</td>
+<td class="text-center">1</td>
+<td class="text-end fw-bold">27</td>
+<td class="text-muted small">Oct 03, 2026</td>
+</tr>
+<tr>
+<td class="text-center text-muted">10</td>
+<td>
+<a href="items-48.html">
+<code>VNT-CLO-0009</code>
+</a>
+— Scalloped Wool Overshirt
+</td>
+<td>
+<span class="badge" style="background-color:#C71585">Clothing</span>
+</td>
+<td>
+<span class="badge bg-warning text-dark">Second Look</span>
+</td>
+<td class="text-end">$55.00</td>
+<td class="text-center">1</td>
+<td class="text-end fw-bold">22</td>
+<td class="text-muted small">Oct 03, 2026</td>
+</tr>
+<tr>
+<td class="text-center text-muted">11</td>
+<td>
+<a href="items-36.html">
+<code>VNT-CLO-0005</code>
+</a>
+— Two-Tone Varsity Cardigan
+</td>
+<td>
+<span class="badge" style="background-color:#C71585">Clothing</span>
+</td>
+<td>
+<span class="badge bg-success">In Stock</span>
+</td>
+<td class="text-end">$105.00</td>
+<td class="text-center">1</td>
+<td class="text-end fw-bold">21</td>
+<td class="text-muted small">Oct 03, 2026</td>
+</tr>
+<tr>
+<td class="text-center text-muted">12</td>
+<td>
+<a href="items-7.html">
+<code>VNT-FUR-0002</code>
+</a>
+— Harvest Slatted Bench
+</td>
+<td>
+<span class="badge" style="background-color:#8B4513">Furniture</span>
+</td>
+<td>
+<span class="badge bg-secondary">Sold</span>
+</td>
+<td class="text-end">$280.00</td>
+<td class="text-center">0</td>
+<td class="text-end fw-bold">21</td>
+<td class="text-muted small">Aug 18, 2026</td>
+</tr>
+<tr>
+<td class="text-center text-muted">13</td>
+<td>
+<a href="items-43.html">
+<code>VNT-TOY-0004</code>
+</a>
+— Boxed Detective Board Game
+</td>
+<td>
+<span class="badge" style="background-color:#FF6347">Toys &amp; Games</span>
+</td>
+<td>
+<span class="badge bg-secondary">Sold</span>
+</td>
+<td class="text-end">$55.00</td>
+<td class="text-center">0</td>
+<td class="text-end fw-bold">21</td>
+<td class="text-muted small">Jul 07, 2026</td>
+</tr>
+<tr>
+<td class="text-center text-muted">14</td>
+<td>
+<a href="items-56.html">
+<code>VNT-CLO-0010</code>
+</a>
+— Chore Jacket
+</td>
+<td>
+<span class="badge" style="background-color:#C71585">Clothing</span>
+</td>
+<td>
+<span class="badge bg-secondary">Sold</span>
+</td>
+<td class="text-end">$80.00</td>
+<td class="text-center">0</td>
+<td class="text-end fw-bold">19</td>
+<td class="text-muted small">Jan 13, 2026</td>
+</tr>
+<tr>
+<td class="text-center text-muted">15</td>
+<td>
+<a href="items-50.html">
+<code>VNT-DEC-0003</code>
+</a>
+— Sunburst Wall Mirror
+</td>
+<td>
+<span class="badge" style="background-color:#9370DB">Decor</span>
+</td>
+<td>
+<span class="badge bg-secondary">Sold</span>
+</td>
+<td class="text-end">$270.00</td>
+<td class="text-center">0</td>
+<td class="text-end fw-bold">19</td>
+<td class="text-muted small">Dec 05, 2025</td>
+</tr>
+<tr>
+<td class="text-center text-muted">16</td>
+<td>
+<a href="items-71.html">
+<code>VNT-KIT-0007</code>
+</a>
+— Hammered Cut Glass Decanter
+</td>
+<td>
+<span class="badge" style="background-color:#CD853F">Kitchenware</span>
+</td>
+<td>
+<span class="badge bg-success">In Stock</span>
+</td>
+<td class="text-end">$100.00</td>
+<td class="text-center">1</td>
+<td class="text-end fw-bold">18</td>
+<td class="text-muted small">Oct 03, 2026</td>
+</tr>
+<tr>
+<td class="text-center text-muted">17</td>
+<td>
+<a href="items-64.html">
+<code>VNT-ELC-0004</code>
+</a>
+— Lacquered Tube Table Radio
+</td>
+<td>
+<span class="badge" style="background-color:#708090">Electronics</span>
+</td>
+<td>
+<span class="badge bg-success">In Stock</span>
+</td>
+<td class="text-end">$230.00</td>
+<td class="text-center">1</td>
+<td class="text-end fw-bold">18</td>
+<td class="text-muted small">Oct 03, 2026</td>
+</tr>
+<tr>
+<td class="text-center text-muted">18</td>
+<td>
+<a href="items-9.html">
+<code>VNT-BKS-0001</code>
+</a>
+— Pocket Verse Anthology
+</td>
+<td>
+<span class="badge" style="background-color:#2E8B57">Books</span>
+</td>
+<td>
+<span class="badge bg-success">In Stock</span>
+</td>
+<td class="text-end">$21.00</td>
+<td class="text-center">3</td>
+<td class="text-end fw-bold">18</td>
+<td class="text-muted small">Oct 03, 2026</td>
+</tr>
+<tr>
+<td class="text-center text-muted">19</td>
+<td>
+<a href="items-34.html">
+<code>VNT-ART-0001</code>
+</a>
+— Ink Blue Portrait Charcoal
+</td>
+<td>
+<span class="badge" style="background-color:#4682B4">Art</span>
+</td>
+<td>
+<span class="badge bg-secondary">Sold</span>
+</td>
+<td class="text-end">$105.00</td>
+<td class="text-center">0</td>
+<td class="text-end fw-bold">18</td>
+<td class="text-muted small">May 11, 2026</td>
+</tr>
+<tr>
+<td class="text-center text-muted">20</td>
+<td>
+<a href="items-31.html">
+<code>VNT-BKS-0005</code>
+</a>
+— Letters from Rook Hollow
+</td>
+<td>
+<span class="badge" style="background-color:#2E8B57">Books</span>
+</td>
+<td>
+<span class="badge bg-secondary">Sold</span>
+</td>
+<td class="text-end">$21.00</td>
+<td class="text-center">0</td>
+<td class="text-end fw-bold">17</td>
+<td class="text-muted small">May 02, 2026</td>
+</tr>
+<tr>
+<td class="text-center text-muted">21</td>
+<td>
+<a href="items-69.html">
+<code>VNT-KIT-0006</code>
+</a>
+— Tapered Carbon Steel Skillet
+</td>
+<td>
+<span class="badge" style="background-color:#CD853F">Kitchenware</span>
+</td>
+<td>
+<span class="badge bg-success">In Stock</span>
+</td>
+<td class="text-end">$75.00</td>
+<td class="text-center">1</td>
+<td class="text-end fw-bold">16</td>
+<td class="text-muted small">Oct 03, 2026</td>
+</tr>
+<tr>
+<td class="text-center text-muted">22</td>
+<td>
+<a href="items-2.html">
+<code>VNT-FUR-0001</code>
+</a>
+— Oxblood Spindle Armchair
+</td>
+<td>
+<span class="badge" style="background-color:#8B4513">Furniture</span>
+</td>
+<td>
+<span class="badge bg-secondary">Sold</span>
+</td>
+<td class="text-end">$165.00</td>
+<td class="text-center">0</td>
+<td class="text-end fw-bold">16</td>
+<td class="text-muted small">Nov 22, 2025</td>
+</tr>
+<tr>
+<td class="text-center text-muted">23</td>
+<td>
+<a href="items-1.html">
+<code>VNT-TOY-0001</code>
+</a>
+— Patinated Wooden Pull Duck
+</td>
+<td>
+<span class="badge" style="background-color:#FF6347">Toys &amp; Games</span>
+</td>
+<td>
+<span class="badge bg-success">In Stock</span>
+</td>
+<td class="text-end">$34.00</td>
+<td class="text-center">1</td>
+<td class="text-end fw-bold">15</td>
+<td class="text-muted small">Oct 03, 2026</td>
+</tr>
+<tr>
+<td class="text-center text-muted">24</td>
+<td>
+<a href="items-14.html">
+<code>VNT-JWL-0001</code>
+</a>
+— Pewter Cocktail Earrings
+</td>
+<td>
+<span class="badge" style="background-color:#FFD700">Jewelry</span>
+</td>
+<td>
+<span class="badge bg-success">In Stock</span>
+</td>
+<td class="text-end">$34.00</td>
+<td class="text-center">1</td>
+<td class="text-end fw-bold">15</td>
+<td class="text-muted small">Oct 03, 2026</td>
+</tr>
+<tr>
+<td class="text-center text-muted">25</td>
+<td>
+<a href="items-27.html">
+<code>VNT-BKS-0004</code>
+</a>
+— Radio Repair Handbook
+</td>
+<td>
+<span class="badge" style="background-color:#2E8B57">Books</span>
+</td>
+<td>
+<span class="badge bg-success">In Stock</span>
+</td>
+<td class="text-end">$70.00</td>
+<td class="text-center">1</td>
+<td class="text-end fw-bold">14</td>
+<td class="text-muted small">Oct 03, 2026</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- ============================================================ -->
+<!--  SELL-THROUGH TABLE                                          -->
+<!-- ============================================================ -->
+<div class="row g-3 mb-4">
+<div class="col-lg-12">
+<div class="card h-100">
+<div class="card-header"><i class="bi bi-speedometer2"></i> Sell-Through Rate by Category</div>
+<div class="card-body p-0">
+<div class="table-responsive">
+<table class="table table-sm table-hover align-middle mb-0">
+<thead>
+<tr>
+<th>Category</th>
+<th class="text-center">Total</th>
+<th class="text-center">Sold</th>
+<th class="text-center">In Stock</th>
+<th class="text-end" style="min-width:140px">Sell-Through</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="badge" style="background-color:#8B4513">Furniture</span></td>
+<td class="text-center">6</td>
+<td class="text-center">3</td>
+<td class="text-center">2</td>
+<td class="text-end">
+<div class="d-flex align-items-center justify-content-end gap-2">
+<div class="progress flex-grow-1" style="height:6px;max-width:80px">
+<div class="progress-bar bg-success" style="width:50.0%"></div>
+</div>
+<span class="small fw-semibold" style="min-width:40px">50.0%</span>
+</div>
+</td>
+</tr>
+<tr>
+<td><span class="badge" style="background-color:#2E8B57">Books</span></td>
+<td class="text-center">8</td>
+<td class="text-center">3</td>
+<td class="text-center">4</td>
+<td class="text-end">
+<div class="d-flex align-items-center justify-content-end gap-2">
+<div class="progress flex-grow-1" style="height:6px;max-width:80px">
+<div class="progress-bar bg-success" style="width:37.5%"></div>
+</div>
+<span class="small fw-semibold" style="min-width:40px">37.5%</span>
+</div>
+</td>
+</tr>
+<tr>
+<td><span class="badge" style="background-color:#FFD700">Jewelry</span></td>
+<td class="text-center">6</td>
+<td class="text-center">2</td>
+<td class="text-center">2</td>
+<td class="text-end">
+<div class="d-flex align-items-center justify-content-end gap-2">
+<div class="progress flex-grow-1" style="height:6px;max-width:80px">
+<div class="progress-bar bg-success" style="width:33.3%"></div>
+</div>
+<span class="small fw-semibold" style="min-width:40px">33.3%</span>
+</div>
+</td>
+</tr>
+<tr>
+<td><span class="badge" style="background-color:#FF6347">Toys &amp; Games</span></td>
+<td class="text-center">6</td>
+<td class="text-center">2</td>
+<td class="text-center">2</td>
+<td class="text-end">
+<div class="d-flex align-items-center justify-content-end gap-2">
+<div class="progress flex-grow-1" style="height:6px;max-width:80px">
+<div class="progress-bar bg-success" style="width:33.3%"></div>
+</div>
+<span class="small fw-semibold" style="min-width:40px">33.3%</span>
+</div>
+</td>
+</tr>
+<tr>
+<td><span class="badge" style="background-color:#B5838D">Linens &amp; Textiles</span></td>
+<td class="text-center">6</td>
+<td class="text-center">2</td>
+<td class="text-center">3</td>
+<td class="text-end">
+<div class="d-flex align-items-center justify-content-end gap-2">
+<div class="progress flex-grow-1" style="height:6px;max-width:80px">
+<div class="progress-bar bg-success" style="width:33.3%"></div>
+</div>
+<span class="small fw-semibold" style="min-width:40px">33.3%</span>
+</div>
+</td>
+</tr>
+<tr>
+<td><span class="badge" style="background-color:#CD853F">Kitchenware</span></td>
+<td class="text-center">7</td>
+<td class="text-center">2</td>
+<td class="text-center">4</td>
+<td class="text-end">
+<div class="d-flex align-items-center justify-content-end gap-2">
+<div class="progress flex-grow-1" style="height:6px;max-width:80px">
+<div class="progress-bar bg-success" style="width:28.6%"></div>
+</div>
+<span class="small fw-semibold" style="min-width:40px">28.6%</span>
+</div>
+</td>
+</tr>
+<tr>
+<td><span class="badge" style="background-color:#4682B4">Art</span></td>
+<td class="text-center">5</td>
+<td class="text-center">1</td>
+<td class="text-center">2</td>
+<td class="text-end">
+<div class="d-flex align-items-center justify-content-end gap-2">
+<div class="progress flex-grow-1" style="height:6px;max-width:80px">
+<div class="progress-bar bg-success" style="width:20.0%"></div>
+</div>
+<span class="small fw-semibold" style="min-width:40px">20.0%</span>
+</div>
+</td>
+</tr>
+<tr>
+<td><span class="badge" style="background-color:#708090">Electronics</span></td>
+<td class="text-center">5</td>
+<td class="text-center">1</td>
+<td class="text-center">2</td>
+<td class="text-end">
+<div class="d-flex align-items-center justify-content-end gap-2">
+<div class="progress flex-grow-1" style="height:6px;max-width:80px">
+<div class="progress-bar bg-success" style="width:20.0%"></div>
+</div>
+<span class="small fw-semibold" style="min-width:40px">20.0%</span>
+</div>
+</td>
+</tr>
+<tr>
+<td><span class="badge" style="background-color:#6c757d">Misc</span></td>
+<td class="text-center">5</td>
+<td class="text-center">1</td>
+<td class="text-center">2</td>
+<td class="text-end">
+<div class="d-flex align-items-center justify-content-end gap-2">
+<div class="progress flex-grow-1" style="height:6px;max-width:80px">
+<div class="progress-bar bg-success" style="width:20.0%"></div>
+</div>
+<span class="small fw-semibold" style="min-width:40px">20.0%</span>
+</div>
+</td>
+</tr>
+<tr>
+<td><span class="badge" style="background-color:#C71585">Clothing</span></td>
+<td class="text-center">11</td>
+<td class="text-center">1</td>
+<td class="text-center">7</td>
+<td class="text-end">
+<div class="d-flex align-items-center justify-content-end gap-2">
+<div class="progress flex-grow-1" style="height:6px;max-width:80px">
+<div class="progress-bar bg-success" style="width:9.1%"></div>
+</div>
+<span class="small fw-semibold" style="min-width:40px">9.1%</span>
+</div>
+</td>
+</tr>
+<tr>
+<td><span class="badge" style="background-color:#9370DB">Decor</span></td>
+<td class="text-center">8</td>
+<td class="text-center">0</td>
+<td class="text-center">4</td>
+<td class="text-end">
+<div class="d-flex align-items-center justify-content-end gap-2">
+<div class="progress flex-grow-1" style="height:6px;max-width:80px">
+<div class="progress-bar bg-success" style="width:0.0%"></div>
+</div>
+<span class="small fw-semibold" style="min-width:40px">0.0%</span>
+</div>
+</td>
+</tr>
+<tr>
+<td><span class="badge" style="background-color:#1F7A8C">Records &amp; Media</span></td>
+<td class="text-center">7</td>
+<td class="text-center">0</td>
+<td class="text-center">6</td>
+<td class="text-end">
+<div class="d-flex align-items-center justify-content-end gap-2">
+<div class="progress flex-grow-1" style="height:6px;max-width:80px">
+<div class="progress-bar bg-success" style="width:0.0%"></div>
+</div>
+<span class="small fw-semibold" style="min-width:40px">0.0%</span>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ============================================================ -->
+<!--  BEST SELLERS                                                -->
+<!-- ============================================================ -->
+<div class="card mb-4">
+<div class="card-header"><i class="bi bi-trophy"></i> Best Sellers — Top 10 by Revenue</div>
+<div class="card-body p-0">
+<div class="table-responsive">
+<table class="table table-sm table-hover align-middle mb-0">
+<thead>
+<tr>
+<th>#</th>
+<th>Item</th>
+<th>SKU</th>
+<th class="text-center">Units Sold</th>
+<th class="text-end">Revenue</th>
+<th class="text-end">Cost</th>
+<th class="text-end">Profit</th>
+<th class="text-end">Margin</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="text-muted">1</td>
+<td><a href="items-8.html">Pewter Silver-Face Receiver</a></td>
+<td><code>VNT-ELC-0001</code></td>
+<td class="text-center">1</td>
+<td class="text-end">$400.00</td>
+<td class="text-end text-muted">$20.50</td>
+<td class="text-end text-success">$379.50</td>
+<td class="text-end">
+<span class="badge bg-success">
+94.9%
+</span>
+</td>
+</tr>
+<tr>
+<td class="text-muted">2</td>
+<td><a href="items-7.html">Harvest Slatted Bench</a></td>
+<td><code>VNT-FUR-0002</code></td>
+<td class="text-center">1</td>
+<td class="text-end">$280.00</td>
+<td class="text-end text-muted">$73.50</td>
+<td class="text-end text-success">$206.50</td>
+<td class="text-end">
+<span class="badge bg-success">
+73.8%
+</span>
+</td>
+</tr>
+<tr>
+<td class="text-muted">3</td>
+<td><a href="items-4.html">Enamel Advertising Sign</a></td>
+<td><code>VNT-MSC-0001</code></td>
+<td class="text-center">1</td>
+<td class="text-end">$240.00</td>
+<td class="text-end text-muted">$21.00</td>
+<td class="text-end text-success">$219.00</td>
+<td class="text-end">
+<span class="badge bg-success">
+91.2%
+</span>
+</td>
+</tr>
+<tr>
+<td class="text-muted">4</td>
+<td><a href="items-75.html">Moss Nesting Table Set</a></td>
+<td><code>VNT-FUR-0006</code></td>
+<td class="text-center">1</td>
+<td class="text-end">$230.00</td>
+<td class="text-end text-muted">$19.00</td>
+<td class="text-end text-success">$211.00</td>
+<td class="text-end">
+<span class="badge bg-success">
+91.7%
+</span>
+</td>
+</tr>
+<tr>
+<td class="text-muted">5</td>
+<td><a href="items-39.html">Hand-Tied Ladder Bookcase</a></td>
+<td><code>VNT-FUR-0003</code></td>
+<td class="text-center">1</td>
+<td class="text-end">$220.00</td>
+<td class="text-end text-muted">$179.00</td>
+<td class="text-end text-success">$41.00</td>
+<td class="text-end">
+<span class="badge bg-danger">
+18.6%
+</span>
+</td>
+</tr>
+<tr>
+<td class="text-muted">6</td>
+<td><a href="items-18.html">Moss Charm Bracelet</a></td>
+<td><code>VNT-JWL-0002</code></td>
+<td class="text-center">1</td>
+<td class="text-end">$165.00</td>
+<td class="text-end text-muted">$37.50</td>
+<td class="text-end text-success">$127.50</td>
+<td class="text-end">
+<span class="badge bg-success">
+77.3%
+</span>
+</td>
+</tr>
+<tr>
+<td class="text-muted">7</td>
+<td><a href="items-22.html">Tapered Enamel Dutch Oven</a></td>
+<td><code>VNT-KIT-0004</code></td>
+<td class="text-center">1</td>
+<td class="text-end">$135.00</td>
+<td class="text-end text-muted">$112.50</td>
+<td class="text-end text-success">$22.50</td>
+<td class="text-end">
+<span class="badge bg-danger">
+16.7%
+</span>
+</td>
+</tr>
+<tr>
+<td class="text-muted">8</td>
+<td><a href="items-35.html">Two-Tone Tin Wind-Up Robot</a></td>
+<td><code>VNT-TOY-0003</code></td>
+<td class="text-center">1</td>
+<td class="text-end">$135.00</td>
+<td class="text-end text-muted">$143.50</td>
+<td class="text-end text-success">$-8.50</td>
+<td class="text-end">
+<span class="badge bg-danger">
+-6.3%
+</span>
+</td>
+</tr>
+<tr>
+<td class="text-muted">9</td>
+<td><a href="items-61.html">Sea Glass Patchwork Quilt</a></td>
+<td><code>VNT-TEX-0006</code></td>
+<td class="text-center">1</td>
+<td class="text-end">$125.00</td>
+<td class="text-end text-muted">$7.50</td>
+<td class="text-end text-success">$117.50</td>
+<td class="text-end">
+<span class="badge bg-success">
+94.0%
+</span>
+</td>
+</tr>
+<tr>
+<td class="text-muted">10</td>
+<td><a href="items-34.html">Ink Blue Portrait Charcoal</a></td>
+<td><code>VNT-ART-0001</code></td>
+<td class="text-center">1</td>
+<td class="text-end">$105.00</td>
+<td class="text-end text-muted">$85.50</td>
+<td class="text-end text-success">$19.50</td>
+<td class="text-end">
+<span class="badge bg-danger">
+18.6%
+</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- ============================================================ -->
+<!--  TWO-COLUMN: BEST MARGINS + WORST MARGINS                   -->
+<!-- ============================================================ -->
+<div class="row g-3 mb-4">
+<div class="col-lg-6">
+<div class="card h-100">
+<div class="card-header"><i class="bi bi-arrow-up-circle text-success"></i> Highest Margin Sellers</div>
+<div class="card-body p-0">
+<div class="table-responsive">
+<table class="table table-sm table-hover align-middle mb-0">
+<thead>
+<tr><th>Item</th><th class="text-center">Units</th><th class="text-end">Revenue</th><th class="text-end">Profit</th><th class="text-end">Margin</th></tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="items-8.html">Pewter Silver-Face Receiver</a></td>
+<td class="text-center">1</td>
+<td class="text-end">$400.00</td>
+<td class="text-end text-success">$379.50</td>
+<td class="text-end"><span class="badge bg-success">94.9%</span></td>
+</tr>
+<tr>
+<td><a href="items-61.html">Sea Glass Patchwork Quilt</a></td>
+<td class="text-center">1</td>
+<td class="text-end">$125.00</td>
+<td class="text-end text-success">$117.50</td>
+<td class="text-end"><span class="badge bg-success">94.0%</span></td>
+</tr>
+<tr>
+<td><a href="items-63.html">Enamel Brooch</a></td>
+<td class="text-center">1</td>
+<td class="text-end">$34.00</td>
+<td class="text-end text-success">$31.50</td>
+<td class="text-end"><span class="badge bg-success">92.6%</span></td>
+</tr>
+<tr>
+<td><a href="items-75.html">Moss Nesting Table Set</a></td>
+<td class="text-center">1</td>
+<td class="text-end">$230.00</td>
+<td class="text-end text-success">$211.00</td>
+<td class="text-end"><span class="badge bg-success">91.7%</span></td>
+</tr>
+<tr>
+<td><a href="items-56.html">Chore Jacket</a></td>
+<td class="text-center">1</td>
+<td class="text-end">$80.00</td>
+<td class="text-end text-success">$73.00</td>
+<td class="text-end"><span class="badge bg-success">91.2%</span></td>
+</tr>
+<tr>
+<td><a href="items-4.html">Enamel Advertising Sign</a></td>
+<td class="text-center">1</td>
+<td class="text-end">$240.00</td>
+<td class="text-end text-success">$219.00</td>
+<td class="text-end"><span class="badge bg-success">91.2%</span></td>
+</tr>
+<tr>
+<td><a href="items-40.html">Embroidered Tablecloth</a></td>
+<td class="text-center">1</td>
+<td class="text-end">$70.00</td>
+<td class="text-end text-success">$63.50</td>
+<td class="text-end"><span class="badge bg-success">90.7%</span></td>
+</tr>
+<tr>
+<td><a href="items-57.html">The Salt Almanac</a></td>
+<td class="text-center">1</td>
+<td class="text-end">$80.00</td>
+<td class="text-end text-success">$71.50</td>
+<td class="text-end"><span class="badge bg-success">89.4%</span></td>
+</tr>
+<tr>
+<td><a href="items-23.html">Housekeeping Companion</a></td>
+<td class="text-center">1</td>
+<td class="text-end">$70.00</td>
+<td class="text-end text-success">$62.00</td>
+<td class="text-end"><span class="badge bg-success">88.6%</span></td>
+</tr>
+<tr>
+<td><a href="items-31.html">Letters from Rook Hollow</a></td>
+<td class="text-center">1</td>
+<td class="text-end">$21.00</td>
+<td class="text-end text-success">$18.50</td>
+<td class="text-end"><span class="badge bg-success">88.1%</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="col-lg-6">
+<div class="card h-100">
+<div class="card-header"><i class="bi bi-arrow-down-circle text-danger"></i> Lowest Margin Sellers</div>
+<div class="card-body p-0">
+<div class="table-responsive">
+<table class="table table-sm table-hover align-middle mb-0">
+<thead>
+<tr><th>Item</th><th class="text-center">Units</th><th class="text-end">Revenue</th><th class="text-end">Profit</th><th class="text-end">Margin</th></tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="items-35.html">Two-Tone Tin Wind-Up Robot</a></td>
+<td class="text-center">1</td>
+<td class="text-end">$135.00</td>
+<td class="text-end text-success">$-8.50</td>
+<td class="text-end">
+<span class="badge bg-danger">
+-6.3%
+</span>
+</td>
+</tr>
+<tr>
+<td><a href="items-22.html">Tapered Enamel Dutch Oven</a></td>
+<td class="text-center">1</td>
+<td class="text-end">$135.00</td>
+<td class="text-end text-success">$22.50</td>
+<td class="text-end">
+<span class="badge bg-warning text-dark">
+16.7%
+</span>
+</td>
+</tr>
+<tr>
+<td><a href="items-39.html">Hand-Tied Ladder Bookcase</a></td>
+<td class="text-center">1</td>
+<td class="text-end">$220.00</td>
+<td class="text-end text-success">$41.00</td>
+<td class="text-end">
+<span class="badge bg-warning text-dark">
+18.6%
+</span>
+</td>
+</tr>
+<tr>
+<td><a href="items-34.html">Ink Blue Portrait Charcoal</a></td>
+<td class="text-center">1</td>
+<td class="text-end">$105.00</td>
+<td class="text-end text-success">$19.50</td>
+<td class="text-end">
+<span class="badge bg-warning text-dark">
+18.6%
+</span>
+</td>
+</tr>
+<tr>
+<td><a href="items-43.html">Boxed Detective Board Game</a></td>
+<td class="text-center">1</td>
+<td class="text-end">$55.00</td>
+<td class="text-end text-success">$10.50</td>
+<td class="text-end">
+<span class="badge bg-warning text-dark">
+19.1%
+</span>
+</td>
+</tr>
+<tr>
+<td><a href="items-15.html">Hand-Tied Cocktail Glass Set</a></td>
+<td class="text-center">1</td>
+<td class="text-end">$55.00</td>
+<td class="text-end text-success">$40.50</td>
+<td class="text-end">
+<span class="badge bg-success">
+73.6%
+</span>
+</td>
+</tr>
+<tr>
+<td><a href="items-7.html">Harvest Slatted Bench</a></td>
+<td class="text-center">1</td>
+<td class="text-end">$280.00</td>
+<td class="text-end text-success">$206.50</td>
+<td class="text-end">
+<span class="badge bg-success">
+73.8%
+</span>
+</td>
+</tr>
+<tr>
+<td><a href="items-18.html">Moss Charm Bracelet</a></td>
+<td class="text-center">1</td>
+<td class="text-end">$165.00</td>
+<td class="text-end text-success">$127.50</td>
+<td class="text-end">
+<span class="badge bg-success">
+77.3%
+</span>
+</td>
+</tr>
+<tr>
+<td><a href="items-31.html">Letters from Rook Hollow</a></td>
+<td class="text-center">1</td>
+<td class="text-end">$21.00</td>
+<td class="text-end text-success">$18.50</td>
+<td class="text-end">
+<span class="badge bg-success">
+88.1%
+</span>
+</td>
+</tr>
+<tr>
+<td><a href="items-23.html">Housekeeping Companion</a></td>
+<td class="text-center">1</td>
+<td class="text-end">$70.00</td>
+<td class="text-end text-success">$62.00</td>
+<td class="text-end">
+<span class="badge bg-success">
+88.6%
+</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ============================================================ -->
+<!--  DEAD STOCK / SLOW MOVERS                                    -->
+<!-- ============================================================ -->
+<div class="card mb-4">
+<div class="card-header"><i class="bi bi-clock-history"></i> Slow Movers &amp; Dead Stock — Oldest In-Stock Items</div>
+<div class="card-body p-0">
+<div class="table-responsive">
+<table class="table table-sm table-hover align-middle mb-0">
+<thead>
+<tr>
+<th>Item</th>
+<th>SKU</th>
+<th>Category</th>
+<th class="text-center">Days Listed</th>
+<th class="text-end">Capital Tied Up</th>
+<th class="text-end">Selling Price</th>
+<th class="text-center">Ever Sold?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="table-warning">
+<td><a href="items-59.html">Tapered Mushroom Table Lamp</a></td>
+<td><code>VNT-DEC-0004</code></td>
+<td>
+<span class="badge" style="background-color:#9370DB">Decor</span>
+</td>
+<td class="text-center">
+<span class="text-danger fw-bold">
+260
+</span>
+</td>
+<td class="text-end">$13.50</td>
+<td class="text-end">$185.00</td>
+<td class="text-center">
+<span class="badge bg-secondary">No</span>
+</td>
+</tr>
+<tr class="table-warning">
+<td><a href="items-10.html">LP - Velvet Ossuary, &#39;Low Tide Hymns&#39;</a></td>
+<td><code>VNT-REC-0003</code></td>
+<td>
+<span class="badge" style="background-color:#1F7A8C">Records &amp; Media</span>
+</td>
+<td class="text-center">
+<span class="text-danger fw-bold">
+238
+</span>
+</td>
+<td class="text-end">$5.00</td>
+<td class="text-end">$37.00</td>
+<td class="text-center">
+<span class="badge bg-secondary">No</span>
+</td>
+</tr>
+<tr class="table-warning">
+<td><a href="items-11.html">Sunfaded Nesting Mixing Bowls</a></td>
+<td><code>VNT-KIT-0001</code></td>
+<td>
+<span class="badge" style="background-color:#CD853F">Kitchenware</span>
+</td>
+<td class="text-center">
+<span class="text-danger fw-bold">
+203
+</span>
+</td>
+<td class="text-end">$14.00</td>
+<td class="text-end">$120.00</td>
+<td class="text-center">
+<span class="badge bg-secondary">No</span>
+</td>
+</tr>
+<tr class="">
+<td><a href="items-48.html">Scalloped Wool Overshirt</a></td>
+<td><code>VNT-CLO-0009</code></td>
+<td>
+<span class="badge" style="background-color:#C71585">Clothing</span>
+</td>
+<td class="text-center">
+<span class="text-warning">
+105
+</span>
+</td>
+<td class="text-end">$17.50</td>
+<td class="text-end">$55.00</td>
+<td class="text-center">
+<span class="badge bg-secondary">No</span>
+</td>
+</tr>
+<tr class="">
+<td><a href="items-69.html">Tapered Carbon Steel Skillet</a></td>
+<td><code>VNT-KIT-0006</code></td>
+<td>
+<span class="badge" style="background-color:#CD853F">Kitchenware</span>
+</td>
+<td class="text-center">
+<span class="">
+84
+</span>
+</td>
+<td class="text-end">$9.00</td>
+<td class="text-end">$75.00</td>
+<td class="text-center">
+<span class="badge bg-secondary">No</span>
+</td>
+</tr>
+<tr class="">
+<td><a href="items-62.html">Amber Rattan Wall Shelf</a></td>
+<td><code>VNT-DEC-0005</code></td>
+<td>
+<span class="badge" style="background-color:#9370DB">Decor</span>
+</td>
+<td class="text-center">
+<span class="">
+83
+</span>
+</td>
+<td class="text-end">$19.50</td>
+<td class="text-end">$75.00</td>
+<td class="text-center">
+<span class="badge bg-secondary">No</span>
+</td>
+</tr>
+<tr class="">
+<td><a href="items-52.html">Field Guide to Coastal Birds</a></td>
+<td><code>VNT-BKS-0007</code></td>
+<td>
+<span class="badge" style="background-color:#2E8B57">Books</span>
+</td>
+<td class="text-center">
+<span class="">
+77
+</span>
+</td>
+<td class="text-end">$4.00</td>
+<td class="text-end">$27.00</td>
+<td class="text-center">
+<span class="badge bg-secondary">No</span>
+</td>
+</tr>
+<tr class="">
+<td><a href="items-71.html">Hammered Cut Glass Decanter</a></td>
+<td><code>VNT-KIT-0007</code></td>
+<td>
+<span class="badge" style="background-color:#CD853F">Kitchenware</span>
+</td>
+<td class="text-center">
+<span class="">
+77
+</span>
+</td>
+<td class="text-end">$19.00</td>
+<td class="text-end">$100.00</td>
+<td class="text-center">
+<span class="badge bg-secondary">No</span>
+</td>
+</tr>
+<tr class="">
+<td><a href="items-60.html">Teak Sideboard</a></td>
+<td><code>VNT-FUR-0005</code></td>
+<td>
+<span class="badge" style="background-color:#8B4513">Furniture</span>
+</td>
+<td class="text-center">
+<span class="">
+73
+</span>
+</td>
+<td class="text-end">$138.00</td>
+<td class="text-end">$470.00</td>
+<td class="text-center">
+<span class="badge bg-secondary">No</span>
+</td>
+</tr>
+<tr class="">
+<td><a href="items-1.html">Patinated Wooden Pull Duck</a></td>
+<td><code>VNT-TOY-0001</code></td>
+<td>
+<span class="badge" style="background-color:#FF6347">Toys &amp; Games</span>
+</td>
+<td class="text-center">
+<span class="">
+72
+</span>
+</td>
+<td class="text-end">$7.00</td>
+<td class="text-end">$34.00</td>
+<td class="text-center">
+<span class="badge bg-secondary">No</span>
+</td>
+</tr>
+<tr class="">
+<td><a href="items-26.html">Atlas of Inland Waterways</a></td>
+<td><code>VNT-BKS-0003</code></td>
+<td>
+<span class="badge" style="background-color:#2E8B57">Books</span>
+</td>
+<td class="text-center">
+<span class="">
+69
+</span>
+</td>
+<td class="text-end">$24.50</td>
+<td class="text-end">$240.00</td>
+<td class="text-center">
+<span class="badge bg-secondary">No</span>
+</td>
+</tr>
+<tr class="">
+<td><a href="items-78.html">Slub-Woven Marble Set in Tin</a></td>
+<td><code>VNT-TOY-0006</code></td>
+<td>
+<span class="badge" style="background-color:#FF6347">Toys &amp; Games</span>
+</td>
+<td class="text-center">
+<span class="">
+68
+</span>
+</td>
+<td class="text-end">$14.00</td>
+<td class="text-end">$65.00</td>
+<td class="text-center">
+<span class="badge bg-secondary">No</span>
+</td>
+</tr>
+<tr class="">
+<td><a href="items-36.html">Two-Tone Varsity Cardigan</a></td>
+<td><code>VNT-CLO-0005</code></td>
+<td>
+<span class="badge" style="background-color:#C71585">Clothing</span>
+</td>
+<td class="text-center">
+<span class="">
+67
+</span>
+</td>
+<td class="text-end">$13.50</td>
+<td class="text-end">$105.00</td>
+<td class="text-center">
+<span class="badge bg-secondary">No</span>
+</td>
+</tr>
+<tr class="">
+<td><a href="items-58.html">Amber Cuff Bracelet</a></td>
+<td><code>VNT-JWL-0005</code></td>
+<td>
+<span class="badge" style="background-color:#FFD700">Jewelry</span>
+</td>
+<td class="text-center">
+<span class="">
+62
+</span>
+</td>
+<td class="text-end">$10.50</td>
+<td class="text-end">$60.00</td>
+<td class="text-center">
+<span class="badge bg-secondary">No</span>
+</td>
+</tr>
+<tr class="">
+<td><a href="items-64.html">Lacquered Tube Table Radio</a></td>
+<td><code>VNT-ELC-0004</code></td>
+<td>
+<span class="badge" style="background-color:#708090">Electronics</span>
+</td>
+<td class="text-center">
+<span class="">
+60
+</span>
+</td>
+<td class="text-end">$37.50</td>
+<td class="text-end">$230.00</td>
+<td class="text-center">
+<span class="badge bg-secondary">No</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- ============================================================ -->
+<!--  INVENTORY VALUE BY CATEGORY                                 -->
+<!-- ============================================================ -->
+<div class="card mb-4">
+<div class="card-header"><i class="bi bi-tags"></i> Inventory Value by Category (In-Stock Only)</div>
+<div class="card-body p-0">
+<div class="table-responsive">
+<table class="table table-hover mb-0">
+<thead>
+<tr>
+<th>Category</th>
+<th class="text-center">Items</th>
+<th class="text-center">Units</th>
+<th class="text-end">Cost Basis</th>
+<th class="text-end">Retail Value</th>
+<th class="text-end">Potential Profit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="badge me-1" style="background-color:#8B4513">Furniture</span></td>
+<td class="text-center">2</td>
+<td class="text-center">2</td>
+<td class="text-end">$361.00</td>
+<td class="text-end">$1320.00</td>
+<td class="text-end text-success">$959.00</td>
+</tr>
+<tr>
+<td><span class="badge me-1" style="background-color:#B5838D">Linens &amp; Textiles</span></td>
+<td class="text-center">3</td>
+<td class="text-center">3</td>
+<td class="text-end">$103.50</td>
+<td class="text-end">$725.00</td>
+<td class="text-end text-success">$621.50</td>
+</tr>
+<tr>
+<td><span class="badge me-1" style="background-color:#708090">Electronics</span></td>
+<td class="text-center">2</td>
+<td class="text-center">2</td>
+<td class="text-end">$88.50</td>
+<td class="text-end">$630.00</td>
+<td class="text-end text-success">$541.50</td>
+</tr>
+<tr>
+<td><span class="badge me-1" style="background-color:#C71585">Clothing</span></td>
+<td class="text-center">7</td>
+<td class="text-center">7</td>
+<td class="text-end">$112.00</td>
+<td class="text-end">$605.00</td>
+<td class="text-end text-success">$493.00</td>
+</tr>
+<tr>
+<td><span class="badge me-1" style="background-color:#6c757d">Misc</span></td>
+<td class="text-center">2</td>
+<td class="text-center">4</td>
+<td class="text-end">$83.00</td>
+<td class="text-end">$535.00</td>
+<td class="text-end text-success">$452.00</td>
+</tr>
+<tr>
+<td><span class="badge me-1" style="background-color:#9370DB">Decor</span></td>
+<td class="text-center">4</td>
+<td class="text-center">4</td>
+<td class="text-end">$47.00</td>
+<td class="text-end">$415.00</td>
+<td class="text-end text-success">$368.00</td>
+</tr>
+<tr>
+<td><span class="badge me-1" style="background-color:#2E8B57">Books</span></td>
+<td class="text-center">4</td>
+<td class="text-center">6</td>
+<td class="text-end">$46.00</td>
+<td class="text-end">$400.00</td>
+<td class="text-end text-success">$354.00</td>
+</tr>
+<tr>
+<td><span class="badge me-1" style="background-color:#CD853F">Kitchenware</span></td>
+<td class="text-center">4</td>
+<td class="text-center">4</td>
+<td class="text-end">$57.50</td>
+<td class="text-end">$332.00</td>
+<td class="text-end text-success">$274.50</td>
+</tr>
+<tr>
+<td><span class="badge me-1" style="background-color:#1F7A8C">Records &amp; Media</span></td>
+<td class="text-center">6</td>
+<td class="text-center">6</td>
+<td class="text-end">$52.00</td>
+<td class="text-end">$323.00</td>
+<td class="text-end text-success">$271.00</td>
+</tr>
+<tr>
+<td><span class="badge me-1" style="background-color:#4682B4">Art</span></td>
+<td class="text-center">2</td>
+<td class="text-center">2</td>
+<td class="text-end">$44.00</td>
+<td class="text-end">$225.00</td>
+<td class="text-end text-success">$181.00</td>
+</tr>
+<tr>
+<td><span class="badge me-1" style="background-color:#FF6347">Toys &amp; Games</span></td>
+<td class="text-center">2</td>
+<td class="text-center">3</td>
+<td class="text-end">$21.00</td>
+<td class="text-end">$164.00</td>
+<td class="text-end text-success">$143.00</td>
+</tr>
+<tr>
+<td><span class="badge me-1" style="background-color:#FFD700">Jewelry</span></td>
+<td class="text-center">2</td>
+<td class="text-center">2</td>
+<td class="text-end">$16.00</td>
+<td class="text-end">$94.00</td>
+<td class="text-end text-success">$78.00</td>
+</tr>
+</tbody>
+<tfoot>
+<tr class="fw-bold">
+<td>Total</td>
+<td></td><td></td>
+<td class="text-end">$1031.50</td>
+<td class="text-end">$5768.00</td>
+<td class="text-end text-success">$4736.50</td>
+</tr>
+</tfoot>
+</table>
+</div>
+</div>
+</div>
+<!-- ============================================================ -->
+<!--  TRANSACTION LOG                                             -->
+<!-- ============================================================ -->
+<div class="card">
+<div class="card-header"><i class="bi bi-journal-text"></i> Transaction Log (Last 50)</div>
+<div class="card-body p-0">
+<div class="table-responsive">
+<table class="table table-sm table-hover mb-0">
+<thead>
+<tr><th>Date</th><th>Item</th><th>Type</th><th>Qty</th><th>Notes</th></tr>
+</thead>
+<tbody>
+<tr>
+<td class="text-muted small">Sep 29, 04:41</td>
+<td>
+<a href="items-42.html">VNT-BKS-0006</a>
+— Cookery of the Low Counties
+</td>
+<td>
+<span class="badge bg-secondary">returned</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Customer return - back on the shelf pending review</td>
+</tr>
+<tr>
+<td class="text-muted small">Sep 27, 15:55</td>
+<td>
+<a href="items-16.html">VNT-ELC-0002</a>
+— Dusty Rose Rangefinder Camera
+</td>
+<td>
+<span class="badge bg-success">In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Circuit House Salvage</td>
+</tr>
+<tr>
+<td class="text-muted small">Sep 24, 05:43</td>
+<td>
+<a href="items-68.html">VNT-ART-0003</a>
+— Abstract Screenprint
+</td>
+<td>
+<span class="badge bg-success">In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Fenwick Books &amp; Paper</td>
+</tr>
+<tr>
+<td class="text-muted small">Sep 23, 04:41</td>
+<td>
+<a href="items-38.html">VNT-CLO-0006</a>
+— Denim Trucker Jacket
+</td>
+<td>
+<span class="badge bg-secondary">returned</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Customer return - back on the shelf pending review</td>
+</tr>
+<tr>
+<td class="text-muted small">Sep 20, 00:51</td>
+<td>
+<a href="items-30.html">VNT-CLO-0004</a>
+— Oatmeal Chore Jacket
+</td>
+<td>
+<span class="badge bg-success">In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Sunday Field Flea Market</td>
+</tr>
+<tr>
+<td class="text-muted small">Sep 13, 17:35</td>
+<td>
+<a href="items-5.html">VNT-REC-0001</a>
+— Boxed LP Anthology
+</td>
+<td>
+<span class="badge bg-success">In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Bram Odell</td>
+</tr>
+<tr>
+<td class="text-muted small">Sep 10, 22:34</td>
+<td>
+<a href="items-38.html">VNT-CLO-0006</a>
+— Denim Trucker Jacket
+</td>
+<td>
+<span class="badge bg-success">In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Sunday Field Flea Market</td>
+</tr>
+<tr>
+<td class="text-muted small">Aug 30, 23:56</td>
+<td>
+<a href="items-14.html">VNT-JWL-0001</a>
+— Pewter Cocktail Earrings
+</td>
+<td>
+<span class="badge bg-success">In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Marisol Verity</td>
+</tr>
+<tr>
+<td class="text-muted small">Aug 30, 03:30</td>
+<td>
+<a href="items-46.html">VNT-CLO-0008</a>
+— Patinated Prairie Dress
+</td>
+<td>
+<span class="badge bg-success">In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Sunday Field Flea Market</td>
+</tr>
+<tr>
+<td class="text-muted small">Aug 22, 12:18</td>
+<td>
+<a href="items-7.html">VNT-FUR-0002</a>
+— Harvest Slatted Bench
+</td>
+<td>
+<span class="badge bg-warning">Sold</span>
+</td>
+<td>-1</td>
+<td class="text-muted small">Sold to a regular</td>
+</tr>
+<tr>
+<td class="text-muted small">Aug 21, 11:08</td>
+<td>
+<a href="items-21.html">VNT-CLO-0002</a>
+— Two-Tone Pointed Ankle Boots
+</td>
+<td>
+<span class="badge bg-success">In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Northgate Textile Salvage</td>
+</tr>
+<tr>
+<td class="text-muted small">Aug 18, 03:54</td>
+<td>
+<a href="items-53.html">VNT-KIT-0005</a>
+— Fluted Stovetop Percolator
+</td>
+<td>
+<span class="badge bg-success">In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Two Rivers Auction Barn</td>
+</tr>
+<tr>
+<td class="text-muted small">Aug 17, 07:33</td>
+<td>
+<a href="items-8.html">VNT-ELC-0001</a>
+— Pewter Silver-Face Receiver
+</td>
+<td>
+<span class="badge bg-warning">Sold</span>
+</td>
+<td>-1</td>
+<td class="text-muted small">Sold at the counter</td>
+</tr>
+<tr>
+<td class="text-muted small">Aug 16, 23:48</td>
+<td>
+<a href="items-23.html">VNT-BKS-0002</a>
+— Housekeeping Companion
+</td>
+<td>
+<span class="badge bg-warning">Sold</span>
+</td>
+<td>-1</td>
+<td class="text-muted small">Sold to a regular</td>
+</tr>
+<tr>
+<td class="text-muted small">Aug 16, 04:41</td>
+<td>
+<a href="items-32.html">VNT-MSC-0003</a>
+— Tapered Hand Plane
+</td>
+<td>
+<span class="badge bg-info">Adjust</span>
+</td>
+<td>-1</td>
+<td class="text-muted small">Written off - damage found during a stock check</td>
+</tr>
+<tr>
+<td class="text-muted small">Aug 11, 17:27</td>
+<td>
+<a href="items-65.html">VNT-CLO-0011</a>
+— Silk Scarf
+</td>
+<td>
+<span class="badge bg-success">In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Northgate Textile Salvage</td>
+</tr>
+<tr>
+<td class="text-muted small">Aug 11, 15:53</td>
+<td>
+<a href="items-73.html">VNT-DEC-0007</a>
+— Macrame Plant Hanger
+</td>
+<td>
+<span class="badge bg-info">Adjust</span>
+</td>
+<td>-1</td>
+<td class="text-muted small">Count corrected after a shelf audit</td>
+</tr>
+<tr>
+<td class="text-muted small">Aug 06, 10:24</td>
+<td>
+<a href="items-57.html">VNT-BKS-0008</a>
+— The Salt Almanac
+</td>
+<td>
+<span class="badge bg-warning">Sold</span>
+</td>
+<td>-1</td>
+<td class="text-muted small">Sold at the Saturday market</td>
+</tr>
+<tr>
+<td class="text-muted small">Aug 05, 15:53</td>
+<td>
+<a href="items-73.html">VNT-DEC-0007</a>
+— Macrame Plant Hanger
+</td>
+<td>
+<span class="badge bg-success">In</span>
+</td>
+<td>7</td>
+<td class="text-muted small">Intake - Halberd Estate Clearances</td>
+</tr>
+<tr>
+<td class="text-muted small">Jul 23, 16:55</td>
+<td>
+<a href="items-23.html">VNT-BKS-0002</a>
+— Housekeeping Companion
+</td>
+<td>
+<span class="badge bg-success">In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Walk-in buy</td>
+</tr>
+<tr>
+<td class="text-muted small">Jul 23, 02:57</td>
+<td>
+<a href="items-80.html">VNT-DEC-0008</a>
+— Pewter Fluted Glass Vase
+</td>
+<td>
+<span class="badge bg-success">In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Sunday Field Flea Market</td>
+</tr>
+<tr>
+<td class="text-muted small">Jul 18, 04:53</td>
+<td>
+<a href="items-67.html">VNT-REC-0006</a>
+— 7-inch Single Lot of Ten
+</td>
+<td>
+<span class="badge bg-success">In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Bram Odell</td>
+</tr>
+<tr>
+<td class="text-muted small">Jul 16, 05:33</td>
+<td>
+<a href="items-12.html">VNT-REC-0004</a>
+— LP - The Tangerine Bureau, &#39;Static Bloom&#39;
+</td>
+<td>
+<span class="badge bg-success">In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Walk-in buy</td>
+</tr>
+<tr>
+<td class="text-muted small">Jul 15, 16:46</td>
+<td>
+<a href="items-77.html">VNT-MSC-0005</a>
+— Apothecary Jar Set
+</td>
+<td>
+<span class="badge bg-info">Adjust</span>
+</td>
+<td>-2</td>
+<td class="text-muted small">Count corrected after a shelf audit</td>
+</tr>
+<tr>
+<td class="text-muted small">Jul 08, 06:16</td>
+<td>
+<a href="items-43.html">VNT-TOY-0004</a>
+— Boxed Detective Board Game
+</td>
+<td>
+<span class="badge bg-warning">Sold</span>
+</td>
+<td>-1</td>
+<td class="text-muted small">Storefront order</td>
+</tr>
+<tr>
+<td class="text-muted small">Jul 05, 19:24</td>
+<td>
+<a href="items-26.html">VNT-BKS-0003</a>
+— Atlas of Inland Waterways
+</td>
+<td>
+<span class="badge bg-success">In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Fenwick Books &amp; Paper</td>
+</tr>
+<tr>
+<td class="text-muted small">Jun 26, 13:38</td>
+<td>
+<a href="items-57.html">VNT-BKS-0008</a>
+— The Salt Almanac
+</td>
+<td>
+<span class="badge bg-success">In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Quillon House (closed shop)</td>
+</tr>
+<tr>
+<td class="text-muted small">Jun 26, 04:41</td>
+<td>
+<a href="items-44.html">VNT-REC-0005</a>
+— Cassette - &#39;Harvest Broadcast&#39;
+</td>
+<td>
+<span class="badge bg-info">Adjust</span>
+</td>
+<td>-1</td>
+<td class="text-muted small">Written off - damage found during a stock check</td>
+</tr>
+<tr>
+<td class="text-muted small">Jun 19, 10:56</td>
+<td>
+<a href="items-48.html">VNT-CLO-0009</a>
+— Scalloped Wool Overshirt
+</td>
+<td>
+<span class="badge bg-success">In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Sunday Field Flea Market</td>
+</tr>
+<tr>
+<td class="text-muted small">Jun 18, 16:44</td>
+<td>
+<a href="items-17.html">VNT-KIT-0003</a>
+— Lacquered Pyrex-Style Casserole
+</td>
+<td>
+<span class="badge bg-success">In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Two Rivers Auction Barn</td>
+</tr>
+<tr>
+<td class="text-muted small">Jun 15, 16:46</td>
+<td>
+<a href="items-77.html">VNT-MSC-0005</a>
+— Apothecary Jar Set
+</td>
+<td>
+<span class="badge bg-success">In</span>
+</td>
+<td>8</td>
+<td class="text-muted small">Intake - Two Rivers Auction Barn</td>
+</tr>
+<tr>
+<td class="text-muted small">Jun 13, 06:30</td>
+<td>
+<a href="items-55.html">VNT-FUR-0004</a>
+— Harvest Roll-Top Desk
+</td>
+<td>
+<span class="badge bg-success">In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - The Ashgrove Estate</td>
+</tr>
+<tr>
+<td class="text-muted small">Jun 12, 03:16</td>
+<td>
+<a href="items-52.html">VNT-BKS-0007</a>
+— Field Guide to Coastal Birds
+</td>
+<td>
+<span class="badge bg-success">In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Fenwick Books &amp; Paper</td>
+</tr>
+<tr>
+<td class="text-muted small">Jun 12, 01:56</td>
+<td>
+<a href="items-1.html">VNT-TOY-0001</a>
+— Patinated Wooden Pull Duck
+</td>
+<td>
+<span class="badge bg-success">In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Two Rivers Auction Barn</td>
+</tr>
+<tr>
+<td class="text-muted small">Jun 04, 10:32</td>
+<td>
+<a href="items-8.html">VNT-ELC-0001</a>
+— Pewter Silver-Face Receiver
+</td>
+<td>
+<span class="badge bg-success">In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Circuit House Salvage</td>
+</tr>
+<tr>
+<td class="text-muted small">May 29, 13:52</td>
+<td>
+<a href="items-3.html">VNT-CLO-0001</a>
+— Fluted Pleated Trousers
+</td>
+<td>
+<span class="badge bg-success">In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Northgate Textile Salvage</td>
+</tr>
+<tr>
+<td class="text-muted small">May 29, 00:05</td>
+<td>
+<a href="items-40.html">VNT-TEX-0002</a>
+— Embroidered Tablecloth
+</td>
+<td>
+<span class="badge bg-warning">Sold</span>
+</td>
+<td>-1</td>
+<td class="text-muted small">Storefront order</td>
+</tr>
+<tr>
+<td class="text-muted small">May 25, 21:18</td>
+<td>
+<a href="items-63.html">VNT-JWL-0006</a>
+— Enamel Brooch
+</td>
+<td>
+<span class="badge bg-warning">Sold</span>
+</td>
+<td>-1</td>
+<td class="text-muted small">Online order</td>
+</tr>
+<tr>
+<td class="text-muted small">May 24, 04:33</td>
+<td>
+<a href="items-20.html">VNT-DEC-0002</a>
+— Beaded Curtain Panel
+</td>
+<td>
+<span class="badge bg-success">In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Sunday Field Flea Market</td>
+</tr>
+<tr>
+<td class="text-muted small">May 24, 03:06</td>
+<td>
+<a href="items-36.html">VNT-CLO-0005</a>
+— Two-Tone Varsity Cardigan
+</td>
+<td>
+<span class="badge bg-success">In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Sunday Field Flea Market</td>
+</tr>
+<tr>
+<td class="text-muted small">May 17, 15:23</td>
+<td>
+<a href="items-15.html">VNT-KIT-0002</a>
+— Hand-Tied Cocktail Glass Set
+</td>
+<td>
+<span class="badge bg-warning">Sold</span>
+</td>
+<td>-1</td>
+<td class="text-muted small">Online order</td>
+</tr>
+<tr>
+<td class="text-muted small">May 17, 02:16</td>
+<td>
+<a href="items-34.html">VNT-ART-0001</a>
+— Ink Blue Portrait Charcoal
+</td>
+<td>
+<span class="badge bg-warning">Sold</span>
+</td>
+<td>-1</td>
+<td class="text-muted small">Online order</td>
+</tr>
+<tr>
+<td class="text-muted small">May 06, 22:40</td>
+<td>
+<a href="items-15.html">VNT-KIT-0002</a>
+— Hand-Tied Cocktail Glass Set
+</td>
+<td>
+<span class="badge bg-success">In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Halberd Estate Clearances</td>
+</tr>
+<tr>
+<td class="text-muted small">May 05, 04:34</td>
+<td>
+<a href="items-31.html">VNT-BKS-0005</a>
+— Letters from Rook Hollow
+</td>
+<td>
+<span class="badge bg-warning">Sold</span>
+</td>
+<td>-1</td>
+<td class="text-muted small">Sold to a regular</td>
+</tr>
+<tr>
+<td class="text-muted small">Apr 29, 15:24</td>
+<td>
+<a href="items-58.html">VNT-JWL-0005</a>
+— Amber Cuff Bracelet
+</td>
+<td>
+<span class="badge bg-success">In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Sunday Field Flea Market</td>
+</tr>
+<tr>
+<td class="text-muted small">Apr 29, 08:37</td>
+<td>
+<a href="items-44.html">VNT-REC-0005</a>
+— Cassette - &#39;Harvest Broadcast&#39;
+</td>
+<td>
+<span class="badge bg-success">In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Sunday Field Flea Market</td>
+</tr>
+<tr>
+<td class="text-muted small">Apr 29, 00:26</td>
+<td>
+<a href="items-39.html">VNT-FUR-0003</a>
+— Hand-Tied Ladder Bookcase
+</td>
+<td>
+<span class="badge bg-warning">Sold</span>
+</td>
+<td>-1</td>
+<td class="text-muted small">Sold at the counter</td>
+</tr>
+<tr>
+<td class="text-muted small">Apr 27, 10:29</td>
+<td>
+<a href="items-51.html">VNT-ART-0002</a>
+— Cane-Back Folk Carved Panel
+</td>
+<td>
+<span class="badge bg-success">In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Halberd Estate Clearances</td>
+</tr>
+<tr>
+<td class="text-muted small">Apr 23, 14:13</td>
+<td>
+<a href="items-28.html">VNT-MSC-0002</a>
+— Brass Desk Fan
+</td>
+<td>
+<span class="badge bg-success">In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Halberd Estate Clearances</td>
+</tr>
+<tr>
+<td class="text-muted small">Apr 22, 22:57</td>
+<td>
+<a href="items-74.html">VNT-REC-0007</a>
+— LP - Harbor Lights Quartet, &#39;Night Ferry&#39;
+</td>
+<td>
+<span class="badge bg-success">In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Bram Odell</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Error Pill Toast -->
+<div id="errorPill" class="error-pill" role="alert" aria-live="assertive">
+<i class="bi bi-exclamation-triangle-fill me-2"></i>
+<span id="errorPillMsg"></span>
+<button type="button" class="error-pill-close" onclick="window._dismissPill()" aria-label="Close">&times;</button>
+</div>
+<style>
+.error-pill {
+position: fixed;
+bottom: 24px;
+left: 50%;
+transform: translateX(-50%) translateY(20px);
+background: #dc3545;
+color: #fff;
+padding: 10px 20px 10px 16px;
+border-radius: 50px;
+font-size: 0.875rem;
+font-weight: 500;
+box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+display: flex;
+align-items: center;
+gap: 4px;
+z-index: 9999;
+opacity: 0;
+pointer-events: none;
+transition: opacity 0.35s ease, transform 0.35s ease;
+max-width: 90vw;
+}
+.error-pill.error-pill--warn {
+background: #fd7e14;
+}
+.error-pill.error-pill--info {
+background: #0d6efd;
+}
+.error-pill.error-pill--success {
+background: #198754;
+}
+.error-pill.show {
+opacity: 1;
+pointer-events: auto;
+transform: translateX(-50%) translateY(0);
+}
+.error-pill-close {
+background: none;
+border: none;
+color: rgba(255,255,255,0.8);
+font-size: 1.15rem;
+line-height: 1;
+margin-left: 8px;
+cursor: pointer;
+padding: 0 2px;
+}
+.error-pill-close:hover { color: #fff; }
+</style>
+<div class="photo-lightbox" id="photoLightbox" role="dialog" aria-modal="true" aria-hidden="true" hidden>
+<button type="button" class="photo-lightbox-close" id="photoLightboxClose" aria-label="Close">
+<i class="bi bi-x-lg"></i>
+</button>
+<button type="button" class="photo-lightbox-nav prev" id="photoLightboxPrev" aria-label="Previous">
+<i class="bi bi-chevron-left"></i>
+</button>
+<button type="button" class="photo-lightbox-nav next" id="photoLightboxNext" aria-label="Next">
+<i class="bi bi-chevron-right"></i>
+</button>
+<img class="photo-lightbox-img" id="photoLightboxImg" alt="">
+<div class="photo-lightbox-count" id="photoLightboxCount"></div>
+</div>
+<link rel="stylesheet" href="static/snap/88a0be1cee2a.css">
+<script src="static/snap/1bb55beec05e.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script src="static/js/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+(function () {
+var dollarTick = { callback: function(v) { return '$' + v; } };
+var dollarTooltip = {
+callbacks: { label: function(c) { return c.dataset.label + ': $' + c.parsed.y.toFixed(2); } }
+};
+var timeData = [{"cogs": 7.0, "label": "Jan 2026", "profit": 73.0, "revenue": 80.0, "units": 1}, {"cogs": 19.0, "label": "Mar 2026", "profit": 211.0, "revenue": 230.0, "units": 1}, {"cogs": 343.5, "label": "Apr 2026", "profit": 251.5, "revenue": 595.0, "units": 3}, {"cogs": 111.5, "label": "May 2026", "profit": 173.5, "revenue": 285.0, "units": 5}, {"cogs": 0, "label": "Jun 2026", "profit": 0, "revenue": 0, "units": 0}, {"cogs": 44.5, "label": "Jul 2026", "profit": 10.5, "revenue": 55.0, "units": 1}, {"cogs": 110.5, "label": "Aug 2026", "profit": 719.5, "revenue": 830.0, "units": 4}, {"cogs": 0, "label": "Sep 2026", "profit": 0, "revenue": 0, "units": 0}];
+var labels = timeData.map(function(d) { return d.label; });
+/* ---- 1. Revenue & Profit Chart ---- */
+var revCtx = document.getElementById('revenueChart');
+if (revCtx && timeData.length) {
+new Chart(revCtx.getContext('2d'), {
+type: 'bar',
+data: {
+labels: labels,
+datasets: [
+{ label: 'Revenue', data: timeData.map(function(d){ return d.revenue; }),
+backgroundColor: 'rgba(25,135,84,0.25)', borderColor: 'rgba(25,135,84,1)', borderWidth: 1, order: 2 },
+{ label: 'COGS', data: timeData.map(function(d){ return d.cogs; }),
+backgroundColor: 'rgba(255,193,7,0.25)', borderColor: 'rgba(255,193,7,1)', borderWidth: 1, order: 3 },
+{ label: 'Profit', type: 'line', data: timeData.map(function(d){ return d.profit; }),
+borderColor: 'rgba(13,110,253,1)', backgroundColor: 'rgba(13,110,253,0.1)',
+borderWidth: 2, fill: true, tension: 0.3, pointRadius: 3, order: 1 }
+]
+},
+options: {
+responsive: true, interaction: { mode: 'index', intersect: false },
+plugins: { tooltip: dollarTooltip },
+scales: { y: { beginAtZero: true, ticks: dollarTick } }
+}
+});
+}
+/* ---- 2. Units Sold Chart ---- */
+var unitsCtx = document.getElementById('unitsSoldChart');
+if (unitsCtx && timeData.length) {
+new Chart(unitsCtx.getContext('2d'), {
+type: 'bar',
+data: {
+labels: labels,
+datasets: [{
+label: 'Units Sold',
+data: timeData.map(function(d){ return d.units; }),
+backgroundColor: 'rgba(111,66,193,0.35)',
+borderColor: 'rgba(111,66,193,1)',
+borderWidth: 1
+}]
+},
+options: {
+responsive: true,
+plugins: { legend: { display: false } },
+scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
+}
+});
+}
+/* ---- 3. Avg Selling Price Chart ---- */
+var avgPriceData = [80.0, 230.0, 198.33, 57.0, null, 55.0, 207.5, null];
+var avgCtx = document.getElementById('avgPriceChart');
+if (avgCtx && avgPriceData.length) {
+new Chart(avgCtx.getContext('2d'), {
+type: 'line',
+data: {
+labels: labels,
+datasets: [{
+label: 'Avg Price',
+data: avgPriceData,
+borderColor: 'rgba(220,53,69,1)',
+backgroundColor: 'rgba(220,53,69,0.08)',
+borderWidth: 2, fill: true, tension: 0.3,
+pointRadius: 3, spanGaps: true
+}]
+},
+options: {
+responsive: true,
+plugins: { legend: { display: false },
+tooltip: { callbacks: { label: function(c) { return c.parsed.y !== null ? '$' + c.parsed.y.toFixed(2) : 'No sales'; } } }
+},
+scales: { y: { beginAtZero: true, ticks: dollarTick } }
+}
+});
+}
+/* ---- 4. Category Revenue Pie ---- */
+var catData = [{"color": "#8B4513", "name": "Furniture", "revenue": 730.0}, {"color": "#708090", "name": "Electronics", "revenue": 400.0}, {"color": "#6c757d", "name": "Misc", "revenue": 240.0}, {"color": "#FFD700", "name": "Jewelry", "revenue": 199.0}, {"color": "#B5838D", "name": "Linens \u0026 Textiles", "revenue": 195.0}, {"color": "#CD853F", "name": "Kitchenware", "revenue": 190.0}, {"color": "#FF6347", "name": "Toys \u0026 Games", "revenue": 190.0}, {"color": "#2E8B57", "name": "Books", "revenue": 171.0}, {"color": "#4682B4", "name": "Art", "revenue": 105.0}, {"color": "#C71585", "name": "Clothing", "revenue": 80.0}];
+var pieCtx = document.getElementById('catRevenueChart');
+if (pieCtx && catData.length) {
+new Chart(pieCtx.getContext('2d'), {
+type: 'doughnut',
+data: {
+labels: catData.map(function(d){ return d.name; }),
+datasets: [{ data: catData.map(function(d){ return d.revenue; }),
+backgroundColor: catData.map(function(d){ return d.color; }),
+borderWidth: 2, borderColor: '#fff' }]
+},
+options: {
+responsive: true, maintainAspectRatio: true,
+plugins: {
+tooltip: { callbacks: { label: function(c) {
+var total = c.dataset.data.reduce(function(a,b){ return a+b; }, 0);
+var pct = total > 0 ? (c.parsed/total*100).toFixed(1) : 0;
+return c.label + ': $' + c.parsed.toFixed(2) + ' (' + pct + '%)';
+} } },
+legend: { position: 'bottom', labels: { boxWidth: 12, padding: 8, font: { size: 11 } } }
+}
+}
+});
+}
+/* ---- 5. Inventory Age Distribution ---- */
+var ageData = [{"label": "\u003c 30 days", "units": 4}, {"label": "30\u201390 days", "units": 7}, {"label": "90\u2013180 days", "units": 14}, {"label": "180\u2013365 days", "units": 13}, {"label": "\u003e 1 year", "units": 7}];
+var ageCtx = document.getElementById('ageChart');
+if (ageCtx && ageData.length) {
+var ageColors = ['#198754', '#20c997', '#ffc107', '#fd7e14', '#dc3545'];
+new Chart(ageCtx.getContext('2d'), {
+type: 'doughnut',
+data: {
+labels: ageData.map(function(d){ return d.label; }),
+datasets: [{ data: ageData.map(function(d){ return d.units; }),
+backgroundColor: ageColors, borderWidth: 2, borderColor: '#fff' }]
+},
+options: {
+responsive: true, maintainAspectRatio: true,
+plugins: {
+tooltip: { callbacks: { label: function(c) {
+var total = c.dataset.data.reduce(function(a,b){ return a+b; }, 0);
+var pct = total > 0 ? (c.parsed/total*100).toFixed(1) : 0;
+return c.label + ': ' + c.parsed + ' units (' + pct + '%)';
+} } },
+legend: { position: 'bottom', labels: { boxWidth: 12, padding: 8, font: { size: 11 } } }
+}
+}
+});
+}
+/* ---- 6. Category Inventory Value Bar ---- */
+var catVal = [{"color": "#8B4513", "cost": 361.0, "name": "Furniture", "retail": 1320.0}, {"color": "#B5838D", "cost": 103.5, "name": "Linens \u0026 Textiles", "retail": 725.0}, {"color": "#708090", "cost": 88.5, "name": "Electronics", "retail": 630.0}, {"color": "#C71585", "cost": 112.0, "name": "Clothing", "retail": 605.0}, {"color": "#6c757d", "cost": 83.0, "name": "Misc", "retail": 535.0}, {"color": "#9370DB", "cost": 47.0, "name": "Decor", "retail": 415.0}, {"color": "#2E8B57", "cost": 46.0, "name": "Books", "retail": 400.0}, {"color": "#CD853F", "cost": 57.5, "name": "Kitchenware", "retail": 332.0}, {"color": "#1F7A8C", "cost": 52.0, "name": "Records \u0026 Media", "retail": 323.0}, {"color": "#4682B4", "cost": 44.0, "name": "Art", "retail": 225.0}, {"color": "#FF6347", "cost": 21.0, "name": "Toys \u0026 Games", "retail": 164.0}, {"color": "#FFD700", "cost": 16.0, "name": "Jewelry", "retail": 94.0}];
+var cvCtx = document.getElementById('catValueChart');
+if (cvCtx && catVal.length) {
+new Chart(cvCtx.getContext('2d'), {
+type: 'bar',
+data: {
+labels: catVal.map(function(d){ return d.name; }),
+datasets: [
+{ label: 'Cost Basis', data: catVal.map(function(d){ return d.cost; }),
+backgroundColor: catVal.map(function(d){ return d.color + '55'; }),
+borderColor: catVal.map(function(d){ return d.color; }),
+borderWidth: 1 },
+{ label: 'Retail Value', data: catVal.map(function(d){ return d.retail; }),
+backgroundColor: catVal.map(function(d){ return d.color + 'BB'; }),
+borderColor: catVal.map(function(d){ return d.color; }),
+borderWidth: 1 }
+]
+},
+options: {
+responsive: true, indexAxis: 'y',
+interaction: { mode: 'index', intersect: false },
+plugins: { tooltip: dollarTooltip },
+scales: { x: { beginAtZero: true, ticks: dollarTick } }
+}
+});
+}
+/* ---- 7. Storefront Views Over Time (shaded line) ---- */
+var viewsData = [{"label": "Jan 2026", "views": 48}, {"label": "Mar 2026", "views": 31}, {"label": "Apr 2026", "views": 57}, {"label": "May 2026", "views": 32}, {"label": "Jun 2026", "views": 29}, {"label": "Jul 2026", "views": 50}, {"label": "Aug 2026", "views": 104}, {"label": "Sep 2026", "views": 131}];
+var viewsCtx = document.getElementById('viewsChart');
+if (viewsCtx && viewsData.length) {
+new Chart(viewsCtx.getContext('2d'), {
+type: 'line',
+data: {
+labels: viewsData.map(function(d){ return d.label; }),
+datasets: [{
+label: 'Views',
+data: viewsData.map(function(d){ return d.views; }),
+borderColor: 'rgba(13,110,253,1)',
+backgroundColor: 'rgba(13,110,253,0.18)',
+borderWidth: 2,
+fill: true,
+tension: 0.3,
+pointRadius: 3,
+pointHoverRadius: 5
+}]
+},
+options: {
+responsive: true,
+interaction: { mode: 'index', intersect: false },
+plugins: { legend: { display: false } },
+scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
+}
+});
+}
+})();
+</script>
+</body>
+</html>

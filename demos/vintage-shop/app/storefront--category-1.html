@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="noindex,follow"><script src="snapshot.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="csrf-token" content="read-only-snapshot">
+<title>Rosewater &amp; Rust — Shop</title>
+<meta name="description" content="Rosewater &amp; Rust is a two-room vintage shop in Cedar Hollow. We buy whole estates, sort them on the back bench, and keep the pieces that still have some life…">
+<link rel="canonical" href="storefront.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Rosewater &amp; Rust">
+<meta property="og:title" content="Rosewater &amp; Rust — Shop">
+<meta property="og:description" content="Rosewater &amp; Rust is a two-room vintage shop in Cedar Hollow. We buy whole estates, sort them on the back bench, and keep the pieces that still have some life…">
+<meta property="og:url" content="/storefront">
+<meta property="og:image" content="/demo_storefront_logo.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Rosewater &amp; Rust — Shop">
+<meta name="twitter:description" content="Rosewater &amp; Rust is a two-room vintage shop in Cedar Hollow. We buy whole estates, sort them on the back bench, and keep the pieces that still have some life…">
+<meta name="twitter:image" content="/demo_storefront_logo.jpg">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link href="static/css/storefront_themes.css" rel="stylesheet">
+<link href="static/css/storefront_cart.css" rel="stylesheet">
+<script type="application/ld+json">
+{
+"@context": "https://schema.org",
+"@type": "Store",
+"name": "Rosewater \u0026 Rust",
+"url": "",
+"logo": "/demo_storefront_logo.jpg",
+"description": "Rosewater \u0026 Rust is a two-room vintage shop in Cedar Hollow. We buy whole estates, sort them on the back bench, and keep the pieces that still have some life\u2026"
+}
+</script>
+</head>
+<body><div id="snapBanner" role="note" style="position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#3b2414;color:#fbe9d7;border-top:2px solid #e8a13a;font:500 13px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:7px 14px;display:flex;gap:4px 14px;align-items:center;justify-content:center;flex-wrap:wrap;text-align:center;box-shadow:0 -4px 14px rgba(0,0,0,.25)"><span><strong>Read-only snapshot</strong> of the real Vintage Shop app, saved while it ran on <strong>demo data</strong> (a fictional shop). Buttons and forms that would change data are switched off.</span><a href="../" style="color:#ffd08a;text-decoration:underline;white-space:nowrap">About this demo &amp; the source code &rarr;</a></div><div id="snapToast" role="status" aria-live="polite" style="display:none;position:fixed;left:50%;bottom:72px;transform:translateX(-50%);z-index:2147483001;width:max-content;max-width:min(92vw,560px);background:#111827;border:1px solid #e8a13a;color:#fde3c0;border-radius:8px;padding:10px 16px;font:500 13.5px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;box-shadow:0 10px 25px rgba(0,0,0,.45);text-align:center"></div>
+<div class="sf-announcement">Demo shop - nothing here is for sale. New finds are added to the real thing every Thursday.</div>
+<header class="sf-header">
+<div class="sf-header-inner">
+<div class="sf-header-left">
+<button class="sf-hamburger" id="sfMenuOpen" aria-label="Open menu">
+<span></span>
+<span></span>
+<span></span>
+</button>
+<a href="storefront.html" class="sf-header-logo">
+<img src="static/uploads/demo_storefront_logo.jpg" alt="Rosewater &amp; Rust logo" class="sf-brand-logo-mark">
+<span>Rosewater &amp; Rust</span>
+</a>
+<nav class="sf-header-nav">
+<a href="storefront.html" class="active">Shop</a>
+<a href="storefront-about.html" class="">About</a>
+<a href="storefront-faq.html" class="">FAQ</a>
+<a href="storefront-contact.html" class="">Contact</a>
+</nav>
+</div>
+<div class="sf-header-right">
+<a href="mailto:hello@rosewaterandrust.example.com" class="sf-header-icon"
+target="_blank" rel="noopener noreferrer"
+title="Email">
+<i class="bi bi-envelope"></i>
+</a>
+</div>
+</div>
+</header>
+<!-- Full-screen mobile menu -->
+<div class="sf-mobile-menu" id="sfMobileMenu">
+<div class="sf-mobile-menu-header">
+<span class="sf-mobile-menu-logo">
+<img src="static/uploads/demo_storefront_logo.jpg" alt="Rosewater &amp; Rust logo" class="sf-brand-logo-mark">
+<span>Rosewater &amp; Rust</span>
+</span>
+<button class="sf-mobile-close" id="sfMenuClose" aria-label="Close menu">
+<i class="bi bi-x-lg"></i>
+</button>
+</div>
+<nav class="sf-mobile-nav">
+<a href="storefront.html" class="active">Shop All</a>
+<a href="storefront-about.html" class="">About</a>
+<a href="storefront-faq.html" class="">FAQ</a>
+<a href="storefront-contact.html" class="">Contact</a>
+</nav>
+<div class="sf-mobile-menu-footer">
+<a href="mailto:hello@rosewaterandrust.example.com"
+target="_blank" rel="noopener noreferrer">Email</a>
+<a href="#" data-snapshot-missing="/login">Admin Login</a>
+</div>
+</div>
+<main>
+<!-- Hero Banner — full-width splash like thrifted.com -->
+<div class="sf-hero">
+<img src="static/uploads/demo_storefront_hero.jpg" alt="Rosewater &amp; Rust" class="sf-hero-img">
+<div class="sf-hero-content">
+<h1 class="sf-hero-heading">Hand-picked vintage for the home, the wardrobe and the record shelf.</h1>
+<a href="#products" class="sf-hero-link">
+Shop Now
+<svg width="20" height="20" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 15.3536L26.2929 15.3536L22.6464 11.7072L23.3536 11L28.2071 15.8536L23.3536 20.7072L22.6464 20L26.2929 16.3536L4 16.3536L4 15.3536Z" fill="currentColor"/></svg>
+</a>
+</div>
+</div>
+<!-- Collection Highlights — 3-up cards like thrifted.com "OUR VINTAGE CLOTHING HIGHLIGHTS" -->
+<div class="sf-collection-highlights">
+<div class="page-width">
+<h2 class="sf-section-heading">Our Highlights</h2>
+<div class="sf-collection-grid">
+<a href="storefront--category-4.html" class="sf-collection-card">
+<div class="sf-collection-card-placeholder"></div>
+<div class="sf-collection-card-overlay">
+<span class="sf-collection-card-title">Art</span>
+<span class="sf-collection-card-arrow">
+<svg width="9" height="15" viewBox="0 0 9 15"><path fill="currentColor" fill-rule="evenodd" d="M6.875 7.066L.87 1.06 1.93 0l6.006 6.005L7.94 6 9 7.06l-.004.006.005.005-1.06 1.06-.006-.004-6.005 6.005-1.061-1.06 6.005-6.006z"></path></svg>
+</span>
+</div>
+</a>
+<a href="storefront--category-5.html" class="sf-collection-card">
+<div class="sf-collection-card-placeholder"></div>
+<div class="sf-collection-card-overlay">
+<span class="sf-collection-card-title">Books</span>
+<span class="sf-collection-card-arrow">
+<svg width="9" height="15" viewBox="0 0 9 15"><path fill="currentColor" fill-rule="evenodd" d="M6.875 7.066L.87 1.06 1.93 0l6.006 6.005L7.94 6 9 7.06l-.004.006.005.005-1.06 1.06-.006-.004-6.005 6.005-1.061-1.06 6.005-6.006z"></path></svg>
+</span>
+</div>
+</a>
+<a href="storefront--category-2.html" class="sf-collection-card">
+<div class="sf-collection-card-placeholder"></div>
+<div class="sf-collection-card-overlay">
+<span class="sf-collection-card-title">Clothing</span>
+<span class="sf-collection-card-arrow">
+<svg width="9" height="15" viewBox="0 0 9 15"><path fill="currentColor" fill-rule="evenodd" d="M6.875 7.066L.87 1.06 1.93 0l6.006 6.005L7.94 6 9 7.06l-.004.006.005.005-1.06 1.06-.006-.004-6.005 6.005-1.061-1.06 6.005-6.006z"></path></svg>
+</span>
+</div>
+</a>
+<a href="storefront--category-8.html" class="sf-collection-card">
+<div class="sf-collection-card-placeholder"></div>
+<div class="sf-collection-card-overlay">
+<span class="sf-collection-card-title">Decor</span>
+<span class="sf-collection-card-arrow">
+<svg width="9" height="15" viewBox="0 0 9 15"><path fill="currentColor" fill-rule="evenodd" d="M6.875 7.066L.87 1.06 1.93 0l6.006 6.005L7.94 6 9 7.06l-.004.006.005.005-1.06 1.06-.006-.004-6.005 6.005-1.061-1.06 6.005-6.006z"></path></svg>
+</span>
+</div>
+</a>
+<a href="storefront--category-6.html" class="sf-collection-card">
+<div class="sf-collection-card-placeholder"></div>
+<div class="sf-collection-card-overlay">
+<span class="sf-collection-card-title">Electronics</span>
+<span class="sf-collection-card-arrow">
+<svg width="9" height="15" viewBox="0 0 9 15"><path fill="currentColor" fill-rule="evenodd" d="M6.875 7.066L.87 1.06 1.93 0l6.006 6.005L7.94 6 9 7.06l-.004.006.005.005-1.06 1.06-.006-.004-6.005 6.005-1.061-1.06 6.005-6.006z"></path></svg>
+</span>
+</div>
+</a>
+<a href="storefront--category-1.html" class="sf-collection-card">
+<div class="sf-collection-card-placeholder"></div>
+<div class="sf-collection-card-overlay">
+<span class="sf-collection-card-title">Furniture</span>
+<span class="sf-collection-card-arrow">
+<svg width="9" height="15" viewBox="0 0 9 15"><path fill="currentColor" fill-rule="evenodd" d="M6.875 7.066L.87 1.06 1.93 0l6.006 6.005L7.94 6 9 7.06l-.004.006.005.005-1.06 1.06-.006-.004-6.005 6.005-1.061-1.06 6.005-6.006z"></path></svg>
+</span>
+</div>
+</a>
+</div>
+</div>
+</div>
+<!-- Filter Bar -->
+<div class="page-width" id="products">
+<form method="GET" class="sf-filter-bar">
+<input type="text" name="q" placeholder="Search..." value="">
+<select name="category">
+<option value="">All Categories</option>
+<option value="4" >Art</option>
+<option value="5" >Books</option>
+<option value="2" >Clothing</option>
+<option value="8" >Decor</option>
+<option value="6" >Electronics</option>
+<option value="1" selected>Furniture</option>
+<option value="3" >Jewelry</option>
+<option value="7" >Kitchenware</option>
+<option value="12" >Linens &amp; Textiles</option>
+<option value="10" >Misc</option>
+<option value="11" >Records &amp; Media</option>
+<option value="9" >Toys &amp; Games</option>
+</select>
+<select name="tag">
+<option value="">All Tags</option>
+<option value="16" >Art Deco</option>
+<option value="14" >As-Found</option>
+<option value="21" >Brass</option>
+<option value="11" >Collector Piece</option>
+<option value="8" >Consignment</option>
+<option value="17" >Farmhouse</option>
+<option value="6" >Featured</option>
+<option value="7" >Fragile</option>
+<option value="24" >Leather</option>
+<option value="10" >Local Pickup</option>
+<option value="15" >Mid-Century</option>
+<option value="2" >Mint Condition</option>
+<option value="3" >Needs Repair</option>
+<option value="5" >New Arrival</option>
+<option value="9" >One of a Kind</option>
+<option value="12" >Price Drop</option>
+<option value="23" >Pyrex-Style Glass</option>
+<option value="1" >Rare</option>
+<option value="13" >Restored</option>
+<option value="4" >Sale</option>
+<option value="20" >Solid Wood</option>
+<option value="25" >Window Display</option>
+<option value="22" >Wool</option>
+<option value="19" >Workwear</option>
+<option value="18" >Y2K</option>
+</select>
+<select name="sort">
+<option value="newest" selected>Newest First</option>
+<option value="oldest" >Oldest First</option>
+<option value="price_high" >Price: High to Low</option>
+<option value="price_low" >Price: Low to High</option>
+<option value="name" >Name A-Z</option>
+</select>
+<button type="submit" class="sf-btn">Filter</button>
+</form>
+<!-- Product Grid -->
+<div class="sf-product-grid">
+<div style="grid-column: 1 / -1;">
+<div class="sf-empty-state">
+<i class="bi bi-shop"></i>
+<h3>No items available</h3>
+<p>Check back soon for new additions.</p>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+</div>
+<!-- Info Section at Bottom — like thrifted.com's content sections before the footer -->
+<div class="sf-bottom-info">
+<div class="page-width">
+<div class="sf-bottom-info-grid">
+<div class="sf-bottom-info-block">
+<h3>About Rosewater &amp; Rust</h3>
+<p>Rosewater &amp; Rust is a two-room vintage shop in Cedar Hollow. We buy whole estates, sort them on the back bench, and keep the pieces that still have some life in them. Furniture gets cleaned and waxed, audio gear gets bench-tested, and every garment is measured with a tape rather than trusted to a size label.</p>
+</div>
+<div class="sf-bottom-info-block">
+<h3>Get in Touch</h3>
+<p><a href="mailto:hello@rosewaterandrust.example.com">hello@rosewaterandrust.example.com</a></p>
+<p><a href="tel:(555)0100">(555) 0100</a></p>
+</div>
+<div class="sf-bottom-info-block">
+<h3>Visit Us</h3>
+<p>114 Kiln Row, Cedar Hollow, OR 97401</p>
+<p>Wed-Fri 11am-6pm
+Sat 10am-6pm
+Sun 12pm-4pm
+Mon &amp; Tue by appointment</p>
+<p>Local pickup is free on anything marked Local Pickup. Message us with the SKU and we will set it aside at the counter for three days.</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer class="sf-footer">
+<div class="sf-footer-inner">
+<div class="sf-footer-grid">
+<!-- Column 1: Store Pages -->
+<div>
+<div class="sf-footer-heading">Shop</div>
+<ul class="sf-footer-links">
+<li><a href="storefront.html">Browse All</a></li>
+<li><a href="storefront-about.html">About</a></li>
+<li><a href="storefront-faq.html">FAQ</a></li>
+<li><a href="storefront-contact.html">Contact</a></li>
+</ul>
+</div>
+<!-- Column 2: Buyer Policies -->
+<div>
+<div class="sf-footer-heading">Policies</div>
+<ul class="sf-footer-links">
+</ul>
+</div>
+<!-- Column 3: Contact Info -->
+<div>
+<div class="sf-footer-heading">Contact</div>
+<ul class="sf-footer-links">
+<li><a href="mailto:hello@rosewaterandrust.example.com">hello@rosewaterandrust.example.com</a></li>
+<li><a href="tel:(555)0100">(555) 0100</a></li>
+<li><a href="storefront-returns.html">Start a Return</a></li>
+</ul>
+</div>
+<!-- Column 4: Info -->
+<div>
+<div class="sf-footer-heading">Info</div>
+<ul class="sf-footer-links">
+<li><span style="font-size:0.8125rem;color:var(--sf-muted)">Wed-Fri 11am-6pm
+Sat 10am-6pm
+Sun 12pm-4pm
+Mon &amp; Tue by appointment</span></li>
+<li><span style="font-size:0.8125rem;color:var(--sf-muted)">114 Kiln Row, Cedar Hollow, OR 97401</span></li>
+<li><span style="font-size:0.8125rem;color:var(--sf-muted)">Local pickup is free on anything marked Local Pickup. Message us with the SKU and we will set it aside at the counter for three days.</span></li>
+</ul>
+<ul class="sf-footer-links" style="margin-top:12px">
+<li><a href="mailto:hello@rosewaterandrust.example.com"
+target="_blank" rel="noopener noreferrer">Email</a></li>
+</ul>
+</div>
+</div>
+<div class="sf-footer-bottom">
+<span>&copy; Rosewater &amp; Rust. All rights reserved.</span>
+<div>
+<a href="#" data-snapshot-missing="/login">Admin</a>
+</div>
+</div>
+</div>
+</footer>
+<div class="photo-lightbox" id="photoLightbox" role="dialog" aria-modal="true" aria-hidden="true" hidden>
+<button type="button" class="photo-lightbox-close" id="photoLightboxClose" aria-label="Close">
+<i class="bi bi-x-lg"></i>
+</button>
+<button type="button" class="photo-lightbox-nav prev" id="photoLightboxPrev" aria-label="Previous">
+<i class="bi bi-chevron-left"></i>
+</button>
+<button type="button" class="photo-lightbox-nav next" id="photoLightboxNext" aria-label="Next">
+<i class="bi bi-chevron-right"></i>
+</button>
+<img class="photo-lightbox-img" id="photoLightboxImg" alt="">
+<div class="photo-lightbox-count" id="photoLightboxCount"></div>
+</div>
+<link rel="stylesheet" href="static/snap/88a0be1cee2a.css">
+<script src="static/snap/1bb55beec05e.js"></script>
+<!-- Error Pill Toast -->
+<div id="errorPill" class="error-pill" role="alert" aria-live="assertive">
+<i class="bi bi-exclamation-triangle-fill me-2"></i>
+<span id="errorPillMsg"></span>
+<button type="button" class="error-pill-close" onclick="window._dismissPill()" aria-label="Close">&times;</button>
+</div>
+<style>
+.error-pill{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:#dc3545;color:#fff;padding:10px 20px 10px 16px;border-radius:50px;font-size:.875rem;font-weight:500;box-shadow:0 4px 20px rgba(0,0,0,.25);display:flex;align-items:center;gap:4px;z-index:9999;opacity:0;pointer-events:none;transition:opacity .35s ease,transform .35s ease;max-width:90vw}
+.error-pill.error-pill--warn{background:#fd7e14}.error-pill.error-pill--info{background:#0d6efd}.error-pill.error-pill--success{background:#198754}
+.error-pill.show{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}
+.error-pill-close{background:none;border:none;color:rgba(255,255,255,.8);font-size:1.15rem;line-height:1;margin-left:8px;cursor:pointer;padding:0 2px}.error-pill-close:hover{color:#fff}
+</style>
+<script>
+(function(){var t=null;window.showPill=function(m,y,ms){var p=document.getElementById('errorPill'),x=document.getElementById('errorPillMsg');if(!p||!x)return;if(t){clearTimeout(t);t=null}x.textContent=m||'Something went wrong';p.className='error-pill';if(y==='warn')p.classList.add('error-pill--warn');if(y==='info')p.classList.add('error-pill--info');if(y==='success')p.classList.add('error-pill--success');void p.offsetWidth;p.classList.add('show');var d=(ms!==undefined)?ms:6000;if(d>0)t=setTimeout(function(){window._dismissPill()},d)};window._dismissPill=function(){var p=document.getElementById('errorPill');if(p)p.classList.remove('show');if(t){clearTimeout(t);t=null}};window.addEventListener('unhandledrejection',function(e){if(e.reason&&e.reason.name==='AbortError')return;showPill('Something went wrong — please try again','error',6000)})})();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script src="static/js/storefront_cart.js"></script>
+<!-- Mobile menu toggle -->
+<script>
+(function(){
+var menu = document.getElementById('sfMobileMenu');
+var openBtn = document.getElementById('sfMenuOpen');
+var closeBtn = document.getElementById('sfMenuClose');
+if (!menu || !openBtn) return;
+openBtn.addEventListener('click', function() {
+menu.classList.add('is-open');
+document.body.classList.add('sf-menu-open');
+});
+if (closeBtn) closeBtn.addEventListener('click', function() {
+menu.classList.remove('is-open');
+document.body.classList.remove('sf-menu-open');
+});
+// Close on backdrop click
+menu.addEventListener('click', function(e) {
+if (e.target === menu) {
+menu.classList.remove('is-open');
+document.body.classList.remove('sf-menu-open');
+}
+});
+})();
+</script>
+<script>
+document.querySelectorAll('.storefront-photo-cycler').forEach(function(cycler) {
+var photoUrls = JSON.parse(cycler.dataset.photoUrls || '[]');
+if (!photoUrls.length) return;
+var index = 0;
+var img = cycler.querySelector('.storefront-main-photo');
+var count = cycler.querySelector('.storefront-photo-count');
+var prev = cycler.querySelector('.storefront-photo-prev');
+var next = cycler.querySelector('.storefront-photo-next');
+function update() {
+img.src = photoUrls[index];
+if (count) count.textContent = (index + 1) + '/' + photoUrls.length;
+if (img.hasAttribute('data-lightbox-trigger')) {
+img.setAttribute('data-lightbox-index', String(index));
+}
+}
+if (prev) {
+prev.addEventListener('click', function(e) {
+e.preventDefault();
+e.stopPropagation();
+index = (index - 1 + photoUrls.length) % photoUrls.length;
+update();
+});
+}
+if (next) {
+next.addEventListener('click', function(e) {
+e.preventDefault();
+e.stopPropagation();
+index = (index + 1) % photoUrls.length;
+update();
+});
+}
+});
+</script>
+</body>
+</html>

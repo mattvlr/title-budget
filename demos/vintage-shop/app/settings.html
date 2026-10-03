@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head><meta name="robots" content="noindex,follow"><script src="snapshot.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="csrf-token" content="read-only-snapshot">
+<title>Rosewater &amp; Rust — Inventory</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link href="static/css/style.css" rel="stylesheet">
+<link href="static/css/themes.css" rel="stylesheet">
+<style>
+html {
+scroll-behavior: smooth;
+}
+.settings-shell {
+display: flex;
+flex-direction: column;
+gap: 1.25rem;
+}
+.settings-toc {
+position: relative;
+overflow: hidden;
+border: 1px solid rgba(33, 37, 41, 0.08);
+border-radius: 1.4rem;
+padding: 1.1rem;
+background:
+radial-gradient(circle at top right, rgba(13, 110, 253, 0.12), transparent 34%),
+radial-gradient(circle at bottom left, rgba(25, 135, 84, 0.10), transparent 30%),
+linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(248, 249, 250, 0.92));
+box-shadow: 0 18px 40px rgba(33, 37, 41, 0.06);
+}
+.settings-toc-header {
+display: flex;
+justify-content: space-between;
+align-items: end;
+gap: 1rem;
+margin-bottom: 1rem;
+flex-wrap: wrap;
+}
+.settings-toc-kicker {
+display: inline-flex;
+align-items: center;
+gap: 0.45rem;
+font-size: 0.74rem;
+letter-spacing: 0.12em;
+text-transform: uppercase;
+font-weight: 700;
+color: #0d6efd;
+margin-bottom: 0.35rem;
+}
+.settings-toc-title {
+font-size: 1.2rem;
+font-weight: 700;
+color: #212529;
+margin: 0;
+}
+.settings-toc-copy {
+margin: 0;
+color: #6c757d;
+max-width: 42rem;
+}
+.settings-toc-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+gap: 0.75rem;
+}
+.settings-toc-link {
+display: flex;
+align-items: flex-start;
+gap: 0.75rem;
+padding: 0.9rem 1rem;
+min-height: 100%;
+border: 1px solid rgba(33, 37, 41, 0.08);
+border-radius: 1rem;
+text-decoration: none;
+color: inherit;
+background: rgba(255, 255, 255, 0.84);
+transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+.settings-toc-link:hover {
+transform: translateY(-2px);
+border-color: rgba(13, 110, 253, 0.25);
+box-shadow: 0 12px 24px rgba(13, 110, 253, 0.08);
+background: rgba(255, 255, 255, 0.98);
+color: inherit;
+}
+.settings-toc-link.is-active {
+border-color: rgba(13, 110, 253, 0.35);
+background: linear-gradient(135deg, rgba(13, 110, 253, 0.10), rgba(255, 255, 255, 0.96));
+box-shadow: 0 14px 28px rgba(13, 110, 253, 0.12);
+}
+.settings-toc-icon {
+flex: 0 0 auto;
+width: 2.1rem;
+height: 2.1rem;
+display: inline-flex;
+align-items: center;
+justify-content: center;
+border-radius: 0.85rem;
+background: rgba(13, 110, 253, 0.10);
+color: #0d6efd;
+font-size: 1rem;
+}
+.settings-toc-label {
+display: block;
+font-weight: 700;
+color: #212529;
+margin-bottom: 0.18rem;
+}
+.settings-toc-meta {
+display: block;
+font-size: 0.78rem;
+color: #6c757d;
+line-height: 1.35;
+}
+.settings-section {
+scroll-margin-top: 6rem;
+}
+.settings-cluster {
+border: 1px solid rgba(33, 37, 41, 0.08);
+border-radius: 1rem;
+padding: 1rem;
+background: linear-gradient(180deg, rgba(248, 249, 250, 0.95), rgba(255, 255, 255, 0.98));
+}
+.settings-cluster + .settings-cluster {
+margin-top: 1rem;
+}
+.settings-cluster-title {
+display: flex;
+align-items: center;
+gap: 0.5rem;
+font-size: 0.95rem;
+font-weight: 700;
+color: #212529;
+margin-bottom: 0.3rem;
+}
+.settings-cluster-copy {
+font-size: 0.82rem;
+color: #6c757d;
+margin-bottom: 0.85rem;
+}
+.settings-actions {
+display: flex;
+gap: 0.75rem;
+flex-wrap: wrap;
+margin-top: 1rem;
+}
+@media (max-width: 768px) {
+.settings-toc {
+padding: 0.95rem;
+border-radius: 1.1rem;
+}
+.settings-toc-grid {
+display: flex;
+overflow-x: auto;
+gap: 0.65rem;
+padding-bottom: 0.25rem;
+scroll-snap-type: x proximity;
+}
+.settings-toc-link {
+min-width: 220px;
+scroll-snap-align: start;
+}
+.settings-cluster {
+padding: 0.85rem;
+border-radius: 0.85rem;
+}
+.settings-actions {
+flex-direction: column;
+}
+.settings-actions .btn {
+width: 100%;
+}
+}
+/* --- Overhaul additions --- */
+.settings-main {
+display: flex;
+flex-direction: column;
+gap: 1.25rem;
+}
+.settings-save-bar {
+position: sticky;
+bottom: 0;
+background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.98) 45%);
+padding: 1rem 0 0.5rem;
+z-index: 5;
+display: flex;
+justify-content: flex-end;
+gap: 0.5rem;
+}
+.storefront-subnav .nav-link {
+font-weight: 600;
+color: #495057;
+}
+.storefront-subnav .nav-link.active {
+background: linear-gradient(135deg, rgba(13,110,253,0.12), rgba(13,110,253,0.04));
+color: #0d6efd;
+border-color: rgba(13,110,253,0.2) rgba(13,110,253,0.2) #fff;
+}
+</style>
+</head>
+<body class="theme-vintage" data-theme="vintage"><div id="snapBanner" role="note" style="position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#3b2414;color:#fbe9d7;border-top:2px solid #e8a13a;font:500 13px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:7px 14px;display:flex;gap:4px 14px;align-items:center;justify-content:center;flex-wrap:wrap;text-align:center;box-shadow:0 -4px 14px rgba(0,0,0,.25)"><span><strong>Read-only snapshot</strong> of the real Vintage Shop app, saved while it ran on <strong>demo data</strong> (a fictional shop). Buttons and forms that would change data are switched off.</span><a href="../" style="color:#ffd08a;text-decoration:underline;white-space:nowrap">About this demo &amp; the source code &rarr;</a></div><div id="snapToast" role="status" aria-live="polite" style="display:none;position:fixed;left:50%;bottom:72px;transform:translateX(-50%);z-index:2147483001;width:max-content;max-width:min(92vw,560px);background:#111827;border:1px solid #e8a13a;color:#fde3c0;border-radius:8px;padding:10px 16px;font:500 13.5px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;box-shadow:0 10px 25px rgba(0,0,0,.45);text-align:center"></div>
+<!-- Sidebar -->
+<nav id="sidebar" class="sidebar">
+<div class="sidebar-header">
+<i class="bi bi-shop"></i>
+<span>Rosewater &amp; Rust</span>
+</div>
+<ul class="sidebar-nav">
+<li class="">
+<a href="index.html">
+<i class="bi bi-speedometer2"></i> Dashboard
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-box-seam"></i> Inventory</li>
+<li class="sidebar-subitem ">
+<a href="items.html">
+<i class="bi bi-box-seam"></i> Items
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="categories.html">
+<i class="bi bi-grid"></i> Categories
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="tags.html">
+<i class="bi bi-tags"></i> Tags
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="labels.html">
+<i class="bi bi-printer"></i> Labels
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="suppliers.html">
+<i class="bi bi-truck"></i> Suppliers
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="consigners.html">
+<i class="bi bi-people"></i> Consigners
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-currency-dollar"></i> Sales</li>
+<li class="sidebar-subitem ">
+<a href="items-pos.html">
+<i class="bi bi-upc-scan"></i> Scan Checkout
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="orders.html">
+<i class="bi bi-receipt"></i> Orders
+<span class="badge bg-info ms-1">3</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="customers.html">
+<i class="bi bi-people"></i> Customers
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="returns.html">
+<i class="bi bi-arrow-counterclockwise"></i> Returns
+<span class="badge bg-danger ms-1">3</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="shipping.html">
+<i class="bi bi-box-arrow-up-right"></i> Shipping
+<span class="badge bg-warning text-dark ms-1">6</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="promo-codes.html">
+<i class="bi bi-tag-fill"></i> Promo Codes
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="reports.html">
+<i class="bi bi-bar-chart-line"></i> Reports
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-megaphone"></i> Listings</li>
+<li class="sidebar-subitem ">
+<a href="storefront.html" target="_blank">
+<i class="bi bi-globe"></i> Storefront
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-shield-lock"></i> Admin</li>
+<li class="sidebar-subitem ">
+<a href="activity.html">
+<i class="bi bi-clipboard-data"></i> Activity Log
+</a>
+</li>
+<li class="sidebar-subitem active">
+<a href="settings.html">
+<i class="bi bi-gear"></i> Settings
+</a>
+</li>
+<li class="">
+<a href="help.html">
+<i class="bi bi-life-preserver"></i> Help Wiki
+</a>
+</li>
+</ul>
+<div class="sidebar-alert">
+<i class="bi bi-exclamation-triangle"></i>
+<a href="items--status-In-Stock.html">3 low stock</a>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="main-content">
+<!-- Top Bar -->
+<header class="topbar">
+<div class="topbar-leading">
+<button class="btn btn-link sidebar-toggle d-md-none" type="button" onclick="toggleSidebar()" aria-label="Open menu">
+<i class="bi bi-list"></i>
+<span class="sidebar-toggle-label">Menu</span>
+</button>
+<div class="topbar-mobile-title d-md-none">Rosewater &amp; Rust</div>
+<div class="topbar-actions topbar-actions-mobile d-md-none">
+<a href="items-pos.html" class="btn btn-outline-success btn-sm" title="Scan Checkout" aria-label="Scan Checkout">
+<i class="bi bi-upc-scan"></i>
+</a>
+<a href="items-new.html" class="btn btn-primary btn-sm" title="Add Item" aria-label="Add Item">
+<i class="bi bi-plus-lg"></i>
+</a>
+<form method="POST" action="#" data-snapshot-action="/logout" class="d-inline">
+<button type="submit" class="btn btn-outline-secondary btn-sm" title="Logout" aria-label="Logout">
+<i class="bi bi-box-arrow-right"></i>
+</button>
+</form>
+</div>
+</div>
+<div class="search-bar topbar-search">
+<i class="bi bi-search"></i>
+<input type="text" id="globalSearch" placeholder="Search items by name, SKU, brand..."
+autocomplete="off">
+<div id="searchResults" class="search-results"></div>
+</div>
+<div class="topbar-actions topbar-actions-desktop">
+<span class="text-muted small">Demo Owner · Admin</span>
+<a href="items-pos.html" class="btn btn-outline-success btn-sm">
+<i class="bi bi-upc-scan"></i> Scan Checkout
+</a>
+<a href="help.html" class="btn btn-outline-secondary btn-sm">
+<i class="bi bi-life-preserver"></i> Help
+</a>
+<a href="items-new.html" class="btn btn-primary btn-sm">
+<i class="bi bi-plus-lg"></i> Add Item
+</a>
+<form method="POST" action="#" data-snapshot-action="/logout" class="d-inline">
+<button type="submit" class="btn btn-outline-secondary btn-sm">
+<i class="bi bi-box-arrow-right"></i> Logout
+</button>
+</form>
+</div>
+</header>
+<!-- Flash Messages -->
+<div class="content-area">
+<div class="page-header">
+<h1><i class="bi bi-gear"></i> Settings</h1>
+</div>
+<div class="settings-shell">
+<section class="settings-toc" aria-labelledby="settingsTocTitle">
+<div class="settings-toc-header">
+<div>
+<div class="settings-toc-kicker"><i class="bi bi-compass"></i> Settings Map</div>
+<h2 class="settings-toc-title" id="settingsTocTitle">Jump straight to the section you want</h2>
+</div>
+<p class="settings-toc-copy">A quick contents list for the big settings page, with smooth jumps to each area.</p>
+</div>
+<div class="settings-toc-grid">
+<a class="settings-toc-link" href="#general-settings" data-settings-anchor="general-settings">
+<span class="settings-toc-icon"><i class="bi bi-shop"></i></span>
+<span>
+<span class="settings-toc-label">Store Identity</span>
+<span class="settings-toc-meta">Name, logo, operating mode.</span>
+</span>
+</a>
+<a class="settings-toc-link" href="#storefront-settings" data-settings-anchor="storefront-settings">
+<span class="settings-toc-icon"><i class="bi bi-shop-window"></i></span>
+<span>
+<span class="settings-toc-label">Storefront</span>
+<span class="settings-toc-meta">Public shop content and policies.</span>
+</span>
+</a>
+<a class="settings-toc-link" href="#defaults-settings" data-settings-anchor="defaults-settings">
+<span class="settings-toc-icon"><i class="bi bi-sliders"></i></span>
+<span>
+<span class="settings-toc-label">Preferences</span>
+<span class="settings-toc-meta">Defaults, theme, and formatting.</span>
+</span>
+</a>
+<a class="settings-toc-link" href="#users-settings" data-settings-anchor="users-settings">
+<span class="settings-toc-icon"><i class="bi bi-people"></i></span>
+<span>
+<span class="settings-toc-label">Team</span>
+<span class="settings-toc-meta">Staff logins and permissions.</span>
+</span>
+</a>
+<a class="settings-toc-link" href="#integrations-settings" data-settings-anchor="integrations-settings" data-opens-fold="integrationsPanel">
+<span class="settings-toc-icon"><i class="bi bi-puzzle"></i></span>
+<span>
+<span class="settings-toc-label">Integrations</span>
+<span class="settings-toc-meta">AI, Square, S3.</span>
+</span>
+</a>
+<a class="settings-toc-link" href="#system-settings" data-settings-anchor="system-settings" data-opens-fold="systemPanel">
+<span class="settings-toc-icon"><i class="bi bi-sliders2-vertical"></i></span>
+<span>
+<span class="settings-toc-label">System</span>
+<span class="settings-toc-meta">Admin, database, error log.</span>
+</span>
+</a>
+</div>
+</section>
+<div class="settings-main">
+<form method="POST" enctype="multipart/form-data">
+<input type="hidden" name="action" value="save_general">
+<div class="card mb-3 settings-section" id="general-settings">
+<div class="card-header d-flex align-items-center gap-2">
+<i class="bi bi-shop"></i>
+<span><strong>Store Identity</strong></span>
+<span class="text-muted small ms-2 d-none d-md-inline">The basics — what your shop is called and how you use the app.</span>
+</div>
+<div class="card-body">
+<div class="settings-cluster">
+<div class="settings-cluster-title"><i class="bi bi-sliders2"></i> Basics</div>
+<div class="settings-cluster-copy">Store name, logo, operating mode, and SKU formatting.</div>
+<div class="mb-4">
+<label class="form-label">Operating Mode</label>
+<div class="row g-2" id="operatingModeGroup">
+<div class="col-md-4">
+<label class="card h-100 border border-primary operating-mode-option">
+<div class="card-body">
+<div class="form-check">
+<input class="form-check-input js-operating-mode" type="radio" name="operating_mode"
+id="operatingMode1" value="hybrid"
+checked>
+<span class="form-check-label fw-semibold">Both Online + In Person</span>
+</div>
+<div class="small text-muted mt-2">
+Keep both the public storefront and the in-person selling tools.
+</div>
+</div>
+</label>
+</div>
+<div class="col-md-4">
+<label class="card h-100 border border-light operating-mode-option">
+<div class="card-body">
+<div class="form-check">
+<input class="form-check-input js-operating-mode" type="radio" name="operating_mode"
+id="operatingMode2" value="in_person"
+>
+<span class="form-check-label fw-semibold">In Person Only</span>
+</div>
+<div class="small text-muted mt-2">
+Hide storefront controls and public shopping pages.
+</div>
+</div>
+</label>
+</div>
+<div class="col-md-4">
+<label class="card h-100 border border-light operating-mode-option">
+<div class="card-body">
+<div class="form-check">
+<input class="form-check-input js-operating-mode" type="radio" name="operating_mode"
+id="operatingMode3" value="online"
+>
+<span class="form-check-label fw-semibold">Online Only</span>
+</div>
+<div class="small text-muted mt-2">
+Keep storefront controls, but hide sell-now tools in inventory.
+</div>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="mb-3">
+<label class="form-label">Store Name</label>
+<div class="d-flex align-items-center gap-3 mb-2">
+<div style="width:44px;height:44px;border-radius:0.6rem;border:1px solid #dee2e6;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#fff;flex:0 0 auto;">
+<img src="static/uploads/demo_storefront_logo.jpg" alt="Store logo" style="width:100%;height:100%;object-fit:cover;">
+</div>
+<input type="text" name="store_name" class="form-control"
+value="Rosewater &amp; Rust" placeholder="Your Store Name">
+</div>
+<div class="row g-2">
+<div class="col-md-8">
+<input type="file" name="storefront_logo_image" class="form-control" accept="image/*">
+</div>
+<div class="col-md-4">
+<small class="text-muted d-block pt-2">Upload logo/icon shown by your store title.</small>
+</div>
+</div>
+<small class="text-muted">Shown in the sidebar, labels, and reports.</small>
+</div>
+<div class="row g-3">
+<div class="col-6">
+<label class="form-label">SKU Prefix</label>
+<input type="text" name="sku_prefix" class="form-control text-uppercase" maxlength="5"
+value="VNT" placeholder="VNT">
+<small class="text-muted">Used in auto-generated SKUs (e.g. VNT-FUR-0001).</small>
+</div>
+<div class="col-6">
+<label class="form-label">Currency Symbol</label>
+<input type="text" name="currency_symbol" class="form-control" maxlength="3"
+value="$" placeholder="$">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="card mb-3 settings-section " id="storefront-settings" data-operation-section="storefront">
+<div class="card-header d-flex align-items-center gap-2">
+<i class="bi bi-shop-window"></i>
+<span><strong>Storefront</strong></span>
+<span class="text-muted small ms-2 d-none d-md-inline">What shoppers see on your public pages.</span>
+</div>
+<div class="card-body">
+<div class="settings-cluster">
+<div class="settings-cluster-title"><i class="bi bi-broadcast-pin"></i> Storefront Channels</div>
+<div class="settings-cluster-copy">Links and contact details shown around the public storefront.</div>
+<div class="row g-3">
+<div class="col-md-6">
+<label class="form-label">Home Website URL</label>
+<input type="url" name="storefront_home_url" class="form-control"
+value="" placeholder="https://yourstore.com">
+</div>
+<div class="col-md-6">
+<label class="form-label">Contact Page URL</label>
+<input type="url" name="storefront_contact_url" class="form-control"
+value="" placeholder="https://yourstore.com/contact">
+</div>
+<div class="col-md-6">
+<label class="form-label">eBay Store URL</label>
+<input type="url" name="storefront_ebay_url" class="form-control"
+value="" placeholder="https://www.ebay.com/usr/your-store">
+</div>
+<div class="col-md-6">
+<label class="form-label">Etsy Shop URL</label>
+<input type="url" name="storefront_etsy_url" class="form-control"
+value="" placeholder="https://www.etsy.com/shop/yourshop">
+</div>
+<div class="col-md-6">
+<label class="form-label">Store Contact Email</label>
+<input type="email" name="storefront_contact_email" class="form-control"
+value="hello@rosewaterandrust.example.com" placeholder="hello@yourstore.com">
+</div>
+<div class="col-md-6">
+<label class="form-label">Contact Phone</label>
+<input type="text" name="storefront_contact_phone" class="form-control"
+value="(555) 0100" placeholder="(555) 123-4567">
+</div>
+<div class="col-md-6">
+<label class="form-label">Shop Hours</label>
+<input type="text" name="storefront_hours" class="form-control"
+value="Wed-Fri 11am-6pm
+Sat 10am-6pm
+Sun 12pm-4pm
+Mon &amp; Tue by appointment" placeholder="Tue-Sat 11am-6pm">
+</div>
+<div class="col-md-6">
+<label class="form-label">Storefront Tagline</label>
+<input type="text" name="storefront_tagline" class="form-control"
+value="Hand-picked vintage for the home, the wardrobe and the record shelf." placeholder="Curated vintage finds for home, wardrobe, and collecting.">
+</div>
+<div class="col-12">
+<label class="form-label">Address or Pickup Location</label>
+<textarea name="storefront_contact_address" class="form-control" rows="2"
+                                              placeholder="123 Vintage Lane, Springfield, IL">114 Kiln Row, Cedar Hollow, OR 97401</textarea>
+</div>
+<div class="col-12">
+<label class="form-label">Pickup or Shipping Notes</label>
+<textarea name="storefront_pickup_details" class="form-control" rows="2"
+                                              placeholder="Local pickup is available on selected items.">Local pickup is free on anything marked Local Pickup. Message us with the SKU and we will set it aside at the counter for three days.</textarea>
+</div>
+</div>
+</div>
+<div class="settings-cluster">
+<div class="settings-cluster-title"><i class="bi bi-chat-square-text"></i> Storefront Messaging</div>
+<div class="settings-cluster-copy">Brand voice and copy shown to shoppers throughout the public pages.</div>
+<div class="row g-3">
+<div class="col-md-6">
+<div class="form-check form-switch mt-1">
+<input class="form-check-input" type="checkbox" value="1" id="storefrontShowHeroImage" name="storefront_show_hero_image"
+checked>
+<label class="form-check-label" for="storefrontShowHeroImage">Show large splash/header image on Shop page</label>
+</div>
+</div>
+<div class="col-md-6">
+<div class="form-check form-switch mt-1">
+<input class="form-check-input" type="checkbox" value="1" id="storefrontShowAnnouncement" name="storefront_show_announcement"
+checked>
+<label class="form-check-label" for="storefrontShowAnnouncement">Show highlighted announcement callout</label>
+</div>
+</div>
+<div class="col-12">
+<div class="form-check form-switch mt-1">
+<input class="form-check-input" type="checkbox" value="1" id="storefrontShowCategoryHighlights" name="storefront_show_category_highlights"
+checked>
+<label class="form-check-label" for="storefrontShowCategoryHighlights">Show category highlights above listings</label>
+</div>
+</div>
+<div class="col-12">
+<label class="form-label">Shop splash/header image</label>
+<input type="file" name="storefront_hero_image" class="form-control" accept="image/*">
+<div class="mt-2">
+<img src="static/uploads/demo_storefront_hero.jpg" alt="Current storefront splash image" style="max-height:120px;width:auto;border-radius:0.5rem;border:1px solid #dee2e6;">
+</div>
+<small class="text-muted">This image is used for the big splash/header area when that toggle is enabled.</small>
+</div>
+<div class="col-12">
+<label class="form-label">Announcement Banner</label>
+<input type="text" name="storefront_announcement" class="form-control"
+value="Demo shop - nothing here is for sale. New finds are added to the real thing every Thursday." placeholder="New finds added weekly. Message us if you need extra photos or measurements.">
+<small class="text-muted">Only shown when “Show highlighted announcement callout” is enabled.</small>
+</div>
+<div class="col-12">
+<label class="form-label">About the Shop</label>
+<textarea name="storefront_about_blurb" class="form-control" rows="3"
+                                              placeholder="Tell shoppers what your shop is about, what you sell, and why you do it.">Rosewater &amp; Rust is a two-room vintage shop in Cedar Hollow. We buy whole estates, sort them on the back bench, and keep the pieces that still have some life in them. Furniture gets cleaned and waxed, audio gear gets bench-tested, and every garment is measured with a tape rather than trusted to a size label.</textarea>
+</div>
+</div>
+</div>
+<div class="settings-cluster">
+<div class="settings-cluster-title"><i class="bi bi-journal-text"></i> FAQ & Policies</div>
+<div class="settings-cluster-copy">Support content for About, FAQ, Contact, and policy pages.</div>
+<div class="row g-3">
+<div class="col-md-6">
+<label class="form-label">Privacy Policy URL</label>
+<input type="url" name="storefront_privacy_url" class="form-control"
+value="" placeholder="https://yourstore.com/privacy">
+</div>
+<div class="col-md-6">
+<label class="form-label">Terms of Sale URL</label>
+<input type="url" name="storefront_terms_url" class="form-control"
+value="" placeholder="https://yourstore.com/terms">
+</div>
+<div class="col-md-6">
+<label class="form-label">Shipping Policy URL</label>
+<input type="url" name="storefront_shipping_url" class="form-control"
+value="" placeholder="https://yourstore.com/shipping">
+</div>
+<div class="col-md-6">
+<label class="form-label">Returns Policy URL</label>
+<input type="url" name="storefront_returns_url" class="form-control"
+value="" placeholder="https://yourstore.com/returns">
+</div>
+</div>
+<div class="mt-3">
+<label class="form-label">FAQ Intro</label>
+<textarea name="storefront_faq_intro" class="form-control" rows="2"
+                                          placeholder="Introduce the most common customer questions.">The questions we get asked at the counter and in the inbox, in roughly that order.</textarea>
+</div>
+<div class="row g-3 mt-1">
+<div class="col-md-6">
+<label class="form-label">FAQ 1 Question</label>
+<input type="text" name="storefront_faq_1_q" class="form-control" value="Is everything one-of-a-kind?">
+</div>
+<div class="col-md-6">
+<label class="form-label">FAQ 1 Answer</label>
+<textarea name="storefront_faq_1_a" class="form-control" rows="2">Almost. Most listings are a single piece, so once it sells it is gone. Sets, yardage and lots show a quantity on the listing.</textarea>
+</div>
+<div class="col-md-6">
+<label class="form-label">FAQ 2 Question</label>
+<input type="text" name="storefront_faq_2_q" class="form-control" value="Can I get more measurements?">
+</div>
+<div class="col-md-6">
+<label class="form-label">FAQ 2 Answer</label>
+<textarea name="storefront_faq_2_a" class="form-control" rows="2">Yes. Send the SKU and tell us what you need measured. Garments are measured flat and doubled where it matters.</textarea>
+</div>
+<div class="col-md-6">
+<label class="form-label">FAQ 3 Question</label>
+<input type="text" name="storefront_faq_3_q" class="form-control" value="Do you hold items?">
+</div>
+<div class="col-md-6">
+<label class="form-label">FAQ 3 Answer</label>
+<textarea name="storefront_faq_3_a" class="form-control" rows="2">We hold for three days with a deposit. Anything on hold shows as On Hold rather than In Stock.</textarea>
+</div>
+<div class="col-md-6">
+<label class="form-label">FAQ 4 Question</label>
+<input type="text" name="storefront_faq_4_q" class="form-control" value="Is vintage electronics gear tested?">
+</div>
+<div class="col-md-6">
+<label class="form-label">FAQ 4 Answer</label>
+<textarea name="storefront_faq_4_a" class="form-control" rows="2">Everything in Electronics is powered up on the bench before it is listed, and the listing says what was done. Old gear is still old gear.</textarea>
+</div>
+</div>
+<div class="row g-3 mt-1">
+<div class="col-md-6">
+<label class="form-label">Built-in Privacy Policy Text</label>
+<textarea name="storefront_privacy_text" class="form-control" rows="4">We use shopper details to pack orders, answer questions and handle returns. We do not sell personal information and we do not send marketing email unless you ask us to.</textarea>
+<small class="text-muted">Used if you leave the privacy policy URL blank.</small>
+</div>
+<div class="col-md-6">
+<label class="form-label">Built-in Terms of Sale Text</label>
+<textarea name="storefront_terms_text" class="form-control" rows="4">Items are sold as described in the listing, photos and condition notes at the time of purchase. Vintage goods show age; the notes and photos are the description of record.</textarea>
+<small class="text-muted">Used if you leave the terms URL blank.</small>
+</div>
+<div class="col-md-6">
+<label class="form-label">Built-in Shipping Policy Text</label>
+<textarea name="storefront_shipping_text" class="form-control" rows="4">Orders are packed within two working days. Small goods go First-Class, anything heavy goes Priority or by quote. Furniture is pickup or local delivery only.</textarea>
+<small class="text-muted">Used if you leave the shipping policy URL blank.</small>
+</div>
+<div class="col-md-6">
+<label class="form-label">Built-in Returns Policy Text</label>
+<textarea name="storefront_returns_text" class="form-control" rows="4">Returns are accepted within 14 days of delivery if the item is not as described. Buyer&#39;s-remorse returns are accepted as store credit. Open a request from the storefront and quote your order number.</textarea>
+<small class="text-muted">Used if you leave the returns policy URL blank.</small>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="alert alert-secondary small mb-3 d-none" data-operation-section="storefront-note">
+<i class="bi bi-info-circle"></i>
+Storefront settings are hidden while you're in <strong>In-person only</strong> mode. Switch back to "Both" or "Online only" in Store Identity to edit your public storefront.
+</div>
+<div class="card mb-3 settings-section" id="defaults-settings">
+<div class="card-header d-flex align-items-center gap-2">
+<i class="bi bi-sliders"></i>
+<span><strong>Preferences</strong></span>
+<span class="text-muted small ms-2 d-none d-md-inline">Defaults applied when you add new items.</span>
+</div>
+<div class="card-body">
+<div class="row g-3">
+<div class="col-md-4 col-6">
+<label class="form-label">Default Condition</label>
+<select name="default_condition" class="form-select">
+<option value="Used" >Used</option>
+<option value="Mint" >Mint</option>
+<option value="Excellent" >Excellent</option>
+<option value="Good" selected>Good</option>
+<option value="Fair" >Fair</option>
+<option value="Poor" >Poor</option>
+</select>
+<small class="text-muted">Pre-selected when adding a new item.</small>
+</div>
+<div class="col-md-4 col-6">
+<label class="form-label">Default Status</label>
+<select name="default_status" class="form-select">
+<option value="In Stock" selected>In Stock</option>
+<option value="Ready to List" >Ready to List</option>
+<option value="On Hold" >On Hold</option>
+</select>
+<small class="text-muted">Pre-selected when adding a new item.</small>
+</div>
+<div class="col-md-4 col-6">
+<label class="form-label">Low Stock Alert At</label>
+<input type="number" name="low_stock_default" class="form-control" min="0"
+value="2">
+<small class="text-muted">Warn when quantity drops to this number.</small>
+</div>
+<div class="col-md-4 col-6">
+<label class="form-label">Second Look After (Days)</label>
+<input type="number" name="second_look_days" class="form-control" min="0"
+value="90">
+<small class="text-muted">Auto-marks in-stock items for review after this many days. Set 0 to disable.</small>
+</div>
+</div>
+<div class="settings-cluster mt-3">
+<div class="settings-cluster-title"><i class="bi bi-toggles"></i> Inventory Features</div>
+<div class="settings-cluster-copy">Turn off features that don't fit your shop.</div>
+<div class="form-check form-switch">
+<input class="form-check-input" type="checkbox" value="1"
+id="lowStockFeaturesEnabled" name="low_stock_features_enabled"
+checked>
+<label class="form-check-label" for="lowStockFeaturesEnabled">
+<strong>Show low-stock alerts &amp; thresholds</strong>
+<div class="text-muted small">
+Adds the per-item "Low Stock Alert" field, the dashboard low-stock card,
+sidebar warnings, and red row highlighting on the inventory list.
+Leave off for one-of-a-kind shops.
+</div>
+</label>
+</div>
+</div>
+</div>
+</div>
+<div class="card mb-3 settings-section" id="brand-theme-settings">
+<div class="card-header d-flex align-items-center gap-2">
+<i class="bi bi-palette"></i>
+<span><strong>Brand Theme</strong></span>
+<span class="text-muted small ms-2 d-none d-md-inline">Pick the app's color scheme.</span>
+</div>
+<div class="card-body">
+<p class="text-muted small mb-3">Your choice applies everywhere — the sidebar, buttons, and storefront — the moment you save.</p>
+<div class="row g-2" id="themeSwatches">
+<div class="col-4">
+<label class="theme-swatch active" data-theme="vintage">
+<input type="radio" name="color_scheme" value="vintage"
+checked class="d-none">
+<div class="swatch-preview" style="border:2px solid #c8956c;border-radius:8px;overflow:hidden;cursor:pointer;">
+<div style="background:#2c2420;height:14px;display:flex;align-items:center;padding:0 6px;">
+<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#c8956c"></span>
+</div>
+<div style="background:#f5f0eb;height:22px;display:flex;align-items:center;justify-content:center;">
+<span style="font-size:0.65rem;color:#666">Vintage</span>
+</div>
+</div>
+</label>
+</div>
+<div class="col-4">
+<label class="theme-swatch " data-theme="modern-dark">
+<input type="radio" name="color_scheme" value="modern-dark"
+class="d-none">
+<div class="swatch-preview" style="border:2px solid #ccc;border-radius:8px;overflow:hidden;cursor:pointer;">
+<div style="background:#1a1a2e;height:14px;display:flex;align-items:center;padding:0 6px;">
+<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#e94560"></span>
+</div>
+<div style="background:#f0f0f5;height:22px;display:flex;align-items:center;justify-content:center;">
+<span style="font-size:0.65rem;color:#666">Modern Dark</span>
+</div>
+</div>
+</label>
+</div>
+<div class="col-4">
+<label class="theme-swatch " data-theme="coastal">
+<input type="radio" name="color_scheme" value="coastal"
+class="d-none">
+<div class="swatch-preview" style="border:2px solid #ccc;border-radius:8px;overflow:hidden;cursor:pointer;">
+<div style="background:#1b3a4b;height:14px;display:flex;align-items:center;padding:0 6px;">
+<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#62b6cb"></span>
+</div>
+<div style="background:#f0f5f7;height:22px;display:flex;align-items:center;justify-content:center;">
+<span style="font-size:0.65rem;color:#666">Coastal</span>
+</div>
+</div>
+</label>
+</div>
+<div class="col-4">
+<label class="theme-swatch " data-theme="forest">
+<input type="radio" name="color_scheme" value="forest"
+class="d-none">
+<div class="swatch-preview" style="border:2px solid #ccc;border-radius:8px;overflow:hidden;cursor:pointer;">
+<div style="background:#1b2e1b;height:14px;display:flex;align-items:center;padding:0 6px;">
+<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#7fbc6a"></span>
+</div>
+<div style="background:#f2f5ef;height:22px;display:flex;align-items:center;justify-content:center;">
+<span style="font-size:0.65rem;color:#666">Forest</span>
+</div>
+</div>
+</label>
+</div>
+<div class="col-4">
+<label class="theme-swatch " data-theme="rose">
+<input type="radio" name="color_scheme" value="rose"
+class="d-none">
+<div class="swatch-preview" style="border:2px solid #ccc;border-radius:8px;overflow:hidden;cursor:pointer;">
+<div style="background:#3d2233;height:14px;display:flex;align-items:center;padding:0 6px;">
+<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#d4829c"></span>
+</div>
+<div style="background:#faf5f7;height:22px;display:flex;align-items:center;justify-content:center;">
+<span style="font-size:0.65rem;color:#666">Rose</span>
+</div>
+</div>
+</label>
+</div>
+<div class="col-4">
+<label class="theme-swatch " data-theme="midnight">
+<input type="radio" name="color_scheme" value="midnight"
+class="d-none">
+<div class="swatch-preview" style="border:2px solid #ccc;border-radius:8px;overflow:hidden;cursor:pointer;">
+<div style="background:#0f1626;height:14px;display:flex;align-items:center;padding:0 6px;">
+<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#d4a843"></span>
+</div>
+<div style="background:#f0f1f5;height:22px;display:flex;align-items:center;justify-content:center;">
+<span style="font-size:0.65rem;color:#666">Midnight</span>
+</div>
+</div>
+</label>
+</div>
+</div>
+</div>
+</div>
+<div class="settings-save-bar">
+<button type="submit" class="btn btn-primary btn-lg shadow-sm">
+<i class="bi bi-check-lg"></i> Save Store Settings
+</button>
+</div>
+</form>
+<!-- Team (moved into main area) -->
+<div class="card mb-3 settings-section" id="users-settings">
+<div class="card-header d-flex align-items-center gap-2">
+<i class="bi bi-people"></i>
+<span><strong>Team</strong></span>
+<span class="text-muted small ms-2 d-none d-md-inline">Staff logins and what each person can do.</span>
+</div>
+<div class="card-body">
+<p class="text-muted small mb-3">Create staff logins, change roles, and lock temporary employees down to checkout-only access.</p>
+<a href="settings-users.html" class="btn btn-outline-primary">
+<i class="bi bi-person-badge"></i> Manage Users
+</a>
+</div>
+</div>
+<!-- Integrations (collapsible grid) -->
+<div class="settings-section" id="integrations-settings">
+<button class="app-fold-toggle" type="button"
+data-bs-toggle="collapse" data-bs-target="#integrationsPanel"
+aria-expanded="false" aria-controls="integrationsPanel">
+<div class="d-flex align-items-center gap-3">
+<i class="bi bi-puzzle fs-3 text-muted"></i>
+<div class="flex-grow-1">
+<div class="fw-bold fs-5 text-dark">Integrations</div>
+<div class="small text-muted">
+Connect outside services — AI listing generator, Square, Amazon S3.
+Click to expand and pick the one you want to set up.
+</div>
+</div>
+<i class="bi bi-chevron-down app-fold-chevron fs-4 text-muted"></i>
+</div>
+</button>
+<div class="collapse" id="integrationsPanel">
+<div class="app-fold-panel">
+<div class="app-grid">
+<a class="app-tile" href="settings-integrations-ai.html">
+<span class="app-tile-icon tile-ai"><i class="bi bi-stars"></i></span>
+<span class="app-tile-name">AI Listing Generator</span>
+<span class="app-tile-status">
+<span class="badge bg-secondary">Not Set Up</span>
+</span>
+</a>
+<a class="app-tile" href="settings-integrations-square.html">
+<span class="app-tile-icon tile-square"><i class="bi bi-credit-card"></i></span>
+<span class="app-tile-name">Square</span>
+<span class="app-tile-status">
+<span class="badge bg-secondary">Not Set Up</span>
+</span>
+</a>
+<a class="app-tile" href="settings-integrations-s3.html">
+<span class="app-tile-icon tile-s3"><i class="bi bi-cloud-arrow-up"></i></span>
+<span class="app-tile-name">Amazon S3</span>
+<span class="app-tile-status">
+<span class="badge bg-secondary">Not Set Up</span>
+</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<!-- System (collapsible grid) -->
+<div class="settings-section" id="system-settings">
+<button class="app-fold-toggle" type="button"
+data-bs-toggle="collapse" data-bs-target="#systemPanel"
+aria-expanded="false" aria-controls="systemPanel">
+<div class="d-flex align-items-center gap-3">
+<i class="bi bi-sliders2-vertical fs-3 text-muted"></i>
+<div class="flex-grow-1">
+<div class="fw-bold fs-5 text-dark">System</div>
+<div class="small text-muted">
+Admin password & sessions, database stats, and the error log.
+The defaults are safe — leave these alone unless you know what you're doing.
+</div>
+</div>
+<i class="bi bi-chevron-down app-fold-chevron fs-4 text-muted"></i>
+</div>
+</button>
+<div class="collapse" id="systemPanel">
+<div class="app-fold-panel">
+<div class="app-grid">
+<a class="app-tile" href="settings-system-admin.html">
+<span class="app-tile-icon tile-admin"><i class="bi bi-shield-lock"></i></span>
+<span class="app-tile-name">Admin Access</span>
+</a>
+<a class="app-tile" href="settings-system-database.html">
+<span class="app-tile-icon tile-db"><i class="bi bi-database"></i></span>
+<span class="app-tile-name">Database Info</span>
+</a>
+<a class="app-tile" href="settings-system-error-log.html">
+<span class="app-tile-icon tile-log"><i class="bi bi-bug"></i></span>
+<span class="app-tile-name">Error Log</span>
+<span class="app-tile-status">
+<span class="badge bg-secondary">1</span>
+</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div><!-- /.settings-main -->
+</div><!-- /.settings-shell -->
+</div>
+</main>
+<!-- Error Pill Toast -->
+<div id="errorPill" class="error-pill" role="alert" aria-live="assertive">
+<i class="bi bi-exclamation-triangle-fill me-2"></i>
+<span id="errorPillMsg"></span>
+<button type="button" class="error-pill-close" onclick="window._dismissPill()" aria-label="Close">&times;</button>
+</div>
+<style>
+.error-pill {
+position: fixed;
+bottom: 24px;
+left: 50%;
+transform: translateX(-50%) translateY(20px);
+background: #dc3545;
+color: #fff;
+padding: 10px 20px 10px 16px;
+border-radius: 50px;
+font-size: 0.875rem;
+font-weight: 500;
+box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+display: flex;
+align-items: center;
+gap: 4px;
+z-index: 9999;
+opacity: 0;
+pointer-events: none;
+transition: opacity 0.35s ease, transform 0.35s ease;
+max-width: 90vw;
+}
+.error-pill.error-pill--warn {
+background: #fd7e14;
+}
+.error-pill.error-pill--info {
+background: #0d6efd;
+}
+.error-pill.error-pill--success {
+background: #198754;
+}
+.error-pill.show {
+opacity: 1;
+pointer-events: auto;
+transform: translateX(-50%) translateY(0);
+}
+.error-pill-close {
+background: none;
+border: none;
+color: rgba(255,255,255,0.8);
+font-size: 1.15rem;
+line-height: 1;
+margin-left: 8px;
+cursor: pointer;
+padding: 0 2px;
+}
+.error-pill-close:hover { color: #fff; }
+</style>
+<div class="photo-lightbox" id="photoLightbox" role="dialog" aria-modal="true" aria-hidden="true" hidden>
+<button type="button" class="photo-lightbox-close" id="photoLightboxClose" aria-label="Close">
+<i class="bi bi-x-lg"></i>
+</button>
+<button type="button" class="photo-lightbox-nav prev" id="photoLightboxPrev" aria-label="Previous">
+<i class="bi bi-chevron-left"></i>
+</button>
+<button type="button" class="photo-lightbox-nav next" id="photoLightboxNext" aria-label="Next">
+<i class="bi bi-chevron-right"></i>
+</button>
+<img class="photo-lightbox-img" id="photoLightboxImg" alt="">
+<div class="photo-lightbox-count" id="photoLightboxCount"></div>
+</div>
+<link rel="stylesheet" href="static/snap/88a0be1cee2a.css">
+<script src="static/snap/1bb55beec05e.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script src="static/js/app.js"></script>
+<script>
+function applyOperatingModeVisibility() {
+var selected = document.querySelector('.js-operating-mode:checked');
+var mode = selected ? selected.value : 'hybrid';
+var storefrontEnabled = mode !== 'in_person';
+document.querySelectorAll('.operating-mode-option').forEach(function(card) {
+card.classList.toggle('border-primary', !!card.querySelector('.js-operating-mode:checked'));
+card.classList.toggle('border-light', !card.querySelector('.js-operating-mode:checked'));
+});
+document.querySelectorAll('[data-operation-section="storefront"]').forEach(function(el) {
+el.classList.toggle('d-none', !storefrontEnabled);
+});
+document.querySelectorAll('[data-operation-section="storefront-note"]').forEach(function(el) {
+el.classList.toggle('d-none', storefrontEnabled);
+});
+}
+function setupSettingsContentsNav() {
+var links = Array.from(document.querySelectorAll('.settings-toc-link[data-settings-anchor]'));
+var sections = links
+.map(function(link) {
+return document.getElementById(link.getAttribute('data-settings-anchor'));
+})
+.filter(Boolean);
+if (!links.length || !sections.length) {
+return;
+}
+function setActive(id) {
+links.forEach(function(link) {
+link.classList.toggle('is-active', link.getAttribute('data-settings-anchor') === id);
+});
+}
+var observer = new IntersectionObserver(function(entries) {
+var visible = entries
+.filter(function(entry) { return entry.isIntersecting; })
+.sort(function(a, b) { return a.boundingClientRect.top - b.boundingClientRect.top; });
+if (visible.length) {
+setActive(visible[0].target.id);
+}
+}, {
+rootMargin: '-18% 0px -62% 0px',
+threshold: [0.1, 0.3, 0.6],
+});
+sections.forEach(function(section) {
+observer.observe(section);
+});
+links.forEach(function(link) {
+link.addEventListener('click', function() {
+setActive(link.getAttribute('data-settings-anchor'));
+});
+});
+setActive(sections[0].id);
+}
+document.querySelectorAll('.js-operating-mode').forEach(function(input) {
+input.addEventListener('change', applyOperatingModeVisibility);
+});
+// Theme swatch selection
+document.querySelectorAll('.theme-swatch').forEach(function(swatch) {
+swatch.addEventListener('click', function() {
+document.querySelectorAll('.theme-swatch').forEach(function(s) {
+s.classList.remove('active');
+s.querySelector('.swatch-preview').style.borderColor = '#ccc';
+});
+this.classList.add('active');
+this.querySelector('input[type=radio]').checked = true;
+// Live preview
+var theme = this.dataset.theme;
+document.body.className = 'theme-' + theme;
+document.body.dataset.theme = theme;
+// Update swatch border to accent color
+var accentColors = {
+'vintage': '#c8956c', 'modern-dark': '#e94560', 'coastal': '#62b6cb',
+'forest': '#7fbc6a', 'rose': '#d4829c', 'midnight': '#d4a843'
+};
+this.querySelector('.swatch-preview').style.borderColor = accentColors[theme] || '#ccc';
+});
+});
+applyOperatingModeVisibility();
+setupSettingsContentsNav();
+// Auto-expand a fold panel when a TOC link or hash targets it.
+(function setupFoldPanels() {
+var FOLDS = {
+'integrations-settings': 'integrationsPanel',
+'system-settings': 'systemPanel'
+};
+function expand(panelId) {
+var panelEl = document.getElementById(panelId);
+if (!panelEl) return;
+bootstrap.Collapse.getOrCreateInstance(panelEl, { toggle: false }).show();
+}
+var hash = (window.location.hash || '').replace(/^#/, '');
+if (hash && FOLDS[hash]) {
+setTimeout(function() { expand(FOLDS[hash]); }, 50);
+}
+document.querySelectorAll('.settings-toc-link[data-opens-fold]').forEach(function(link) {
+link.addEventListener('click', function() {
+expand(link.getAttribute('data-opens-fold'));
+});
+});
+})();
+</script>
+</body>
+</html>

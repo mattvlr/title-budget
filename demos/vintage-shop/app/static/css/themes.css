@@ -1,0 +1,84 @@
+/* ============================================================
+   Brand Color Schemes / Themes
+   Each theme overrides the CSS custom properties from style.css
+   ============================================================ */
+
+/* --- Vintage (Default) — warm browns, parchment tones --- */
+.theme-vintage {
+    --sidebar-bg: #2c2420;
+    --sidebar-text: #e8ddd3;
+    --sidebar-accent: #c8956c;
+    --body-bg: #f5f0eb;
+    --card-border: #e0d6cc;
+}
+
+/* --- Modern Dark — sleek charcoal and electric accent --- */
+.theme-modern-dark {
+    --sidebar-bg: #1a1a2e;
+    --sidebar-text: #d4d4e4;
+    --sidebar-accent: #e94560;
+    --body-bg: #f0f0f5;
+    --card-border: #d0d0dd;
+}
+.theme-modern-dark .sidebar-header { border-bottom-color: rgba(233,69,96,0.2); }
+.theme-modern-dark .topbar { border-bottom-color: var(--card-border); }
+.theme-modern-dark .btn-primary { background-color: #e94560; border-color: #e94560; }
+.theme-modern-dark .btn-primary:hover { background-color: #c73a52; border-color: #c73a52; }
+.theme-modern-dark .btn-outline-primary { color: #e94560; border-color: #e94560; }
+.theme-modern-dark .btn-outline-primary:hover { background-color: #e94560; color: #fff; }
+
+/* --- Coastal — ocean blues and sandy neutrals --- */
+.theme-coastal {
+    --sidebar-bg: #1b3a4b;
+    --sidebar-text: #d5e5eb;
+    --sidebar-accent: #62b6cb;
+    --body-bg: #f0f5f7;
+    --card-border: #c9dde3;
+}
+.theme-coastal .sidebar-header { border-bottom-color: rgba(98,182,203,0.25); }
+.theme-coastal .btn-primary { background-color: #1b6b8a; border-color: #1b6b8a; }
+.theme-coastal .btn-primary:hover { background-color: #155a75; border-color: #155a75; }
+.theme-coastal .btn-outline-primary { color: #1b6b8a; border-color: #1b6b8a; }
+.theme-coastal .btn-outline-primary:hover { background-color: #1b6b8a; color: #fff; }
+
+/* --- Forest — deep greens and warm wood --- */
+.theme-forest {
+    --sidebar-bg: #1b2e1b;
+    --sidebar-text: #d4e2d0;
+    --sidebar-accent: #7fbc6a;
+    --body-bg: #f2f5ef;
+    --card-border: #cdd8c7;
+}
+.theme-forest .sidebar-header { border-bottom-color: rgba(127,188,106,0.2); }
+.theme-forest .btn-primary { background-color: #4a8c3f; border-color: #4a8c3f; }
+.theme-forest .btn-primary:hover { background-color: #3d7534; border-color: #3d7534; }
+.theme-forest .btn-outline-primary { color: #4a8c3f; border-color: #4a8c3f; }
+.theme-forest .btn-outline-primary:hover { background-color: #4a8c3f; color: #fff; }
+
+/* --- Rose — soft pinks and muted plum --- */
+.theme-rose {
+    --sidebar-bg: #3d2233;
+    --sidebar-text: #ebd8e4;
+    --sidebar-accent: #d4829c;
+    --body-bg: #faf5f7;
+    --card-border: #e5d0da;
+}
+.theme-rose .sidebar-header { border-bottom-color: rgba(212,130,156,0.25); }
+.theme-rose .btn-primary { background-color: #a8506e; border-color: #a8506e; }
+.theme-rose .btn-primary:hover { background-color: #8f4460; border-color: #8f4460; }
+.theme-rose .btn-outline-primary { color: #a8506e; border-color: #a8506e; }
+.theme-rose .btn-outline-primary:hover { background-color: #a8506e; color: #fff; }
+
+/* --- Midnight — deep navy and gold accents --- */
+.theme-midnight {
+    --sidebar-bg: #0f1626;
+    --sidebar-text: #c8cfe0;
+    --sidebar-accent: #d4a843;
+    --body-bg: #f0f1f5;
+    --card-border: #d0d3de;
+}
+.theme-midnight .sidebar-header { border-bottom-color: rgba(212,168,67,0.2); }
+.theme-midnight .btn-primary { background-color: #2a4a7f; border-color: #2a4a7f; }
+.theme-midnight .btn-primary:hover { background-color: #1f3a66; border-color: #1f3a66; }
+.theme-midnight .btn-outline-primary { color: #2a4a7f; border-color: #2a4a7f; }
+.theme-midnight .btn-outline-primary:hover { background-color: #2a4a7f; color: #fff; }

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="noindex,follow"><script src="snapshot.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="csrf-token" content="read-only-snapshot">
+<title>Start a Return — Rosewater &amp; Rust</title>
+<meta name="description" content="Rosewater &amp; Rust is a two-room vintage shop in Cedar Hollow. We buy whole estates, sort them on the back bench, and keep the pieces that still have some life…">
+<link rel="canonical" href="storefront-returns.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Rosewater &amp; Rust">
+<meta property="og:title" content="Start a Return — Rosewater &amp; Rust">
+<meta property="og:description" content="Rosewater &amp; Rust is a two-room vintage shop in Cedar Hollow. We buy whole estates, sort them on the back bench, and keep the pieces that still have some life…">
+<meta property="og:url" content="/storefront/returns">
+<meta property="og:image" content="/demo_storefront_logo.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Start a Return — Rosewater &amp; Rust">
+<meta name="twitter:description" content="Rosewater &amp; Rust is a two-room vintage shop in Cedar Hollow. We buy whole estates, sort them on the back bench, and keep the pieces that still have some life…">
+<meta name="twitter:image" content="/demo_storefront_logo.jpg">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link href="static/css/storefront_themes.css" rel="stylesheet">
+<link href="static/css/storefront_cart.css" rel="stylesheet">
+<script type="application/ld+json">
+{
+"@context": "https://schema.org",
+"@type": "Store",
+"name": "Rosewater \u0026 Rust",
+"url": "",
+"logo": "/demo_storefront_logo.jpg",
+"description": "Rosewater \u0026 Rust is a two-room vintage shop in Cedar Hollow. We buy whole estates, sort them on the back bench, and keep the pieces that still have some life\u2026"
+}
+</script>
+</head>
+<body><div id="snapBanner" role="note" style="position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#3b2414;color:#fbe9d7;border-top:2px solid #e8a13a;font:500 13px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:7px 14px;display:flex;gap:4px 14px;align-items:center;justify-content:center;flex-wrap:wrap;text-align:center;box-shadow:0 -4px 14px rgba(0,0,0,.25)"><span><strong>Read-only snapshot</strong> of the real Vintage Shop app, saved while it ran on <strong>demo data</strong> (a fictional shop). Buttons and forms that would change data are switched off.</span><a href="../" style="color:#ffd08a;text-decoration:underline;white-space:nowrap">About this demo &amp; the source code &rarr;</a></div><div id="snapToast" role="status" aria-live="polite" style="display:none;position:fixed;left:50%;bottom:72px;transform:translateX(-50%);z-index:2147483001;width:max-content;max-width:min(92vw,560px);background:#111827;border:1px solid #e8a13a;color:#fde3c0;border-radius:8px;padding:10px 16px;font:500 13.5px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;box-shadow:0 10px 25px rgba(0,0,0,.45);text-align:center"></div>
+<div class="sf-announcement">Demo shop - nothing here is for sale. New finds are added to the real thing every Thursday.</div>
+<header class="sf-header">
+<div class="sf-header-inner">
+<div class="sf-header-left">
+<button class="sf-hamburger" id="sfMenuOpen" aria-label="Open menu">
+<span></span>
+<span></span>
+<span></span>
+</button>
+<a href="storefront.html" class="sf-header-logo">
+<img src="static/uploads/demo_storefront_logo.jpg" alt="Rosewater &amp; Rust logo" class="sf-brand-logo-mark">
+<span>Rosewater &amp; Rust</span>
+</a>
+<nav class="sf-header-nav">
+<a href="storefront.html" class="">Shop</a>
+<a href="storefront-about.html" class="">About</a>
+<a href="storefront-faq.html" class="">FAQ</a>
+<a href="storefront-contact.html" class="">Contact</a>
+</nav>
+</div>
+<div class="sf-header-right">
+<a href="mailto:hello@rosewaterandrust.example.com" class="sf-header-icon"
+target="_blank" rel="noopener noreferrer"
+title="Email">
+<i class="bi bi-envelope"></i>
+</a>
+</div>
+</div>
+</header>
+<!-- Full-screen mobile menu -->
+<div class="sf-mobile-menu" id="sfMobileMenu">
+<div class="sf-mobile-menu-header">
+<span class="sf-mobile-menu-logo">
+<img src="static/uploads/demo_storefront_logo.jpg" alt="Rosewater &amp; Rust logo" class="sf-brand-logo-mark">
+<span>Rosewater &amp; Rust</span>
+</span>
+<button class="sf-mobile-close" id="sfMenuClose" aria-label="Close menu">
+<i class="bi bi-x-lg"></i>
+</button>
+</div>
+<nav class="sf-mobile-nav">
+<a href="storefront.html" class="">Shop All</a>
+<a href="storefront-about.html" class="">About</a>
+<a href="storefront-faq.html" class="">FAQ</a>
+<a href="storefront-contact.html" class="">Contact</a>
+</nav>
+<div class="sf-mobile-menu-footer">
+<a href="mailto:hello@rosewaterandrust.example.com"
+target="_blank" rel="noopener noreferrer">Email</a>
+<a href="#" data-snapshot-missing="/login">Admin Login</a>
+</div>
+</div>
+<main>
+<div class="page-width">
+<div class="sf-info-hero">
+<div class="sf-info-label">Returns</div>
+<h2>Request a Return</h2>
+<p>Use the Square order number from your receipt or confirmation email. We'll review the request and follow up using the contact info you provide.</p>
+</div>
+<div style="display:grid;grid-template-columns:3fr 2fr;gap:40px;">
+<!-- Form -->
+<div>
+<form method="POST" class="sf-form">
+<input type="hidden" name="_csrf_token" value="read-only-snapshot">
+<div class="sf-form-row">
+<div>
+<label>Square Order Number</label>
+<input type="text" name="square_order_number" value="" required>
+<small>From your Square receipt email or order confirmation.</small>
+</div>
+<div>
+<label>Item Name or SKU</label>
+<input type="text" name="item_name_or_sku" value="" placeholder="Optional">
+</div>
+</div>
+<div class="sf-form-row">
+<div>
+<label>Your Name</label>
+<input type="text" name="customer_name" value="" required>
+</div>
+<div>
+<label>Email Address</label>
+<input type="email" name="customer_email" value="">
+</div>
+</div>
+<div class="sf-form-row">
+<div>
+<label>Phone Number</label>
+<input type="text" name="customer_phone" value="">
+<small>Add email, phone, or both so we can reply.</small>
+</div>
+<div>
+<label>What Would You Like?</label>
+<select name="requested_resolution">
+<option value="Refund" selected>Refund</option>
+<option value="Exchange" >Exchange</option>
+<option value="Store Credit" >Store Credit</option>
+<option value="Need Help First" >Need Help First</option>
+</select>
+</div>
+</div>
+<div class="sf-form-row">
+<div>
+<label>Reason</label>
+<select name="reason_code" required>
+<option value="">Choose a reason</option>
+<option value="Item arrived damaged" >Item arrived damaged</option>
+<option value="Item was not as described" >Item was not as described</option>
+<option value="Wrong item received" >Wrong item received</option>
+<option value="Missing parts or accessories" >Missing parts or accessories</option>
+<option value="Order arrived too late" >Order arrived too late</option>
+<option value="Changed my mind" >Changed my mind</option>
+<option value="Other" >Other</option>
+</select>
+</div>
+<div>
+<label>Current Item Condition</label>
+<select name="item_condition">
+<option value="">Choose an option</option>
+<option value="Unopened or unchanged" >Unopened or unchanged</option>
+<option value="Opened but not used" >Opened but not used</option>
+<option value="Used or handled" >Used or handled</option>
+<option value="Damaged during delivery" >Damaged during delivery</option>
+<option value="Other" >Other</option>
+</select>
+</div>
+</div>
+<div>
+<label>What Happened?</label>
+<textarea name="details" placeholder="Share the problem, what you expected, and anything else that helps us review the request."></textarea>
+</div>
+<div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
+<button class="sf-btn" type="submit">Submit Return Request</button>
+<a href="storefront-policies-returns.html" class="sf-btn sf-btn-outline">Read Returns Policy</a>
+</div>
+</form>
+</div>
+<!-- Sidebar -->
+<div>
+<div class="sf-info-card">
+<h3>What to Have Ready</h3>
+<ul>
+<li>Your Square order number.</li>
+<li>The item name or SKU if you know it.</li>
+<li>A short explanation of the issue.</li>
+<li>Your preferred contact information.</li>
+</ul>
+</div>
+<div class="sf-info-card">
+<h3>Before You Submit</h3>
+<p>Read the returns policy and include enough detail for the seller to understand the problem quickly.</p>
+<p style="margin-bottom:0">If you need help before starting a return, use the <a href="storefront-contact.html">contact page</a> instead.</p>
+</div>
+<div class="sf-info-card">
+<h3>Square Refund Handling</h3>
+<p style="margin-bottom:0">This form sends your request to the seller. If approved, the refund will be processed through Square's native refund flow.</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer class="sf-footer">
+<div class="sf-footer-inner">
+<div class="sf-footer-grid">
+<!-- Column 1: Store Pages -->
+<div>
+<div class="sf-footer-heading">Shop</div>
+<ul class="sf-footer-links">
+<li><a href="storefront.html">Browse All</a></li>
+<li><a href="storefront-about.html">About</a></li>
+<li><a href="storefront-faq.html">FAQ</a></li>
+<li><a href="storefront-contact.html">Contact</a></li>
+</ul>
+</div>
+<!-- Column 2: Buyer Policies -->
+<div>
+<div class="sf-footer-heading">Policies</div>
+<ul class="sf-footer-links">
+</ul>
+</div>
+<!-- Column 3: Contact Info -->
+<div>
+<div class="sf-footer-heading">Contact</div>
+<ul class="sf-footer-links">
+<li><a href="mailto:hello@rosewaterandrust.example.com">hello@rosewaterandrust.example.com</a></li>
+<li><a href="tel:(555)0100">(555) 0100</a></li>
+<li><a href="storefront-returns.html">Start a Return</a></li>
+</ul>
+</div>
+<!-- Column 4: Info -->
+<div>
+<div class="sf-footer-heading">Info</div>
+<ul class="sf-footer-links">
+<li><span style="font-size:0.8125rem;color:var(--sf-muted)">Wed-Fri 11am-6pm
+Sat 10am-6pm
+Sun 12pm-4pm
+Mon &amp; Tue by appointment</span></li>
+<li><span style="font-size:0.8125rem;color:var(--sf-muted)">114 Kiln Row, Cedar Hollow, OR 97401</span></li>
+<li><span style="font-size:0.8125rem;color:var(--sf-muted)">Local pickup is free on anything marked Local Pickup. Message us with the SKU and we will set it aside at the counter for three days.</span></li>
+</ul>
+<ul class="sf-footer-links" style="margin-top:12px">
+<li><a href="mailto:hello@rosewaterandrust.example.com"
+target="_blank" rel="noopener noreferrer">Email</a></li>
+</ul>
+</div>
+</div>
+<div class="sf-footer-bottom">
+<span>&copy; Rosewater &amp; Rust. All rights reserved.</span>
+<div>
+<a href="#" data-snapshot-missing="/login">Admin</a>
+</div>
+</div>
+</div>
+</footer>
+<div class="photo-lightbox" id="photoLightbox" role="dialog" aria-modal="true" aria-hidden="true" hidden>
+<button type="button" class="photo-lightbox-close" id="photoLightboxClose" aria-label="Close">
+<i class="bi bi-x-lg"></i>
+</button>
+<button type="button" class="photo-lightbox-nav prev" id="photoLightboxPrev" aria-label="Previous">
+<i class="bi bi-chevron-left"></i>
+</button>
+<button type="button" class="photo-lightbox-nav next" id="photoLightboxNext" aria-label="Next">
+<i class="bi bi-chevron-right"></i>
+</button>
+<img class="photo-lightbox-img" id="photoLightboxImg" alt="">
+<div class="photo-lightbox-count" id="photoLightboxCount"></div>
+</div>
+<link rel="stylesheet" href="static/snap/88a0be1cee2a.css">
+<script src="static/snap/1bb55beec05e.js"></script>
+<!-- Error Pill Toast -->
+<div id="errorPill" class="error-pill" role="alert" aria-live="assertive">
+<i class="bi bi-exclamation-triangle-fill me-2"></i>
+<span id="errorPillMsg"></span>
+<button type="button" class="error-pill-close" onclick="window._dismissPill()" aria-label="Close">&times;</button>
+</div>
+<style>
+.error-pill{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:#dc3545;color:#fff;padding:10px 20px 10px 16px;border-radius:50px;font-size:.875rem;font-weight:500;box-shadow:0 4px 20px rgba(0,0,0,.25);display:flex;align-items:center;gap:4px;z-index:9999;opacity:0;pointer-events:none;transition:opacity .35s ease,transform .35s ease;max-width:90vw}
+.error-pill.error-pill--warn{background:#fd7e14}.error-pill.error-pill--info{background:#0d6efd}.error-pill.error-pill--success{background:#198754}
+.error-pill.show{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}
+.error-pill-close{background:none;border:none;color:rgba(255,255,255,.8);font-size:1.15rem;line-height:1;margin-left:8px;cursor:pointer;padding:0 2px}.error-pill-close:hover{color:#fff}
+</style>
+<script>
+(function(){var t=null;window.showPill=function(m,y,ms){var p=document.getElementById('errorPill'),x=document.getElementById('errorPillMsg');if(!p||!x)return;if(t){clearTimeout(t);t=null}x.textContent=m||'Something went wrong';p.className='error-pill';if(y==='warn')p.classList.add('error-pill--warn');if(y==='info')p.classList.add('error-pill--info');if(y==='success')p.classList.add('error-pill--success');void p.offsetWidth;p.classList.add('show');var d=(ms!==undefined)?ms:6000;if(d>0)t=setTimeout(function(){window._dismissPill()},d)};window._dismissPill=function(){var p=document.getElementById('errorPill');if(p)p.classList.remove('show');if(t){clearTimeout(t);t=null}};window.addEventListener('unhandledrejection',function(e){if(e.reason&&e.reason.name==='AbortError')return;showPill('Something went wrong — please try again','error',6000)})})();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script src="static/js/storefront_cart.js"></script>
+<!-- Mobile menu toggle -->
+<script>
+(function(){
+var menu = document.getElementById('sfMobileMenu');
+var openBtn = document.getElementById('sfMenuOpen');
+var closeBtn = document.getElementById('sfMenuClose');
+if (!menu || !openBtn) return;
+openBtn.addEventListener('click', function() {
+menu.classList.add('is-open');
+document.body.classList.add('sf-menu-open');
+});
+if (closeBtn) closeBtn.addEventListener('click', function() {
+menu.classList.remove('is-open');
+document.body.classList.remove('sf-menu-open');
+});
+// Close on backdrop click
+menu.addEventListener('click', function(e) {
+if (e.target === menu) {
+menu.classList.remove('is-open');
+document.body.classList.remove('sf-menu-open');
+}
+});
+})();
+</script>
+</body>
+</html>

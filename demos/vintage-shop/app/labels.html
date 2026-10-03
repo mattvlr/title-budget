@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head><meta name="robots" content="noindex,follow"><script src="snapshot.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="csrf-token" content="read-only-snapshot">
+<title>Rosewater &amp; Rust — Inventory</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link href="static/css/style.css" rel="stylesheet">
+<link href="static/css/themes.css" rel="stylesheet">
+</head>
+<body class="theme-vintage" data-theme="vintage"><div id="snapBanner" role="note" style="position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#3b2414;color:#fbe9d7;border-top:2px solid #e8a13a;font:500 13px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:7px 14px;display:flex;gap:4px 14px;align-items:center;justify-content:center;flex-wrap:wrap;text-align:center;box-shadow:0 -4px 14px rgba(0,0,0,.25)"><span><strong>Read-only snapshot</strong> of the real Vintage Shop app, saved while it ran on <strong>demo data</strong> (a fictional shop). Buttons and forms that would change data are switched off.</span><a href="../" style="color:#ffd08a;text-decoration:underline;white-space:nowrap">About this demo &amp; the source code &rarr;</a></div><div id="snapToast" role="status" aria-live="polite" style="display:none;position:fixed;left:50%;bottom:72px;transform:translateX(-50%);z-index:2147483001;width:max-content;max-width:min(92vw,560px);background:#111827;border:1px solid #e8a13a;color:#fde3c0;border-radius:8px;padding:10px 16px;font:500 13.5px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;box-shadow:0 10px 25px rgba(0,0,0,.45);text-align:center"></div>
+<!-- Sidebar -->
+<nav id="sidebar" class="sidebar">
+<div class="sidebar-header">
+<i class="bi bi-shop"></i>
+<span>Rosewater &amp; Rust</span>
+</div>
+<ul class="sidebar-nav">
+<li class="">
+<a href="index.html">
+<i class="bi bi-speedometer2"></i> Dashboard
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-box-seam"></i> Inventory</li>
+<li class="sidebar-subitem ">
+<a href="items.html">
+<i class="bi bi-box-seam"></i> Items
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="categories.html">
+<i class="bi bi-grid"></i> Categories
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="tags.html">
+<i class="bi bi-tags"></i> Tags
+</a>
+</li>
+<li class="sidebar-subitem active">
+<a href="labels.html">
+<i class="bi bi-printer"></i> Labels
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="suppliers.html">
+<i class="bi bi-truck"></i> Suppliers
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="consigners.html">
+<i class="bi bi-people"></i> Consigners
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-currency-dollar"></i> Sales</li>
+<li class="sidebar-subitem ">
+<a href="items-pos.html">
+<i class="bi bi-upc-scan"></i> Scan Checkout
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="orders.html">
+<i class="bi bi-receipt"></i> Orders
+<span class="badge bg-info ms-1">3</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="customers.html">
+<i class="bi bi-people"></i> Customers
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="returns.html">
+<i class="bi bi-arrow-counterclockwise"></i> Returns
+<span class="badge bg-danger ms-1">3</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="shipping.html">
+<i class="bi bi-box-arrow-up-right"></i> Shipping
+<span class="badge bg-warning text-dark ms-1">6</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="promo-codes.html">
+<i class="bi bi-tag-fill"></i> Promo Codes
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="reports.html">
+<i class="bi bi-bar-chart-line"></i> Reports
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-megaphone"></i> Listings</li>
+<li class="sidebar-subitem ">
+<a href="storefront.html" target="_blank">
+<i class="bi bi-globe"></i> Storefront
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-shield-lock"></i> Admin</li>
+<li class="sidebar-subitem ">
+<a href="activity.html">
+<i class="bi bi-clipboard-data"></i> Activity Log
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="settings.html">
+<i class="bi bi-gear"></i> Settings
+</a>
+</li>
+<li class="">
+<a href="help.html">
+<i class="bi bi-life-preserver"></i> Help Wiki
+</a>
+</li>
+</ul>
+<div class="sidebar-alert">
+<i class="bi bi-exclamation-triangle"></i>
+<a href="items--status-In-Stock.html">3 low stock</a>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="main-content">
+<!-- Top Bar -->
+<header class="topbar">
+<div class="topbar-leading">
+<button class="btn btn-link sidebar-toggle d-md-none" type="button" onclick="toggleSidebar()" aria-label="Open menu">
+<i class="bi bi-list"></i>
+<span class="sidebar-toggle-label">Menu</span>
+</button>
+<div class="topbar-mobile-title d-md-none">Rosewater &amp; Rust</div>
+<div class="topbar-actions topbar-actions-mobile d-md-none">
+<a href="items-pos.html" class="btn btn-outline-success btn-sm" title="Scan Checkout" aria-label="Scan Checkout">
+<i class="bi bi-upc-scan"></i>
+</a>
+<a href="items-new.html" class="btn btn-primary btn-sm" title="Add Item" aria-label="Add Item">
+<i class="bi bi-plus-lg"></i>
+</a>
+<form method="POST" action="#" data-snapshot-action="/logout" class="d-inline">
+<button type="submit" class="btn btn-outline-secondary btn-sm" title="Logout" aria-label="Logout">
+<i class="bi bi-box-arrow-right"></i>
+</button>
+</form>
+</div>
+</div>
+<div class="search-bar topbar-search">
+<i class="bi bi-search"></i>
+<input type="text" id="globalSearch" placeholder="Search items by name, SKU, brand..."
+autocomplete="off">
+<div id="searchResults" class="search-results"></div>
+</div>
+<div class="topbar-actions topbar-actions-desktop">
+<span class="text-muted small">Demo Owner · Admin</span>
+<a href="items-pos.html" class="btn btn-outline-success btn-sm">
+<i class="bi bi-upc-scan"></i> Scan Checkout
+</a>
+<a href="help.html" class="btn btn-outline-secondary btn-sm">
+<i class="bi bi-life-preserver"></i> Help
+</a>
+<a href="items-new.html" class="btn btn-primary btn-sm">
+<i class="bi bi-plus-lg"></i> Add Item
+</a>
+<form method="POST" action="#" data-snapshot-action="/logout" class="d-inline">
+<button type="submit" class="btn btn-outline-secondary btn-sm">
+<i class="bi bi-box-arrow-right"></i> Logout
+</button>
+</form>
+</div>
+</header>
+<!-- Flash Messages -->
+<div class="content-area">
+<div class="page-header">
+<h1><i class="bi bi-printer"></i> Label Printer</h1>
+<p class="text-muted">Generate labels for FlashLabel. Right-click or long-press the label image to save/share to FlashLabel.</p>
+</div>
+<div class="row g-4">
+<!-- Price Tags -->
+<div class="col-lg-6">
+<div class="card">
+<div class="card-header">
+<i class="bi bi-upc-scan"></i> Price Tag Labels
+</div>
+<div class="card-body">
+<p class="text-muted small">Generate individual price tag labels with a checkout QR code, price, and item details.</p>
+<div class="list-group" style="max-height:400px;overflow-y:auto">
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>Dusty Rose Rangefinder Camera</strong>
+<br><small class="text-muted">VNT-ELC-0002 · $400.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/16" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>Abstract Screenprint</strong>
+<br><small class="text-muted">VNT-ART-0003 · $175.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/68" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>Oatmeal Chore Jacket</strong>
+<br><small class="text-muted">VNT-CLO-0004 · $60.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/30" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>Boxed LP Anthology</strong>
+<br><small class="text-muted">VNT-REC-0001 · $75.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/5" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>Pewter Cocktail Earrings</strong>
+<br><small class="text-muted">VNT-JWL-0001 · $34.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/14" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>Patinated Prairie Dress</strong>
+<br><small class="text-muted">VNT-CLO-0008 · $70.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/46" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>Two-Tone Pointed Ankle Boots</strong>
+<br><small class="text-muted">VNT-CLO-0002 · $160.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/21" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>Fluted Stovetop Percolator</strong>
+<br><small class="text-muted">VNT-KIT-0005 · $37.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/53" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>7-inch Single Lot of Ten</strong>
+<br><small class="text-muted">VNT-REC-0006 · $32.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/67" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>LP - The Tangerine Bureau, &#39;Static Bloom&#39;</strong>
+<br><small class="text-muted">VNT-REC-0004 · $95.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/12" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>Atlas of Inland Waterways</strong>
+<br><small class="text-muted">VNT-BKS-0003 · $240.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/26" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>Scalloped Wool Overshirt</strong>
+<br><small class="text-muted">VNT-CLO-0009 · $55.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/48" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>Apothecary Jar Set</strong>
+<br><small class="text-muted">VNT-MSC-0005 · $95.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/77" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>Harvest Roll-Top Desk</strong>
+<br><small class="text-muted">VNT-FUR-0004 · $850.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/55" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>Field Guide to Coastal Birds</strong>
+<br><small class="text-muted">VNT-BKS-0007 · $27.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/52" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>Patinated Wooden Pull Duck</strong>
+<br><small class="text-muted">VNT-TOY-0001 · $34.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/1" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>Fluted Pleated Trousers</strong>
+<br><small class="text-muted">VNT-CLO-0001 · $80.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/3" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>Two-Tone Varsity Cardigan</strong>
+<br><small class="text-muted">VNT-CLO-0005 · $105.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/36" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>Amber Cuff Bracelet</strong>
+<br><small class="text-muted">VNT-JWL-0005 · $60.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/58" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>Brass Desk Fan</strong>
+<br><small class="text-muted">VNT-MSC-0002 · $250.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/28" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>LP - Harbor Lights Quartet, &#39;Night Ferry&#39;</strong>
+<br><small class="text-muted">VNT-REC-0007 · $29.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/74" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>Record Carry Case</strong>
+<br><small class="text-muted">VNT-REC-0002 · $55.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/6" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>Tapered Carbon Steel Skillet</strong>
+<br><small class="text-muted">VNT-KIT-0006 · $75.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/69" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>Scalloped Cafe Curtain Pair</strong>
+<br><small class="text-muted">VNT-TEX-0005 · $65.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/54" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>Teak Sideboard</strong>
+<br><small class="text-muted">VNT-FUR-0005 · $470.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/60" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>Two-Tone Wool Overshirt</strong>
+<br><small class="text-muted">VNT-CLO-0007 · $75.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/45" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>Sunfaded Nesting Mixing Bowls</strong>
+<br><small class="text-muted">VNT-KIT-0001 · $120.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/11" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>Radio Repair Handbook</strong>
+<br><small class="text-muted">VNT-BKS-0004 · $70.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/27" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>LP - Velvet Ossuary, &#39;Low Tide Hymns&#39;</strong>
+<br><small class="text-muted">VNT-REC-0003 · $37.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/10" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>Oxblood Studio Pottery Bowl</strong>
+<br><small class="text-muted">VNT-DEC-0001 · $95.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/13" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>Cane-Back Botanical Plate Print</strong>
+<br><small class="text-muted">VNT-ART-0005 · $50.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/79" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>Lacquered Tube Table Radio</strong>
+<br><small class="text-muted">VNT-ELC-0004 · $230.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/64" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>Amber Rattan Wall Shelf</strong>
+<br><small class="text-muted">VNT-DEC-0005 · $75.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/62" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>Tapered Mushroom Table Lamp</strong>
+<br><small class="text-muted">VNT-DEC-0004 · $185.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/59" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>Slub-Woven Marble Set in Tin</strong>
+<br><small class="text-muted">VNT-TOY-0006 · $65.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/78" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>Sunfaded Chenille Bedspread</strong>
+<br><small class="text-muted">VNT-TEX-0004 · $200.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/49" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>Brass Candlestick Pair</strong>
+<br><small class="text-muted">VNT-DEC-0006 · $60.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/66" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>Hammered Cut Glass Decanter</strong>
+<br><small class="text-muted">VNT-KIT-0007 · $100.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/71" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>Oxblood Wool Kilim Runner</strong>
+<br><small class="text-muted">VNT-TEX-0003 · $460.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/47" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<strong>Pocket Verse Anthology</strong>
+<br><small class="text-muted">VNT-BKS-0001 · $21.00</small>
+</div>
+<a href="#" data-snapshot-missing="/labels/price-tag/9" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Shelf Labels -->
+<div class="col-lg-6">
+<div class="card mb-3">
+<div class="card-header">
+<i class="bi bi-signpost-2"></i> Shelf / Section Labels
+</div>
+<div class="card-body">
+<p class="text-muted small">Generate large category labels for shelves and display areas.</p>
+<div class="list-group">
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<span class="badge me-2" style="background-color:#4682B4">ART</span>
+Art
+</div>
+<a href="static/labels/shelf-4.png" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<span class="badge me-2" style="background-color:#2E8B57">BKS</span>
+Books
+</div>
+<a href="static/labels/shelf-5.png" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<span class="badge me-2" style="background-color:#C71585">CLO</span>
+Clothing
+</div>
+<a href="static/labels/shelf-2.png" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<span class="badge me-2" style="background-color:#9370DB">DEC</span>
+Decor
+</div>
+<a href="static/labels/shelf-8.png" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<span class="badge me-2" style="background-color:#708090">ELC</span>
+Electronics
+</div>
+<a href="static/labels/shelf-6.png" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<span class="badge me-2" style="background-color:#8B4513">FUR</span>
+Furniture
+</div>
+<a href="static/labels/shelf-1.png" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<span class="badge me-2" style="background-color:#FFD700">JWL</span>
+Jewelry
+</div>
+<a href="static/labels/shelf-3.png" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<span class="badge me-2" style="background-color:#CD853F">KIT</span>
+Kitchenware
+</div>
+<a href="static/labels/shelf-7.png" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<span class="badge me-2" style="background-color:#B5838D">TEX</span>
+Linens &amp; Textiles
+</div>
+<a href="static/labels/shelf-12.png" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<span class="badge me-2" style="background-color:#6c757d">MSC</span>
+Misc
+</div>
+<a href="static/labels/shelf-10.png" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<span class="badge me-2" style="background-color:#1F7A8C">REC</span>
+Records &amp; Media
+</div>
+<a href="static/labels/shelf-11.png" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<div>
+<span class="badge me-2" style="background-color:#FF6347">TOY</span>
+Toys &amp; Games
+</div>
+<a href="static/labels/shelf-9.png" class="btn btn-sm btn-outline-primary"
+target="_blank">
+<i class="bi bi-printer"></i> Generate
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Batch List -->
+<div class="col-12">
+<div class="card">
+<div class="card-header">
+<i class="bi bi-list-check"></i> Batch Item List (Receipt Style)
+</div>
+<div class="card-body">
+<p class="text-muted small">Select items to generate a printable batch list — great for intake, restocking, or price checks.</p>
+<form method="POST" action="#" data-snapshot-action="/labels/batch" target="_blank">
+<div class="mb-3">
+<label class="form-label">List Title</label>
+<input type="text" name="title" class="form-control" value="Inventory Batch" placeholder="e.g. New Arrivals March 2026">
+</div>
+<div class="row mb-3">
+<div class="col">
+<button type="button" class="btn btn-sm btn-outline-secondary" onclick="toggleAllBatch(true)">Select All</button>
+<button type="button" class="btn btn-sm btn-outline-secondary" onclick="toggleAllBatch(false)">Deselect All</button>
+</div>
+</div>
+<div class="batch-items" style="max-height:400px;overflow-y:auto">
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="16" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>Dusty Rose Rangefinder Camera</strong>
+<small class="text-muted d-block">VNT-ELC-0002 · Qty: 1 · $400.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="68" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>Abstract Screenprint</strong>
+<small class="text-muted d-block">VNT-ART-0003 · Qty: 1 · $175.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="30" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>Oatmeal Chore Jacket</strong>
+<small class="text-muted d-block">VNT-CLO-0004 · Qty: 1 · $60.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="5" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>Boxed LP Anthology</strong>
+<small class="text-muted d-block">VNT-REC-0001 · Qty: 1 · $75.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="14" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>Pewter Cocktail Earrings</strong>
+<small class="text-muted d-block">VNT-JWL-0001 · Qty: 1 · $34.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="46" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>Patinated Prairie Dress</strong>
+<small class="text-muted d-block">VNT-CLO-0008 · Qty: 1 · $70.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="21" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>Two-Tone Pointed Ankle Boots</strong>
+<small class="text-muted d-block">VNT-CLO-0002 · Qty: 1 · $160.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="53" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>Fluted Stovetop Percolator</strong>
+<small class="text-muted d-block">VNT-KIT-0005 · Qty: 1 · $37.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="67" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>7-inch Single Lot of Ten</strong>
+<small class="text-muted d-block">VNT-REC-0006 · Qty: 1 · $32.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="12" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>LP - The Tangerine Bureau, &#39;Static Bloom&#39;</strong>
+<small class="text-muted d-block">VNT-REC-0004 · Qty: 1 · $95.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="26" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>Atlas of Inland Waterways</strong>
+<small class="text-muted d-block">VNT-BKS-0003 · Qty: 1 · $240.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="48" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>Scalloped Wool Overshirt</strong>
+<small class="text-muted d-block">VNT-CLO-0009 · Qty: 1 · $55.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="77" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>Apothecary Jar Set</strong>
+<small class="text-muted d-block">VNT-MSC-0005 · Qty: 3 · $95.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="55" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>Harvest Roll-Top Desk</strong>
+<small class="text-muted d-block">VNT-FUR-0004 · Qty: 1 · $850.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="52" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>Field Guide to Coastal Birds</strong>
+<small class="text-muted d-block">VNT-BKS-0007 · Qty: 1 · $27.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="1" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>Patinated Wooden Pull Duck</strong>
+<small class="text-muted d-block">VNT-TOY-0001 · Qty: 1 · $34.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="3" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>Fluted Pleated Trousers</strong>
+<small class="text-muted d-block">VNT-CLO-0001 · Qty: 1 · $80.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="36" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>Two-Tone Varsity Cardigan</strong>
+<small class="text-muted d-block">VNT-CLO-0005 · Qty: 1 · $105.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="58" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>Amber Cuff Bracelet</strong>
+<small class="text-muted d-block">VNT-JWL-0005 · Qty: 1 · $60.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="28" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>Brass Desk Fan</strong>
+<small class="text-muted d-block">VNT-MSC-0002 · Qty: 1 · $250.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="74" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>LP - Harbor Lights Quartet, &#39;Night Ferry&#39;</strong>
+<small class="text-muted d-block">VNT-REC-0007 · Qty: 1 · $29.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="6" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>Record Carry Case</strong>
+<small class="text-muted d-block">VNT-REC-0002 · Qty: 1 · $55.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="69" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>Tapered Carbon Steel Skillet</strong>
+<small class="text-muted d-block">VNT-KIT-0006 · Qty: 1 · $75.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="54" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>Scalloped Cafe Curtain Pair</strong>
+<small class="text-muted d-block">VNT-TEX-0005 · Qty: 1 · $65.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="60" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>Teak Sideboard</strong>
+<small class="text-muted d-block">VNT-FUR-0005 · Qty: 1 · $470.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="45" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>Two-Tone Wool Overshirt</strong>
+<small class="text-muted d-block">VNT-CLO-0007 · Qty: 1 · $75.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="11" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>Sunfaded Nesting Mixing Bowls</strong>
+<small class="text-muted d-block">VNT-KIT-0001 · Qty: 1 · $120.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="27" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>Radio Repair Handbook</strong>
+<small class="text-muted d-block">VNT-BKS-0004 · Qty: 1 · $70.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="10" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>LP - Velvet Ossuary, &#39;Low Tide Hymns&#39;</strong>
+<small class="text-muted d-block">VNT-REC-0003 · Qty: 1 · $37.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="13" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>Oxblood Studio Pottery Bowl</strong>
+<small class="text-muted d-block">VNT-DEC-0001 · Qty: 1 · $95.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="79" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>Cane-Back Botanical Plate Print</strong>
+<small class="text-muted d-block">VNT-ART-0005 · Qty: 1 · $50.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="64" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>Lacquered Tube Table Radio</strong>
+<small class="text-muted d-block">VNT-ELC-0004 · Qty: 1 · $230.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="62" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>Amber Rattan Wall Shelf</strong>
+<small class="text-muted d-block">VNT-DEC-0005 · Qty: 1 · $75.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="59" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>Tapered Mushroom Table Lamp</strong>
+<small class="text-muted d-block">VNT-DEC-0004 · Qty: 1 · $185.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="78" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>Slub-Woven Marble Set in Tin</strong>
+<small class="text-muted d-block">VNT-TOY-0006 · Qty: 2 · $65.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="49" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>Sunfaded Chenille Bedspread</strong>
+<small class="text-muted d-block">VNT-TEX-0004 · Qty: 1 · $200.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="66" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>Brass Candlestick Pair</strong>
+<small class="text-muted d-block">VNT-DEC-0006 · Qty: 1 · $60.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="71" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>Hammered Cut Glass Decanter</strong>
+<small class="text-muted d-block">VNT-KIT-0007 · Qty: 1 · $100.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="47" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>Oxblood Wool Kilim Runner</strong>
+<small class="text-muted d-block">VNT-TEX-0003 · Qty: 1 · $460.00</small>
+</div>
+</label>
+<label class="batch-item-check d-flex align-items-center p-2 border-bottom">
+<input type="checkbox" name="item_ids" value="9" class="form-check-input me-2 batch-cb">
+<div class="flex-grow-1">
+<strong>Pocket Verse Anthology</strong>
+<small class="text-muted d-block">VNT-BKS-0001 · Qty: 3 · $21.00</small>
+</div>
+</label>
+</div>
+<div class="mt-3">
+<button type="submit" class="btn btn-primary">
+<i class="bi bi-printer"></i> Generate Batch List
+</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+<!-- FlashLabel Instructions -->
+<div class="card mt-4">
+<div class="card-header"><i class="bi bi-info-circle"></i> Using with FlashLabel</div>
+<div class="card-body">
+<ol class="mb-0">
+<li>Click "Generate" to create the label image</li>
+<li>The label opens in a new tab as a PNG image</li>
+<li>Save the image to your phone (screenshot or long-press → Save Image)</li>
+<li>Open FlashLabel and import the saved image</li>
+<li>Adjust size if needed in FlashLabel's editor, then print!</li>
+</ol>
+<p class="text-muted small mt-2 mb-0">
+Tip: If you're on the same network, you can access this page directly from your phone at your computer's local IP address, port 5000.
+</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Error Pill Toast -->
+<div id="errorPill" class="error-pill" role="alert" aria-live="assertive">
+<i class="bi bi-exclamation-triangle-fill me-2"></i>
+<span id="errorPillMsg"></span>
+<button type="button" class="error-pill-close" onclick="window._dismissPill()" aria-label="Close">&times;</button>
+</div>
+<style>
+.error-pill {
+position: fixed;
+bottom: 24px;
+left: 50%;
+transform: translateX(-50%) translateY(20px);
+background: #dc3545;
+color: #fff;
+padding: 10px 20px 10px 16px;
+border-radius: 50px;
+font-size: 0.875rem;
+font-weight: 500;
+box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+display: flex;
+align-items: center;
+gap: 4px;
+z-index: 9999;
+opacity: 0;
+pointer-events: none;
+transition: opacity 0.35s ease, transform 0.35s ease;
+max-width: 90vw;
+}
+.error-pill.error-pill--warn {
+background: #fd7e14;
+}
+.error-pill.error-pill--info {
+background: #0d6efd;
+}
+.error-pill.error-pill--success {
+background: #198754;
+}
+.error-pill.show {
+opacity: 1;
+pointer-events: auto;
+transform: translateX(-50%) translateY(0);
+}
+.error-pill-close {
+background: none;
+border: none;
+color: rgba(255,255,255,0.8);
+font-size: 1.15rem;
+line-height: 1;
+margin-left: 8px;
+cursor: pointer;
+padding: 0 2px;
+}
+.error-pill-close:hover { color: #fff; }
+</style>
+<div class="photo-lightbox" id="photoLightbox" role="dialog" aria-modal="true" aria-hidden="true" hidden>
+<button type="button" class="photo-lightbox-close" id="photoLightboxClose" aria-label="Close">
+<i class="bi bi-x-lg"></i>
+</button>
+<button type="button" class="photo-lightbox-nav prev" id="photoLightboxPrev" aria-label="Previous">
+<i class="bi bi-chevron-left"></i>
+</button>
+<button type="button" class="photo-lightbox-nav next" id="photoLightboxNext" aria-label="Next">
+<i class="bi bi-chevron-right"></i>
+</button>
+<img class="photo-lightbox-img" id="photoLightboxImg" alt="">
+<div class="photo-lightbox-count" id="photoLightboxCount"></div>
+</div>
+<link rel="stylesheet" href="static/snap/88a0be1cee2a.css">
+<script src="static/snap/1bb55beec05e.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script src="static/js/app.js"></script>
+<script>
+function toggleAllBatch(checked) {
+document.querySelectorAll('.batch-cb').forEach(cb => cb.checked = checked);
+}
+</script>
+</body>
+</html>

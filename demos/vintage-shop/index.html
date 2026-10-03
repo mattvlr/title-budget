@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vintage Shop &mdash; Inventory, POS &amp; Storefront &mdash; demo</title>
+<meta name="description" content="A self-hosted Flask app for vintage, thrift and antique resale: inventory, QR price tags, a camera POS, your own storefront and reports. Screenshots and a clickable read-only snapshot of the running app with demo data.">
+<link rel="canonical" href="https://mattvlr.github.io/title-budget/demos/vintage-shop/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mattvlr.github.io/title-budget/demos/vintage-shop/">
+<meta property="og:title" content="Vintage Shop &mdash; Inventory, POS &amp; Storefront &mdash; demo">
+<meta property="og:description" content="A self-hosted Flask app for vintage, thrift and antique resale: inventory, QR price tags, a camera POS, your own storefront and reports. Screenshots and a clickable read-only snapshot of the running app with demo data.">
+<meta property="og:image" content="https://mattvlr.github.io/title-budget/demos/img/vintage-shop-01-dashboard.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#F5F7F9; --surface:#FFFFFF; --surface-2:#EFF3F6;
+    --ink:#16202E; --muted:#5C6B7F; --faint:#8595A8; --border:#DCE3EA;
+    --accent:#A85D00; --accent-soft:#F5E4CC;
+    --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#0E141C; --surface:#161F2A; --surface-2:#1D2835;
+      --ink:#E7EDF4; --muted:#9AAABC; --faint:#74869A; --border:#2A3745;
+      --accent:#E8A13A; --accent-soft:#3A2C16;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#0E141C; --surface:#161F2A; --surface-2:#1D2835;
+    --ink:#E7EDF4; --muted:#9AAABC; --faint:#74869A; --border:#2A3745;
+    --accent:#E8A13A; --accent-soft:#3A2C16;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans);
+         font-size:15px; line-height:1.55; }
+  .wrap { max-width:900px; margin:0 auto; padding:32px 16px 64px; }
+  h1 { font-size:28px; font-weight:600; margin:0 0 6px; letter-spacing:-.012em; text-wrap:balance; }
+  h2 { font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:.08em;
+        color:var(--faint); margin:36px 0 12px; }
+  h3 { font-size:18px; font-weight:600; margin:0 0 4px; }
+  .lede { color:var(--muted); margin:0 0 4px; }
+  .eyebrow { font-family:var(--mono); font-size:12px; color:var(--accent);
+              text-transform:uppercase; letter-spacing:.06em; margin:0 0 6px; }
+  .panel { background:var(--surface); border:1px solid var(--border); border-radius:10px;
+            padding:16px 18px; }
+  .note { background:var(--accent-soft); border:1px solid var(--border); border-radius:10px;
+           padding:14px 16px; color:var(--ink); font-size:14px; }
+  figure { margin:0 0 26px; }
+  figure img { width:100%; height:auto; display:block; border:1px solid var(--border);
+                border-radius:10px; background:var(--surface-2); }
+  figure.phone img { max-width:390px; margin:0 auto; }
+  figcaption { color:var(--muted); font-size:14px; margin-top:8px; }
+  figcaption b { color:var(--ink); }
+  .btn { display:inline-block; padding:9px 15px; border-radius:8px; border:1px solid var(--border);
+          background:var(--surface); color:var(--ink); text-decoration:none; font-size:14px;
+          font-weight:500; }
+  .btn.primary { background:var(--accent); border-color:var(--accent); color:#fff; }
+  .btn.big { padding:12px 20px; font-size:15.5px; }
+  .row { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  .grow { flex:1 1 260px; }
+  .cols { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px; }
+  ul.plain { margin:0; padding-left:18px; }
+  ul.plain li { margin:4px 0; }
+  code { font-family:var(--mono); font-size:.92em; background:var(--surface-2);
+         padding:1px 5px; border-radius:4px; }
+  nav a, footer a, .panel a:not(.btn), .note a { color:var(--accent); }
+  nav a { text-decoration:none; }
+  footer { margin-top:44px; padding-top:18px; border-top:1px solid var(--border);
+            color:var(--faint); font-size:14px; }
+  footer a { text-decoration:none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="eyebrow">Static snapshot &middot; $99</p>
+<h1>Vintage Shop &mdash; Inventory, POS &amp; Storefront</h1>
+<p class="lede">A self-hosted Flask app for vintage, thrift and antique resale. Photograph a piece, draft the listing with your own AI key, print a QR price tag, sell it at the counter or on your own storefront, ship it, and see the margin.</p>
+<nav style="margin-top:10px"><a href="../">&larr; All demos</a></nav>
+
+<section>
+  <h2>Try it</h2>
+  <div class="panel">
+    <div class="row">
+      <div class="grow">
+        <h3>Click through the real app</h3>
+        <p style="margin:0;color:var(--muted);font-size:14px">520 pages saved from the running program while it held the included demo seed: dashboard, inventory, every item, its edit form and price tag, orders, customers, shipping, returns, reports, settings, the help centre and the public storefront. It is read-only &mdash; see below for what that means.</p>
+      </div>
+      <a class="btn primary big" href="app/">Open the live demo &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="note" style="margin-top:22px">
+    <b>Everything here is demo data.</b> The shop &ldquo;Rosewater &amp; Rust&rdquo; is fictional: 80 items in 12 categories, 25 orders, 15 shipments, 6 return requests and 5 consigners, all written by the <code>seed_demo.py</code> script that ships with the code. The item photos are generated placeholder cards, not product photography. The screenshots and the snapshot are captures of the real application running that data &mdash; nothing is mocked up or retouched.
+  </div>
+</section>
+
+<section>
+  <h2>What it looks like</h2>
+<figure>
+  <img src="../img/vintage-shop-01-dashboard.png" alt="The dashboard: stock, retail value, sold count, potential profit, items to list, second-look items, categories, low stock and recently added." width="1440" height="900" loading="lazy">
+  <figcaption><b>The dashboard.</b> Stock and retail value at a glance, the queue of items ready to list, and the &ldquo;Second Look&rdquo; items that have sat unsold past the number of days you set.</figcaption>
+</figure>
+<figure>
+  <img src="../img/vintage-shop-02-inventory.png" alt="The inventory grid with inline status, category, tags, cost and price fields." width="1440" height="900" loading="lazy">
+  <figcaption><b>The inventory grid.</b> One row per one-of-a-kind piece, with inline quick-edit of status, category, tags, cost and price, bulk actions, and per-item storefront visibility.</figcaption>
+</figure>
+<figure>
+  <img src="../img/vintage-shop-03-item-detail.png" alt="An item page with photo, era, condition, brand, material, consigner split, stock and pricing." width="1440" height="900" loading="lazy">
+  <figcaption><b>An item.</b> Era, condition, brand, material, measurements, location, the consigner and their split, margin, view count and USPS cost estimates (from a built-in rate table, not a live rate API).</figcaption>
+</figure>
+<figure>
+  <img src="../img/vintage-shop-04-ai-listing-generator.png" alt="The AI listing generator: drop photos and add context, with a notice that no API key is configured." width="1440" height="900" loading="lazy">
+  <figcaption><b>The AI listing generator.</b> Drop in photos and it drafts the name, description, era, condition, materials, tags and a price range for you to review. It uses <b>your own</b> Anthropic or OpenAI key; the demo has none, which is why the page says so.</figcaption>
+</figure>
+<figure>
+  <img src="../img/vintage-shop-05-price-tag.png" alt="A round QR price tag for a clothing item." width="1440" height="900" loading="lazy">
+  <figcaption><b>A QR price tag.</b> Rendered as a print-ready PNG and PDF, styled differently for clothing and hard goods. Scanning the code opens the counter checkout with that item already in the cart.</figcaption>
+</figure>
+<figure>
+  <img src="../img/vintage-shop-06-pos-checkout.png" alt="The scan checkout page with three items in the cart and an Open Square Checkout button." width="1440" height="900" loading="lazy">
+  <figcaption><b>The counter.</b> Scan tags with the phone camera (QR codes and 1D barcodes) or type a SKU, build a cart, then open one Square payment link for all of it. Square is your own account.</figcaption>
+</figure>
+<figure class="phone">
+  <img src="../img/vintage-shop-10-mobile-pos.png" alt="The scan checkout page on a phone." width="780" height="1688" loading="lazy">
+  <figcaption style="text-align:center"><b>The same page on a phone</b>, which is where it is meant to be used.</figcaption>
+</figure>
+<figure>
+  <img src="../img/vintage-shop-07-storefront.png" alt="The public storefront product grid with filters." width="1440" height="900" loading="lazy">
+  <figcaption><b>Your own storefront.</b> A public shop with filters, item pages, a cart, promo codes and Square checkout, plus editable About, FAQ, Contact and policy pages. Themes are switchable with a live preview.</figcaption>
+</figure>
+<figure>
+  <img src="../img/vintage-shop-08-reports.png" alt="Reports for the last 12 months: revenue, cost of goods, gross profit, units in stock and a revenue and profit chart." width="1440" height="900" loading="lazy">
+  <figcaption><b>Reports</b> over preset or custom date ranges: revenue, cost of goods, profit, margin, units sold, best sellers and inventory valuation.</figcaption>
+</figure>
+<figure>
+  <img src="../img/vintage-shop-09-settings.png" alt="Settings: store identity, operating mode (both, in person only, online only) and integrations." width="1440" height="900" loading="lazy">
+  <figcaption><b>Settings.</b> Three operating modes &mdash; hybrid, in-person only, online only &mdash; hide the features you do not use. Integrations for AI, Square and S3-compatible photo storage take your own keys.</figcaption>
+</figure>
+</section>
+
+<section>
+  <h2>What the live demo can and cannot do</h2>
+  <div class="cols">
+    <div class="panel">
+      <h3>Works</h3>
+      <ul class="plain">
+        <li>Every page in the admin and the storefront, and every link between them</li>
+        <li>Filtering by one status (inventory, orders, returns, shipping), by one category on the storefront, and the report periods</li>
+        <li>The counter: type an exact SKU from a price tag, such as <code>VNT-REC-0004</code>, and it goes in the cart</li>
+        <li>The storefront theme picker and its live preview</li>
+        <li>Charts, tabs, menus and modals</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>Switched off</h3>
+      <ul class="plain">
+        <li>Anything that saves: forms, inline edits, bulk actions, uploads, sell/restock, delete</li>
+        <li>AI drafting, price checks and background removal (they need your API key)</li>
+        <li>Square payment links and checkout</li>
+        <li>Free-text search, filter combinations, exports and the PDF tags</li>
+      </ul>
+      <p style="margin:8px 0 0;color:var(--muted);font-size:14px">Each of these shows a short notice instead. Nothing on this site sends data anywhere.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>What it does</h2>
+  <div class="panel"><ul class="plain">
+    <li><b>Inventory</b> for one-of-a-kind stock: SKU generation per category, categories, tag groups, suppliers, consigners with split tracking and payout reports, a stock ledger, bulk actions and &ldquo;Second Look&rdquo; flagging.</li>
+    <li><b>Photos</b>: multi-photo upload with compression; AI background removal (OpenAI or Replicate, your key); local disk or any S3-compatible bucket.</li>
+    <li><b>AI</b> with your own Anthropic or OpenAI key: the listing generator and an AI Price Check against your own sold items.</li>
+    <li><b>Labels</b>: QR price tags, shelf labels, batch label sheets and printable shipping label sheets.</li>
+    <li><b>Point of sale</b>: camera scanning, cart, promo codes, Square payment links, a receipt page, and a Cashier role that cannot see reports or settings.</li>
+    <li><b>Storefront, orders and fulfilment</b>: public shop, orders and customers, a shipping queue with tracking, returns with a status workflow, promo codes.</li>
+    <li><b>Operations</b>: date-range reports, activity and error logs, users and roles, CSV import and export, a migration wizard and a built-in help centre.</li>
+    <li>A bonus <b>studio site module</b> for a second business on the same premises, with fictional placeholder content. Removable in one line.</li>
+  </ul></div>
+</section>
+
+<section>
+  <h2>What it does not do</h2>
+  <div class="panel"><ul class="plain">
+    <li><b>No marketplace integrations.</b> It does not list to, sync with, or pull prices from eBay, Etsy or any other selling site. Your online channel is the built-in storefront. For books there is a plain &ldquo;View on AbeBooks&rdquo; search link that opens in your own browser.</li>
+    <li><b>No API keys or accounts are included.</b> AI needs your own Anthropic or OpenAI key, payments need your own Square account, cloud photos need your own S3 bucket. Usage is billed to you by those providers.</li>
+    <li><b>No hosting, and not a one-click install.</b> You need a Python virtualenv and environment variables. SQLite works locally; PostgreSQL is recommended for a hosted deploy.</li>
+    <li>USPS shipping estimates come from a hard-coded rate table, not a live rate API.</li>
+    <li>No database migration framework, and the tests are one end-to-end script rather than a unit-test suite.</li>
+    <li>No login rate limiting or two-factor auth on the admin. Read the deployment guide's security checklist before putting it on the internet.</li>
+    <li>Support is by email, best effort, with no guaranteed response time.</li>
+  </ul></div>
+</section>
+
+<section>
+  <h2>What I ran before shipping it</h2>
+  <div class="panel"><ul class="plain">
+    <li>The end-to-end test script seeds a throwaway shop and drives the storefront and the main admin screens: <b>all 80 checks pass</b>, run again from the packaged zip in a clean virtualenv.</li>
+    <li>A wheel-only install (no compiler) on Python 3.12, and a sweep of every GET route with zero server errors, recorded in the shipped <code>HEALTHCHECK.md</code>.</li>
+    <li>All 520 pages of the snapshot were opened in a headless browser with zero script errors. Doing that found two front-end bugs in the app &mdash; a cart script loaded twice and a tooltip script that ran before Bootstrap had loaded &mdash; and a broken link in the studio module. All three are fixed in the version for sale.</li>
+  </ul></div>
+</section>
+
+<section>
+  <h2>Get it</h2>
+  <div class="panel">
+    <div class="row">
+      <div class="grow">
+        <h3>Vintage Shop &mdash; $99</h3>
+        <p style="margin:0;color:var(--muted);font-size:14px">Complete Flask source: about 17,000 lines of Python and 84 templates, with a commercial licence for your own business. Python 3.12 or newer.</p>
+      </div>
+      <a class="btn primary" href="https://bookmonger.gumroad.com/tools">See the store &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="../">All demos</a> &middot;
+  <a href="app/">Open the live demo</a> &middot;
+  <a href="https://bookmonger.gumroad.com">All products</a>
+</footer>
+</div>
+</body>
+</html>

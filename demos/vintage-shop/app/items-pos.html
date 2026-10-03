@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head><meta name="robots" content="noindex,follow"><script src="snapshot.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="csrf-token" content="read-only-snapshot">
+<title>Rosewater &amp; Rust — Inventory</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link href="static/css/style.css" rel="stylesheet">
+<link href="static/css/themes.css" rel="stylesheet">
+</head>
+<body class="theme-vintage" data-theme="vintage"><div id="snapBanner" role="note" style="position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#3b2414;color:#fbe9d7;border-top:2px solid #e8a13a;font:500 13px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:7px 14px;display:flex;gap:4px 14px;align-items:center;justify-content:center;flex-wrap:wrap;text-align:center;box-shadow:0 -4px 14px rgba(0,0,0,.25)"><span><strong>Read-only snapshot</strong> of the real Vintage Shop app, saved while it ran on <strong>demo data</strong> (a fictional shop). Buttons and forms that would change data are switched off.</span><a href="../" style="color:#ffd08a;text-decoration:underline;white-space:nowrap">About this demo &amp; the source code &rarr;</a></div><div id="snapToast" role="status" aria-live="polite" style="display:none;position:fixed;left:50%;bottom:72px;transform:translateX(-50%);z-index:2147483001;width:max-content;max-width:min(92vw,560px);background:#111827;border:1px solid #e8a13a;color:#fde3c0;border-radius:8px;padding:10px 16px;font:500 13.5px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;box-shadow:0 10px 25px rgba(0,0,0,.45);text-align:center"></div>
+<!-- Sidebar -->
+<nav id="sidebar" class="sidebar">
+<div class="sidebar-header">
+<i class="bi bi-shop"></i>
+<span>Rosewater &amp; Rust</span>
+</div>
+<ul class="sidebar-nav">
+<li class="">
+<a href="index.html">
+<i class="bi bi-speedometer2"></i> Dashboard
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-box-seam"></i> Inventory</li>
+<li class="sidebar-subitem ">
+<a href="items.html">
+<i class="bi bi-box-seam"></i> Items
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="categories.html">
+<i class="bi bi-grid"></i> Categories
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="tags.html">
+<i class="bi bi-tags"></i> Tags
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="labels.html">
+<i class="bi bi-printer"></i> Labels
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="suppliers.html">
+<i class="bi bi-truck"></i> Suppliers
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="consigners.html">
+<i class="bi bi-people"></i> Consigners
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-currency-dollar"></i> Sales</li>
+<li class="sidebar-subitem active">
+<a href="items-pos.html">
+<i class="bi bi-upc-scan"></i> Scan Checkout
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="orders.html">
+<i class="bi bi-receipt"></i> Orders
+<span class="badge bg-info ms-1">3</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="customers.html">
+<i class="bi bi-people"></i> Customers
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="returns.html">
+<i class="bi bi-arrow-counterclockwise"></i> Returns
+<span class="badge bg-danger ms-1">3</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="shipping.html">
+<i class="bi bi-box-arrow-up-right"></i> Shipping
+<span class="badge bg-warning text-dark ms-1">6</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="promo-codes.html">
+<i class="bi bi-tag-fill"></i> Promo Codes
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="reports.html">
+<i class="bi bi-bar-chart-line"></i> Reports
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-megaphone"></i> Listings</li>
+<li class="sidebar-subitem ">
+<a href="storefront.html" target="_blank">
+<i class="bi bi-globe"></i> Storefront
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-shield-lock"></i> Admin</li>
+<li class="sidebar-subitem ">
+<a href="activity.html">
+<i class="bi bi-clipboard-data"></i> Activity Log
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="settings.html">
+<i class="bi bi-gear"></i> Settings
+</a>
+</li>
+<li class="">
+<a href="help.html">
+<i class="bi bi-life-preserver"></i> Help Wiki
+</a>
+</li>
+</ul>
+<div class="sidebar-alert">
+<i class="bi bi-exclamation-triangle"></i>
+<a href="items--status-In-Stock.html">3 low stock</a>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="main-content">
+<!-- Top Bar -->
+<header class="topbar">
+<div class="topbar-leading">
+<button class="btn btn-link sidebar-toggle d-md-none" type="button" onclick="toggleSidebar()" aria-label="Open menu">
+<i class="bi bi-list"></i>
+<span class="sidebar-toggle-label">Menu</span>
+</button>
+<div class="topbar-mobile-title d-md-none">Rosewater &amp; Rust</div>
+<div class="topbar-actions topbar-actions-mobile d-md-none">
+<a href="items-pos.html" class="btn btn-outline-success btn-sm" title="Scan Checkout" aria-label="Scan Checkout">
+<i class="bi bi-upc-scan"></i>
+</a>
+<a href="items-new.html" class="btn btn-primary btn-sm" title="Add Item" aria-label="Add Item">
+<i class="bi bi-plus-lg"></i>
+</a>
+<form method="POST" action="#" data-snapshot-action="/logout" class="d-inline">
+<button type="submit" class="btn btn-outline-secondary btn-sm" title="Logout" aria-label="Logout">
+<i class="bi bi-box-arrow-right"></i>
+</button>
+</form>
+</div>
+</div>
+<div class="search-bar topbar-search">
+<i class="bi bi-search"></i>
+<input type="text" id="globalSearch" placeholder="Search items by name, SKU, brand..."
+autocomplete="off">
+<div id="searchResults" class="search-results"></div>
+</div>
+<div class="topbar-actions topbar-actions-desktop">
+<span class="text-muted small">Demo Owner · Admin</span>
+<a href="items-pos.html" class="btn btn-outline-success btn-sm">
+<i class="bi bi-upc-scan"></i> Scan Checkout
+</a>
+<a href="help.html" class="btn btn-outline-secondary btn-sm">
+<i class="bi bi-life-preserver"></i> Help
+</a>
+<a href="items-new.html" class="btn btn-primary btn-sm">
+<i class="bi bi-plus-lg"></i> Add Item
+</a>
+<form method="POST" action="#" data-snapshot-action="/logout" class="d-inline">
+<button type="submit" class="btn btn-outline-secondary btn-sm">
+<i class="bi bi-box-arrow-right"></i> Logout
+</button>
+</form>
+</div>
+</header>
+<!-- Flash Messages -->
+<div class="content-area">
+<style>
+.scanner-surface {
+min-height: 220px;
+background: #111;
+overflow: hidden;
+position: relative;
+}
+.scanner-surface video,
+.scanner-surface img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+display: block;
+}
+.scanner-surface.fallback-active {
+padding: 0.5rem;
+background: #f8f9fa;
+}
+.scanner-surface.fallback-active > div {
+min-height: 204px;
+}
+.scanner-feedback {
+margin-top: 0.75rem;
+padding: 0.7rem 0.85rem;
+border-radius: 0.85rem;
+background: rgba(248, 249, 250, 0.95);
+border: 1px solid rgba(33, 37, 41, 0.08);
+font-size: 1rem;
+font-weight: 600;
+line-height: 1.4;
+min-height: 3.35rem;
+}
+.scanner-feedback.text-success {
+background: rgba(25, 135, 84, 0.10);
+border-color: rgba(25, 135, 84, 0.18);
+}
+.scanner-feedback.text-danger {
+background: rgba(220, 53, 69, 0.10);
+border-color: rgba(220, 53, 69, 0.18);
+}
+.scanner-feedback.text-warning {
+background: rgba(255, 193, 7, 0.12);
+border-color: rgba(255, 193, 7, 0.22);
+}
+.scanner-feedback.text-primary {
+background: rgba(13, 110, 253, 0.10);
+border-color: rgba(13, 110, 253, 0.18);
+}
+.scanner-action-log {
+margin-top: 0.85rem;
+border: 1px solid rgba(33, 37, 41, 0.08);
+border-radius: 0.95rem;
+background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 249, 250, 0.95));
+overflow: hidden;
+}
+.scanner-action-log-header {
+display: flex;
+align-items: center;
+gap: 0.45rem;
+padding: 0.7rem 0.85rem;
+font-size: 0.82rem;
+font-weight: 700;
+letter-spacing: 0.04em;
+text-transform: uppercase;
+color: #495057;
+border-bottom: 1px solid rgba(33, 37, 41, 0.06);
+}
+.scanner-action-list {
+list-style: none;
+margin: 0;
+padding: 0;
+max-height: 220px;
+overflow-y: auto;
+}
+.scanner-action-item {
+display: flex;
+align-items: flex-start;
+justify-content: space-between;
+gap: 0.75rem;
+padding: 0.7rem 0.85rem;
+border-top: 1px solid rgba(33, 37, 41, 0.05);
+}
+.scanner-action-item:first-child {
+border-top: 0;
+}
+.scanner-action-item[data-level="success"] {
+background: rgba(25, 135, 84, 0.05);
+}
+.scanner-action-item[data-level="danger"] {
+background: rgba(220, 53, 69, 0.05);
+}
+.scanner-action-item[data-level="warning"] {
+background: rgba(255, 193, 7, 0.07);
+}
+.scanner-action-text {
+display: block;
+font-size: 0.92rem;
+font-weight: 600;
+color: #212529;
+line-height: 1.35;
+}
+.scanner-action-time {
+flex: 0 0 auto;
+font-size: 0.76rem;
+color: #6c757d;
+white-space: nowrap;
+padding-top: 0.08rem;
+}
+.scanner-action-empty {
+padding: 0.9rem 0.85rem;
+font-size: 0.9rem;
+color: #6c757d;
+}
+/* ── Mobile: overlay feedback + activity on the camera ── */
+@media (max-width: 767.98px) {
+.scanner-surface {
+min-height: 55vh;
+}
+/* Float the feedback toast over the camera bottom */
+.scanner-scanning .scanner-feedback {
+position: absolute;
+bottom: 0.5rem;
+left: 0.5rem;
+right: 0.5rem;
+z-index: 10;
+margin: 0;
+padding: 0.4rem 0.65rem;
+font-size: 0.8rem;
+min-height: 0;
+border-radius: 0.6rem;
+backdrop-filter: blur(6px);
+-webkit-backdrop-filter: blur(6px);
+background: rgba(255, 255, 255, 0.88);
+box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+.scanner-scanning .scanner-feedback.text-success {
+background: rgba(25, 135, 84, 0.85);
+color: #fff !important;
+border-color: transparent;
+}
+.scanner-scanning .scanner-feedback.text-danger {
+background: rgba(220, 53, 69, 0.85);
+color: #fff !important;
+border-color: transparent;
+}
+.scanner-scanning .scanner-feedback.text-warning {
+background: rgba(255, 193, 7, 0.9);
+color: #212529 !important;
+border-color: transparent;
+}
+.scanner-scanning .scanner-feedback.text-primary {
+background: rgba(13, 110, 253, 0.85);
+color: #fff !important;
+border-color: transparent;
+}
+/* Compact action log overlay at top of camera */
+.scanner-scanning .scanner-action-log {
+position: absolute;
+top: 0.4rem;
+left: 0.4rem;
+right: 0.4rem;
+z-index: 10;
+margin: 0;
+background: rgba(255, 255, 255, 0.75);
+backdrop-filter: blur(6px);
+-webkit-backdrop-filter: blur(6px);
+border: none;
+border-radius: 0.6rem;
+box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+.scanner-scanning .scanner-action-log-header {
+padding: 0.35rem 0.6rem;
+font-size: 0.7rem;
+}
+.scanner-scanning .scanner-action-list {
+max-height: 90px;
+}
+.scanner-scanning .scanner-action-item {
+padding: 0.3rem 0.6rem;
+gap: 0.4rem;
+}
+.scanner-scanning .scanner-action-text {
+font-size: 0.75rem;
+font-weight: 500;
+}
+.scanner-scanning .scanner-action-time {
+font-size: 0.65rem;
+}
+.scanner-scanning .scanner-action-empty {
+padding: 0.35rem 0.6rem;
+font-size: 0.75rem;
+}
+}
+</style>
+<div class="page-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+<div>
+<h1><i class="bi bi-upc-scan"></i> Scan Checkout</h1>
+<p class="text-muted mb-0">Scan price-tag QR labels or enter a SKU to build a cart and open one Square checkout with all items.</p>
+</div>
+<a href="items.html" class="btn btn-outline-secondary">
+<i class="bi bi-arrow-left"></i> Back to Inventory
+</a>
+</div>
+<div class="row g-3">
+<div class="col-lg-6">
+<div class="card h-100">
+<div class="card-header d-flex justify-content-between align-items-center">
+<span><i class="bi bi-camera-video"></i> Scan Tags</span>
+</div>
+<div class="card-body">
+<div id="scannerWrapper" class="scanner-wrapper">
+<div id="scannerSurface" class="scanner-surface w-100 rounded border mb-3 d-none">
+<video id="scannerVideo" autoplay muted playsinline></video>
+<div id="scannerFallbackMount" class="d-none w-100 h-100"></div>
+<!-- On mobile these float over the camera when scanning -->
+<div class="scanner-feedback text-muted" id="scanFeedback" role="status" aria-live="polite">Scanner idle. Start a scan or search for an item to add it.</div>
+<div class="scanner-action-log">
+<div class="scanner-action-log-header">
+<i class="bi bi-activity"></i> Scanner Activity
+</div>
+<div class="scanner-action-empty" id="scannerActionEmpty">No scanner actions yet.</div>
+<ul class="scanner-action-list" id="scannerActionList"></ul>
+</div>
+</div>
+</div>
+<div class="d-flex gap-2 mb-3 flex-wrap">
+<button class="btn btn-primary btn-sm" id="startScanBtn" type="button"><i class="bi bi-camera"></i> Start Camera Scan</button>
+<button class="btn btn-outline-secondary btn-sm" id="photoScanBtn" type="button"><i class="bi bi-image"></i> Scan Tag Photo</button>
+</div>
+<input id="photoScanInput" type="file" accept="image/*" capture="environment" class="d-none">
+<div class="input-group">
+<input class="form-control" id="manualSkuInput" list="manualSkuSuggestions" autocomplete="off" placeholder="Search item name or SKU">
+<button class="btn btn-outline-primary" id="manualAddBtn" type="button">Add</button>
+</div>
+<datalist id="manualSkuSuggestions"></datalist>
+<div class="form-text">Tap Start Camera Scan to open a live scanner, or Scan Tag Photo to upload a tag image. You can also search by item name or SKU.</div>
+</div>
+</div>
+</div>
+<div class="col-lg-6">
+<div class="card h-100">
+<div class="card-header d-flex justify-content-between align-items-center">
+<span><i class="bi bi-cart3"></i> Checkout Cart</span>
+<button class="btn btn-sm btn-outline-danger" id="clearCartBtn" type="button">Clear</button>
+</div>
+<div class="card-body">
+<div id="cartEmptyState" class="text-muted">No items scanned yet.</div>
+<div class="table-responsive">
+<table class="table table-sm align-middle mb-2" id="cartTable" style="display:none;">
+<thead>
+<tr>
+<th>SKU</th>
+<th>Item</th>
+<th class="text-center">Qty</th>
+<th class="text-end">Line Total</th>
+<th></th>
+</tr>
+</thead>
+<tbody id="cartBody"></tbody>
+</table>
+</div>
+<div class="row g-2 mt-1">
+<div class="col-sm-6">
+<label class="form-label small mb-1" for="buyerEmailInput">Buyer Email</label>
+<input class="form-control form-control-sm" id="buyerEmailInput" type="email" placeholder="Optional">
+</div>
+<div class="col-sm-6">
+<label class="form-label small mb-1" for="buyerPhoneInput">Buyer Phone</label>
+<input class="form-control form-control-sm" id="buyerPhoneInput" type="tel" placeholder="Optional">
+</div>
+</div>
+<div class="d-flex justify-content-between align-items-center mt-2">
+<strong>Total</strong>
+<strong id="cartTotal">$0.00</strong>
+</div>
+<button class="btn btn-success w-100 mt-3" id="checkoutBtn" type="button" disabled>
+<i class="bi bi-credit-card"></i> Open Square Checkout
+</button>
+<div class="form-text mt-2">After payment, this screen comes back to an itemized receipt page with the Square receipt link.</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Error Pill Toast -->
+<div id="errorPill" class="error-pill" role="alert" aria-live="assertive">
+<i class="bi bi-exclamation-triangle-fill me-2"></i>
+<span id="errorPillMsg"></span>
+<button type="button" class="error-pill-close" onclick="window._dismissPill()" aria-label="Close">&times;</button>
+</div>
+<style>
+.error-pill {
+position: fixed;
+bottom: 24px;
+left: 50%;
+transform: translateX(-50%) translateY(20px);
+background: #dc3545;
+color: #fff;
+padding: 10px 20px 10px 16px;
+border-radius: 50px;
+font-size: 0.875rem;
+font-weight: 500;
+box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+display: flex;
+align-items: center;
+gap: 4px;
+z-index: 9999;
+opacity: 0;
+pointer-events: none;
+transition: opacity 0.35s ease, transform 0.35s ease;
+max-width: 90vw;
+}
+.error-pill.error-pill--warn {
+background: #fd7e14;
+}
+.error-pill.error-pill--info {
+background: #0d6efd;
+}
+.error-pill.error-pill--success {
+background: #198754;
+}
+.error-pill.show {
+opacity: 1;
+pointer-events: auto;
+transform: translateX(-50%) translateY(0);
+}
+.error-pill-close {
+background: none;
+border: none;
+color: rgba(255,255,255,0.8);
+font-size: 1.15rem;
+line-height: 1;
+margin-left: 8px;
+cursor: pointer;
+padding: 0 2px;
+}
+.error-pill-close:hover { color: #fff; }
+</style>
+<div class="photo-lightbox" id="photoLightbox" role="dialog" aria-modal="true" aria-hidden="true" hidden>
+<button type="button" class="photo-lightbox-close" id="photoLightboxClose" aria-label="Close">
+<i class="bi bi-x-lg"></i>
+</button>
+<button type="button" class="photo-lightbox-nav prev" id="photoLightboxPrev" aria-label="Previous">
+<i class="bi bi-chevron-left"></i>
+</button>
+<button type="button" class="photo-lightbox-nav next" id="photoLightboxNext" aria-label="Next">
+<i class="bi bi-chevron-right"></i>
+</button>
+<img class="photo-lightbox-img" id="photoLightboxImg" alt="">
+<div class="photo-lightbox-count" id="photoLightboxCount"></div>
+</div>
+<link rel="stylesheet" href="static/snap/88a0be1cee2a.css">
+<script src="static/snap/1bb55beec05e.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script src="static/js/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@ericblade/quagga2@1.8.2/dist/quagga.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+<script>
+(function () {
+var scannerSurface = document.getElementById('scannerSurface');
+var scannerVideo = document.getElementById('scannerVideo');
+var scannerFallbackMount = document.getElementById('scannerFallbackMount');
+var scannerState = document.getElementById('scannerState');
+var feedback = document.getElementById('scanFeedback');
+var manualSkuInput = document.getElementById('manualSkuInput');
+var manualSkuSuggestions = document.getElementById('manualSkuSuggestions');
+var manualAddBtn = document.getElementById('manualAddBtn');
+var startScanBtn = document.getElementById('startScanBtn');
+var photoScanBtn = document.getElementById('photoScanBtn');
+var photoScanInput = document.getElementById('photoScanInput');
+var scannerActionList = document.getElementById('scannerActionList');
+var scannerActionEmpty = document.getElementById('scannerActionEmpty');
+var clearCartBtn = document.getElementById('clearCartBtn');
+var checkoutBtn = document.getElementById('checkoutBtn');
+var cartBody = document.getElementById('cartBody');
+var cartTable = document.getElementById('cartTable');
+var cartEmptyState = document.getElementById('cartEmptyState');
+var cartTotal = document.getElementById('cartTotal');
+var buyerEmailInput = document.getElementById('buyerEmailInput');
+var buyerPhoneInput = document.getElementById('buyerPhoneInput');
+var checkoutLabelHtml = checkoutBtn.innerHTML;
+var initialScanSkus = [];
+var csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+var stream = null;
+var detector = null;
+var fallbackScanner = null;
+var scanTimer = null;
+var scanLock = false;
+var lastScannedValue = '';
+var lastScannedAt = 0;
+var SCAN_COOLDOWN_MS = 3000;  // ignore same barcode for 3 seconds
+var isScanning = false;
+var scannerMode = 'idle';
+var suggestionTimer = null;
+var suggestionAbortController = null;
+var qrCanvas = document.createElement('canvas');
+var qrContext = qrCanvas.getContext('2d', { willReadFrequently: true });
+var scannerFormats = ['qr_code', 'code_128', 'ean_13', 'upc_a', 'upc_e'];
+var quaggaReaders = ['code_128_reader', 'ean_reader', 'upc_reader', 'upc_e_reader'];
+var quaggaDetectedHandler = null;
+var audioContext = null;
+var audioUnlocked = false;
+var cart = new Map();
+function timestampLabel() {
+return new Date().toLocaleTimeString([], {
+hour: 'numeric',
+minute: '2-digit',
+second: '2-digit'
+});
+}
+function logScannerAction(msg, level) {
+if (!scannerActionList || !msg) return;
+if (scannerActionEmpty) {
+scannerActionEmpty.style.display = 'none';
+}
+var item = document.createElement('li');
+item.className = 'scanner-action-item';
+item.dataset.level = level || 'muted';
+item.innerHTML = '<span class="scanner-action-text"></span><span class="scanner-action-time"></span>';
+item.querySelector('.scanner-action-text').textContent = msg;
+item.querySelector('.scanner-action-time').textContent = timestampLabel();
+scannerActionList.insertBefore(item, scannerActionList.firstChild);
+while (scannerActionList.children.length > 12) {
+scannerActionList.removeChild(scannerActionList.lastChild);
+}
+}
+function showFeedback(msg, level) {
+var cls = 'text-muted';
+if (level === 'success') cls = 'text-success';
+if (level === 'danger') cls = 'text-danger';
+if (level === 'warning') cls = 'text-warning';
+if (level === 'primary') cls = 'text-primary';
+feedback.className = 'scanner-feedback ' + cls;
+feedback.textContent = msg;
+logScannerAction(msg, level);
+}
+function unlockAudio() {
+if (audioUnlocked || !(window.AudioContext || window.webkitAudioContext)) {
+return;
+}
+var ContextClass = window.AudioContext || window.webkitAudioContext;
+audioContext = audioContext || new ContextClass();
+if (audioContext.state === 'suspended') {
+audioContext.resume().catch(function () {});
+}
+audioUnlocked = true;
+}
+function playSuccessBeep() {
+var ContextClass = window.AudioContext || window.webkitAudioContext;
+if (!ContextClass) {
+if (navigator.vibrate) {
+navigator.vibrate(40);
+}
+return;
+}
+audioContext = audioContext || new ContextClass();
+if (audioContext.state === 'suspended') {
+audioContext.resume().catch(function () {});
+}
+try {
+var now = audioContext.currentTime;
+var masterGain = audioContext.createGain();
+masterGain.gain.setValueAtTime(0.0001, now);
+masterGain.gain.exponentialRampToValueAtTime(0.18, now + 0.015);
+masterGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.22);
+masterGain.connect(audioContext.destination);
+function schedulePulse(startAt, startFreq, endFreq, type, volume) {
+var oscillator = audioContext.createOscillator();
+var gain = audioContext.createGain();
+oscillator.type = type;
+oscillator.frequency.setValueAtTime(startFreq, startAt);
+oscillator.frequency.exponentialRampToValueAtTime(endFreq, startAt + 0.055);
+gain.gain.setValueAtTime(0.0001, startAt);
+gain.gain.exponentialRampToValueAtTime(volume, startAt + 0.008);
+gain.gain.exponentialRampToValueAtTime(0.0001, startAt + 0.065);
+oscillator.connect(gain);
+gain.connect(masterGain);
+oscillator.start(startAt);
+oscillator.stop(startAt + 0.07);
+}
+schedulePulse(now, 1580, 2040, 'square', 0.85);
+schedulePulse(now + 0.08, 1820, 2380, 'triangle', 0.6);
+if (navigator.vibrate) {
+navigator.vibrate(28);
+}
+} catch (err) {}
+}
+function fmtMoney(value) {
+return '$' + (Number(value || 0)).toFixed(2);
+}
+function setScannerState(label, badgeClass) {
+if (!scannerState) return;
+scannerState.textContent = label;
+scannerState.className = 'badge ' + badgeClass;
+}
+var scannerWrapper = document.getElementById('scannerWrapper');
+function setScannerSurfaceMode(mode) {
+scannerSurface.classList.remove('d-none');
+scannerWrapper.classList.add('scanner-scanning');
+if (mode === 'fallback') {
+scannerSurface.classList.add('fallback-active');
+scannerVideo.classList.add('d-none');
+scannerFallbackMount.classList.remove('d-none');
+return;
+}
+scannerSurface.classList.remove('fallback-active');
+scannerVideo.classList.remove('d-none');
+scannerFallbackMount.classList.add('d-none');
+scannerFallbackMount.innerHTML = '';
+}
+function hideScannerSurface() {
+scannerSurface.classList.add('d-none');
+scannerSurface.classList.remove('fallback-active');
+scannerWrapper.classList.remove('scanner-scanning');
+scannerVideo.classList.remove('d-none');
+scannerFallbackMount.classList.add('d-none');
+scannerFallbackMount.innerHTML = '';
+}
+function refreshCart() {
+var rows = Array.from(cart.values());
+cartBody.innerHTML = '';
+if (!rows.length) {
+cartTable.style.display = 'none';
+cartEmptyState.style.display = 'block';
+cartTotal.textContent = '$0.00';
+checkoutBtn.disabled = true;
+return;
+}
+var total = 0;
+rows.forEach(function (row) {
+var tr = document.createElement('tr');
+var lineTotal = row.price * row.quantity;
+total += lineTotal;
+tr.innerHTML = [
+'<td><code>' + row.sku + '</code></td>',
+'<td>' + row.name + '</td>',
+'<td class="text-center">' + row.quantity + '</td>',
+'<td class="text-end">' + fmtMoney(lineTotal) + '</td>',
+'<td class="text-end"><button type="button" class="btn btn-sm btn-outline-secondary" data-remove="' + row.id + '"><i class="bi bi-dash"></i></button></td>'
+].join('');
+cartBody.appendChild(tr);
+});
+cartTable.style.display = '';
+cartEmptyState.style.display = 'none';
+cartTotal.textContent = fmtMoney(total);
+checkoutBtn.disabled = false;
+}
+function renderSkuSuggestions(items) {
+manualSkuSuggestions.innerHTML = '';
+items.forEach(function (item) {
+var option = document.createElement('option');
+option.value = item.name;
+option.label = item.sku + ' · ' + fmtMoney(item.price) + ' · ' + item.quantity_available + ' in stock';
+option.textContent = option.label;
+manualSkuSuggestions.appendChild(option);
+});
+}
+async function fetchSkuSuggestions(term) {
+var query = (term || '').trim();
+if (!query) {
+renderSkuSuggestions([]);
+return;
+}
+if (suggestionAbortController) {
+suggestionAbortController.abort();
+}
+suggestionAbortController = new AbortController();
+try {
+var res = await fetch('/items/pos/search?q=' + encodeURIComponent(query), {
+signal: suggestionAbortController.signal,
+});
+var data = await res.json();
+if (!res.ok || !data.ok) {
+renderSkuSuggestions([]);
+return;
+}
+renderSkuSuggestions(data.items || []);
+} catch (err) {
+if (err.name !== 'AbortError') {
+renderSkuSuggestions([]);
+}
+}
+}
+async function lookupAndAddSku(rawSku) {
+var sku = (rawSku || '').trim();
+if (!sku) return;
+try {
+var res = await fetch('/items/pos/item?q=' + encodeURIComponent(sku));
+var data = await res.json();
+if (!res.ok || !data.ok) {
+showFeedback((data && data.error) || 'Item lookup failed', 'danger');
+return;
+}
+var item = data.item;
+if (!item.available_for_sale) {
+showFeedback(item.unavailable_reason || (item.sku + ' was found but is not sellable right now'), 'danger');
+return;
+}
+var existing = cart.get(item.id);
+var nextQty = (existing ? existing.quantity : 0) + 1;
+cart.set(item.id, {
+id: item.id,
+sku: item.sku,
+name: item.name,
+price: Number(item.price || 0),
+quantity: nextQty,
+quantity_available: item.quantity_available,
+});
+refreshCart();
+playSuccessBeep();
+if (item.stock_warning) {
+showFeedback('Added ' + item.name + ' — ' + item.stock_warning, 'warning');
+} else {
+showFeedback('Added ' + item.name + ' (' + item.sku + ') to cart', 'success');
+}
+} catch (err) {
+showFeedback('Network error while looking up item', 'danger');
+}
+}
+async function addInitialScanSkus() {
+if (!Array.isArray(initialScanSkus) || !initialScanSkus.length) {
+return;
+}
+for (var i = 0; i < initialScanSkus.length; i += 1) {
+await lookupAndAddSku(initialScanSkus[i]);
+}
+if (window.history && window.history.replaceState) {
+window.history.replaceState({}, document.title, '/items/pos');
+}
+}
+function extractSkusFromScan(rawValue) {
+var value = (rawValue || '').trim();
+if (!value) {
+return [];
+}
+try {
+var parsedUrl = new URL(value, window.location.origin);
+var scannedSkus = parsedUrl.searchParams.getAll('add').concat(parsedUrl.searchParams.getAll('sku')).map(function (entry) {
+return entry.trim().replace(/\s+/g, '');
+}).filter(Boolean);
+if (scannedSkus.length) {
+return scannedSkus;
+}
+} catch (err) {}
+return [value.replace(/\s+/g, '')].filter(Boolean);
+}
+async function handleDecodedValue(rawValue) {
+var scannedSkus = extractSkusFromScan(rawValue);
+if (!scannedSkus.length || scanLock) return;
+// Prevent re-scanning the same barcode within the cooldown window
+var normalized = scannedSkus.join('|');
+var now = Date.now();
+if (normalized === lastScannedValue && (now - lastScannedAt) < SCAN_COOLDOWN_MS) {
+return;
+}
+scanLock = true;
+lastScannedValue = normalized;
+lastScannedAt = now;
+try {
+logScannerAction('Scanner decoded: ' + scannedSkus.join(', '), 'primary');
+for (var i = 0; i < scannedSkus.length; i += 1) {
+await lookupAndAddSku(scannedSkus[i]);
+}
+} finally {
+setTimeout(function () {
+scanLock = false;
+}, 700);
+}
+}
+async function scanFrame() {
+if (!isScanning || !detector || scanLock || !scannerVideo || scannerVideo.readyState < 2) return;
+try {
+var barcodes = await detector.detect(scannerVideo);
+if (barcodes && barcodes.length > 0) {
+await handleDecodedValue(barcodes[0].rawValue || '');
+}
+} catch (err) {
+showFeedback('Camera scan error: ' + (err && err.message ? err.message : 'unknown error'), 'danger');
+await stopScanner();
+}
+}
+function captureVideoFrame() {
+var width = scannerVideo.videoWidth || 0;
+var height = scannerVideo.videoHeight || 0;
+if (!width || !height) {
+return null;
+}
+var maxDimension = 960;
+var scale = Math.min(1, maxDimension / Math.max(width, height));
+var targetWidth = Math.max(1, Math.round(width * scale));
+var targetHeight = Math.max(1, Math.round(height * scale));
+qrCanvas.width = targetWidth;
+qrCanvas.height = targetHeight;
+qrContext.drawImage(scannerVideo, 0, 0, targetWidth, targetHeight);
+return qrContext.getImageData(0, 0, targetWidth, targetHeight);
+}
+async function scanQrFrame() {
+if (!isScanning || scannerMode !== 'qr-fallback' || scanLock || !scannerVideo || scannerVideo.readyState < 2 || typeof jsQR !== 'function') return;
+try {
+var frame = captureVideoFrame();
+if (!frame) {
+return;
+}
+var qrResult = jsQR(frame.data, frame.width, frame.height, { inversionAttempts: 'attemptBoth' });
+if (qrResult && qrResult.data) {
+await handleDecodedValue(qrResult.data);
+}
+} catch (err) {}
+}
+function waitForVideoMetadata() {
+if (scannerVideo.readyState >= 1) {
+return Promise.resolve();
+}
+return new Promise(function (resolve) {
+scannerVideo.onloadedmetadata = function () {
+scannerVideo.onloadedmetadata = null;
+resolve();
+};
+});
+}
+async function startNativeScanner() {
+var supportedFormats = scannerFormats;
+if (typeof BarcodeDetector.getSupportedFormats === 'function') {
+supportedFormats = (await BarcodeDetector.getSupportedFormats()).filter(function (format) {
+return scannerFormats.indexOf(format) !== -1;
+});
+}
+if (!supportedFormats.length) {
+throw new Error('No supported scan formats');
+}
+if (supportedFormats.indexOf('qr_code') === -1) {
+throw new Error('Native scanner does not support QR on this device/browser');
+}
+detector = new BarcodeDetector({ formats: supportedFormats });
+stream = await navigator.mediaDevices.getUserMedia({
+video: { facingMode: { ideal: 'environment' } },
+audio: false,
+});
+setScannerSurfaceMode('native');
+scannerVideo.srcObject = stream;
+await waitForVideoMetadata();
+if (typeof scannerVideo.play === 'function') {
+await scannerVideo.play().catch(function () {});
+}
+scannerMode = 'native';
+isScanning = true;
+scanTimer = setInterval(scanFrame, 500);
+setScannerState('Scanning', 'text-bg-success');
+showFeedback('Camera scanner started', 'success');
+}
+async function startQrFallbackScanner() {
+if (typeof jsQR !== 'function') {
+throw new Error('QR scanner unavailable');
+}
+stream = await navigator.mediaDevices.getUserMedia({
+video: { facingMode: { ideal: 'environment' } },
+audio: false,
+});
+setScannerSurfaceMode('native');
+scannerVideo.srcObject = stream;
+await waitForVideoMetadata();
+if (typeof scannerVideo.play === 'function') {
+await scannerVideo.play().catch(function () {});
+}
+scannerMode = 'qr-fallback';
+isScanning = true;
+scanTimer = setInterval(scanQrFrame, 280);
+setScannerState('Scanning', 'text-bg-success');
+showFeedback('Camera QR scanner started', 'success');
+}
+async function stopScanner() {
+isScanning = false;
+if (scanTimer) {
+clearInterval(scanTimer);
+scanTimer = null;
+}
+if (stream) {
+stream.getTracks().forEach(function (track) {
+track.stop();
+});
+stream = null;
+}
+if (scannerVideo) {
+scannerVideo.srcObject = null;
+}
+if (fallbackScanner && scannerMode === 'barcode-fallback' && typeof Quagga !== 'undefined') {
+try {
+if (quaggaDetectedHandler) {
+Quagga.offDetected(quaggaDetectedHandler);
+}
+} catch (err) {}
+try {
+Quagga.stop();
+} catch (err) {}
+}
+fallbackScanner = null;
+quaggaDetectedHandler = null;
+detector = null;
+scannerMode = 'idle';
+hideScannerSurface();
+setScannerState('Idle', 'text-bg-secondary');
+logScannerAction('Scanner stopped', 'warning');
+}
+function canUseLiveCameraScan() {
+return !!(
+navigator.mediaDevices &&
+typeof navigator.mediaDevices.getUserMedia === 'function' &&
+(window.isSecureContext || window.location.hostname === 'localhost')
+);
+}
+function openPhotoCapture(message) {
+showFeedback(message || 'Opening camera/photo capture for tag scan…', 'primary');
+if (photoScanInput) {
+photoScanInput.click();
+}
+}
+async function startScanner() {
+await stopScanner();
+if (!canUseLiveCameraScan()) {
+setScannerState('Photo Mode', 'text-bg-warning');
+showFeedback('Live camera scan needs HTTPS or localhost here. Using the phone camera/photo capture instead.', 'warning');
+return;
+}
+if ('BarcodeDetector' in window) {
+try {
+await startNativeScanner();
+logScannerAction('Live camera scanner started', 'success');
+return;
+} catch (err) {
+showFeedback('Native camera scan could not start. Trying QR fallback scanner.', 'warning');
+}
+}
+try {
+await startQrFallbackScanner();
+logScannerAction('Fallback QR scanner started', 'success');
+} catch (err) {
+setScannerState('Photo Mode', 'text-bg-warning');
+showFeedback('Live camera scan is unavailable here. Use Scan Tag Photo or type a SKU below.', 'warning');
+}
+}
+async function decodeQrFromImageUrl(objectUrl) {
+if (typeof jsQR !== 'function') {
+return '';
+}
+var image = await new Promise(function (resolve, reject) {
+var img = new Image();
+img.onload = function () { resolve(img); };
+img.onerror = reject;
+img.src = objectUrl;
+});
+var maxDimension = 1400;
+var scale = Math.min(1, maxDimension / Math.max(image.width, image.height));
+var targetWidth = Math.max(1, Math.round(image.width * scale));
+var targetHeight = Math.max(1, Math.round(image.height * scale));
+qrCanvas.width = targetWidth;
+qrCanvas.height = targetHeight;
+qrContext.drawImage(image, 0, 0, targetWidth, targetHeight);
+var imageData = qrContext.getImageData(0, 0, targetWidth, targetHeight);
+var qrResult = jsQR(imageData.data, targetWidth, targetHeight, { inversionAttempts: 'attemptBoth' });
+return qrResult && qrResult.data ? qrResult.data : '';
+}
+async function decodeBarcodeFromImageUrl(objectUrl) {
+if (typeof Quagga === 'undefined') {
+return '';
+}
+var result = await new Promise(function (resolve) {
+Quagga.decodeSingle({
+src: objectUrl,
+numOfWorkers: 0,
+inputStream: {
+size: 1000
+},
+locator: {
+patchSize: 'medium',
+halfSample: false
+},
+decoder: {
+readers: quaggaReaders
+},
+locate: true,
+}, function (decodeResult) {
+resolve(decodeResult || null);
+});
+});
+return result && result.codeResult && result.codeResult.code ? result.codeResult.code : '';
+}
+async function handlePhotoScanFile(file) {
+if (!file) return;
+await stopScanner();
+logScannerAction('Photo scan selected', 'primary');
+if (typeof jsQR !== 'function' && typeof Quagga === 'undefined') {
+showFeedback('Photo tag scan is unavailable. Type the SKU manually.', 'danger');
+return;
+}
+setScannerSurfaceMode('fallback');
+setScannerState('Processing', 'text-bg-primary');
+var objectUrl = URL.createObjectURL(file);
+scannerFallbackMount.innerHTML = '<div class="d-flex align-items-center justify-content-center h-100 text-muted small">Reading tag photo…</div>';
+try {
+var decodedText = await decodeQrFromImageUrl(objectUrl);
+if (!decodedText) {
+decodedText = await decodeBarcodeFromImageUrl(objectUrl);
+}
+if (!decodedText) {
+throw new Error('No code found');
+}
+await handleDecodedValue(decodedText);
+showFeedback('Tag scanned from photo', 'success');
+} catch (err) {
+showFeedback('Could not read that tag photo. Try better light or move closer.', 'danger');
+} finally {
+URL.revokeObjectURL(objectUrl);
+setScannerSurfaceMode('native');
+setScannerState('Idle', 'text-bg-secondary');
+photoScanInput.value = '';
+}
+}
+startScanBtn.addEventListener('click', async function () {
+unlockAudio();
+if (isScanning) {
+await stopScanner();
+startScanBtn.innerHTML = '<i class="bi bi-camera"></i> Start Camera Scan';
+startScanBtn.classList.remove('btn-danger');
+startScanBtn.classList.add('btn-primary');
+} else {
+if (!canUseLiveCameraScan()) {
+openPhotoCapture('Live camera scan is blocked here, so opening the phone camera/photo capture instead.');
+return;
+}
+await startScanner();
+if (isScanning) {
+startScanBtn.innerHTML = '<i class="bi bi-stop-circle"></i> Stop Scanner';
+startScanBtn.classList.remove('btn-primary');
+startScanBtn.classList.add('btn-danger');
+} else {
+openPhotoCapture('Live camera scan could not start, so opening the phone camera/photo capture instead.');
+}
+}
+});
+photoScanBtn.addEventListener('click', function () {
+unlockAudio();
+openPhotoCapture('Opening phone camera/photo capture for tag scan…');
+});
+photoScanInput.addEventListener('change', function (e) {
+handlePhotoScanFile((e.target.files || [])[0]);
+});
+manualAddBtn.addEventListener('click', async function () {
+unlockAudio();
+await lookupAndAddSku(manualSkuInput.value);
+manualSkuInput.value = '';
+renderSkuSuggestions([]);
+manualSkuInput.focus();
+});
+manualSkuInput.addEventListener('keydown', async function (e) {
+if (e.key === 'Enter') {
+e.preventDefault();
+unlockAudio();
+await lookupAndAddSku(manualSkuInput.value);
+manualSkuInput.value = '';
+renderSkuSuggestions([]);
+}
+});
+manualSkuInput.addEventListener('input', function () {
+var nextValue = manualSkuInput.value;
+if (suggestionTimer) {
+clearTimeout(suggestionTimer);
+}
+suggestionTimer = setTimeout(function () {
+fetchSkuSuggestions(nextValue);
+}, 150);
+});
+cartBody.addEventListener('click', function (e) {
+var btn = e.target.closest('[data-remove]');
+if (!btn) return;
+var id = Number(btn.getAttribute('data-remove'));
+var row = cart.get(id);
+if (!row) return;
+if (row.quantity > 1) {
+row.quantity -= 1;
+cart.set(id, row);
+} else {
+cart.delete(id);
+}
+refreshCart();
+});
+clearCartBtn.addEventListener('click', function () {
+cart.clear();
+refreshCart();
+showFeedback('Cart cleared', 'warning');
+});
+checkoutBtn.addEventListener('click', async function () {
+var lines = Array.from(cart.values()).map(function (row) {
+return { item_id: row.id, quantity: row.quantity };
+});
+if (!lines.length) {
+showFeedback('Scan at least one item first', 'warning');
+return;
+}
+checkoutBtn.disabled = true;
+checkoutBtn.textContent = 'Starting checkout...';
+try {
+var res = await fetch('/items/pos/checkout', {
+method: 'POST',
+headers: {
+'Content-Type': 'application/json',
+'X-CSRF-Token': csrfToken,
+},
+body: JSON.stringify({
+lines: lines,
+buyer_email: buyerEmailInput.value.trim(),
+buyer_phone: buyerPhoneInput.value.trim()
+}),
+});
+var data = await res.json();
+if (!res.ok || !data.ok || !data.checkout_url) {
+showFeedback((data && data.error) || 'Could not start checkout', 'danger');
+checkoutBtn.disabled = false;
+checkoutBtn.innerHTML = checkoutLabelHtml;
+return;
+}
+if (data.warnings && data.warnings.length) {
+showFeedback(data.warnings.join(' | '), 'warning');
+}
+await stopScanner();
+window.location.href = data.checkout_url;
+} catch (err) {
+showFeedback('Network error while starting checkout', 'danger');
+checkoutBtn.disabled = false;
+checkoutBtn.innerHTML = checkoutLabelHtml;
+}
+});
+window.addEventListener('beforeunload', function () {
+stopScanner();
+});
+refreshCart();
+addInitialScanSkus();
+})();
+</script>
+</body>
+</html>

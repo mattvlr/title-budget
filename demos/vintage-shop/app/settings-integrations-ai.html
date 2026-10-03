@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head><meta name="robots" content="noindex,follow"><script src="snapshot.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="csrf-token" content="read-only-snapshot">
+<title>Rosewater &amp; Rust — Inventory</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link href="static/css/style.css" rel="stylesheet">
+<link href="static/css/themes.css" rel="stylesheet">
+</head>
+<body class="theme-vintage" data-theme="vintage"><div id="snapBanner" role="note" style="position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#3b2414;color:#fbe9d7;border-top:2px solid #e8a13a;font:500 13px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:7px 14px;display:flex;gap:4px 14px;align-items:center;justify-content:center;flex-wrap:wrap;text-align:center;box-shadow:0 -4px 14px rgba(0,0,0,.25)"><span><strong>Read-only snapshot</strong> of the real Vintage Shop app, saved while it ran on <strong>demo data</strong> (a fictional shop). Buttons and forms that would change data are switched off.</span><a href="../" style="color:#ffd08a;text-decoration:underline;white-space:nowrap">About this demo &amp; the source code &rarr;</a></div><div id="snapToast" role="status" aria-live="polite" style="display:none;position:fixed;left:50%;bottom:72px;transform:translateX(-50%);z-index:2147483001;width:max-content;max-width:min(92vw,560px);background:#111827;border:1px solid #e8a13a;color:#fde3c0;border-radius:8px;padding:10px 16px;font:500 13.5px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;box-shadow:0 10px 25px rgba(0,0,0,.45);text-align:center"></div>
+<!-- Sidebar -->
+<nav id="sidebar" class="sidebar">
+<div class="sidebar-header">
+<i class="bi bi-shop"></i>
+<span>Rosewater &amp; Rust</span>
+</div>
+<ul class="sidebar-nav">
+<li class="">
+<a href="index.html">
+<i class="bi bi-speedometer2"></i> Dashboard
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-box-seam"></i> Inventory</li>
+<li class="sidebar-subitem ">
+<a href="items.html">
+<i class="bi bi-box-seam"></i> Items
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="categories.html">
+<i class="bi bi-grid"></i> Categories
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="tags.html">
+<i class="bi bi-tags"></i> Tags
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="labels.html">
+<i class="bi bi-printer"></i> Labels
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="suppliers.html">
+<i class="bi bi-truck"></i> Suppliers
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="consigners.html">
+<i class="bi bi-people"></i> Consigners
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-currency-dollar"></i> Sales</li>
+<li class="sidebar-subitem ">
+<a href="items-pos.html">
+<i class="bi bi-upc-scan"></i> Scan Checkout
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="orders.html">
+<i class="bi bi-receipt"></i> Orders
+<span class="badge bg-info ms-1">3</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="customers.html">
+<i class="bi bi-people"></i> Customers
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="returns.html">
+<i class="bi bi-arrow-counterclockwise"></i> Returns
+<span class="badge bg-danger ms-1">3</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="shipping.html">
+<i class="bi bi-box-arrow-up-right"></i> Shipping
+<span class="badge bg-warning text-dark ms-1">6</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="promo-codes.html">
+<i class="bi bi-tag-fill"></i> Promo Codes
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="reports.html">
+<i class="bi bi-bar-chart-line"></i> Reports
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-megaphone"></i> Listings</li>
+<li class="sidebar-subitem ">
+<a href="storefront.html" target="_blank">
+<i class="bi bi-globe"></i> Storefront
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-shield-lock"></i> Admin</li>
+<li class="sidebar-subitem ">
+<a href="activity.html">
+<i class="bi bi-clipboard-data"></i> Activity Log
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="settings.html">
+<i class="bi bi-gear"></i> Settings
+</a>
+</li>
+<li class="">
+<a href="help.html">
+<i class="bi bi-life-preserver"></i> Help Wiki
+</a>
+</li>
+</ul>
+<div class="sidebar-alert">
+<i class="bi bi-exclamation-triangle"></i>
+<a href="items--status-In-Stock.html">3 low stock</a>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="main-content">
+<!-- Top Bar -->
+<header class="topbar">
+<div class="topbar-leading">
+<button class="btn btn-link sidebar-toggle d-md-none" type="button" onclick="toggleSidebar()" aria-label="Open menu">
+<i class="bi bi-list"></i>
+<span class="sidebar-toggle-label">Menu</span>
+</button>
+<div class="topbar-mobile-title d-md-none">Rosewater &amp; Rust</div>
+<div class="topbar-actions topbar-actions-mobile d-md-none">
+<a href="items-pos.html" class="btn btn-outline-success btn-sm" title="Scan Checkout" aria-label="Scan Checkout">
+<i class="bi bi-upc-scan"></i>
+</a>
+<a href="items-new.html" class="btn btn-primary btn-sm" title="Add Item" aria-label="Add Item">
+<i class="bi bi-plus-lg"></i>
+</a>
+<form method="POST" action="#" data-snapshot-action="/logout" class="d-inline">
+<button type="submit" class="btn btn-outline-secondary btn-sm" title="Logout" aria-label="Logout">
+<i class="bi bi-box-arrow-right"></i>
+</button>
+</form>
+</div>
+</div>
+<div class="search-bar topbar-search">
+<i class="bi bi-search"></i>
+<input type="text" id="globalSearch" placeholder="Search items by name, SKU, brand..."
+autocomplete="off">
+<div id="searchResults" class="search-results"></div>
+</div>
+<div class="topbar-actions topbar-actions-desktop">
+<span class="text-muted small">Demo Owner · Admin</span>
+<a href="items-pos.html" class="btn btn-outline-success btn-sm">
+<i class="bi bi-upc-scan"></i> Scan Checkout
+</a>
+<a href="help.html" class="btn btn-outline-secondary btn-sm">
+<i class="bi bi-life-preserver"></i> Help
+</a>
+<a href="items-new.html" class="btn btn-primary btn-sm">
+<i class="bi bi-plus-lg"></i> Add Item
+</a>
+<form method="POST" action="#" data-snapshot-action="/logout" class="d-inline">
+<button type="submit" class="btn btn-outline-secondary btn-sm">
+<i class="bi bi-box-arrow-right"></i> Logout
+</button>
+</form>
+</div>
+</header>
+<!-- Flash Messages -->
+<div class="content-area">
+<div class="page-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+<div>
+<h1><i class="bi bi-stars"></i> AI Listing Generator</h1>
+<div class="text-muted">Connect an AI provider so the app can auto-generate item listings from photos.</div>
+</div>
+<a href="settings.html#integrations-settings" class="btn btn-outline-secondary">
+<i class="bi bi-arrow-left"></i> Back to Integrations
+</a>
+</div>
+<form method="POST" action="#" data-snapshot-action="/settings" id="aiForm">
+<input type="hidden" name="action" value="save_ai" id="aiAction">
+<input type="hidden" name="next" value="/settings/integrations/ai">
+<div class="card mb-3 settings-section" id="ai-settings">
+<div class="card-header">
+<i class="bi bi-stars"></i> AI Listing Generator
+<span class="badge bg-secondary ms-2">Not Set Up</span>
+</div>
+<div class="card-body">
+<p class="text-muted small">
+Connect an AI API to auto-generate item listings from photos. Upload a photo of a vintage item
+and the AI will identify it, suggest a name, description, era, condition, price range, and more.
+</p>
+<div class="settings-cluster">
+<div class="settings-cluster-title"><i class="bi bi-plug"></i> AI Connection</div>
+<div class="settings-cluster-copy">Choose a provider, add credentials, and select the model this shop should use.</div>
+<div class="mb-3">
+<label class="form-label">AI Provider</label>
+<select name="ai_provider" id="aiProvider" class="form-select">
+<option value="">— Select Provider —</option>
+<option value="anthropic" >Anthropic (Claude)</option>
+<option value="openai" >OpenAI (GPT)</option>
+</select>
+</div>
+<div class="mb-3">
+<label class="form-label">API Key</label>
+<div class="input-group">
+<input type="password" name="ai_api_key" id="aiApiKey" class="form-control"
+value="" placeholder="sk-...">
+<button type="button" class="btn btn-outline-secondary" onclick="toggleApiKeyVisibility()">
+<i class="bi bi-eye" id="keyToggleIcon"></i>
+</button>
+</div>
+<small class="text-muted">
+Select a provider first, then enter your API key.
+</small>
+</div>
+<div class="mb-0">
+<label class="form-label">Model</label>
+<div class="d-flex gap-2 align-items-start">
+<select name="ai_model" id="aiModel" class="form-select" style="flex:1">
+<option value="">— Select Model —</option>
+</select>
+<button type="button" class="btn btn-outline-secondary" id="loadModelsBtn"
+onclick="loadLiveModels()" title="Fetch the full list of models from your provider using your API key">
+<i class="bi bi-arrow-repeat"></i> Load Models
+</button>
+</div>
+<small class="text-muted">
+The dropdown starts with recommended models.
+Click <strong>Load Models</strong> to fetch every model available on your account.
+</small>
+</div>
+</div>
+<div class="settings-cluster">
+<div class="settings-cluster-title"><i class="bi bi-magic"></i> Background Removal</div>
+<div class="settings-cluster-copy">
+Pick which provider powers the per-photo
+"Remove backgrounds" button on item pages. OpenAI uses
+the API key above (<code>gpt-image-1</code>). Replicate
+runs <code>cjwbw/rembg</code> — typically faster and
+far cheaper, and the result is composited onto a white
+background to match.
+</div>
+<div class="mb-3">
+<label class="form-label">Provider</label>
+<select name="bg_removal_provider" class="form-select">
+<option value="openai" selected>OpenAI (gpt-image-1) — uses the API key above</option>
+<option value="replicate" >Replicate — cjwbw/rembg</option>
+</select>
+</div>
+<div class="mb-0">
+<label class="form-label">Replicate API Token</label>
+<div class="input-group">
+<input type="password" name="replicate_api_key" id="replicateApiKey" class="form-control"
+value="" placeholder="r8_...">
+<button type="button" class="btn btn-outline-secondary"
+onclick="(function(){var i=document.getElementById('replicateApiKey');i.type=i.type==='password'?'text':'password';})()">
+<i class="bi bi-eye"></i>
+</button>
+</div>
+<small class="text-muted">
+Required when the provider is set to Replicate.
+Generate a token at
+<a href="https://replicate.com/account/api-tokens" target="_blank" rel="noopener">replicate.com/account/api-tokens</a>.
+The model lives at
+<a href="https://replicate.com/cjwbw/rembg" target="_blank" rel="noopener">replicate.com/cjwbw/rembg</a>.
+</small>
+</div>
+</div>
+<div class="settings-cluster">
+<div class="settings-cluster-title"><i class="bi bi-magic"></i> Listing Behavior</div>
+<div class="settings-cluster-copy">Extra context that gets injected into every AI-generated listing.</div>
+<div class="mb-3">
+<label class="form-label">Custom Instructions (Optional)</label>
+<textarea name="ai_custom_prompt" class="form-control" rows="3"
+                              placeholder="e.g. 'Our store focuses on mid-century modern furniture. Price items on the higher end — we are a premium vintage boutique in Brooklyn.'"></textarea>
+<small class="text-muted">Added to the <em>user message</em> on every AI analysis to tailor results to your store.</small>
+</div>
+</div>
+<div class="settings-cluster">
+<div class="settings-cluster-title"><i class="bi bi-file-earmark-code"></i> System Prompt Addon</div>
+<div class="settings-cluster-copy">
+The AI uses a built-in system prompt that tells it how to analyze vintage items and
+return structured JSON. Use this field to append your own instructions to that prompt.
+</div>
+<div class="mb-2">
+<details class="mb-2">
+<summary class="small text-muted" style="cursor:pointer">
+<i class="bi bi-eye"></i> View the built-in system prompt
+</summary>
+<pre class="small bg-light p-2 rounded mt-1 mb-0" style="white-space:pre-wrap;word-break:break-word;max-height:260px;overflow:auto">You are an expert vintage and antique item appraiser working for a small vintage store.
+You will be shown one or more photos of an item. Analyze the item carefully and provide detailed information.
+
+You MUST respond with ONLY a valid JSON object (no markdown, no code fences, no extra text). Use this exact schema:
+
+{
+  &#34;name&#34;: &#34;A concise, descriptive name for the item (e.g. &#39;Mid-Century Teak Sideboard&#39;)&#34;,
+  &#34;description&#34;: &#34;A full product listing description in the listing style described in the &#39;Listing description style&#39; section below. Use the examples as the template — opener line with emoji, a short pitch, a bulleted Details section, a Styling/Outfit-inspo or Perfect-for section, and 5 hashtags at the end. Do NOT include any mention of the item&#39;s condition in the description. Must be at least as long as the example descriptions.&#34;,
+  &#34;era&#34;: &#34;The estimated time period (e.g. &#39;1960s&#39;, &#39;Mid-Century Modern&#39;, &#39;Art Deco&#39;, &#39;Victorian&#39;, &#39;1970s&#39;)&#34;,
+  &#34;condition&#34;: &#34;One of: Mint, Excellent, Good, Fair, Poor&#34;,
+  &#34;material&#34;: &#34;Primary materials (e.g. &#39;Solid teak, brass hardware&#39;)&#34;,
+  &#34;brand&#34;: &#34;Brand or maker if identifiable, otherwise empty string&#34;,
+  &#34;origin&#34;: &#34;Country or region of origin if identifiable, otherwise empty string&#34;,
+  &#34;category_suggestion&#34;: &#34;One of: Furniture, Clothing, Jewelry, Art, Books, Electronics, Kitchenware, Decor, Toys &amp; Games, Misc&#34;,
+  &#34;tag_suggestions&#34;: [&#34;array&#34;, &#34;of&#34;, &#34;relevant&#34;, &#34;tags&#34;],
+  &#34;suggested_price_low&#34;: 0.00,
+  &#34;suggested_price_high&#34;: 0.00,
+  &#34;measurements&#34;: {&#34;label&#34;: &#34;value with unit&#34;},
+  &#34;notes&#34;: &#34;Internal-only notes for the shop owner — repair history, provenance research, wear/flaw observations, things the buyer doesn&#39;t need to see. Condition and wear notes belong here (and in the structured &#39;condition&#39; field), NOT in the description.&#34;
+}
+
+Important guidelines:
+- Be specific about era and materials based on visual cues (construction methods, hardware style, patina, design language)
+- Price suggestions should reflect realistic retail prices for a vintage store (not auction or collector prices)
+- Tag suggestions should be relevant descriptors like: Rare, Mid-Century, Handmade, Designer, Retro, Bohemian, Industrial, Rustic, Minimalist, Colorful, Pair/Set, Signed, etc.
+- If you can&#39;t determine something, use a reasonable guess or empty string — never use &#34;Unknown&#34;
+- The description should be engaging and ready to use as a product listing
+
+Measurements (applies to ALL item types, not just clothing):
+- Look closely at every photo for a tape measure, ruler, or yardstick laid against the item. Read the value where the tape ends or lines up with an edge of the item and return that as a measurement.
+- Choose labels that match the item type:
+    - Tops/Shirts/Jackets/Sweaters: &#34;Chest&#34;, &#34;Length&#34;, &#34;Shoulder&#34;, &#34;Sleeve&#34;
+    - Pants/Jeans/Shorts: &#34;Waist&#34;, &#34;Inseam&#34;, &#34;Rise&#34;, &#34;Hip&#34;
+    - Dresses/Skirts: &#34;Bust&#34;, &#34;Waist&#34;, &#34;Hip&#34;, &#34;Length&#34;
+    - Shoes: &#34;Insole length&#34;, &#34;Width&#34;
+    - Furniture (chairs, tables, dressers, etc.): &#34;Width&#34;, &#34;Depth&#34;, &#34;Height&#34;, and any of &#34;Seat height&#34;, &#34;Tabletop&#34;, &#34;Drawer width&#34; when relevant
+    - Art / mirrors / framed pieces: &#34;Width&#34;, &#34;Height&#34;, &#34;Frame width&#34;, &#34;Depth&#34;
+    - Lighting: &#34;Height&#34;, &#34;Shade diameter&#34;, &#34;Base diameter&#34;, &#34;Cord length&#34;
+    - Kitchenware / vessels: &#34;Diameter&#34;, &#34;Height&#34;, &#34;Capacity&#34;
+    - Books: &#34;Width&#34;, &#34;Height&#34;, &#34;Spine thickness&#34;
+    - Anything else: fall back to &#34;Width&#34;, &#34;Height&#34;, &#34;Depth&#34; as appropriate
+- Format values as a number followed by the unit, e.g. &#34;20 in&#34;, &#34;52 cm&#34;, &#34;16.5 in&#34;. Keep fractions if the tape shows them: &#34;20 1/2 in&#34;.
+- If a tape measure is visible but the reading is unclear, give your best estimate and add &#34;(approx)&#34;.
+- If no tape measure / ruler is visible and you cannot reliably estimate, return an empty object: {}.
+- Never invent measurements without visual evidence — an empty object is better than a guess.
+
+Listing description style:
+- Match the tone, structure, and length of the three example descriptions below.
+- Use a maximum of 5 #hashtag keywords, placed at the very end of the description.
+- The description must be at least as long as the example descriptions.
+- If a tape measure or ruler appears in the photos, include those measurements in the description body in INCHES (e.g. &#34;Chest: ~14.5 in flat&#34;, &#34;Waist ~14&#34; flat&#34;).
+- Do NOT use the em-dash &#34;--&#34; anywhere in the description. Use a colon, a comma, or a real em-dash character &#34;—&#34; only if needed.
+- Use line breaks and bullet points (•) the same way the examples do.
+- Start the description with a one-line opener that contains an emoji (e.g. &#34;✨ Rhinestone fringe bralette ✨&#34;).
+- Do NOT include a Condition line or any phrase about wear, flaws, &#34;pre-owned&#34;, &#34;lightly used&#34;, &#34;stored for a while&#34;, or similar. The condition is stored separately on the listing and should never appear in the description text.
+
+Example 1:
+title: Women&#39;s Black Crop-top
+description:
+
+✨ Rhinestone fringe bralette ✨
+
+Black crop top / bralette with rhinestone-studded soft fringe fabric and a zip-front closure. Adjustable straps and sparkly movement make it perfect for festivals, concerts, or a going-out look.
+
+• Size: M
+• Chest: ~14.5 in flat
+• Front zipper closure
+• Adjustable straps
+• Studded + rhinestone fringe detail
+
+Outfit inspo:
+Style with low-rise jeans + boots for western festival vibes, a mini skirt + heels for nightlife, or layered under a sheer top or blazer for a statement party outfit.
+
+#festivaltop #rhinestonebralette #fringetop #y2k #goingout
+
+Example 2:
+title: Nine West Women&#39;s Gold and Brown Courts
+description: ✨ Gold platform Y2K sandals ✨
+
+Nine West metallic gold leather platform heels with chunky wood-look block heel, buckle straps, and studded trim. Such a statement pair, perfect for Y2K, boho, or going-out looks.
+
+• Size: 6.5
+• Metallic gold leather upper
+• Platform + block heel
+• Buckle strap closure
+• Stud/rivet details
+• Open toe
+
+Styling ideas:
+Perfect with a mini skirt + flowy top for a night out, flowy maxi dress for boho vibes, or jeans + fitted top for an elevated casual look 💫
+
+#y2k #platformheels #chunkyheels #boho #goingout
+
+Example 3:
+title: Women&#39;s Black and White Skirt
+description: Black &amp; white houndstooth skater skirt 🖤🤍
+the perfect preppy staple, super flattering A-line fit with a comfy stretchy waistband
+
+Style it so many ways: think dark academia / gossip girl / model off duty vibes... pair with a chunky sweater + knee high boots, a fitted turtleneck + loafers, or a baby tee + sneakers for an everyday effortless look ✨
+
+Details:
+• Size L/XL (check measurements for best fit)
+• Waist ~14&#34; flat (stretchy)
+• Length ~16&#34;
+• Soft knit fabric
+
+Perfect for: fall layering, winter fits, back to school, pinterest outfits, coffee dates ☕️
+
+#darkacademia #plaidskirt #coquette #miniskirt #vintageinspired</pre>
+</details>
+<label class="form-label">Your additions (appended to the system prompt)</label>
+<textarea name="ai_system_prompt_addon" class="form-control" rows="4"
+                              placeholder="e.g. 'Always price books at $5 minimum. Never suggest the tag Antique for anything made after 1980. Include ISBN in notes if visible.'"></textarea>
+<small class="text-muted">
+This text is added after the built-in prompt, under an "Additional instructions from the store owner" header.
+Use it to override pricing rules, add store-specific tags, or adjust how the AI describes your items.
+</small>
+</div>
+</div>
+</div>
+</div>
+<div class="d-flex gap-2">
+<button type="submit" class="btn btn-primary">
+<i class="bi bi-check-lg"></i> Save AI Settings
+</button>
+<button type="button" class="btn btn-outline-secondary" onclick="testAiConnection()">
+<i class="bi bi-wifi"></i> Test Connection
+</button>
+</div>
+</form>
+</div>
+</main>
+<!-- Error Pill Toast -->
+<div id="errorPill" class="error-pill" role="alert" aria-live="assertive">
+<i class="bi bi-exclamation-triangle-fill me-2"></i>
+<span id="errorPillMsg"></span>
+<button type="button" class="error-pill-close" onclick="window._dismissPill()" aria-label="Close">&times;</button>
+</div>
+<style>
+.error-pill {
+position: fixed;
+bottom: 24px;
+left: 50%;
+transform: translateX(-50%) translateY(20px);
+background: #dc3545;
+color: #fff;
+padding: 10px 20px 10px 16px;
+border-radius: 50px;
+font-size: 0.875rem;
+font-weight: 500;
+box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+display: flex;
+align-items: center;
+gap: 4px;
+z-index: 9999;
+opacity: 0;
+pointer-events: none;
+transition: opacity 0.35s ease, transform 0.35s ease;
+max-width: 90vw;
+}
+.error-pill.error-pill--warn {
+background: #fd7e14;
+}
+.error-pill.error-pill--info {
+background: #0d6efd;
+}
+.error-pill.error-pill--success {
+background: #198754;
+}
+.error-pill.show {
+opacity: 1;
+pointer-events: auto;
+transform: translateX(-50%) translateY(0);
+}
+.error-pill-close {
+background: none;
+border: none;
+color: rgba(255,255,255,0.8);
+font-size: 1.15rem;
+line-height: 1;
+margin-left: 8px;
+cursor: pointer;
+padding: 0 2px;
+}
+.error-pill-close:hover { color: #fff; }
+</style>
+<div class="photo-lightbox" id="photoLightbox" role="dialog" aria-modal="true" aria-hidden="true" hidden>
+<button type="button" class="photo-lightbox-close" id="photoLightboxClose" aria-label="Close">
+<i class="bi bi-x-lg"></i>
+</button>
+<button type="button" class="photo-lightbox-nav prev" id="photoLightboxPrev" aria-label="Previous">
+<i class="bi bi-chevron-left"></i>
+</button>
+<button type="button" class="photo-lightbox-nav next" id="photoLightboxNext" aria-label="Next">
+<i class="bi bi-chevron-right"></i>
+</button>
+<img class="photo-lightbox-img" id="photoLightboxImg" alt="">
+<div class="photo-lightbox-count" id="photoLightboxCount"></div>
+</div>
+<link rel="stylesheet" href="static/snap/88a0be1cee2a.css">
+<script src="static/snap/1bb55beec05e.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script src="static/js/app.js"></script>
+<script>
+function toggleApiKeyVisibility() {
+var field = document.getElementById('aiApiKey');
+var icon = document.getElementById('keyToggleIcon');
+if (field.type === 'password') {
+field.type = 'text';
+icon.className = 'bi bi-eye-slash';
+} else {
+field.type = 'password';
+icon.className = 'bi bi-eye';
+}
+}
+function testAiConnection() {
+document.getElementById('aiAction').value = 'test_ai';
+document.getElementById('aiForm').submit();
+}
+function loadLiveModels() {
+var provider = document.getElementById('aiProvider').value;
+if (!provider) {
+showPill('Select a provider first.', 'warn', 3000);
+return;
+}
+var btn = document.getElementById('loadModelsBtn');
+var select = document.getElementById('aiModel');
+var currentModel = select.value;
+btn.disabled = true;
+btn.innerHTML = '<i class="bi bi-hourglass-split"></i> Loading…';
+fetch('/api/ai-models/' + encodeURIComponent(provider) + '?live=1')
+.then(function(resp) { return resp.json(); })
+.then(function(models) {
+select.innerHTML = '<option value="">— Select Model —</option>';
+var foundCurrentModel = !currentModel;
+models.forEach(function(m) {
+var opt = document.createElement('option');
+opt.value = m.id;
+opt.textContent = m.name;
+if (m.id === currentModel) {
+opt.selected = true;
+foundCurrentModel = true;
+}
+select.appendChild(opt);
+});
+if (!foundCurrentModel) {
+var savedOpt = document.createElement('option');
+savedOpt.value = currentModel;
+savedOpt.textContent = currentModel + ' (saved)';
+savedOpt.selected = true;
+select.appendChild(savedOpt);
+}
+showPill('Loaded ' + models.length + ' model(s) from ' + provider + '.', 'success', 4000);
+})
+.catch(function(err) {
+showPill('Could not load models: ' + err.message, 'error', 5000);
+})
+.finally(function() {
+btn.disabled = false;
+btn.innerHTML = '<i class="bi bi-arrow-repeat"></i> Load Models';
+});
+}
+document.getElementById('aiProvider').addEventListener('change', function() {
+var provider = this.value;
+var modelSelect = document.getElementById('aiModel');
+modelSelect.innerHTML = '<option value="">Loading...</option>';
+if (!provider) {
+modelSelect.innerHTML = '<option value="">— Select Model —</option>';
+return;
+}
+fetch('/api/ai-models/' + provider)
+.then(function(r) {
+if (!r.ok) throw new Error('Failed to load models');
+return r.json();
+})
+.then(function(models) {
+modelSelect.innerHTML = '<option value="">— Select Model —</option>';
+models.forEach(function(m) {
+var opt = document.createElement('option');
+opt.value = m.id;
+opt.textContent = m.name;
+modelSelect.appendChild(opt);
+});
+if (models.length > 0) {
+modelSelect.value = models[0].id;
+}
+})
+.catch(function() {
+modelSelect.innerHTML = '<option value="">— Could not load models —</option>';
+showPill('Could not load AI models for ' + provider, 'warn', 5000);
+});
+});
+</script>
+</body>
+</html>

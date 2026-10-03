@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head><meta name="robots" content="noindex,follow"><script src="snapshot.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="csrf-token" content="read-only-snapshot">
+<title>Rosewater &amp; Rust — Inventory</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link href="static/css/style.css" rel="stylesheet">
+<link href="static/css/themes.css" rel="stylesheet">
+</head>
+<body class="theme-vintage" data-theme="vintage"><div id="snapBanner" role="note" style="position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#3b2414;color:#fbe9d7;border-top:2px solid #e8a13a;font:500 13px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:7px 14px;display:flex;gap:4px 14px;align-items:center;justify-content:center;flex-wrap:wrap;text-align:center;box-shadow:0 -4px 14px rgba(0,0,0,.25)"><span><strong>Read-only snapshot</strong> of the real Vintage Shop app, saved while it ran on <strong>demo data</strong> (a fictional shop). Buttons and forms that would change data are switched off.</span><a href="../" style="color:#ffd08a;text-decoration:underline;white-space:nowrap">About this demo &amp; the source code &rarr;</a></div><div id="snapToast" role="status" aria-live="polite" style="display:none;position:fixed;left:50%;bottom:72px;transform:translateX(-50%);z-index:2147483001;width:max-content;max-width:min(92vw,560px);background:#111827;border:1px solid #e8a13a;color:#fde3c0;border-radius:8px;padding:10px 16px;font:500 13.5px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;box-shadow:0 10px 25px rgba(0,0,0,.45);text-align:center"></div>
+<!-- Sidebar -->
+<nav id="sidebar" class="sidebar">
+<div class="sidebar-header">
+<i class="bi bi-shop"></i>
+<span>Rosewater &amp; Rust</span>
+</div>
+<ul class="sidebar-nav">
+<li class="active">
+<a href="index.html">
+<i class="bi bi-speedometer2"></i> Dashboard
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-box-seam"></i> Inventory</li>
+<li class="sidebar-subitem ">
+<a href="items.html">
+<i class="bi bi-box-seam"></i> Items
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="categories.html">
+<i class="bi bi-grid"></i> Categories
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="tags.html">
+<i class="bi bi-tags"></i> Tags
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="labels.html">
+<i class="bi bi-printer"></i> Labels
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="suppliers.html">
+<i class="bi bi-truck"></i> Suppliers
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="consigners.html">
+<i class="bi bi-people"></i> Consigners
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-currency-dollar"></i> Sales</li>
+<li class="sidebar-subitem ">
+<a href="items-pos.html">
+<i class="bi bi-upc-scan"></i> Scan Checkout
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="orders.html">
+<i class="bi bi-receipt"></i> Orders
+<span class="badge bg-info ms-1">3</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="customers.html">
+<i class="bi bi-people"></i> Customers
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="returns.html">
+<i class="bi bi-arrow-counterclockwise"></i> Returns
+<span class="badge bg-danger ms-1">3</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="shipping.html">
+<i class="bi bi-box-arrow-up-right"></i> Shipping
+<span class="badge bg-warning text-dark ms-1">6</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="promo-codes.html">
+<i class="bi bi-tag-fill"></i> Promo Codes
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="reports.html">
+<i class="bi bi-bar-chart-line"></i> Reports
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-megaphone"></i> Listings</li>
+<li class="sidebar-subitem ">
+<a href="storefront.html" target="_blank">
+<i class="bi bi-globe"></i> Storefront
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-shield-lock"></i> Admin</li>
+<li class="sidebar-subitem ">
+<a href="activity.html">
+<i class="bi bi-clipboard-data"></i> Activity Log
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="settings.html">
+<i class="bi bi-gear"></i> Settings
+</a>
+</li>
+<li class="">
+<a href="help.html">
+<i class="bi bi-life-preserver"></i> Help Wiki
+</a>
+</li>
+</ul>
+<div class="sidebar-alert">
+<i class="bi bi-exclamation-triangle"></i>
+<a href="items--status-In-Stock.html">3 low stock</a>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="main-content">
+<!-- Top Bar -->
+<header class="topbar">
+<div class="topbar-leading">
+<button class="btn btn-link sidebar-toggle d-md-none" type="button" onclick="toggleSidebar()" aria-label="Open menu">
+<i class="bi bi-list"></i>
+<span class="sidebar-toggle-label">Menu</span>
+</button>
+<div class="topbar-mobile-title d-md-none">Rosewater &amp; Rust</div>
+<div class="topbar-actions topbar-actions-mobile d-md-none">
+<a href="items-pos.html" class="btn btn-outline-success btn-sm" title="Scan Checkout" aria-label="Scan Checkout">
+<i class="bi bi-upc-scan"></i>
+</a>
+<a href="items-new.html" class="btn btn-primary btn-sm" title="Add Item" aria-label="Add Item">
+<i class="bi bi-plus-lg"></i>
+</a>
+<form method="POST" action="#" data-snapshot-action="/logout" class="d-inline">
+<button type="submit" class="btn btn-outline-secondary btn-sm" title="Logout" aria-label="Logout">
+<i class="bi bi-box-arrow-right"></i>
+</button>
+</form>
+</div>
+</div>
+<div class="search-bar topbar-search">
+<i class="bi bi-search"></i>
+<input type="text" id="globalSearch" placeholder="Search items by name, SKU, brand..."
+autocomplete="off">
+<div id="searchResults" class="search-results"></div>
+</div>
+<div class="topbar-actions topbar-actions-desktop">
+<span class="text-muted small">Demo Owner · Admin</span>
+<a href="items-pos.html" class="btn btn-outline-success btn-sm">
+<i class="bi bi-upc-scan"></i> Scan Checkout
+</a>
+<a href="help.html" class="btn btn-outline-secondary btn-sm">
+<i class="bi bi-life-preserver"></i> Help
+</a>
+<a href="items-new.html" class="btn btn-primary btn-sm">
+<i class="bi bi-plus-lg"></i> Add Item
+</a>
+<form method="POST" action="#" data-snapshot-action="/logout" class="d-inline">
+<button type="submit" class="btn btn-outline-secondary btn-sm">
+<i class="bi bi-box-arrow-right"></i> Logout
+</button>
+</form>
+</div>
+</header>
+<!-- Flash Messages -->
+<div class="content-area">
+<div class="page-header">
+<h1><i class="bi bi-speedometer2"></i> Dashboard</h1>
+</div>
+<!-- Stats Cards -->
+<div class="row g-3 mb-4">
+<div class="col-6 col-lg-3">
+<div class="stat-card">
+<div class="stat-icon bg-primary-subtle text-primary"><i class="bi bi-box-seam"></i></div>
+<div class="stat-info">
+<div class="stat-value">40</div>
+<div class="stat-label">In Stock</div>
+</div>
+</div>
+</div>
+<div class="col-6 col-lg-3">
+<div class="stat-card">
+<div class="stat-icon bg-success-subtle text-success"><i class="bi bi-cash-stack"></i></div>
+<div class="stat-info">
+<div class="stat-value">$5768.00</div>
+<div class="stat-label">Retail Value</div>
+</div>
+</div>
+</div>
+<div class="col-6 col-lg-3">
+<div class="stat-card">
+<div class="stat-icon bg-warning-subtle text-warning"><i class="bi bi-bag-check"></i></div>
+<div class="stat-info">
+<div class="stat-value">24</div>
+<div class="stat-label">Sold</div>
+</div>
+</div>
+</div>
+<div class="col-6 col-lg-3">
+<div class="stat-card">
+<div class="stat-icon bg-info-subtle text-info"><i class="bi bi-graph-up-arrow"></i></div>
+<div class="stat-info">
+<div class="stat-value">$4736.50</div>
+<div class="stat-label">Potential Profit</div>
+</div>
+</div>
+</div>
+</div>
+<a href="items--status-Ready-to-List.html" class="text-decoration-none d-block mb-4">
+<div class="card border-info">
+<div class="card-body d-flex align-items-center gap-3 py-3">
+<div class="rounded-circle bg-info-subtle text-info d-flex align-items-center justify-content-center" style="width:48px;height:48px;flex-shrink:0">
+<i class="bi bi-pencil-square fs-4"></i>
+</div>
+<div>
+<div class="fs-4 fw-bold text-info">8</div>
+<div class="text-muted">items ready to list — click to review and publish</div>
+</div>
+<i class="bi bi-chevron-right text-muted ms-auto fs-5"></i>
+</div>
+</div>
+</a>
+<a href="items--status-Second-Look.html" class="text-decoration-none d-block mb-4">
+<div class="card border-warning">
+<div class="card-body d-flex align-items-center gap-3 py-3">
+<div class="rounded-circle bg-warning-subtle text-warning d-flex align-items-center justify-content-center" style="width:48px;height:48px;flex-shrink:0">
+<i class="bi bi-eye fs-4"></i>
+</div>
+<div>
+<div class="fs-4 fw-bold text-warning">6</div>
+<div class="text-muted">items need a second look (90 days) — click to review</div>
+</div>
+<i class="bi bi-chevron-right text-muted ms-auto fs-5"></i>
+</div>
+</div>
+</a>
+<div class="row g-3">
+<!-- Category Breakdown -->
+<div class="col-lg-4">
+<div class="card h-100">
+<div class="card-header"><i class="bi bi-grid"></i> By Category</div>
+<div class="card-body p-0">
+<div class="list-group list-group-flush">
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<span>
+<span class="badge rounded-pill me-1" style="background-color:#C71585">7</span>
+Clothing
+</span>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<span>
+<span class="badge rounded-pill me-1" style="background-color:#1F7A8C">6</span>
+Records &amp; Media
+</span>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<span>
+<span class="badge rounded-pill me-1" style="background-color:#2E8B57">4</span>
+Books
+</span>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<span>
+<span class="badge rounded-pill me-1" style="background-color:#CD853F">4</span>
+Kitchenware
+</span>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<span>
+<span class="badge rounded-pill me-1" style="background-color:#9370DB">4</span>
+Decor
+</span>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<span>
+<span class="badge rounded-pill me-1" style="background-color:#B5838D">3</span>
+Linens &amp; Textiles
+</span>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<span>
+<span class="badge rounded-pill me-1" style="background-color:#8B4513">2</span>
+Furniture
+</span>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<span>
+<span class="badge rounded-pill me-1" style="background-color:#FFD700">2</span>
+Jewelry
+</span>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<span>
+<span class="badge rounded-pill me-1" style="background-color:#4682B4">2</span>
+Art
+</span>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<span>
+<span class="badge rounded-pill me-1" style="background-color:#708090">2</span>
+Electronics
+</span>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<span>
+<span class="badge rounded-pill me-1" style="background-color:#FF6347">2</span>
+Toys &amp; Games
+</span>
+</div>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+<span>
+<span class="badge rounded-pill me-1" style="background-color:#6c757d">2</span>
+Misc
+</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Low Stock Alerts -->
+<div class="col-lg-4">
+<div class="card h-100">
+<div class="card-header text-danger"><i class="bi bi-exclamation-triangle"></i> Low Stock</div>
+<div class="card-body p-0">
+<div class="list-group list-group-flush">
+<a href="items-9.html" class="list-group-item list-group-item-action">
+<div class="d-flex justify-content-between">
+<strong>Pocket Verse Anthology</strong>
+<span class="badge bg-danger">3 left</span>
+</div>
+<small class="text-muted">VNT-BKS-0001</small>
+</a>
+<a href="items-77.html" class="list-group-item list-group-item-action">
+<div class="d-flex justify-content-between">
+<strong>Apothecary Jar Set</strong>
+<span class="badge bg-danger">3 left</span>
+</div>
+<small class="text-muted">VNT-MSC-0005</small>
+</a>
+<a href="items-78.html" class="list-group-item list-group-item-action">
+<div class="d-flex justify-content-between">
+<strong>Slub-Woven Marble Set in Tin</strong>
+<span class="badge bg-danger">2 left</span>
+</div>
+<small class="text-muted">VNT-TOY-0006</small>
+</a>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Items -->
+<div class="col-lg-4">
+<div class="card h-100">
+<div class="card-header"><i class="bi bi-clock-history"></i> Recently Added</div>
+<div class="card-body p-0">
+<div class="list-group list-group-flush">
+<a href="items-16.html" class="list-group-item list-group-item-action">
+<div class="d-flex justify-content-between">
+<strong>Dusty Rose Rangefinder Camera</strong>
+<span class="text-muted">$400.00</span>
+</div>
+<small class="text-muted">VNT-ELC-0002 · Sep 27</small>
+</a>
+<a href="items-68.html" class="list-group-item list-group-item-action">
+<div class="d-flex justify-content-between">
+<strong>Abstract Screenprint</strong>
+<span class="text-muted">$175.00</span>
+</div>
+<small class="text-muted">VNT-ART-0003 · Sep 24</small>
+</a>
+<a href="items-30.html" class="list-group-item list-group-item-action">
+<div class="d-flex justify-content-between">
+<strong>Oatmeal Chore Jacket</strong>
+<span class="text-muted">$60.00</span>
+</div>
+<small class="text-muted">VNT-CLO-0004 · Sep 20</small>
+</a>
+<a href="items-5.html" class="list-group-item list-group-item-action">
+<div class="d-flex justify-content-between">
+<strong>Boxed LP Anthology</strong>
+<span class="text-muted">$75.00</span>
+</div>
+<small class="text-muted">VNT-REC-0001 · Sep 13</small>
+</a>
+<a href="items-38.html" class="list-group-item list-group-item-action">
+<div class="d-flex justify-content-between">
+<strong>Denim Trucker Jacket</strong>
+<span class="text-muted">$165.00</span>
+</div>
+<small class="text-muted">VNT-CLO-0006 · Sep 10</small>
+</a>
+<a href="items-14.html" class="list-group-item list-group-item-action">
+<div class="d-flex justify-content-between">
+<strong>Pewter Cocktail Earrings</strong>
+<span class="text-muted">$34.00</span>
+</div>
+<small class="text-muted">VNT-JWL-0001 · Aug 30</small>
+</a>
+<a href="items-46.html" class="list-group-item list-group-item-action">
+<div class="d-flex justify-content-between">
+<strong>Patinated Prairie Dress</strong>
+<span class="text-muted">$70.00</span>
+</div>
+<small class="text-muted">VNT-CLO-0008 · Aug 30</small>
+</a>
+<a href="items-21.html" class="list-group-item list-group-item-action">
+<div class="d-flex justify-content-between">
+<strong>Two-Tone Pointed Ankle Boots</strong>
+<span class="text-muted">$160.00</span>
+</div>
+<small class="text-muted">VNT-CLO-0002 · Aug 21</small>
+</a>
+<a href="items-53.html" class="list-group-item list-group-item-action">
+<div class="d-flex justify-content-between">
+<strong>Fluted Stovetop Percolator</strong>
+<span class="text-muted">$37.00</span>
+</div>
+<small class="text-muted">VNT-KIT-0005 · Aug 18</small>
+</a>
+<a href="items-65.html" class="list-group-item list-group-item-action">
+<div class="d-flex justify-content-between">
+<strong>Silk Scarf</strong>
+<span class="text-muted">$37.00</span>
+</div>
+<small class="text-muted">VNT-CLO-0011 · Aug 11</small>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="card mt-4">
+<div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+<span><i class="bi bi-arrow-counterclockwise"></i> Return Requests</span>
+<a href="returns.html" class="btn btn-outline-secondary btn-sm">
+Manage Returns
+<span class="badge bg-danger ms-1">3</span>
+</a>
+</div>
+<div class="card-body p-0">
+<div class="list-group list-group-flush">
+<a href="#" data-snapshot-missing="/returns?q=ORD-00004" class="list-group-item list-group-item-action">
+<div class="d-flex justify-content-between align-items-start gap-3">
+<div>
+<div class="fw-semibold">Order ORD-00004</div>
+<div class="small text-muted">Lorena Vasquez · lorena.vasquez@example.com</div>
+<div class="small text-muted">Missing parts or accessories</div>
+<div class="small text-muted">Matched item: Pewter Silver-Face Receiver · VNT-ELC-0001</div>
+</div>
+<div class="text-end">
+<span class="badge bg-danger">New</span>
+<div class="small text-muted mt-1">Sep 30, 18:03</div>
+</div>
+</div>
+</a>
+<a href="#" data-snapshot-missing="/returns?q=ORD-00018" class="list-group-item list-group-item-action">
+<div class="d-flex justify-content-between align-items-start gap-3">
+<div>
+<div class="fw-semibold">Order ORD-00018</div>
+<div class="small text-muted">Greta Halvorsen · greta.halvorsen@example.com</div>
+<div class="small text-muted">Item was not as described</div>
+<div class="small text-muted">Matched item: Housekeeping Companion · VNT-BKS-0002</div>
+</div>
+<div class="text-end">
+<span class="badge bg-warning">Reviewing</span>
+<div class="small text-muted mt-1">Sep 26, 12:45</div>
+</div>
+</div>
+</a>
+<a href="#" data-snapshot-missing="/returns?q=ORD-00018" class="list-group-item list-group-item-action">
+<div class="d-flex justify-content-between align-items-start gap-3">
+<div>
+<div class="fw-semibold">Order ORD-00018</div>
+<div class="small text-muted">Noor Bahrami · noor.bahrami@example.com</div>
+<div class="small text-muted">Changed my mind</div>
+<div class="small text-muted">Matched item: Housekeeping Companion · VNT-BKS-0002</div>
+</div>
+<div class="text-end">
+<span class="badge bg-success">Approved</span>
+<div class="small text-muted mt-1">Sep 21, 08:49</div>
+</div>
+</div>
+</a>
+<a href="#" data-snapshot-missing="/returns?q=ORD-00017" class="list-group-item list-group-item-action">
+<div class="d-flex justify-content-between align-items-start gap-3">
+<div>
+<div class="fw-semibold">Order ORD-00017</div>
+<div class="small text-muted">Cyril Mbeki · cyril.mbeki@example.com</div>
+<div class="small text-muted">Item arrived damaged</div>
+<div class="small text-muted">Matched item: The Salt Almanac · VNT-BKS-0008</div>
+</div>
+<div class="text-end">
+<span class="badge bg-primary">Refunded in Square</span>
+<div class="small text-muted mt-1">Aug 29, 14:14</div>
+</div>
+</div>
+</a>
+<a href="#" data-snapshot-missing="/returns?q=ORD-00009" class="list-group-item list-group-item-action">
+<div class="d-flex justify-content-between align-items-start gap-3">
+<div>
+<div class="fw-semibold">Order ORD-00009</div>
+<div class="small text-muted">Hollis Pemberton · hollis.pemberton@example.com</div>
+<div class="small text-muted">Order arrived too late</div>
+<div class="small text-muted">Matched item: Sunburst Wall Mirror · VNT-DEC-0003</div>
+</div>
+<div class="text-end">
+<span class="badge bg-info">Resolved</span>
+<div class="small text-muted mt-1">Aug 05, 13:21</div>
+</div>
+</div>
+</a>
+<a href="#" data-snapshot-missing="/returns?q=ORD-00009" class="list-group-item list-group-item-action">
+<div class="d-flex justify-content-between align-items-start gap-3">
+<div>
+<div class="fw-semibold">Order ORD-00009</div>
+<div class="small text-muted">Bettina Croll · bettina.croll@example.com</div>
+<div class="small text-muted">Wrong item received</div>
+<div class="small text-muted">Matched item: Cassette Boombox · VNT-ELC-0005</div>
+</div>
+<div class="text-end">
+<span class="badge bg-secondary">Denied</span>
+<div class="small text-muted mt-1">Jul 15, 10:42</div>
+</div>
+</div>
+</a>
+</div>
+</div>
+</div>
+<div class="card mt-4">
+<div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+<span><i class="bi bi-box-arrow-up-right"></i> Shipping Queue</span>
+<a href="shipping.html" class="btn btn-outline-secondary btn-sm">
+Open Shipping
+<span class="badge bg-warning text-dark ms-1">6</span>
+</a>
+</div>
+<div class="card-body p-0">
+<div class="list-group list-group-flush">
+<a href="#" data-snapshot-missing="/shipping?q=demo-order-5f356a20bc124321" class="list-group-item list-group-item-action">
+<div class="d-flex justify-content-between align-items-start gap-3">
+<div>
+<div class="fw-semibold">Harvest Slatted Bench</div>
+<div class="small text-muted">Order demo-order-5f356a20bc124321</div>
+<div class="small text-muted">Winifred Obuya</div>
+</div>
+<div class="text-end">
+<span class="badge bg-info">Label Purchased</span>
+</div>
+</div>
+</a>
+<a href="#" data-snapshot-missing="/shipping?q=demo-order-3033022ac0244fc6" class="list-group-item list-group-item-action">
+<div class="d-flex justify-content-between align-items-start gap-3">
+<div>
+<div class="fw-semibold">Pewter Silver-Face Receiver</div>
+<div class="small text-muted">Order demo-order-3033022ac0244fc6</div>
+<div class="small text-muted">Yusuf Demirel</div>
+</div>
+<div class="text-end">
+<span class="badge bg-info">Label Purchased</span>
+</div>
+</div>
+</a>
+<a href="#" data-snapshot-missing="/shipping?q=demo-order-827f5763f88e4edd" class="list-group-item list-group-item-action">
+<div class="d-flex justify-content-between align-items-start gap-3">
+<div>
+<div class="fw-semibold">Boxed Detective Board Game</div>
+<div class="small text-muted">Order demo-order-827f5763f88e4edd</div>
+<div class="small text-muted">Cyril Mbeki</div>
+</div>
+<div class="text-end">
+<span class="badge bg-success">Delivered</span>
+<div class="small text-muted mt-1">USPS · 94002740080455405170</div>
+</div>
+</div>
+</a>
+<a href="#" data-snapshot-missing="/shipping?q=demo-order-865ca380ea07412b" class="list-group-item list-group-item-action">
+<div class="d-flex justify-content-between align-items-start gap-3">
+<div>
+<div class="fw-semibold">Hand-Tied Cocktail Glass Set</div>
+<div class="small text-muted">Order demo-order-865ca380ea07412b</div>
+<div class="small text-muted">Yusuf Demirel</div>
+</div>
+<div class="text-end">
+<span class="badge bg-success">Delivered</span>
+<div class="small text-muted mt-1">USPS · 94002498171608061929</div>
+</div>
+</div>
+</a>
+<a href="#" data-snapshot-missing="/shipping?q=demo-order-1b0c66480e4e44cc" class="list-group-item list-group-item-action">
+<div class="d-flex justify-content-between align-items-start gap-3">
+<div>
+<div class="fw-semibold">Ink Blue Portrait Charcoal</div>
+<div class="small text-muted">Order demo-order-1b0c66480e4e44cc</div>
+<div class="small text-muted">Cyril Mbeki</div>
+</div>
+<div class="text-end">
+<span class="badge bg-success">Delivered</span>
+<div class="small text-muted mt-1">USPS · 94007632252780060938</div>
+</div>
+</div>
+</a>
+<a href="#" data-snapshot-missing="/shipping?q=demo-order-611bf2b82cd146c0" class="list-group-item list-group-item-action">
+<div class="d-flex justify-content-between align-items-start gap-3">
+<div>
+<div class="fw-semibold">Two-Tone Tin Wind-Up Robot</div>
+<div class="small text-muted">Order demo-order-611bf2b82cd146c0</div>
+<div class="small text-muted">Teodoro Salas</div>
+</div>
+<div class="text-end">
+<span class="badge bg-primary">Shipped</span>
+<div class="small text-muted mt-1">USPS · 94003345484474237079</div>
+</div>
+</div>
+</a>
+</div>
+</div>
+</div>
+<!-- Activity Feed -->
+<div class="card mt-4">
+<div class="card-header"><i class="bi bi-activity"></i> Recent Activity</div>
+<div class="card-body p-0">
+<div class="table-responsive">
+<table class="table table-hover mb-0">
+<thead>
+<tr><th>Time</th><th>Item</th><th>Action</th><th>Qty</th><th>Notes</th></tr>
+</thead>
+<tbody>
+<tr>
+<td class="text-muted small">Sep 29, 04:41</td>
+<td>
+<a href="items-42.html">Cookery of the Low Counties</a>
+</td>
+<td>
+<span class="badge bg-secondary">returned</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Customer return - back on the shelf pending review</td>
+</tr>
+<tr>
+<td class="text-muted small">Sep 27, 15:55</td>
+<td>
+<a href="items-16.html">Dusty Rose Rangefinder Camera</a>
+</td>
+<td>
+<span class="badge bg-success">Stock In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Circuit House Salvage</td>
+</tr>
+<tr>
+<td class="text-muted small">Sep 24, 05:43</td>
+<td>
+<a href="items-68.html">Abstract Screenprint</a>
+</td>
+<td>
+<span class="badge bg-success">Stock In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Fenwick Books &amp; Paper</td>
+</tr>
+<tr>
+<td class="text-muted small">Sep 23, 04:41</td>
+<td>
+<a href="items-38.html">Denim Trucker Jacket</a>
+</td>
+<td>
+<span class="badge bg-secondary">returned</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Customer return - back on the shelf pending review</td>
+</tr>
+<tr>
+<td class="text-muted small">Sep 20, 00:51</td>
+<td>
+<a href="items-30.html">Oatmeal Chore Jacket</a>
+</td>
+<td>
+<span class="badge bg-success">Stock In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Sunday Field Flea Market</td>
+</tr>
+<tr>
+<td class="text-muted small">Sep 13, 17:35</td>
+<td>
+<a href="items-5.html">Boxed LP Anthology</a>
+</td>
+<td>
+<span class="badge bg-success">Stock In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Bram Odell</td>
+</tr>
+<tr>
+<td class="text-muted small">Sep 10, 22:34</td>
+<td>
+<a href="items-38.html">Denim Trucker Jacket</a>
+</td>
+<td>
+<span class="badge bg-success">Stock In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Sunday Field Flea Market</td>
+</tr>
+<tr>
+<td class="text-muted small">Aug 30, 23:56</td>
+<td>
+<a href="items-14.html">Pewter Cocktail Earrings</a>
+</td>
+<td>
+<span class="badge bg-success">Stock In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Marisol Verity</td>
+</tr>
+<tr>
+<td class="text-muted small">Aug 30, 03:30</td>
+<td>
+<a href="items-46.html">Patinated Prairie Dress</a>
+</td>
+<td>
+<span class="badge bg-success">Stock In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Sunday Field Flea Market</td>
+</tr>
+<tr>
+<td class="text-muted small">Aug 22, 12:18</td>
+<td>
+<a href="items-7.html">Harvest Slatted Bench</a>
+</td>
+<td>
+<span class="badge bg-warning">Sold</span>
+</td>
+<td>-1</td>
+<td class="text-muted small">Sold to a regular</td>
+</tr>
+<tr>
+<td class="text-muted small">Aug 21, 11:08</td>
+<td>
+<a href="items-21.html">Two-Tone Pointed Ankle Boots</a>
+</td>
+<td>
+<span class="badge bg-success">Stock In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Northgate Textile Salvage</td>
+</tr>
+<tr>
+<td class="text-muted small">Aug 18, 03:54</td>
+<td>
+<a href="items-53.html">Fluted Stovetop Percolator</a>
+</td>
+<td>
+<span class="badge bg-success">Stock In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - Two Rivers Auction Barn</td>
+</tr>
+<tr>
+<td class="text-muted small">Aug 17, 07:33</td>
+<td>
+<a href="items-8.html">Pewter Silver-Face Receiver</a>
+</td>
+<td>
+<span class="badge bg-warning">Sold</span>
+</td>
+<td>-1</td>
+<td class="text-muted small">Sold at the counter</td>
+</tr>
+<tr>
+<td class="text-muted small">Aug 16, 23:48</td>
+<td>
+<a href="items-23.html">Housekeeping Companion</a>
+</td>
+<td>
+<span class="badge bg-warning">Sold</span>
+</td>
+<td>-1</td>
+<td class="text-muted small">Sold to a regular</td>
+</tr>
+<tr>
+<td class="text-muted small">Aug 16, 04:41</td>
+<td>
+<a href="items-32.html">Tapered Hand Plane</a>
+</td>
+<td>
+<span class="badge bg-secondary">adjustment</span>
+</td>
+<td>-1</td>
+<td class="text-muted small">Written off - damage found during a stock check</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Error Pill Toast -->
+<div id="errorPill" class="error-pill" role="alert" aria-live="assertive">
+<i class="bi bi-exclamation-triangle-fill me-2"></i>
+<span id="errorPillMsg"></span>
+<button type="button" class="error-pill-close" onclick="window._dismissPill()" aria-label="Close">&times;</button>
+</div>
+<style>
+.error-pill {
+position: fixed;
+bottom: 24px;
+left: 50%;
+transform: translateX(-50%) translateY(20px);
+background: #dc3545;
+color: #fff;
+padding: 10px 20px 10px 16px;
+border-radius: 50px;
+font-size: 0.875rem;
+font-weight: 500;
+box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+display: flex;
+align-items: center;
+gap: 4px;
+z-index: 9999;
+opacity: 0;
+pointer-events: none;
+transition: opacity 0.35s ease, transform 0.35s ease;
+max-width: 90vw;
+}
+.error-pill.error-pill--warn {
+background: #fd7e14;
+}
+.error-pill.error-pill--info {
+background: #0d6efd;
+}
+.error-pill.error-pill--success {
+background: #198754;
+}
+.error-pill.show {
+opacity: 1;
+pointer-events: auto;
+transform: translateX(-50%) translateY(0);
+}
+.error-pill-close {
+background: none;
+border: none;
+color: rgba(255,255,255,0.8);
+font-size: 1.15rem;
+line-height: 1;
+margin-left: 8px;
+cursor: pointer;
+padding: 0 2px;
+}
+.error-pill-close:hover { color: #fff; }
+</style>
+<div class="photo-lightbox" id="photoLightbox" role="dialog" aria-modal="true" aria-hidden="true" hidden>
+<button type="button" class="photo-lightbox-close" id="photoLightboxClose" aria-label="Close">
+<i class="bi bi-x-lg"></i>
+</button>
+<button type="button" class="photo-lightbox-nav prev" id="photoLightboxPrev" aria-label="Previous">
+<i class="bi bi-chevron-left"></i>
+</button>
+<button type="button" class="photo-lightbox-nav next" id="photoLightboxNext" aria-label="Next">
+<i class="bi bi-chevron-right"></i>
+</button>
+<img class="photo-lightbox-img" id="photoLightboxImg" alt="">
+<div class="photo-lightbox-count" id="photoLightboxCount"></div>
+</div>
+<link rel="stylesheet" href="static/snap/88a0be1cee2a.css">
+<script src="static/snap/1bb55beec05e.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script src="static/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head><meta name="robots" content="noindex,follow"><script src="snapshot.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="csrf-token" content="read-only-snapshot">
+<title>Rosewater &amp; Rust — Inventory</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link href="static/css/style.css" rel="stylesheet">
+<link href="static/css/themes.css" rel="stylesheet">
+</head>
+<body class="theme-vintage" data-theme="vintage"><div id="snapBanner" role="note" style="position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#3b2414;color:#fbe9d7;border-top:2px solid #e8a13a;font:500 13px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:7px 14px;display:flex;gap:4px 14px;align-items:center;justify-content:center;flex-wrap:wrap;text-align:center;box-shadow:0 -4px 14px rgba(0,0,0,.25)"><span><strong>Read-only snapshot</strong> of the real Vintage Shop app, saved while it ran on <strong>demo data</strong> (a fictional shop). Buttons and forms that would change data are switched off.</span><a href="../" style="color:#ffd08a;text-decoration:underline;white-space:nowrap">About this demo &amp; the source code &rarr;</a></div><div id="snapToast" role="status" aria-live="polite" style="display:none;position:fixed;left:50%;bottom:72px;transform:translateX(-50%);z-index:2147483001;width:max-content;max-width:min(92vw,560px);background:#111827;border:1px solid #e8a13a;color:#fde3c0;border-radius:8px;padding:10px 16px;font:500 13.5px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;box-shadow:0 10px 25px rgba(0,0,0,.45);text-align:center"></div>
+<!-- Sidebar -->
+<nav id="sidebar" class="sidebar">
+<div class="sidebar-header">
+<i class="bi bi-shop"></i>
+<span>Rosewater &amp; Rust</span>
+</div>
+<ul class="sidebar-nav">
+<li class="">
+<a href="index.html">
+<i class="bi bi-speedometer2"></i> Dashboard
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-box-seam"></i> Inventory</li>
+<li class="sidebar-subitem active">
+<a href="items.html">
+<i class="bi bi-box-seam"></i> Items
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="categories.html">
+<i class="bi bi-grid"></i> Categories
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="tags.html">
+<i class="bi bi-tags"></i> Tags
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="labels.html">
+<i class="bi bi-printer"></i> Labels
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="suppliers.html">
+<i class="bi bi-truck"></i> Suppliers
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="consigners.html">
+<i class="bi bi-people"></i> Consigners
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-currency-dollar"></i> Sales</li>
+<li class="sidebar-subitem ">
+<a href="items-pos.html">
+<i class="bi bi-upc-scan"></i> Scan Checkout
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="orders.html">
+<i class="bi bi-receipt"></i> Orders
+<span class="badge bg-info ms-1">3</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="customers.html">
+<i class="bi bi-people"></i> Customers
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="returns.html">
+<i class="bi bi-arrow-counterclockwise"></i> Returns
+<span class="badge bg-danger ms-1">3</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="shipping.html">
+<i class="bi bi-box-arrow-up-right"></i> Shipping
+<span class="badge bg-warning text-dark ms-1">6</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="promo-codes.html">
+<i class="bi bi-tag-fill"></i> Promo Codes
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="reports.html">
+<i class="bi bi-bar-chart-line"></i> Reports
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-megaphone"></i> Listings</li>
+<li class="sidebar-subitem ">
+<a href="storefront.html" target="_blank">
+<i class="bi bi-globe"></i> Storefront
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-shield-lock"></i> Admin</li>
+<li class="sidebar-subitem ">
+<a href="activity.html">
+<i class="bi bi-clipboard-data"></i> Activity Log
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="settings.html">
+<i class="bi bi-gear"></i> Settings
+</a>
+</li>
+<li class="">
+<a href="help.html">
+<i class="bi bi-life-preserver"></i> Help Wiki
+</a>
+</li>
+</ul>
+<div class="sidebar-alert">
+<i class="bi bi-exclamation-triangle"></i>
+<a href="items--status-In-Stock.html">3 low stock</a>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="main-content">
+<!-- Top Bar -->
+<header class="topbar">
+<div class="topbar-leading">
+<button class="btn btn-link sidebar-toggle d-md-none" type="button" onclick="toggleSidebar()" aria-label="Open menu">
+<i class="bi bi-list"></i>
+<span class="sidebar-toggle-label">Menu</span>
+</button>
+<div class="topbar-mobile-title d-md-none">Rosewater &amp; Rust</div>
+<div class="topbar-actions topbar-actions-mobile d-md-none">
+<a href="items-pos.html" class="btn btn-outline-success btn-sm" title="Scan Checkout" aria-label="Scan Checkout">
+<i class="bi bi-upc-scan"></i>
+</a>
+<a href="items-new.html" class="btn btn-primary btn-sm" title="Add Item" aria-label="Add Item">
+<i class="bi bi-plus-lg"></i>
+</a>
+<form method="POST" action="#" data-snapshot-action="/logout" class="d-inline">
+<button type="submit" class="btn btn-outline-secondary btn-sm" title="Logout" aria-label="Logout">
+<i class="bi bi-box-arrow-right"></i>
+</button>
+</form>
+</div>
+</div>
+<div class="search-bar topbar-search">
+<i class="bi bi-search"></i>
+<input type="text" id="globalSearch" placeholder="Search items by name, SKU, brand..."
+autocomplete="off">
+<div id="searchResults" class="search-results"></div>
+</div>
+<div class="topbar-actions topbar-actions-desktop">
+<span class="text-muted small">Demo Owner · Admin</span>
+<a href="items-pos.html" class="btn btn-outline-success btn-sm">
+<i class="bi bi-upc-scan"></i> Scan Checkout
+</a>
+<a href="help.html" class="btn btn-outline-secondary btn-sm">
+<i class="bi bi-life-preserver"></i> Help
+</a>
+<a href="items-new.html" class="btn btn-primary btn-sm">
+<i class="bi bi-plus-lg"></i> Add Item
+</a>
+<form method="POST" action="#" data-snapshot-action="/logout" class="d-inline">
+<button type="submit" class="btn btn-outline-secondary btn-sm">
+<i class="bi bi-box-arrow-right"></i> Logout
+</button>
+</form>
+</div>
+</header>
+<!-- Flash Messages -->
+<div class="content-area">
+<div class="page-header">
+<h1>
+<i class="bi bi-pencil"></i>
+Edit Item
+</h1>
+</div>
+<form method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+<div class="row g-4">
+<!-- Left Column: Main Info -->
+<div class="col-lg-8">
+<div class="card mb-3">
+<div class="card-header">Basic Info</div>
+<div class="card-body">
+<div class="row g-3">
+<div class="col-md-8">
+<label class="form-label">Item Name *</label>
+<input type="text" name="name" class="form-control" required
+value="Embroidered Tablecloth" placeholder="e.g. Mid-Century Teak Credenza">
+</div>
+<div class="col-md-4">
+<label class="form-label">SKU</label>
+<div class="input-group">
+<input type="text" name="sku" id="skuField" class="form-control"
+value="VNT-TEX-0002"
+placeholder="Auto-generated" readonly>
+</div>
+<small class="text-muted">Leave blank to auto-generate</small>
+</div>
+<div class="col-12">
+<label class="form-label">Description</label>
+<textarea name="description" class="form-control" rows="3"
+                                      placeholder="Describe the item, its history, notable features...">Whitework linen cloth with hand-embroidered corners and no rust spots. 1950s piece in linen. Light, even wear consistent with age. Shown in the photos. Local pickup welcome; ask before ordering if you would rather collect.</textarea>
+</div>
+</div>
+</div>
+</div>
+<div class="card mb-3">
+<div class="card-header">Vintage Details</div>
+<div class="card-body">
+<div class="row g-3">
+<div class="col-md-4">
+<label class="form-label">Era / Period</label>
+<input type="text" name="era" class="form-control"
+value="1950s" placeholder="e.g. 1960s, Art Deco, Victorian"
+list="era-suggestions">
+<datalist id="era-suggestions">
+<option value="1920s">
+<option value="1930s">
+<option value="1940s">
+<option value="1950s">
+<option value="1960s">
+<option value="1970s">
+<option value="1980s">
+<option value="1990s">
+<option value="Art Deco">
+<option value="Art Nouveau">
+<option value="Mid-Century Modern">
+<option value="Victorian">
+<option value="Edwardian">
+<option value="Retro">
+<option value="Antique">
+</datalist>
+</div>
+<div class="col-md-4">
+<label class="form-label">Condition</label>
+<select name="condition" class="form-select">
+<option value="Used"
+>Used</option>
+<option value="Mint"
+>Mint</option>
+<option value="Excellent"
+>Excellent</option>
+<option value="Good"
+selected
+>Good</option>
+<option value="Fair"
+>Fair</option>
+<option value="Poor"
+>Poor</option>
+</select>
+</div>
+<div class="col-md-4">
+<label class="form-label">Brand / Maker</label>
+<input type="text" name="brand" class="form-control"
+value="Unmarked" placeholder="e.g. Herman Miller">
+</div>
+<div class="col-md-6">
+<label class="form-label">Material</label>
+<input type="text" name="material" class="form-control"
+value="Linen" placeholder="e.g. Solid walnut, brass">
+</div>
+<div class="col-md-6">
+<label class="form-label">Origin</label>
+<input type="text" name="origin" class="form-control"
+value="Turkey" placeholder="e.g. Denmark, Japan">
+</div>
+</div>
+</div>
+</div>
+<div class="card mb-3">
+<div class="card-header d-flex justify-content-between align-items-center">
+<span>Pricing & Stock</span>
+<button type="button" class="btn btn-outline-primary btn-sm" id="aiPriceCheckBtn"
+data-item-id="40">
+<i class="bi bi-stars"></i> AI Price Check
+</button>
+</div>
+<div class="card-body">
+<!-- AI Price Check result panel (hidden by default) -->
+<div id="aiPriceResult" class="d-none mb-3">
+<div class="border rounded overflow-hidden">
+<div class="px-3 py-2 bg-light d-flex justify-content-between align-items-center">
+<span class="fw-semibold small"><i class="bi bi-stars"></i> AI Pricing Suggestion</span>
+<button type="button" class="btn-close btn-close-sm" id="aiPriceResultClose" aria-label="Close" style="font-size:.6rem"></button>
+</div>
+<div class="p-3" id="aiPriceResultBody"></div>
+</div>
+</div>
+<div class="row g-3">
+<div class="col-md-3">
+<label class="form-label">Purchase Price ($)</label>
+<input type="number" step="0.01" name="purchase_price" class="form-control"
+value="6.5">
+</div>
+<div class="col-md-3">
+<label class="form-label">Selling Price ($)</label>
+<input type="number" step="0.01" name="selling_price" id="sellingPriceField" class="form-control"
+value="70.0">
+</div>
+<div class="col-md-3">
+<label class="form-label">
+Sale Price ($)
+</label>
+<input type="number" step="0.01" name="sale_price" class="form-control"
+value=""
+placeholder="Leave blank if not on sale">
+<div class="form-text">Storefront shows strike-through original.</div>
+</div>
+<div class="col-md-3">
+<label class="form-label">Quantity</label>
+<input type="number" name="quantity" class="form-control" min="0"
+value="0">
+</div>
+<div class="col-md-3">
+<label class="form-label">Low Stock Alert</label>
+<input type="number" name="low_stock_threshold" class="form-control" min="0"
+value="0">
+</div>
+<div class="col-md-6">
+<label class="form-label">Location</label>
+<input type="text" name="location" class="form-control"
+value="Rack 9" placeholder="e.g. Shelf A3, Display Window">
+</div>
+<div class="col-md-6">
+<label class="form-label">Status</label>
+<select name="status" class="form-select">
+<option value="Ready to List" >Ready to List</option>
+<option value="In Stock" >In Stock</option>
+<option value="Second Look" >Second Look</option>
+<option value="Sold" selected>Sold</option>
+<option value="On Hold" >On Hold</option>
+<option value="Returned" >Returned</option>
+<option value="Written Off" >Written Off</option>
+</select>
+</div>
+<div class="col-12">
+<div class="form-check form-switch mt-1">
+<input class="form-check-input" type="checkbox" id="showOnStorefront"
+name="show_on_storefront" value="1"
+>
+<label class="form-check-label" for="showOnStorefront">
+List this item on storefront
+</label>
+<div class="form-text">
+Turn this on to show online, even for statuses like On Hold.
+</div>
+</div>
+</div>
+</div>
+<div class="mt-4 item-analytics-root" data-item-analytics='{"benchmark_prices": [70.0, 70.0, 70.0, 70.0, 70.0, 70.0, 70.0, 70.0], "category_avg_price": [null, null, 70.0, null, null, null, null, null], "inventory_levels": [0, 1, 0, 0, 0, 0, 0, 0], "labels": ["Mar 2026", "Apr 2026", "May 2026", "Jun 2026", "Jul 2026", "Aug 2026", "Sep 2026", "Oct 2026"], "restock_units": [0, 1, 0, 0, 0, 0, 0, 0], "show": true, "sold_units": [0, 0, 1, 0, 0, 0, 0, 0], "stats": {"category_avg_current": 70.0, "category_sold_count": 1, "current_quantity": 0, "total_restock_units": 1, "total_sold_units": 1}}'>
+<div class="row g-2 mb-3">
+<div class="col-6">
+<div class="border rounded p-2 h-100">
+<div class="small text-muted">Units Sold</div>
+<div class="fs-5 fw-semibold">1</div>
+</div>
+</div>
+<div class="col-6">
+<div class="border rounded p-2 h-100">
+<div class="small text-muted">Units Restocked</div>
+<div class="fs-5 fw-semibold">1</div>
+</div>
+</div>
+<div class="col-6">
+<div class="border rounded p-2 h-100">
+<div class="small text-muted">On Hand</div>
+<div class="fs-5 fw-semibold">0</div>
+</div>
+</div>
+<div class="col-6">
+<div class="border rounded p-2 h-100">
+<div class="small text-muted">Category Avg Sold Price</div>
+<div class="fs-5 fw-semibold">
+$70.00
+</div>
+</div>
+</div>
+</div>
+<div class="border rounded p-2 mb-3">
+<div class="small fw-semibold mb-2">Inventory and Sales Trend</div>
+<div style="height:220px;">
+<canvas class="item-analytics-inventory-chart"></canvas>
+</div>
+</div>
+<div class="border rounded p-2">
+<div class="small fw-semibold mb-1">Category Avg Sale Price vs Current Price</div>
+<div class="small text-muted mb-2">
+Linens &amp; Textiles category over the last 8 months.
+</div>
+<div style="height:220px;">
+<canvas class="item-analytics-category-chart"></canvas>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="card mb-3">
+<div class="card-header"><i class="bi bi-box-seam"></i> Shipping</div>
+<div class="card-body">
+<div class="row g-3">
+<div class="col-md-4">
+<label class="form-label">Weight (oz)</label>
+<input type="number" step="0.1" min="0" name="weight_oz" class="form-control"
+value="34.0"
+placeholder="e.g. 16">
+<div class="form-text">Used for shipping cost estimates</div>
+</div>
+<div class="col-md-4">
+<label class="form-label">Dimensions (in)</label>
+<input type="text" name="dimensions" class="form-control"
+value="13x10x3"
+placeholder="e.g. 12x8x4">
+<div class="form-text">L x W x H in inches</div>
+</div>
+<div class="col-md-4">
+<label class="form-label">Est. Shipping Cost</label>
+<div class="small mt-1">
+<div class="d-flex justify-content-between border-bottom py-1">
+<span class="text-muted">USPS Priority Mail</span>
+<span class="fw-bold">$10.50</span>
+</div>
+<div class="d-flex justify-content-between border-bottom py-1">
+<span class="text-muted">USPS Priority Flat Rate (Small)</span>
+<span class="fw-bold">$9.85</span>
+</div>
+<div class="d-flex justify-content-between border-bottom py-1">
+<span class="text-muted">USPS Priority Flat Rate (Medium)</span>
+<span class="fw-bold">$16.10</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="card mb-3">
+<div class="card-header d-flex justify-content-between align-items-center">
+<span><i class="bi bi-rulers"></i> Measurements</span>
+<button type="button" class="btn btn-sm btn-outline-secondary" onclick="addMeasurementRow()">
+<i class="bi bi-plus-lg"></i> Add
+</button>
+</div>
+<div class="card-body">
+<div class="form-text mb-2">
+Garment measurements (chest, length, sleeve, waist, inseam, etc.).
+AI auto-fills these from photos when a tape measure is visible.
+</div>
+<div id="measurementsContainer">
+<div class="row g-2 mb-2 measurement-row">
+<div class="col-5">
+<input type="text" name="measurement_label[]" class="form-control form-control-sm"
+value="Width" placeholder="Label (e.g. Chest)">
+</div>
+<div class="col-5">
+<input type="text" name="measurement_value[]" class="form-control form-control-sm"
+value="19 in" placeholder="Value (e.g. 20 in)">
+</div>
+<div class="col-2">
+<button type="button" class="btn btn-sm btn-outline-danger w-100" onclick="this.closest('.measurement-row').remove()">
+<i class="bi bi-x"></i>
+</button>
+</div>
+</div>
+<div class="row g-2 mb-2 measurement-row">
+<div class="col-5">
+<input type="text" name="measurement_label[]" class="form-control form-control-sm"
+value="Height" placeholder="Label (e.g. Chest)">
+</div>
+<div class="col-5">
+<input type="text" name="measurement_value[]" class="form-control form-control-sm"
+value="6 in" placeholder="Value (e.g. 20 in)">
+</div>
+<div class="col-2">
+<button type="button" class="btn btn-sm btn-outline-danger w-100" onclick="this.closest('.measurement-row').remove()">
+<i class="bi bi-x"></i>
+</button>
+</div>
+</div>
+<div class="row g-2 mb-2 measurement-row">
+<div class="col-5">
+<input type="text" name="measurement_label[]" class="form-control form-control-sm"
+value="Depth" placeholder="Label (e.g. Chest)">
+</div>
+<div class="col-5">
+<input type="text" name="measurement_value[]" class="form-control form-control-sm"
+value="8 1/2 in" placeholder="Value (e.g. 20 in)">
+</div>
+<div class="col-2">
+<button type="button" class="btn btn-sm btn-outline-danger w-100" onclick="this.closest('.measurement-row').remove()">
+<i class="bi bi-x"></i>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+function addMeasurementRow(label, value) {
+const container = document.getElementById('measurementsContainer');
+const row = document.createElement('div');
+row.className = 'row g-2 mb-2 measurement-row';
+row.innerHTML = `
+<div class="col-5">
+<input type="text" name="measurement_label[]" class="form-control form-control-sm" placeholder="Label (e.g. Chest)">
+</div>
+<div class="col-5">
+<input type="text" name="measurement_value[]" class="form-control form-control-sm" placeholder="Value (e.g. 20 in)">
+</div>
+<div class="col-2">
+<button type="button" class="btn btn-sm btn-outline-danger w-100" onclick="this.closest('.measurement-row').remove()">
+<i class="bi bi-x"></i>
+</button>
+</div>
+`;
+if (label) row.querySelector('input[name="measurement_label[]"]').value = label;
+if (value) row.querySelector('input[name="measurement_value[]"]').value = value;
+container.appendChild(row);
+}
+</script>
+<div class="card mb-3">
+<div class="card-header">Notes</div>
+<div class="card-body">
+<textarea name="notes" class="form-control" rows="3"
+                              placeholder="Internal notes, repair history, provenance...">Part of a downsizing lot from a longtime customer. Sold - kept for the sales history.</textarea>
+</div>
+</div>
+</div>
+<!-- Right Column: Photo, Category, Tags -->
+<div class="col-lg-4">
+<div class="card mb-3">
+<div class="card-header">Photos</div>
+<div class="card-body">
+<div class="position-relative mb-2" id="itemEditPhotoGallery"
+data-photo-urls='["static/uploads/demo_VNT_TEX_0002_0.jpg?v=1776166020","static/uploads/demo_VNT_TEX_0002_1.jpg?v=1776166020","static/uploads/demo_VNT_TEX_0002_2.jpg?v=1776166020"]'>
+<img src="static/uploads/demo_VNT_TEX_0002_0.jpg"
+class="img-fluid rounded w-100"
+style="max-height:260px;object-fit:contain;background:#f8f9fa"
+alt="Embroidered Tablecloth"
+id="itemEditMainPhoto"
+data-lightbox-trigger
+data-lightbox-photos='["static/uploads/demo_VNT_TEX_0002_0.jpg?v=1776166020","static/uploads/demo_VNT_TEX_0002_1.jpg?v=1776166020","static/uploads/demo_VNT_TEX_0002_2.jpg?v=1776166020"]'
+title="Click to enlarge">
+<button type="button" class="btn btn-dark btn-sm position-absolute top-50 start-0 translate-middle-y ms-2" id="itemEditPhotoPrev" title="Previous photo">
+<i class="bi bi-chevron-left"></i>
+</button>
+<button type="button" class="btn btn-dark btn-sm position-absolute top-50 end-0 translate-middle-y me-2" id="itemEditPhotoNext" title="Next photo">
+<i class="bi bi-chevron-right"></i>
+</button>
+<span class="badge bg-dark position-absolute bottom-0 end-0 m-2" id="itemEditPhotoCount">1 / 3</span>
+</div>
+<div class="d-flex flex-wrap gap-1 mb-3" id="itemEditPhotoThumbs">
+<img src="static/uploads/demo_VNT_TEX_0002_0.jpg"
+class="rounded photo-thumb photo-thumb-active"
+style="width:48px;height:48px;object-fit:cover;cursor:pointer;border:2px solid var(--sidebar-accent)"
+data-index="0"
+alt="Photo 1">
+<img src="static/uploads/demo_VNT_TEX_0002_1.jpg"
+class="rounded photo-thumb "
+style="width:48px;height:48px;object-fit:cover;cursor:pointer;border:2px solid transparent"
+data-index="1"
+alt="Photo 2">
+<img src="static/uploads/demo_VNT_TEX_0002_2.jpg"
+class="rounded photo-thumb "
+style="width:48px;height:48px;object-fit:cover;cursor:pointer;border:2px solid transparent"
+data-index="2"
+alt="Photo 3">
+</div>
+<label class="form-label small text-muted">Replace primary photo</label>
+<input type="file" name="photo" class="form-control" accept="image/*">
+</div>
+</div>
+<div class="card mb-3">
+<div class="card-header">Category</div>
+<div class="card-body">
+<select name="category_id" id="categorySelect" class="form-select">
+<option value="">— None —</option>
+<option value="4" data-code="ART"
+>
+Art
+</option>
+<option value="5" data-code="BKS"
+>
+Books
+</option>
+<option value="2" data-code="CLO"
+>
+Clothing
+</option>
+<option value="8" data-code="DEC"
+>
+Decor
+</option>
+<option value="6" data-code="ELC"
+>
+Electronics
+</option>
+<option value="1" data-code="FUR"
+>
+Furniture
+</option>
+<option value="3" data-code="JWL"
+>
+Jewelry
+</option>
+<option value="7" data-code="KIT"
+>
+Kitchenware
+</option>
+<option value="12" data-code="TEX"
+selected>
+Linens &amp; Textiles
+</option>
+<option value="10" data-code="MSC"
+>
+Misc
+</option>
+<option value="11" data-code="REC"
+>
+Records &amp; Media
+</option>
+<option value="9" data-code="TOY"
+>
+Toys &amp; Games
+</option>
+</select>
+</div>
+</div>
+<div class="card mb-3">
+<div class="card-header">Tags</div>
+<div class="card-body">
+<!-- Selected tags as removable badges -->
+<div class="d-flex flex-wrap gap-1 mb-2" id="formSelectedTags">
+<span class="badge badge-tag d-inline-flex align-items-center gap-1 form-tag-pill"
+style="background-color:#7f9c3a" data-tag-id="17">
+Farmhouse
+<button type="button" class="btn-close btn-close-white ms-1 form-tag-remove"
+style="font-size:.55rem" aria-label="Remove"></button>
+</span>
+<span class="badge badge-tag d-inline-flex align-items-center gap-1 form-tag-pill"
+style="background-color:#0aa2c0" data-tag-id="13">
+Restored
+<button type="button" class="btn-close btn-close-white ms-1 form-tag-remove"
+style="font-size:.55rem" aria-label="Remove"></button>
+</span>
+</div>
+<!-- Hidden checkboxes -->
+<div class="d-none" id="formTagCheckboxes">
+<input type="checkbox" name="tags" value="16" id="formTagCb16"
+>
+<input type="checkbox" name="tags" value="14" id="formTagCb14"
+>
+<input type="checkbox" name="tags" value="21" id="formTagCb21"
+>
+<input type="checkbox" name="tags" value="11" id="formTagCb11"
+>
+<input type="checkbox" name="tags" value="8" id="formTagCb8"
+>
+<input type="checkbox" name="tags" value="17" id="formTagCb17"
+checked>
+<input type="checkbox" name="tags" value="6" id="formTagCb6"
+>
+<input type="checkbox" name="tags" value="7" id="formTagCb7"
+>
+<input type="checkbox" name="tags" value="24" id="formTagCb24"
+>
+<input type="checkbox" name="tags" value="10" id="formTagCb10"
+>
+<input type="checkbox" name="tags" value="15" id="formTagCb15"
+>
+<input type="checkbox" name="tags" value="2" id="formTagCb2"
+>
+<input type="checkbox" name="tags" value="3" id="formTagCb3"
+>
+<input type="checkbox" name="tags" value="5" id="formTagCb5"
+>
+<input type="checkbox" name="tags" value="9" id="formTagCb9"
+>
+<input type="checkbox" name="tags" value="12" id="formTagCb12"
+>
+<input type="checkbox" name="tags" value="23" id="formTagCb23"
+>
+<input type="checkbox" name="tags" value="1" id="formTagCb1"
+>
+<input type="checkbox" name="tags" value="13" id="formTagCb13"
+checked>
+<input type="checkbox" name="tags" value="4" id="formTagCb4"
+>
+<input type="checkbox" name="tags" value="20" id="formTagCb20"
+>
+<input type="checkbox" name="tags" value="25" id="formTagCb25"
+>
+<input type="checkbox" name="tags" value="22" id="formTagCb22"
+>
+<input type="checkbox" name="tags" value="19" id="formTagCb19"
+>
+<input type="checkbox" name="tags" value="18" id="formTagCb18"
+>
+</div>
+<!-- Add more -->
+<select class="form-select form-select-sm" id="formTagPicker">
+<option value="">+ Add tag…</option>
+<option value="16" data-color="#b07d2b"
+>Art Deco</option>
+<option value="14" data-color="#adb5bd"
+>As-Found</option>
+<option value="21" data-color="#c49a2f"
+>Brass</option>
+<option value="11" data-color="#9333EA"
+>Collector Piece</option>
+<option value="8" data-color="#0d9488"
+>Consignment</option>
+<option value="17" data-color="#7f9c3a"
+disabled>Farmhouse</option>
+<option value="6" data-color="#6610f2"
+>Featured</option>
+<option value="7" data-color="#e83e8c"
+>Fragile</option>
+<option value="24" data-color="#5d4037"
+>Leather</option>
+<option value="10" data-color="#3B82F6"
+>Local Pickup</option>
+<option value="15" data-color="#6f42c1"
+>Mid-Century</option>
+<option value="2" data-color="#28a745"
+>Mint Condition</option>
+<option value="3" data-color="#ffc107"
+>Needs Repair</option>
+<option value="5" data-color="#0dcaf0"
+>New Arrival</option>
+<option value="9" data-color="#8B5CF6"
+>One of a Kind</option>
+<option value="12" data-color="#F97316"
+>Price Drop</option>
+<option value="23" data-color="#4aa3df"
+>Pyrex-Style Glass</option>
+<option value="1" data-color="#dc3545"
+>Rare</option>
+<option value="13" data-color="#0aa2c0"
+disabled>Restored</option>
+<option value="4" data-color="#fd7e14"
+>Sale</option>
+<option value="20" data-color="#8B5A2B"
+>Solid Wood</option>
+<option value="25" data-color="#20c997"
+>Window Display</option>
+<option value="22" data-color="#8d6e63"
+>Wool</option>
+<option value="19" data-color="#43503b"
+>Workwear</option>
+<option value="18" data-color="#ff70a6"
+>Y2K</option>
+</select>
+</div>
+</div>
+<div class="card mb-3">
+<div class="card-header">Supplier</div>
+<div class="card-body">
+<select name="supplier_id" class="form-select">
+<option value="">— None —</option>
+<option value="6" >
+Circuit House Salvage
+</option>
+<option value="5" >
+Fenwick Books &amp; Paper
+</option>
+<option value="1" >
+Halberd Estate Clearances
+</option>
+<option value="4" selected>
+Northgate Textile Salvage
+</option>
+<option value="3" >
+Sunday Field Flea Market
+</option>
+<option value="2" >
+Two Rivers Auction Barn
+</option>
+</select>
+</div>
+</div>
+<div class="card mb-3">
+<div class="card-header">Consignment</div>
+<div class="card-body">
+<select name="consigner_id" id="consignerSelect" class="form-select mb-2"
+onchange="toggleConsignmentFields()">
+<option value="">— Not consigned —</option>
+<option value="3"
+data-split-type="fixed"
+data-split-value="40.0"
+>
+Bram Odell ($40.00 fixed)
+</option>
+<option value="4"
+data-split-type="percentage"
+data-split-value="55.0"
+>
+Junia Castellan (55% to consigner)
+</option>
+<option value="1"
+data-split-type="percentage"
+data-split-value="60.0"
+>
+Marisol Verity (60% to consigner)
+</option>
+<option value="2"
+data-split-type="percentage"
+data-split-value="50.0"
+>
+The Ashgrove Estate (50% to consigner)
+</option>
+</select>
+<div id="consignmentFields" style="display:none">
+<div class="row g-2">
+<div class="col-6">
+<label class="form-label small">Split Type Override</label>
+<select name="consignment_split_type" id="splitTypeField" class="form-select form-select-sm">
+<option value="">Use default</option>
+<option value="percentage" >Percentage</option>
+<option value="fixed" >Fixed Dollar</option>
+</select>
+</div>
+<div class="col-6">
+<label class="form-label small">Split Value Override</label>
+<input type="number" name="consignment_split_value" id="splitValueField"
+class="form-control form-control-sm" step="0.01" min="0"
+value=""
+placeholder="Use default">
+</div>
+</div>
+<small class="text-muted">Leave blank to use the consigner's default split.</small>
+</div>
+</div>
+</div>
+<div class="d-grid gap-2">
+<button type="submit" class="btn btn-primary btn-lg">
+<i class="bi bi-check-lg"></i> Update Item
+</button>
+<a href="items.html" class="btn btn-outline-secondary">Cancel</a>
+</div>
+</div>
+</div>
+</form>
+</div>
+</main>
+<!-- Error Pill Toast -->
+<div id="errorPill" class="error-pill" role="alert" aria-live="assertive">
+<i class="bi bi-exclamation-triangle-fill me-2"></i>
+<span id="errorPillMsg"></span>
+<button type="button" class="error-pill-close" onclick="window._dismissPill()" aria-label="Close">&times;</button>
+</div>
+<style>
+.error-pill {
+position: fixed;
+bottom: 24px;
+left: 50%;
+transform: translateX(-50%) translateY(20px);
+background: #dc3545;
+color: #fff;
+padding: 10px 20px 10px 16px;
+border-radius: 50px;
+font-size: 0.875rem;
+font-weight: 500;
+box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+display: flex;
+align-items: center;
+gap: 4px;
+z-index: 9999;
+opacity: 0;
+pointer-events: none;
+transition: opacity 0.35s ease, transform 0.35s ease;
+max-width: 90vw;
+}
+.error-pill.error-pill--warn {
+background: #fd7e14;
+}
+.error-pill.error-pill--info {
+background: #0d6efd;
+}
+.error-pill.error-pill--success {
+background: #198754;
+}
+.error-pill.show {
+opacity: 1;
+pointer-events: auto;
+transform: translateX(-50%) translateY(0);
+}
+.error-pill-close {
+background: none;
+border: none;
+color: rgba(255,255,255,0.8);
+font-size: 1.15rem;
+line-height: 1;
+margin-left: 8px;
+cursor: pointer;
+padding: 0 2px;
+}
+.error-pill-close:hover { color: #fff; }
+</style>
+<div class="photo-lightbox" id="photoLightbox" role="dialog" aria-modal="true" aria-hidden="true" hidden>
+<button type="button" class="photo-lightbox-close" id="photoLightboxClose" aria-label="Close">
+<i class="bi bi-x-lg"></i>
+</button>
+<button type="button" class="photo-lightbox-nav prev" id="photoLightboxPrev" aria-label="Previous">
+<i class="bi bi-chevron-left"></i>
+</button>
+<button type="button" class="photo-lightbox-nav next" id="photoLightboxNext" aria-label="Next">
+<i class="bi bi-chevron-right"></i>
+</button>
+<img class="photo-lightbox-img" id="photoLightboxImg" alt="">
+<div class="photo-lightbox-count" id="photoLightboxCount"></div>
+</div>
+<link rel="stylesheet" href="static/snap/88a0be1cee2a.css">
+<script src="static/snap/1bb55beec05e.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script src="static/js/app.js"></script>
+<script src="static/snap/7edbdfa8d7ee.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="static/js/item_analytics.js"></script>
+</body>
+</html>

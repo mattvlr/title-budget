@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="noindex,follow"><script src="snapshot.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Theme Preview</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link href="static/css/storefront_themes.css" rel="stylesheet">
+<style>
+html, body {
+margin: 0;
+padding: 0;
+overflow: hidden;
+background: #eef1f5;
+}
+body {
+min-height: 100vh;
+}
+.preview-stage {
+width: calc(100% / 0.58);
+min-width: 820px;
+transform: scale(0.58);
+transform-origin: top left;
+padding: 18px;
+}
+.preview-shell {
+box-shadow: 0 18px 42px rgba(17, 24, 39, 0.18);
+}
+.preview-shell .storefront-shell {
+min-height: 560px;
+}
+.preview-shell .storefront-card .card-body {
+min-height: 180px;
+}
+</style>
+</head>
+<body class="storefront-theme theme-fairy-forest-2" ><div id="snapBanner" role="note" style="position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#3b2414;color:#fbe9d7;border-top:2px solid #e8a13a;font:500 13px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:7px 14px;display:flex;gap:4px 14px;align-items:center;justify-content:center;flex-wrap:wrap;text-align:center;box-shadow:0 -4px 14px rgba(0,0,0,.25)"><span><strong>Read-only snapshot</strong> of the real Vintage Shop app, saved while it ran on <strong>demo data</strong> (a fictional shop). Buttons and forms that would change data are switched off.</span><a href="../" style="color:#ffd08a;text-decoration:underline;white-space:nowrap">About this demo &amp; the source code &rarr;</a></div><div id="snapToast" role="status" aria-live="polite" style="display:none;position:fixed;left:50%;bottom:72px;transform:translateX(-50%);z-index:2147483001;width:max-content;max-width:min(92vw,560px);background:#111827;border:1px solid #e8a13a;color:#fde3c0;border-radius:8px;padding:10px 16px;font:500 13.5px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;box-shadow:0 10px 25px rgba(0,0,0,.45);text-align:center"></div>
+<div class="preview-stage">
+<div class="preview-shell">
+<div class="storefront-shell">
+<div class="storefront-nav">
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+<div>
+<div class="storefront-title h4 mb-0">Rosewater &amp; Rust • Online Store</div>
+<div class="storefront-subtitle">Hand-picked vintage for the home, the wardrobe and the record shelf.</div>
+</div>
+<div class="d-flex gap-2 flex-wrap storefront-status-badges">
+<span class="badge">Updated inventory</span>
+<span class="badge">Secure checkout</span>
+</div>
+</div>
+<div class="d-flex gap-2 flex-wrap mt-3">
+<a href="#" class="storefront-page-link active"><i class="bi bi-shop"></i> Shop</a>
+<a href="#" class="storefront-page-link"><i class="bi bi-info-circle"></i> About</a>
+<a href="#" class="storefront-page-link"><i class="bi bi-patch-question"></i> FAQ</a>
+<a href="#" class="storefront-page-link"><i class="bi bi-envelope-open"></i> Contact</a>
+</div>
+<div class="storefront-top-links d-flex gap-2 flex-wrap mt-3">
+<a href="#" class="storefront-market-link"><i class="bi bi-envelope"></i> Email</a>
+</div>
+<div class="storefront-announcement mt-3">
+<i class="bi bi-megaphone"></i>
+<span>Demo shop - nothing here is for sale. New finds are added to the real thing every Thursday.</span>
+</div>
+</div>
+<div class="storefront-filter-card p-3 mb-3">
+<div class="row g-2 align-items-end">
+<div class="col-md-3">
+<label class="form-label mb-1">Search</label>
+<input class="form-control form-control-sm" value="mid-century lamp">
+</div>
+<div class="col-md-2">
+<label class="form-label mb-1">Category</label>
+<select class="form-select form-select-sm"><option>Lighting</option></select>
+</div>
+<div class="col-md-2">
+<label class="form-label mb-1">Tag</label>
+<select class="form-select form-select-sm"><option>Rare</option></select>
+</div>
+<div class="col-md-2">
+<label class="form-label mb-1">Status</label>
+<select class="form-select form-select-sm"><option>In Stock</option></select>
+</div>
+<div class="col-md-2">
+<label class="form-label mb-1">Sort</label>
+<select class="form-select form-select-sm"><option>Newest First</option></select>
+</div>
+<div class="col-md-1">
+<button type="button" class="btn btn-primary btn-sm w-100">Go</button>
+</div>
+</div>
+</div>
+<div class="row g-3 mb-3">
+<div class="col-md-6 col-lg-4">
+<div class="card storefront-card h-100">
+<div class="bg-white d-flex align-items-center justify-content-center" style="height:120px;border-bottom:2px dotted var(--sf-border);">
+<i class="bi bi-image fs-5"></i>
+</div>
+<div class="card-body">
+<div class="small text-muted mb-1">VNT-LMP-0004</div>
+<h3 class="h6 mb-1">Atomic Table Lamp</h3>
+<span class="badge bg-secondary">Lighting</span>
+<p class="small mt-2 mb-2">Brass body, warm amber shade, works perfectly.</p>
+<div class="d-flex justify-content-between align-items-center mb-1">
+<strong class="storefront-price">$84.00</strong>
+<span class="badge bg-success">In stock</span>
+</div>
+<button type="button" class="btn btn-primary btn-sm w-100">Buy Now</button>
+</div>
+</div>
+</div>
+<div class="col-md-6 col-lg-4">
+<div class="card storefront-card h-100">
+<div class="bg-white d-flex align-items-center justify-content-center" style="height:120px;border-bottom:2px dotted var(--sf-border);">
+<i class="bi bi-image fs-5"></i>
+</div>
+<div class="card-body">
+<div class="small text-muted mb-1">VNT-DEC-0011</div>
+<h3 class="h6 mb-1">Ceramic Swans</h3>
+<span class="badge bg-secondary">Decor</span>
+<p class="small mt-2 mb-2">Hand-painted vintage shelf piece.</p>
+<div class="d-flex justify-content-between align-items-center mb-1">
+<strong class="storefront-price">$42.00</strong>
+<span class="badge bg-success">In stock</span>
+</div>
+<button type="button" class="btn btn-primary btn-sm w-100">Buy Now</button>
+</div>
+</div>
+</div>
+<div class="col-md-6 col-lg-4">
+<div class="card storefront-preview-block h-100 p-3">
+<h3 class="h6 storefront-title">About This Shop</h3>
+<p class="small mb-2">Rosewater &amp; Rust is a two-room vintage shop in Cedar Hollow. We buy whole estates, sort them on the back bench, and keep the pieces that still have some life in them. Furniture gets cleaned and waxed, audio gear gets bench-tested, and every garment is measured with a tape rather than trusted to a size label.</p>
+<div class="small mb-1"><strong>Local pickup:</strong> Yes</div>
+<div class="small mb-1"><strong>Receipts:</strong> Digital + paper</div>
+<button type="button" class="btn btn-outline-secondary btn-sm mt-2">Contact</button>
+</div>
+</div>
+</div>
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+<div class="small storefront-subtitle">Showing 1–3 of 24 items</div>
+<ul class="pagination pagination-sm mb-0">
+<li class="page-item"><a class="page-link" href="#">Prev</a></li>
+<li class="page-item active"><a class="page-link" href="#">1</a></li>
+<li class="page-item"><a class="page-link" href="#">2</a></li>
+<li class="page-item"><a class="page-link" href="#">3</a></li>
+<li class="page-item"><a class="page-link" href="#">Next</a></li>
+</ul>
+</div>
+<div class="storefront-footer mt-4">
+<div class="storefront-footer-title">Quick Links</div>
+<div class="storefront-footer-links d-flex gap-2 flex-wrap mt-2">
+<a href="#" class="storefront-mini-link"><i class="bi bi-shop"></i> Shop</a>
+<a href="#" class="storefront-mini-link"><i class="bi bi-info-circle"></i> About</a>
+<a href="#" class="storefront-mini-link"><i class="bi bi-patch-question"></i> FAQ</a>
+<a href="#" class="storefront-mini-link"><i class="bi bi-envelope-open"></i> Contact</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head><meta name="robots" content="noindex,follow"><script src="snapshot.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="csrf-token" content="read-only-snapshot">
+<title>Rosewater &amp; Rust — Inventory</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link href="static/css/style.css" rel="stylesheet">
+<link href="static/css/themes.css" rel="stylesheet">
+</head>
+<body class="theme-vintage" data-theme="vintage"><div id="snapBanner" role="note" style="position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#3b2414;color:#fbe9d7;border-top:2px solid #e8a13a;font:500 13px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:7px 14px;display:flex;gap:4px 14px;align-items:center;justify-content:center;flex-wrap:wrap;text-align:center;box-shadow:0 -4px 14px rgba(0,0,0,.25)"><span><strong>Read-only snapshot</strong> of the real Vintage Shop app, saved while it ran on <strong>demo data</strong> (a fictional shop). Buttons and forms that would change data are switched off.</span><a href="../" style="color:#ffd08a;text-decoration:underline;white-space:nowrap">About this demo &amp; the source code &rarr;</a></div><div id="snapToast" role="status" aria-live="polite" style="display:none;position:fixed;left:50%;bottom:72px;transform:translateX(-50%);z-index:2147483001;width:max-content;max-width:min(92vw,560px);background:#111827;border:1px solid #e8a13a;color:#fde3c0;border-radius:8px;padding:10px 16px;font:500 13.5px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;box-shadow:0 10px 25px rgba(0,0,0,.45);text-align:center"></div>
+<!-- Sidebar -->
+<nav id="sidebar" class="sidebar">
+<div class="sidebar-header">
+<i class="bi bi-shop"></i>
+<span>Rosewater &amp; Rust</span>
+</div>
+<ul class="sidebar-nav">
+<li class="">
+<a href="index.html">
+<i class="bi bi-speedometer2"></i> Dashboard
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-box-seam"></i> Inventory</li>
+<li class="sidebar-subitem ">
+<a href="items.html">
+<i class="bi bi-box-seam"></i> Items
+</a>
+</li>
+<li class="sidebar-subitem active">
+<a href="categories.html">
+<i class="bi bi-grid"></i> Categories
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="tags.html">
+<i class="bi bi-tags"></i> Tags
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="labels.html">
+<i class="bi bi-printer"></i> Labels
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="suppliers.html">
+<i class="bi bi-truck"></i> Suppliers
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="consigners.html">
+<i class="bi bi-people"></i> Consigners
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-currency-dollar"></i> Sales</li>
+<li class="sidebar-subitem ">
+<a href="items-pos.html">
+<i class="bi bi-upc-scan"></i> Scan Checkout
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="orders.html">
+<i class="bi bi-receipt"></i> Orders
+<span class="badge bg-info ms-1">3</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="customers.html">
+<i class="bi bi-people"></i> Customers
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="returns.html">
+<i class="bi bi-arrow-counterclockwise"></i> Returns
+<span class="badge bg-danger ms-1">3</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="shipping.html">
+<i class="bi bi-box-arrow-up-right"></i> Shipping
+<span class="badge bg-warning text-dark ms-1">6</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="promo-codes.html">
+<i class="bi bi-tag-fill"></i> Promo Codes
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="reports.html">
+<i class="bi bi-bar-chart-line"></i> Reports
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-megaphone"></i> Listings</li>
+<li class="sidebar-subitem ">
+<a href="storefront.html" target="_blank">
+<i class="bi bi-globe"></i> Storefront
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-shield-lock"></i> Admin</li>
+<li class="sidebar-subitem ">
+<a href="activity.html">
+<i class="bi bi-clipboard-data"></i> Activity Log
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="settings.html">
+<i class="bi bi-gear"></i> Settings
+</a>
+</li>
+<li class="">
+<a href="help.html">
+<i class="bi bi-life-preserver"></i> Help Wiki
+</a>
+</li>
+</ul>
+<div class="sidebar-alert">
+<i class="bi bi-exclamation-triangle"></i>
+<a href="items--status-In-Stock.html">3 low stock</a>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="main-content">
+<!-- Top Bar -->
+<header class="topbar">
+<div class="topbar-leading">
+<button class="btn btn-link sidebar-toggle d-md-none" type="button" onclick="toggleSidebar()" aria-label="Open menu">
+<i class="bi bi-list"></i>
+<span class="sidebar-toggle-label">Menu</span>
+</button>
+<div class="topbar-mobile-title d-md-none">Rosewater &amp; Rust</div>
+<div class="topbar-actions topbar-actions-mobile d-md-none">
+<a href="items-pos.html" class="btn btn-outline-success btn-sm" title="Scan Checkout" aria-label="Scan Checkout">
+<i class="bi bi-upc-scan"></i>
+</a>
+<a href="items-new.html" class="btn btn-primary btn-sm" title="Add Item" aria-label="Add Item">
+<i class="bi bi-plus-lg"></i>
+</a>
+<form method="POST" action="#" data-snapshot-action="/logout" class="d-inline">
+<button type="submit" class="btn btn-outline-secondary btn-sm" title="Logout" aria-label="Logout">
+<i class="bi bi-box-arrow-right"></i>
+</button>
+</form>
+</div>
+</div>
+<div class="search-bar topbar-search">
+<i class="bi bi-search"></i>
+<input type="text" id="globalSearch" placeholder="Search items by name, SKU, brand..."
+autocomplete="off">
+<div id="searchResults" class="search-results"></div>
+</div>
+<div class="topbar-actions topbar-actions-desktop">
+<span class="text-muted small">Demo Owner · Admin</span>
+<a href="items-pos.html" class="btn btn-outline-success btn-sm">
+<i class="bi bi-upc-scan"></i> Scan Checkout
+</a>
+<a href="help.html" class="btn btn-outline-secondary btn-sm">
+<i class="bi bi-life-preserver"></i> Help
+</a>
+<a href="items-new.html" class="btn btn-primary btn-sm">
+<i class="bi bi-plus-lg"></i> Add Item
+</a>
+<form method="POST" action="#" data-snapshot-action="/logout" class="d-inline">
+<button type="submit" class="btn btn-outline-secondary btn-sm">
+<i class="bi bi-box-arrow-right"></i> Logout
+</button>
+</form>
+</div>
+</header>
+<!-- Flash Messages -->
+<div class="content-area">
+<div class="page-header d-flex justify-content-between align-items-center">
+<h1><i class="bi bi-grid"></i> Categories</h1>
+<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
+<i class="bi bi-plus-lg"></i> New Category
+</button>
+</div>
+<div class="row g-3">
+<div class="col-md-4 col-lg-3">
+<div class="card h-100 category-card" style="border-top: 4px solid #4682B4">
+<div class="card-body">
+<h5 class="card-title">Art</h5>
+<p class="text-muted small mb-2">Code: <code>ART</code></p>
+<p class="small">Original works, prints, and framed pieces.</p>
+<div class="d-flex justify-content-between align-items-center">
+<span class="badge bg-light text-dark">5 items</span>
+<div class="btn-group btn-group-sm">
+<span data-bs-toggle="tooltip" title="Edit category">
+<button class="btn btn-outline-secondary" data-bs-toggle="modal"
+data-bs-target="#editCategory4"
+aria-label="Edit category"><i class="bi bi-pencil"></i></button>
+</span>
+<a href="#" data-snapshot-missing="/items?category=4" class="btn btn-outline-secondary" data-bs-toggle="tooltip"
+title="View items in this category" aria-label="View items in this category">
+<i class="bi bi-box-seam"></i>
+</a>
+<a href="static/labels/shelf-4.png" class="btn btn-outline-secondary" target="_blank" data-bs-toggle="tooltip"
+title="Print shelf label" aria-label="Print shelf label">
+<i class="bi bi-printer"></i>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Edit Modal -->
+<div class="modal fade" id="editCategory4" tabindex="-1">
+<div class="modal-dialog">
+<form method="POST" action="#" data-snapshot-action="/categories/4/edit">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">Edit Art</h5>
+<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+<div class="modal-body">
+<div class="mb-3">
+<label class="form-label">Name</label>
+<input type="text" name="name" class="form-control" value="Art" required>
+</div>
+<div class="row g-3">
+<div class="col-6">
+<label class="form-label">Code</label>
+<input type="text" name="code" class="form-control" value="ART" maxlength="5">
+</div>
+<div class="col-6">
+<label class="form-label">Color</label>
+<input type="color" name="color" class="form-control form-control-color" value="#4682B4">
+</div>
+</div>
+<div class="mt-3">
+<label class="form-label">Description</label>
+<textarea name="description" class="form-control" rows="2">Original works, prints, and framed pieces.</textarea>
+</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-outline-danger btn-sm me-auto"
+onclick="if(confirm('Delete this category?')) document.getElementById('deleteCategoryForm4').submit()">Delete</button>
+<button type="submit" class="btn btn-primary">Save</button>
+</div>
+</div>
+</form>
+</div>
+</div>
+<form id="deleteCategoryForm4" method="POST" action="#" data-snapshot-action="/categories/4/delete" style="display:none"></form>
+<div class="col-md-4 col-lg-3">
+<div class="card h-100 category-card" style="border-top: 4px solid #2E8B57">
+<div class="card-body">
+<h5 class="card-title">Books</h5>
+<p class="text-muted small mb-2">Code: <code>BKS</code></p>
+<p class="small">Hardbacks, paperbacks, ephemera and paper goods.</p>
+<div class="d-flex justify-content-between align-items-center">
+<span class="badge bg-light text-dark">8 items</span>
+<div class="btn-group btn-group-sm">
+<span data-bs-toggle="tooltip" title="Edit category">
+<button class="btn btn-outline-secondary" data-bs-toggle="modal"
+data-bs-target="#editCategory5"
+aria-label="Edit category"><i class="bi bi-pencil"></i></button>
+</span>
+<a href="#" data-snapshot-missing="/items?category=5" class="btn btn-outline-secondary" data-bs-toggle="tooltip"
+title="View items in this category" aria-label="View items in this category">
+<i class="bi bi-box-seam"></i>
+</a>
+<a href="static/labels/shelf-5.png" class="btn btn-outline-secondary" target="_blank" data-bs-toggle="tooltip"
+title="Print shelf label" aria-label="Print shelf label">
+<i class="bi bi-printer"></i>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Edit Modal -->
+<div class="modal fade" id="editCategory5" tabindex="-1">
+<div class="modal-dialog">
+<form method="POST" action="#" data-snapshot-action="/categories/5/edit">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">Edit Books</h5>
+<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+<div class="modal-body">
+<div class="mb-3">
+<label class="form-label">Name</label>
+<input type="text" name="name" class="form-control" value="Books" required>
+</div>
+<div class="row g-3">
+<div class="col-6">
+<label class="form-label">Code</label>
+<input type="text" name="code" class="form-control" value="BKS" maxlength="5">
+</div>
+<div class="col-6">
+<label class="form-label">Color</label>
+<input type="color" name="color" class="form-control form-control-color" value="#2E8B57">
+</div>
+</div>
+<div class="mt-3">
+<label class="form-label">Description</label>
+<textarea name="description" class="form-control" rows="2">Hardbacks, paperbacks, ephemera and paper goods.</textarea>
+</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-outline-danger btn-sm me-auto"
+onclick="if(confirm('Delete this category?')) document.getElementById('deleteCategoryForm5').submit()">Delete</button>
+<button type="submit" class="btn btn-primary">Save</button>
+</div>
+</div>
+</form>
+</div>
+</div>
+<form id="deleteCategoryForm5" method="POST" action="#" data-snapshot-action="/categories/5/delete" style="display:none"></form>
+<div class="col-md-4 col-lg-3">
+<div class="card h-100 category-card" style="border-top: 4px solid #C71585">
+<div class="card-body">
+<h5 class="card-title">Clothing</h5>
+<p class="text-muted small mb-2">Code: <code>CLO</code></p>
+<p class="small">Vintage and secondhand garments, sized by tape measure.</p>
+<div class="d-flex justify-content-between align-items-center">
+<span class="badge bg-light text-dark">11 items</span>
+<div class="btn-group btn-group-sm">
+<span data-bs-toggle="tooltip" title="Edit category">
+<button class="btn btn-outline-secondary" data-bs-toggle="modal"
+data-bs-target="#editCategory2"
+aria-label="Edit category"><i class="bi bi-pencil"></i></button>
+</span>
+<a href="#" data-snapshot-missing="/items?category=2" class="btn btn-outline-secondary" data-bs-toggle="tooltip"
+title="View items in this category" aria-label="View items in this category">
+<i class="bi bi-box-seam"></i>
+</a>
+<a href="static/labels/shelf-2.png" class="btn btn-outline-secondary" target="_blank" data-bs-toggle="tooltip"
+title="Print shelf label" aria-label="Print shelf label">
+<i class="bi bi-printer"></i>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Edit Modal -->
+<div class="modal fade" id="editCategory2" tabindex="-1">
+<div class="modal-dialog">
+<form method="POST" action="#" data-snapshot-action="/categories/2/edit">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">Edit Clothing</h5>
+<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+<div class="modal-body">
+<div class="mb-3">
+<label class="form-label">Name</label>
+<input type="text" name="name" class="form-control" value="Clothing" required>
+</div>
+<div class="row g-3">
+<div class="col-6">
+<label class="form-label">Code</label>
+<input type="text" name="code" class="form-control" value="CLO" maxlength="5">
+</div>
+<div class="col-6">
+<label class="form-label">Color</label>
+<input type="color" name="color" class="form-control form-control-color" value="#C71585">
+</div>
+</div>
+<div class="mt-3">
+<label class="form-label">Description</label>
+<textarea name="description" class="form-control" rows="2">Vintage and secondhand garments, sized by tape measure.</textarea>
+</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-outline-danger btn-sm me-auto"
+onclick="if(confirm('Delete this category?')) document.getElementById('deleteCategoryForm2').submit()">Delete</button>
+<button type="submit" class="btn btn-primary">Save</button>
+</div>
+</div>
+</form>
+</div>
+</div>
+<form id="deleteCategoryForm2" method="POST" action="#" data-snapshot-action="/categories/2/delete" style="display:none"></form>
+<div class="col-md-4 col-lg-3">
+<div class="card h-100 category-card" style="border-top: 4px solid #9370DB">
+<div class="card-body">
+<h5 class="card-title">Decor</h5>
+<p class="text-muted small mb-2">Code: <code>DEC</code></p>
+<p class="small">Lighting, vases, mirrors and wall objects.</p>
+<div class="d-flex justify-content-between align-items-center">
+<span class="badge bg-light text-dark">8 items</span>
+<div class="btn-group btn-group-sm">
+<span data-bs-toggle="tooltip" title="Edit category">
+<button class="btn btn-outline-secondary" data-bs-toggle="modal"
+data-bs-target="#editCategory8"
+aria-label="Edit category"><i class="bi bi-pencil"></i></button>
+</span>
+<a href="#" data-snapshot-missing="/items?category=8" class="btn btn-outline-secondary" data-bs-toggle="tooltip"
+title="View items in this category" aria-label="View items in this category">
+<i class="bi bi-box-seam"></i>
+</a>
+<a href="static/labels/shelf-8.png" class="btn btn-outline-secondary" target="_blank" data-bs-toggle="tooltip"
+title="Print shelf label" aria-label="Print shelf label">
+<i class="bi bi-printer"></i>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Edit Modal -->
+<div class="modal fade" id="editCategory8" tabindex="-1">
+<div class="modal-dialog">
+<form method="POST" action="#" data-snapshot-action="/categories/8/edit">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">Edit Decor</h5>
+<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+<div class="modal-body">
+<div class="mb-3">
+<label class="form-label">Name</label>
+<input type="text" name="name" class="form-control" value="Decor" required>
+</div>
+<div class="row g-3">
+<div class="col-6">
+<label class="form-label">Code</label>
+<input type="text" name="code" class="form-control" value="DEC" maxlength="5">
+</div>
+<div class="col-6">
+<label class="form-label">Color</label>
+<input type="color" name="color" class="form-control form-control-color" value="#9370DB">
+</div>
+</div>
+<div class="mt-3">
+<label class="form-label">Description</label>
+<textarea name="description" class="form-control" rows="2">Lighting, vases, mirrors and wall objects.</textarea>
+</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-outline-danger btn-sm me-auto"
+onclick="if(confirm('Delete this category?')) document.getElementById('deleteCategoryForm8').submit()">Delete</button>
+<button type="submit" class="btn btn-primary">Save</button>
+</div>
+</div>
+</form>
+</div>
+</div>
+<form id="deleteCategoryForm8" method="POST" action="#" data-snapshot-action="/categories/8/delete" style="display:none"></form>
+<div class="col-md-4 col-lg-3">
+<div class="card h-100 category-card" style="border-top: 4px solid #708090">
+<div class="card-body">
+<h5 class="card-title">Electronics</h5>
+<p class="text-muted small mb-2">Code: <code>ELC</code></p>
+<p class="small">Audio gear, cameras, clocks and small appliances.</p>
+<div class="d-flex justify-content-between align-items-center">
+<span class="badge bg-light text-dark">5 items</span>
+<div class="btn-group btn-group-sm">
+<span data-bs-toggle="tooltip" title="Edit category">
+<button class="btn btn-outline-secondary" data-bs-toggle="modal"
+data-bs-target="#editCategory6"
+aria-label="Edit category"><i class="bi bi-pencil"></i></button>
+</span>
+<a href="#" data-snapshot-missing="/items?category=6" class="btn btn-outline-secondary" data-bs-toggle="tooltip"
+title="View items in this category" aria-label="View items in this category">
+<i class="bi bi-box-seam"></i>
+</a>
+<a href="static/labels/shelf-6.png" class="btn btn-outline-secondary" target="_blank" data-bs-toggle="tooltip"
+title="Print shelf label" aria-label="Print shelf label">
+<i class="bi bi-printer"></i>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Edit Modal -->
+<div class="modal fade" id="editCategory6" tabindex="-1">
+<div class="modal-dialog">
+<form method="POST" action="#" data-snapshot-action="/categories/6/edit">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">Edit Electronics</h5>
+<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+<div class="modal-body">
+<div class="mb-3">
+<label class="form-label">Name</label>
+<input type="text" name="name" class="form-control" value="Electronics" required>
+</div>
+<div class="row g-3">
+<div class="col-6">
+<label class="form-label">Code</label>
+<input type="text" name="code" class="form-control" value="ELC" maxlength="5">
+</div>
+<div class="col-6">
+<label class="form-label">Color</label>
+<input type="color" name="color" class="form-control form-control-color" value="#708090">
+</div>
+</div>
+<div class="mt-3">
+<label class="form-label">Description</label>
+<textarea name="description" class="form-control" rows="2">Audio gear, cameras, clocks and small appliances.</textarea>
+</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-outline-danger btn-sm me-auto"
+onclick="if(confirm('Delete this category?')) document.getElementById('deleteCategoryForm6').submit()">Delete</button>
+<button type="submit" class="btn btn-primary">Save</button>
+</div>
+</div>
+</form>
+</div>
+</div>
+<form id="deleteCategoryForm6" method="POST" action="#" data-snapshot-action="/categories/6/delete" style="display:none"></form>
+<div class="col-md-4 col-lg-3">
+<div class="card h-100 category-card" style="border-top: 4px solid #8B4513">
+<div class="card-body">
+<h5 class="card-title">Furniture</h5>
+<p class="text-muted small mb-2">Code: <code>FUR</code></p>
+<p class="small">Case goods, seating, tables and shop fixtures.</p>
+<div class="d-flex justify-content-between align-items-center">
+<span class="badge bg-light text-dark">6 items</span>
+<div class="btn-group btn-group-sm">
+<span data-bs-toggle="tooltip" title="Edit category">
+<button class="btn btn-outline-secondary" data-bs-toggle="modal"
+data-bs-target="#editCategory1"
+aria-label="Edit category"><i class="bi bi-pencil"></i></button>
+</span>
+<a href="#" data-snapshot-missing="/items?category=1" class="btn btn-outline-secondary" data-bs-toggle="tooltip"
+title="View items in this category" aria-label="View items in this category">
+<i class="bi bi-box-seam"></i>
+</a>
+<a href="static/labels/shelf-1.png" class="btn btn-outline-secondary" target="_blank" data-bs-toggle="tooltip"
+title="Print shelf label" aria-label="Print shelf label">
+<i class="bi bi-printer"></i>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Edit Modal -->
+<div class="modal fade" id="editCategory1" tabindex="-1">
+<div class="modal-dialog">
+<form method="POST" action="#" data-snapshot-action="/categories/1/edit">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">Edit Furniture</h5>
+<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+<div class="modal-body">
+<div class="mb-3">
+<label class="form-label">Name</label>
+<input type="text" name="name" class="form-control" value="Furniture" required>
+</div>
+<div class="row g-3">
+<div class="col-6">
+<label class="form-label">Code</label>
+<input type="text" name="code" class="form-control" value="FUR" maxlength="5">
+</div>
+<div class="col-6">
+<label class="form-label">Color</label>
+<input type="color" name="color" class="form-control form-control-color" value="#8B4513">
+</div>
+</div>
+<div class="mt-3">
+<label class="form-label">Description</label>
+<textarea name="description" class="form-control" rows="2">Case goods, seating, tables and shop fixtures.</textarea>
+</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-outline-danger btn-sm me-auto"
+onclick="if(confirm('Delete this category?')) document.getElementById('deleteCategoryForm1').submit()">Delete</button>
+<button type="submit" class="btn btn-primary">Save</button>
+</div>
+</div>
+</form>
+</div>
+</div>
+<form id="deleteCategoryForm1" method="POST" action="#" data-snapshot-action="/categories/1/delete" style="display:none"></form>
+<div class="col-md-4 col-lg-3">
+<div class="card h-100 category-card" style="border-top: 4px solid #FFD700">
+<div class="card-body">
+<h5 class="card-title">Jewelry</h5>
+<p class="text-muted small mb-2">Code: <code>JWL</code></p>
+<p class="small">Costume and fine jewellery, watches and loose findings.</p>
+<div class="d-flex justify-content-between align-items-center">
+<span class="badge bg-light text-dark">6 items</span>
+<div class="btn-group btn-group-sm">
+<span data-bs-toggle="tooltip" title="Edit category">
+<button class="btn btn-outline-secondary" data-bs-toggle="modal"
+data-bs-target="#editCategory3"
+aria-label="Edit category"><i class="bi bi-pencil"></i></button>
+</span>
+<a href="#" data-snapshot-missing="/items?category=3" class="btn btn-outline-secondary" data-bs-toggle="tooltip"
+title="View items in this category" aria-label="View items in this category">
+<i class="bi bi-box-seam"></i>
+</a>
+<a href="static/labels/shelf-3.png" class="btn btn-outline-secondary" target="_blank" data-bs-toggle="tooltip"
+title="Print shelf label" aria-label="Print shelf label">
+<i class="bi bi-printer"></i>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Edit Modal -->
+<div class="modal fade" id="editCategory3" tabindex="-1">
+<div class="modal-dialog">
+<form method="POST" action="#" data-snapshot-action="/categories/3/edit">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">Edit Jewelry</h5>
+<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+<div class="modal-body">
+<div class="mb-3">
+<label class="form-label">Name</label>
+<input type="text" name="name" class="form-control" value="Jewelry" required>
+</div>
+<div class="row g-3">
+<div class="col-6">
+<label class="form-label">Code</label>
+<input type="text" name="code" class="form-control" value="JWL" maxlength="5">
+</div>
+<div class="col-6">
+<label class="form-label">Color</label>
+<input type="color" name="color" class="form-control form-control-color" value="#FFD700">
+</div>
+</div>
+<div class="mt-3">
+<label class="form-label">Description</label>
+<textarea name="description" class="form-control" rows="2">Costume and fine jewellery, watches and loose findings.</textarea>
+</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-outline-danger btn-sm me-auto"
+onclick="if(confirm('Delete this category?')) document.getElementById('deleteCategoryForm3').submit()">Delete</button>
+<button type="submit" class="btn btn-primary">Save</button>
+</div>
+</div>
+</form>
+</div>
+</div>
+<form id="deleteCategoryForm3" method="POST" action="#" data-snapshot-action="/categories/3/delete" style="display:none"></form>
+<div class="col-md-4 col-lg-3">
+<div class="card h-100 category-card" style="border-top: 4px solid #CD853F">
+<div class="card-body">
+<h5 class="card-title">Kitchenware</h5>
+<p class="text-muted small mb-2">Code: <code>KIT</code></p>
+<p class="small">Cookware, glassware, tableware and bar goods.</p>
+<div class="d-flex justify-content-between align-items-center">
+<span class="badge bg-light text-dark">7 items</span>
+<div class="btn-group btn-group-sm">
+<span data-bs-toggle="tooltip" title="Edit category">
+<button class="btn btn-outline-secondary" data-bs-toggle="modal"
+data-bs-target="#editCategory7"
+aria-label="Edit category"><i class="bi bi-pencil"></i></button>
+</span>
+<a href="#" data-snapshot-missing="/items?category=7" class="btn btn-outline-secondary" data-bs-toggle="tooltip"
+title="View items in this category" aria-label="View items in this category">
+<i class="bi bi-box-seam"></i>
+</a>
+<a href="static/labels/shelf-7.png" class="btn btn-outline-secondary" target="_blank" data-bs-toggle="tooltip"
+title="Print shelf label" aria-label="Print shelf label">
+<i class="bi bi-printer"></i>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Edit Modal -->
+<div class="modal fade" id="editCategory7" tabindex="-1">
+<div class="modal-dialog">
+<form method="POST" action="#" data-snapshot-action="/categories/7/edit">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">Edit Kitchenware</h5>
+<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+<div class="modal-body">
+<div class="mb-3">
+<label class="form-label">Name</label>
+<input type="text" name="name" class="form-control" value="Kitchenware" required>
+</div>
+<div class="row g-3">
+<div class="col-6">
+<label class="form-label">Code</label>
+<input type="text" name="code" class="form-control" value="KIT" maxlength="5">
+</div>
+<div class="col-6">
+<label class="form-label">Color</label>
+<input type="color" name="color" class="form-control form-control-color" value="#CD853F">
+</div>
+</div>
+<div class="mt-3">
+<label class="form-label">Description</label>
+<textarea name="description" class="form-control" rows="2">Cookware, glassware, tableware and bar goods.</textarea>
+</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-outline-danger btn-sm me-auto"
+onclick="if(confirm('Delete this category?')) document.getElementById('deleteCategoryForm7').submit()">Delete</button>
+<button type="submit" class="btn btn-primary">Save</button>
+</div>
+</div>
+</form>
+</div>
+</div>
+<form id="deleteCategoryForm7" method="POST" action="#" data-snapshot-action="/categories/7/delete" style="display:none"></form>
+<div class="col-md-4 col-lg-3">
+<div class="card h-100 category-card" style="border-top: 4px solid #B5838D">
+<div class="card-body">
+<h5 class="card-title">Linens &amp; Textiles</h5>
+<p class="text-muted small mb-2">Code: <code>TEX</code></p>
+<p class="small">Quilts, rugs, curtains, table linen and yardage.</p>
+<div class="d-flex justify-content-between align-items-center">
+<span class="badge bg-light text-dark">6 items</span>
+<div class="btn-group btn-group-sm">
+<span data-bs-toggle="tooltip" title="Edit category">
+<button class="btn btn-outline-secondary" data-bs-toggle="modal"
+data-bs-target="#editCategory12"
+aria-label="Edit category"><i class="bi bi-pencil"></i></button>
+</span>
+<a href="#" data-snapshot-missing="/items?category=12" class="btn btn-outline-secondary" data-bs-toggle="tooltip"
+title="View items in this category" aria-label="View items in this category">
+<i class="bi bi-box-seam"></i>
+</a>
+<a href="static/labels/shelf-12.png" class="btn btn-outline-secondary" target="_blank" data-bs-toggle="tooltip"
+title="Print shelf label" aria-label="Print shelf label">
+<i class="bi bi-printer"></i>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Edit Modal -->
+<div class="modal fade" id="editCategory12" tabindex="-1">
+<div class="modal-dialog">
+<form method="POST" action="#" data-snapshot-action="/categories/12/edit">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">Edit Linens &amp; Textiles</h5>
+<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+<div class="modal-body">
+<div class="mb-3">
+<label class="form-label">Name</label>
+<input type="text" name="name" class="form-control" value="Linens &amp; Textiles" required>
+</div>
+<div class="row g-3">
+<div class="col-6">
+<label class="form-label">Code</label>
+<input type="text" name="code" class="form-control" value="TEX" maxlength="5">
+</div>
+<div class="col-6">
+<label class="form-label">Color</label>
+<input type="color" name="color" class="form-control form-control-color" value="#B5838D">
+</div>
+</div>
+<div class="mt-3">
+<label class="form-label">Description</label>
+<textarea name="description" class="form-control" rows="2">Quilts, rugs, curtains, table linen and yardage.</textarea>
+</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-outline-danger btn-sm me-auto"
+onclick="if(confirm('Delete this category?')) document.getElementById('deleteCategoryForm12').submit()">Delete</button>
+<button type="submit" class="btn btn-primary">Save</button>
+</div>
+</div>
+</form>
+</div>
+</div>
+<form id="deleteCategoryForm12" method="POST" action="#" data-snapshot-action="/categories/12/delete" style="display:none"></form>
+<div class="col-md-4 col-lg-3">
+<div class="card h-100 category-card" style="border-top: 4px solid #6c757d">
+<div class="card-body">
+<h5 class="card-title">Misc</h5>
+<p class="text-muted small mb-2">Code: <code>MSC</code></p>
+<p class="small">Odd lots, tools, signage and anything uncategorised.</p>
+<div class="d-flex justify-content-between align-items-center">
+<span class="badge bg-light text-dark">5 items</span>
+<div class="btn-group btn-group-sm">
+<span data-bs-toggle="tooltip" title="Edit category">
+<button class="btn btn-outline-secondary" data-bs-toggle="modal"
+data-bs-target="#editCategory10"
+aria-label="Edit category"><i class="bi bi-pencil"></i></button>
+</span>
+<a href="#" data-snapshot-missing="/items?category=10" class="btn btn-outline-secondary" data-bs-toggle="tooltip"
+title="View items in this category" aria-label="View items in this category">
+<i class="bi bi-box-seam"></i>
+</a>
+<a href="static/labels/shelf-10.png" class="btn btn-outline-secondary" target="_blank" data-bs-toggle="tooltip"
+title="Print shelf label" aria-label="Print shelf label">
+<i class="bi bi-printer"></i>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Edit Modal -->
+<div class="modal fade" id="editCategory10" tabindex="-1">
+<div class="modal-dialog">
+<form method="POST" action="#" data-snapshot-action="/categories/10/edit">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">Edit Misc</h5>
+<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+<div class="modal-body">
+<div class="mb-3">
+<label class="form-label">Name</label>
+<input type="text" name="name" class="form-control" value="Misc" required>
+</div>
+<div class="row g-3">
+<div class="col-6">
+<label class="form-label">Code</label>
+<input type="text" name="code" class="form-control" value="MSC" maxlength="5">
+</div>
+<div class="col-6">
+<label class="form-label">Color</label>
+<input type="color" name="color" class="form-control form-control-color" value="#6c757d">
+</div>
+</div>
+<div class="mt-3">
+<label class="form-label">Description</label>
+<textarea name="description" class="form-control" rows="2">Odd lots, tools, signage and anything uncategorised.</textarea>
+</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-outline-danger btn-sm me-auto"
+onclick="if(confirm('Delete this category?')) document.getElementById('deleteCategoryForm10').submit()">Delete</button>
+<button type="submit" class="btn btn-primary">Save</button>
+</div>
+</div>
+</form>
+</div>
+</div>
+<form id="deleteCategoryForm10" method="POST" action="#" data-snapshot-action="/categories/10/delete" style="display:none"></form>
+<div class="col-md-4 col-lg-3">
+<div class="card h-100 category-card" style="border-top: 4px solid #1F7A8C">
+<div class="card-body">
+<h5 class="card-title">Records &amp; Media</h5>
+<p class="text-muted small mb-2">Code: <code>REC</code></p>
+<p class="small">Vinyl, tape, and sleeve-and-liner collectables.</p>
+<div class="d-flex justify-content-between align-items-center">
+<span class="badge bg-light text-dark">7 items</span>
+<div class="btn-group btn-group-sm">
+<span data-bs-toggle="tooltip" title="Edit category">
+<button class="btn btn-outline-secondary" data-bs-toggle="modal"
+data-bs-target="#editCategory11"
+aria-label="Edit category"><i class="bi bi-pencil"></i></button>
+</span>
+<a href="#" data-snapshot-missing="/items?category=11" class="btn btn-outline-secondary" data-bs-toggle="tooltip"
+title="View items in this category" aria-label="View items in this category">
+<i class="bi bi-box-seam"></i>
+</a>
+<a href="static/labels/shelf-11.png" class="btn btn-outline-secondary" target="_blank" data-bs-toggle="tooltip"
+title="Print shelf label" aria-label="Print shelf label">
+<i class="bi bi-printer"></i>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Edit Modal -->
+<div class="modal fade" id="editCategory11" tabindex="-1">
+<div class="modal-dialog">
+<form method="POST" action="#" data-snapshot-action="/categories/11/edit">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">Edit Records &amp; Media</h5>
+<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+<div class="modal-body">
+<div class="mb-3">
+<label class="form-label">Name</label>
+<input type="text" name="name" class="form-control" value="Records &amp; Media" required>
+</div>
+<div class="row g-3">
+<div class="col-6">
+<label class="form-label">Code</label>
+<input type="text" name="code" class="form-control" value="REC" maxlength="5">
+</div>
+<div class="col-6">
+<label class="form-label">Color</label>
+<input type="color" name="color" class="form-control form-control-color" value="#1F7A8C">
+</div>
+</div>
+<div class="mt-3">
+<label class="form-label">Description</label>
+<textarea name="description" class="form-control" rows="2">Vinyl, tape, and sleeve-and-liner collectables.</textarea>
+</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-outline-danger btn-sm me-auto"
+onclick="if(confirm('Delete this category?')) document.getElementById('deleteCategoryForm11').submit()">Delete</button>
+<button type="submit" class="btn btn-primary">Save</button>
+</div>
+</div>
+</form>
+</div>
+</div>
+<form id="deleteCategoryForm11" method="POST" action="#" data-snapshot-action="/categories/11/delete" style="display:none"></form>
+<div class="col-md-4 col-lg-3">
+<div class="card h-100 category-card" style="border-top: 4px solid #FF6347">
+<div class="card-body">
+<h5 class="card-title">Toys &amp; Games</h5>
+<p class="text-muted small mb-2">Code: <code>TOY</code></p>
+<p class="small">Boxed games, figures, puzzles and hobby kits.</p>
+<div class="d-flex justify-content-between align-items-center">
+<span class="badge bg-light text-dark">6 items</span>
+<div class="btn-group btn-group-sm">
+<span data-bs-toggle="tooltip" title="Edit category">
+<button class="btn btn-outline-secondary" data-bs-toggle="modal"
+data-bs-target="#editCategory9"
+aria-label="Edit category"><i class="bi bi-pencil"></i></button>
+</span>
+<a href="#" data-snapshot-missing="/items?category=9" class="btn btn-outline-secondary" data-bs-toggle="tooltip"
+title="View items in this category" aria-label="View items in this category">
+<i class="bi bi-box-seam"></i>
+</a>
+<a href="static/labels/shelf-9.png" class="btn btn-outline-secondary" target="_blank" data-bs-toggle="tooltip"
+title="Print shelf label" aria-label="Print shelf label">
+<i class="bi bi-printer"></i>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Edit Modal -->
+<div class="modal fade" id="editCategory9" tabindex="-1">
+<div class="modal-dialog">
+<form method="POST" action="#" data-snapshot-action="/categories/9/edit">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">Edit Toys &amp; Games</h5>
+<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+<div class="modal-body">
+<div class="mb-3">
+<label class="form-label">Name</label>
+<input type="text" name="name" class="form-control" value="Toys &amp; Games" required>
+</div>
+<div class="row g-3">
+<div class="col-6">
+<label class="form-label">Code</label>
+<input type="text" name="code" class="form-control" value="TOY" maxlength="5">
+</div>
+<div class="col-6">
+<label class="form-label">Color</label>
+<input type="color" name="color" class="form-control form-control-color" value="#FF6347">
+</div>
+</div>
+<div class="mt-3">
+<label class="form-label">Description</label>
+<textarea name="description" class="form-control" rows="2">Boxed games, figures, puzzles and hobby kits.</textarea>
+</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-outline-danger btn-sm me-auto"
+onclick="if(confirm('Delete this category?')) document.getElementById('deleteCategoryForm9').submit()">Delete</button>
+<button type="submit" class="btn btn-primary">Save</button>
+</div>
+</div>
+</form>
+</div>
+</div>
+<form id="deleteCategoryForm9" method="POST" action="#" data-snapshot-action="/categories/9/delete" style="display:none"></form>
+</div>
+<!-- Add Category Modal -->
+<div class="modal fade" id="addCategoryModal" tabindex="-1">
+<div class="modal-dialog">
+<form method="POST" action="#" data-snapshot-action="/categories/new">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">New Category</h5>
+<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+<div class="modal-body">
+<div class="mb-3">
+<label class="form-label">Name *</label>
+<input type="text" name="name" class="form-control" required placeholder="e.g. Lighting">
+</div>
+<div class="row g-3">
+<div class="col-6">
+<label class="form-label">Code (3-5 chars)</label>
+<input type="text" name="code" class="form-control text-uppercase" maxlength="5" placeholder="e.g. LGT">
+</div>
+<div class="col-6">
+<label class="form-label">Color</label>
+<input type="color" name="color" class="form-control form-control-color" value="#6c757d">
+</div>
+</div>
+<div class="mt-3">
+<label class="form-label">Description</label>
+<textarea name="description" class="form-control" rows="2"></textarea>
+</div>
+</div>
+<div class="modal-footer">
+<button type="submit" class="btn btn-primary">Create</button>
+</div>
+</div>
+</form>
+</div>
+</div>
+</div>
+</main>
+<!-- Error Pill Toast -->
+<div id="errorPill" class="error-pill" role="alert" aria-live="assertive">
+<i class="bi bi-exclamation-triangle-fill me-2"></i>
+<span id="errorPillMsg"></span>
+<button type="button" class="error-pill-close" onclick="window._dismissPill()" aria-label="Close">&times;</button>
+</div>
+<style>
+.error-pill {
+position: fixed;
+bottom: 24px;
+left: 50%;
+transform: translateX(-50%) translateY(20px);
+background: #dc3545;
+color: #fff;
+padding: 10px 20px 10px 16px;
+border-radius: 50px;
+font-size: 0.875rem;
+font-weight: 500;
+box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+display: flex;
+align-items: center;
+gap: 4px;
+z-index: 9999;
+opacity: 0;
+pointer-events: none;
+transition: opacity 0.35s ease, transform 0.35s ease;
+max-width: 90vw;
+}
+.error-pill.error-pill--warn {
+background: #fd7e14;
+}
+.error-pill.error-pill--info {
+background: #0d6efd;
+}
+.error-pill.error-pill--success {
+background: #198754;
+}
+.error-pill.show {
+opacity: 1;
+pointer-events: auto;
+transform: translateX(-50%) translateY(0);
+}
+.error-pill-close {
+background: none;
+border: none;
+color: rgba(255,255,255,0.8);
+font-size: 1.15rem;
+line-height: 1;
+margin-left: 8px;
+cursor: pointer;
+padding: 0 2px;
+}
+.error-pill-close:hover { color: #fff; }
+</style>
+<div class="photo-lightbox" id="photoLightbox" role="dialog" aria-modal="true" aria-hidden="true" hidden>
+<button type="button" class="photo-lightbox-close" id="photoLightboxClose" aria-label="Close">
+<i class="bi bi-x-lg"></i>
+</button>
+<button type="button" class="photo-lightbox-nav prev" id="photoLightboxPrev" aria-label="Previous">
+<i class="bi bi-chevron-left"></i>
+</button>
+<button type="button" class="photo-lightbox-nav next" id="photoLightboxNext" aria-label="Next">
+<i class="bi bi-chevron-right"></i>
+</button>
+<img class="photo-lightbox-img" id="photoLightboxImg" alt="">
+<div class="photo-lightbox-count" id="photoLightboxCount"></div>
+</div>
+<link rel="stylesheet" href="static/snap/88a0be1cee2a.css">
+<script src="static/snap/1bb55beec05e.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script src="static/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+
+/* Photo rotation: subtle dimmed overlay with a spinner shown while the
+server rewrites the file. Sits above the main photo and the prev/next
+chevrons so the user can't trigger a second action mid-flight. */
+#inventoryDetailGallery .photo-rotate-loader {
+position: absolute;
+inset: 0;
+display: flex;
+align-items: center;
+justify-content: center;
+background: rgba(15, 23, 42, 0.42);
+border-radius: 0.5rem;
+z-index: 6;
+pointer-events: auto;
+}
+#inventoryDetailGallery.is-rotating .photo-rotate-loader[hidden] { display: none; }
+/* When the gallery is in the "rotating" state, fade the buttons that
+shouldn't be tappable. */
+#inventoryDetailGallery.is-rotating .btn { opacity: 0.65; pointer-events: none; }
+.photo-rotate-group .btn { padding-inline: 0.65rem; }
+.photo-rotate-group .btn[disabled] { opacity: 0.55; }
+.photo-rotate-toast {
+position: fixed;
+left: 50%;
+bottom: 24px;
+transform: translateX(-50%) translateY(20px);
+opacity: 0;
+pointer-events: none;
+z-index: 1080;
+padding: 10px 16px;
+border-radius: 999px;
+background: rgba(15, 23, 42, 0.92);
+color: #fff;
+font-size: 0.9rem;
+box-shadow: 0 14px 40px rgba(0,0,0,0.28);
+transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.photo-rotate-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.photo-rotate-toast.err { background: rgba(120, 32, 44, 0.95); }

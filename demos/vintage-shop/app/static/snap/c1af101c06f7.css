@@ -1,0 +1,155 @@
+
+.receipt-admin-grid {
+margin-bottom: 1rem;
+}
+.thermal-preview-card .card-body {
+background: linear-gradient(180deg, #f7f7f7 0%, #efefef 100%);
+}
+.thermal-print-sheet {
+display: flex;
+justify-content: center;
+}
+.thermal-receipt {
+width: min(100%, 82mm);
+background: #fff;
+color: #000;
+border: 1px solid #d7d7d7;
+box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+padding: 0.85rem 0.75rem 1rem;
+font-family: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+font-size: 12px;
+line-height: 1.35;
+}
+.thermal-receipt * {
+color: #000;
+}
+.thermal-center {
+text-align: center;
+}
+.thermal-store {
+font-size: 1rem;
+font-weight: 700;
+letter-spacing: 0.04em;
+text-transform: uppercase;
+}
+.thermal-subtle {
+color: #444;
+font-size: 11px;
+}
+.thermal-rule {
+border-top: 1px dashed #000;
+margin: 0.6rem 0;
+}
+.thermal-meta-row,
+.thermal-line-row,
+.thermal-total-row {
+display: flex;
+justify-content: space-between;
+gap: 0.75rem;
+}
+.thermal-meta-row + .thermal-meta-row,
+.thermal-line-row + .thermal-line-row,
+.thermal-total-row + .thermal-total-row {
+margin-top: 0.28rem;
+}
+.thermal-lines-head {
+display: flex;
+justify-content: space-between;
+gap: 0.75rem;
+font-weight: 700;
+text-transform: uppercase;
+font-size: 11px;
+margin-bottom: 0.35rem;
+}
+.thermal-line-name {
+font-weight: 700;
+}
+.thermal-line-meta {
+color: #444;
+font-size: 11px;
+}
+.thermal-line-price {
+text-align: right;
+white-space: nowrap;
+}
+.thermal-total-row {
+font-weight: 700;
+}
+.thermal-total-row.is-grand {
+font-size: 13px;
+}
+.thermal-empty {
+text-align: center;
+color: #555;
+padding: 0.75rem 0;
+}
+.thermal-footer {
+text-align: center;
+font-size: 11px;
+}
+@media print {
+@page {
+size: Letter portrait;
+margin: 0.5in;
+}
+html,
+body {
+background: #fff !important;
+min-height: auto !important;
+}
+.sidebar,
+.topbar,
+.receipt-screen-actions,
+.search-results {
+display: none !important;
+}
+.main-content {
+margin-left: 0 !important;
+min-height: auto !important;
+}
+.page-header,
+.receipt-admin-grid,
+.thermal-preview-card .card-header,
+.flash-container {
+display: none !important;
+}
+.content-area {
+padding: 0 !important;
+min-height: auto !important;
+}
+.card,
+.card-body,
+.thermal-preview-card .card-body {
+border: 0 !important;
+box-shadow: none !important;
+background: transparent !important;
+padding: 0 !important;
+}
+.thermal-print-sheet {
+display: block;
+}
+.thermal-receipt {
+width: 3.15in;
+max-width: 3.15in;
+border: 0;
+box-shadow: none;
+margin: 0 auto;
+padding: 0;
+break-inside: avoid;
+page-break-inside: avoid;
+}
+.thermal-subtle,
+.thermal-meta-row {
+display: none !important;
+}
+a,
+button,
+.btn,
+.badge,
+.alert {
+color: #000 !important;
+background: transparent !important;
+border-color: #000 !important;
+box-shadow: none !important;
+}
+}

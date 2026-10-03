@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head><meta name="robots" content="noindex,follow"><script src="snapshot.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="csrf-token" content="read-only-snapshot">
+<title>Rosewater &amp; Rust — Inventory</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link href="static/css/style.css" rel="stylesheet">
+<link href="static/css/themes.css" rel="stylesheet">
+</head>
+<body class="theme-vintage" data-theme="vintage"><div id="snapBanner" role="note" style="position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#3b2414;color:#fbe9d7;border-top:2px solid #e8a13a;font:500 13px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:7px 14px;display:flex;gap:4px 14px;align-items:center;justify-content:center;flex-wrap:wrap;text-align:center;box-shadow:0 -4px 14px rgba(0,0,0,.25)"><span><strong>Read-only snapshot</strong> of the real Vintage Shop app, saved while it ran on <strong>demo data</strong> (a fictional shop). Buttons and forms that would change data are switched off.</span><a href="../" style="color:#ffd08a;text-decoration:underline;white-space:nowrap">About this demo &amp; the source code &rarr;</a></div><div id="snapToast" role="status" aria-live="polite" style="display:none;position:fixed;left:50%;bottom:72px;transform:translateX(-50%);z-index:2147483001;width:max-content;max-width:min(92vw,560px);background:#111827;border:1px solid #e8a13a;color:#fde3c0;border-radius:8px;padding:10px 16px;font:500 13.5px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;box-shadow:0 10px 25px rgba(0,0,0,.45);text-align:center"></div>
+<!-- Sidebar -->
+<nav id="sidebar" class="sidebar">
+<div class="sidebar-header">
+<i class="bi bi-shop"></i>
+<span>Rosewater &amp; Rust</span>
+</div>
+<ul class="sidebar-nav">
+<li class="">
+<a href="index.html">
+<i class="bi bi-speedometer2"></i> Dashboard
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-box-seam"></i> Inventory</li>
+<li class="sidebar-subitem ">
+<a href="items.html">
+<i class="bi bi-box-seam"></i> Items
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="categories.html">
+<i class="bi bi-grid"></i> Categories
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="tags.html">
+<i class="bi bi-tags"></i> Tags
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="labels.html">
+<i class="bi bi-printer"></i> Labels
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="suppliers.html">
+<i class="bi bi-truck"></i> Suppliers
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="consigners.html">
+<i class="bi bi-people"></i> Consigners
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-currency-dollar"></i> Sales</li>
+<li class="sidebar-subitem ">
+<a href="items-pos.html">
+<i class="bi bi-upc-scan"></i> Scan Checkout
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="orders.html">
+<i class="bi bi-receipt"></i> Orders
+<span class="badge bg-info ms-1">3</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="customers.html">
+<i class="bi bi-people"></i> Customers
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="returns.html">
+<i class="bi bi-arrow-counterclockwise"></i> Returns
+<span class="badge bg-danger ms-1">3</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="shipping.html">
+<i class="bi bi-box-arrow-up-right"></i> Shipping
+<span class="badge bg-warning text-dark ms-1">6</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="promo-codes.html">
+<i class="bi bi-tag-fill"></i> Promo Codes
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="reports.html">
+<i class="bi bi-bar-chart-line"></i> Reports
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-megaphone"></i> Listings</li>
+<li class="sidebar-subitem ">
+<a href="storefront.html" target="_blank">
+<i class="bi bi-globe"></i> Storefront
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-shield-lock"></i> Admin</li>
+<li class="sidebar-subitem ">
+<a href="activity.html">
+<i class="bi bi-clipboard-data"></i> Activity Log
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="settings.html">
+<i class="bi bi-gear"></i> Settings
+</a>
+</li>
+<li class="">
+<a href="help.html">
+<i class="bi bi-life-preserver"></i> Help Wiki
+</a>
+</li>
+</ul>
+<div class="sidebar-alert">
+<i class="bi bi-exclamation-triangle"></i>
+<a href="items--status-In-Stock.html">3 low stock</a>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="main-content">
+<!-- Top Bar -->
+<header class="topbar">
+<div class="topbar-leading">
+<button class="btn btn-link sidebar-toggle d-md-none" type="button" onclick="toggleSidebar()" aria-label="Open menu">
+<i class="bi bi-list"></i>
+<span class="sidebar-toggle-label">Menu</span>
+</button>
+<div class="topbar-mobile-title d-md-none">Rosewater &amp; Rust</div>
+<div class="topbar-actions topbar-actions-mobile d-md-none">
+<a href="items-pos.html" class="btn btn-outline-success btn-sm" title="Scan Checkout" aria-label="Scan Checkout">
+<i class="bi bi-upc-scan"></i>
+</a>
+<a href="items-new.html" class="btn btn-primary btn-sm" title="Add Item" aria-label="Add Item">
+<i class="bi bi-plus-lg"></i>
+</a>
+<form method="POST" action="#" data-snapshot-action="/logout" class="d-inline">
+<button type="submit" class="btn btn-outline-secondary btn-sm" title="Logout" aria-label="Logout">
+<i class="bi bi-box-arrow-right"></i>
+</button>
+</form>
+</div>
+</div>
+<div class="search-bar topbar-search">
+<i class="bi bi-search"></i>
+<input type="text" id="globalSearch" placeholder="Search items by name, SKU, brand..."
+autocomplete="off">
+<div id="searchResults" class="search-results"></div>
+</div>
+<div class="topbar-actions topbar-actions-desktop">
+<span class="text-muted small">Demo Owner · Admin</span>
+<a href="items-pos.html" class="btn btn-outline-success btn-sm">
+<i class="bi bi-upc-scan"></i> Scan Checkout
+</a>
+<a href="help.html" class="btn btn-outline-secondary btn-sm">
+<i class="bi bi-life-preserver"></i> Help
+</a>
+<a href="items-new.html" class="btn btn-primary btn-sm">
+<i class="bi bi-plus-lg"></i> Add Item
+</a>
+<form method="POST" action="#" data-snapshot-action="/logout" class="d-inline">
+<button type="submit" class="btn btn-outline-secondary btn-sm">
+<i class="bi bi-box-arrow-right"></i> Logout
+</button>
+</form>
+</div>
+</header>
+<!-- Flash Messages -->
+<div class="content-area">
+<div class="page-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+<div>
+<h1><i class="bi bi-cloud-arrow-up"></i> Amazon S3</h1>
+<div class="text-muted">Persistent image storage so product photos survive Heroku restarts.</div>
+</div>
+<a href="settings.html#integrations-settings" class="btn btn-outline-secondary">
+<i class="bi bi-arrow-left"></i> Back to Integrations
+</a>
+</div>
+<form method="POST" action="#" data-snapshot-action="/settings" id="s3Form">
+<input type="hidden" name="action" value="save_s3" id="s3Action">
+<input type="hidden" name="next" value="/settings/integrations/s3">
+<div class="card mb-3 settings-section" id="s3-settings">
+<div class="card-header d-flex align-items-center">
+<span><i class="bi bi-cloud-arrow-up"></i> Persistent Image Storage (Amazon S3)</span>
+<span class="badge bg-secondary ms-2">Not Set Up</span>
+<button type="button" class="btn btn-sm btn-link ms-auto p-0"
+data-bs-toggle="collapse" data-bs-target="#s3HelpPanel"
+aria-expanded="false" aria-controls="s3HelpPanel"
+title="Show setup instructions">
+<i class="bi bi-info-circle fs-5"></i>
+</button>
+</div>
+<div class="card-body">
+<p class="text-muted small">
+Heroku wipes uploaded files every time the app restarts or you deploy.
+Turn on S3 so your product photos live in a cheap, permanent Amazon bucket
+instead of on the Heroku dyno.
+</p>
+<div class="collapse mb-3" id="s3HelpPanel">
+<div class="alert alert-info small mb-0">
+<strong><i class="bi bi-lightbulb"></i> First-time setup — what to do in AWS</strong>
+<p class="mb-2 mt-2">
+You'll create three things in AWS: a <strong>bucket</strong> (the folder for photos),
+a <strong>bucket policy</strong> (so shoppers can view the photos), and an
+<strong>IAM user with an access key</strong> (so this app can upload, read, and delete photos).
+Pasting the access key into the form below and clicking <em>Test Connection</em> finishes the loop.
+</p>
+<hr class="my-2">
+<strong>Step 1 — Create the S3 bucket</strong>
+<ol class="mb-2 mt-1 ps-3">
+<li>Sign in at <a href="https://console.aws.amazon.com/" target="_blank" rel="noopener">console.aws.amazon.com</a> (create a free account if needed).</li>
+<li>Open the <strong>S3</strong> service and click <em>Create bucket</em>.</li>
+<li>Pick a globally unique <strong>Bucket name</strong> (e.g. <code>my-vintage-shop-photos</code>). Lowercase letters, digits, and dashes only.</li>
+<li>Pick an <strong>AWS Region</strong> close to your shoppers (e.g. <code>us-east-2</code>). Write it down — you'll paste the exact code into <em>Region</em> below.</li>
+<li>Under <strong>Object Ownership</strong>, leave the default <em>ACLs disabled (Bucket owner enforced)</em>. Do not enable ACLs — this app uses a bucket policy instead, and AWS will reject uploads if ACLs are enabled inconsistently.</li>
+<li>Under <strong>Block Public Access settings for this bucket</strong>: keep
+<em>"Block public access to buckets and objects granted through new access control lists (ACLs)"</em> and the matching <em>"…through any access control lists (ACLs)"</em> checked,
+but <strong>uncheck</strong> the two policy lines:
+<em>"Block public access to buckets and objects granted through new public bucket or access point policies"</em>
+and <em>"Block public and cross-account access to buckets and objects through any public bucket or access point policies"</em>.
+Acknowledge the warning. This lets shoppers load product photos through your bucket policy without granting any other public access.
+</li>
+<li>Leave the rest of the bucket settings at their defaults and click <em>Create bucket</em>.</li>
+</ol>
+<strong>Step 2 — Add the bucket policy (public read for <code>/uploads/*</code>)</strong>
+<ol class="mb-2 mt-1 ps-3">
+<li>Open the bucket → <em>Permissions</em> tab → scroll to <em>Bucket policy</em> → click <em>Edit</em>.</li>
+<li>Paste the policy below, replacing <code>YOUR-BUCKET-NAME</code> with your actual bucket name:
+<pre class="small mb-1 mt-1 p-2 bg-light border rounded"><code>{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Sid": "PublicReadForPhotos",
+    "Effect": "Allow",
+    "Principal": "*",
+    "Action": "s3:GetObject",
+    "Resource": "arn:aws:s3:::YOUR-BUCKET-NAME/uploads/*"
+  }]
+}</code></pre>
+</li>
+<li>Save changes. Only objects under <code>uploads/</code> become public — anything else in the bucket stays private.</li>
+</ol>
+<strong>Step 3 — Create the IAM user the app will sign in as</strong>
+<ol class="mb-2 mt-1 ps-3">
+<li>Open the <strong>IAM</strong> service → <em>Users</em> → <em>Create user</em>.</li>
+<li>Give it a name like <code>vintage-shop-uploader</code>. <em>Do NOT</em> tick "Provide user access to the AWS Management Console" — this user only needs API access.</li>
+<li>On the permissions step, choose <em>Attach policies directly</em> → <em>Create policy</em> → switch to the <em>JSON</em> tab and paste the policy below (replace <code>YOUR-BUCKET-NAME</code> in both ARNs):
+<pre class="small mb-1 mt-1 p-2 bg-light border rounded"><code>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ListTheBucket",
+      "Effect": "Allow",
+      "Action": ["s3:ListBucket"],
+      "Resource": "arn:aws:s3:::YOUR-BUCKET-NAME"
+    },
+    {
+      "Sid": "ReadWritePhotos",
+      "Effect": "Allow",
+      "Action": ["s3:PutObject", "s3:GetObject", "s3:DeleteObject"],
+      "Resource": "arn:aws:s3:::YOUR-BUCKET-NAME/*"
+    }
+  ]
+}</code></pre>
+Note: <code>s3:ListBucket</code> applies to the bucket ARN itself (no <code>/*</code>); the read/write actions apply to the objects inside (<code>/*</code>). A common mistake is using <code>"Resource": "*"</code> — that grants access to every bucket in your account, which you don't want.
+</li>
+<li>Name the policy (e.g. <code>VintageShopUploaderPolicy</code>), save it, then back on the user screen tick that policy and finish creating the user.</li>
+<li>Open the new user → <em>Security credentials</em> tab → <em>Create access key</em> → choose <strong>Application running outside AWS</strong>. AWS will show an <strong>Access key ID</strong> (starts with <code>AKIA…</code>) and a <strong>Secret access key</strong> (40 random characters). Copy both — the secret is shown <em>once</em> and cannot be retrieved later.</li>
+</ol>
+<strong>Step 4 — Fill in the form below and Test Connection</strong>
+<ol class="mb-2 mt-1 ps-3">
+<li>Paste the bucket name, region code, access key ID, and secret access key into the fields below.</li>
+<li>Region must be the bare AWS code like <code>us-east-1</code>, <code>us-east-2</code>, <code>us-west-2</code>, <code>eu-west-1</code>. Don't append anything to it — typos like <code>us-east-2-an</code> cause "Could not connect to the endpoint URL" errors.</li>
+<li>Leave <em>Custom Endpoint</em> blank for Amazon S3. Only fill it in for S3-compatible services (DigitalOcean Spaces, Cloudflare R2, MinIO).</li>
+<li>Click <em>Test Connection</em>. The app does three things behind the scenes:
+<ul class="mb-0">
+<li><code>HeadBucket</code> — proves the credentials work and the region is correct.</li>
+<li><code>PutObject</code> on a tiny test file at <code>uploads/.vintage-connection-test</code> — proves write access.</li>
+<li><code>DeleteObject</code> on that same test file — proves delete access and cleans up.</li>
+</ul>
+</li>
+<li>If the test passes, click <em>Save S3 Settings</em>. New uploads will go straight to your bucket and survive Heroku restarts.</li>
+</ol>
+<strong>If something goes wrong</strong>
+<ul class="mb-2 mt-1 ps-3">
+<li><em>"Could not connect to the endpoint URL"</em> — Region is misspelled or has extra characters.</li>
+<li><em>"Bucket not found in region"</em> — Region doesn't match where the bucket was created. Check the bucket's <em>Properties</em> tab in S3.</li>
+<li><em>"Access denied"</em> on HeadBucket / ListBucket — IAM policy is missing <code>s3:ListBucket</code>, or the bucket ARN in the policy is wrong.</li>
+<li><em>"Write test failed (AccessDenied)"</em> — IAM policy is missing <code>s3:PutObject</code>, or the bucket has ACLs enabled (it shouldn't — Object Ownership should stay <em>Bucket owner enforced</em>).</li>
+<li>Every failure is logged under <em>Error Log</em> below with the full AWS error code and stack trace — open the <em>Details</em> on the latest entry to see exactly what AWS said.</li>
+</ul>
+<div class="mt-2">
+<strong>How much will this cost?</strong> Typically pennies per month for a small shop — AWS charges about <code>$0.023</code> per GB stored and <code>$0.09</code> per GB downloaded. A bucket with a few thousand product photos usually runs well under <code>$1/month</code>.
+</div>
+</div>
+</div>
+<div class="form-check form-switch mb-3">
+<input class="form-check-input" type="checkbox" value="1" id="s3Enabled" name="s3_enabled"
+>
+<label class="form-check-label" for="s3Enabled">
+<strong>Store uploaded images in S3</strong>
+<div class="text-muted small">Turn this off to keep everything local (useful for development).</div>
+</label>
+</div>
+<div class="settings-cluster">
+<div class="settings-cluster-title"><i class="bi bi-bucket"></i> Bucket</div>
+<div class="settings-cluster-copy">The S3 bucket your photos will live in.</div>
+<div class="mb-3">
+<label class="form-label">Bucket Name</label>
+<input type="text" name="s3_bucket" class="form-control"
+value="" placeholder="my-vintage-shop-photos"
+autocomplete="off">
+<small class="text-muted">Must match the name you chose in the AWS console exactly.</small>
+</div>
+<div class="row g-3">
+<div class="col-md-6">
+<label class="form-label">Region</label>
+<input type="text" name="s3_region" class="form-control"
+value="us-east-1"
+placeholder="us-east-1" autocomplete="off">
+<small class="text-muted">Shown in AWS next to the bucket name (e.g. <code>us-east-1</code>, <code>us-west-2</code>, <code>eu-west-1</code>).</small>
+</div>
+<div class="col-md-6">
+<label class="form-label">Custom Endpoint <span class="text-muted">(optional)</span></label>
+<input type="text" name="s3_endpoint_url" class="form-control"
+value=""
+placeholder="Leave blank for Amazon S3" autocomplete="off">
+<small class="text-muted">Only fill this in if you're using an S3-compatible service like DigitalOcean Spaces, Cloudflare R2, or MinIO.</small>
+</div>
+</div>
+</div>
+<div class="settings-cluster">
+<div class="settings-cluster-title"><i class="bi bi-key"></i> IAM Credentials</div>
+<div class="settings-cluster-copy">From the IAM user you created. Treat these like passwords.</div>
+<div class="mb-3">
+<label class="form-label">Access Key ID</label>
+<input type="text" name="s3_access_key" class="form-control"
+value="" placeholder="AKIA..." autocomplete="off">
+</div>
+<div class="mb-0">
+<label class="form-label">Secret Access Key</label>
+<div class="input-group">
+<input type="password" name="s3_secret_key" id="s3SecretKey" class="form-control"
+value=""
+placeholder="40-character secret"
+autocomplete="off">
+<button type="button" class="btn btn-outline-secondary"
+onclick="const f=document.getElementById('s3SecretKey'); f.type=f.type==='password'?'text':'password';">
+<i class="bi bi-eye"></i>
+</button>
+</div>
+<small class="text-muted">AWS only shows this once. If you've already saved one, leave blank to keep it.</small>
+</div>
+</div>
+</div>
+</div>
+<div class="d-flex gap-2">
+<button type="submit" class="btn btn-primary">
+<i class="bi bi-check-lg"></i> Save S3 Settings
+</button>
+<button type="submit" class="btn btn-outline-secondary"
+onclick="document.getElementById('s3Action').value='test_s3';">
+<i class="bi bi-wifi"></i> Test Connection
+</button>
+</div>
+</form>
+</div>
+</main>
+<!-- Error Pill Toast -->
+<div id="errorPill" class="error-pill" role="alert" aria-live="assertive">
+<i class="bi bi-exclamation-triangle-fill me-2"></i>
+<span id="errorPillMsg"></span>
+<button type="button" class="error-pill-close" onclick="window._dismissPill()" aria-label="Close">&times;</button>
+</div>
+<style>
+.error-pill {
+position: fixed;
+bottom: 24px;
+left: 50%;
+transform: translateX(-50%) translateY(20px);
+background: #dc3545;
+color: #fff;
+padding: 10px 20px 10px 16px;
+border-radius: 50px;
+font-size: 0.875rem;
+font-weight: 500;
+box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+display: flex;
+align-items: center;
+gap: 4px;
+z-index: 9999;
+opacity: 0;
+pointer-events: none;
+transition: opacity 0.35s ease, transform 0.35s ease;
+max-width: 90vw;
+}
+.error-pill.error-pill--warn {
+background: #fd7e14;
+}
+.error-pill.error-pill--info {
+background: #0d6efd;
+}
+.error-pill.error-pill--success {
+background: #198754;
+}
+.error-pill.show {
+opacity: 1;
+pointer-events: auto;
+transform: translateX(-50%) translateY(0);
+}
+.error-pill-close {
+background: none;
+border: none;
+color: rgba(255,255,255,0.8);
+font-size: 1.15rem;
+line-height: 1;
+margin-left: 8px;
+cursor: pointer;
+padding: 0 2px;
+}
+.error-pill-close:hover { color: #fff; }
+</style>
+<div class="photo-lightbox" id="photoLightbox" role="dialog" aria-modal="true" aria-hidden="true" hidden>
+<button type="button" class="photo-lightbox-close" id="photoLightboxClose" aria-label="Close">
+<i class="bi bi-x-lg"></i>
+</button>
+<button type="button" class="photo-lightbox-nav prev" id="photoLightboxPrev" aria-label="Previous">
+<i class="bi bi-chevron-left"></i>
+</button>
+<button type="button" class="photo-lightbox-nav next" id="photoLightboxNext" aria-label="Next">
+<i class="bi bi-chevron-right"></i>
+</button>
+<img class="photo-lightbox-img" id="photoLightboxImg" alt="">
+<div class="photo-lightbox-count" id="photoLightboxCount"></div>
+</div>
+<link rel="stylesheet" href="static/snap/88a0be1cee2a.css">
+<script src="static/snap/1bb55beec05e.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script src="static/js/app.js"></script>
+</body>
+</html>

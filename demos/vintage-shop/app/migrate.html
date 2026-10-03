@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head><meta name="robots" content="noindex,follow"><script src="snapshot.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="csrf-token" content="read-only-snapshot">
+<title>Rosewater &amp; Rust — Inventory</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link href="static/css/style.css" rel="stylesheet">
+<link href="static/css/themes.css" rel="stylesheet">
+</head>
+<body class="theme-vintage" data-theme="vintage"><div id="snapBanner" role="note" style="position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#3b2414;color:#fbe9d7;border-top:2px solid #e8a13a;font:500 13px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:7px 14px;display:flex;gap:4px 14px;align-items:center;justify-content:center;flex-wrap:wrap;text-align:center;box-shadow:0 -4px 14px rgba(0,0,0,.25)"><span><strong>Read-only snapshot</strong> of the real Vintage Shop app, saved while it ran on <strong>demo data</strong> (a fictional shop). Buttons and forms that would change data are switched off.</span><a href="../" style="color:#ffd08a;text-decoration:underline;white-space:nowrap">About this demo &amp; the source code &rarr;</a></div><div id="snapToast" role="status" aria-live="polite" style="display:none;position:fixed;left:50%;bottom:72px;transform:translateX(-50%);z-index:2147483001;width:max-content;max-width:min(92vw,560px);background:#111827;border:1px solid #e8a13a;color:#fde3c0;border-radius:8px;padding:10px 16px;font:500 13.5px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;box-shadow:0 10px 25px rgba(0,0,0,.45);text-align:center"></div>
+<!-- Sidebar -->
+<nav id="sidebar" class="sidebar">
+<div class="sidebar-header">
+<i class="bi bi-shop"></i>
+<span>Rosewater &amp; Rust</span>
+</div>
+<ul class="sidebar-nav">
+<li class="">
+<a href="index.html">
+<i class="bi bi-speedometer2"></i> Dashboard
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-box-seam"></i> Inventory</li>
+<li class="sidebar-subitem ">
+<a href="items.html">
+<i class="bi bi-box-seam"></i> Items
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="categories.html">
+<i class="bi bi-grid"></i> Categories
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="tags.html">
+<i class="bi bi-tags"></i> Tags
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="labels.html">
+<i class="bi bi-printer"></i> Labels
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="suppliers.html">
+<i class="bi bi-truck"></i> Suppliers
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="consigners.html">
+<i class="bi bi-people"></i> Consigners
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-currency-dollar"></i> Sales</li>
+<li class="sidebar-subitem ">
+<a href="items-pos.html">
+<i class="bi bi-upc-scan"></i> Scan Checkout
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="orders.html">
+<i class="bi bi-receipt"></i> Orders
+<span class="badge bg-info ms-1">3</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="customers.html">
+<i class="bi bi-people"></i> Customers
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="returns.html">
+<i class="bi bi-arrow-counterclockwise"></i> Returns
+<span class="badge bg-danger ms-1">3</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="shipping.html">
+<i class="bi bi-box-arrow-up-right"></i> Shipping
+<span class="badge bg-warning text-dark ms-1">6</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="promo-codes.html">
+<i class="bi bi-tag-fill"></i> Promo Codes
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="reports.html">
+<i class="bi bi-bar-chart-line"></i> Reports
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-megaphone"></i> Listings</li>
+<li class="sidebar-subitem ">
+<a href="storefront.html" target="_blank">
+<i class="bi bi-globe"></i> Storefront
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-shield-lock"></i> Admin</li>
+<li class="sidebar-subitem ">
+<a href="activity.html">
+<i class="bi bi-clipboard-data"></i> Activity Log
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="settings.html">
+<i class="bi bi-gear"></i> Settings
+</a>
+</li>
+<li class="">
+<a href="help.html">
+<i class="bi bi-life-preserver"></i> Help Wiki
+</a>
+</li>
+</ul>
+<div class="sidebar-alert">
+<i class="bi bi-exclamation-triangle"></i>
+<a href="items--status-In-Stock.html">3 low stock</a>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="main-content">
+<!-- Top Bar -->
+<header class="topbar">
+<div class="topbar-leading">
+<button class="btn btn-link sidebar-toggle d-md-none" type="button" onclick="toggleSidebar()" aria-label="Open menu">
+<i class="bi bi-list"></i>
+<span class="sidebar-toggle-label">Menu</span>
+</button>
+<div class="topbar-mobile-title d-md-none">Rosewater &amp; Rust</div>
+<div class="topbar-actions topbar-actions-mobile d-md-none">
+<a href="items-pos.html" class="btn btn-outline-success btn-sm" title="Scan Checkout" aria-label="Scan Checkout">
+<i class="bi bi-upc-scan"></i>
+</a>
+<a href="items-new.html" class="btn btn-primary btn-sm" title="Add Item" aria-label="Add Item">
+<i class="bi bi-plus-lg"></i>
+</a>
+<form method="POST" action="#" data-snapshot-action="/logout" class="d-inline">
+<button type="submit" class="btn btn-outline-secondary btn-sm" title="Logout" aria-label="Logout">
+<i class="bi bi-box-arrow-right"></i>
+</button>
+</form>
+</div>
+</div>
+<div class="search-bar topbar-search">
+<i class="bi bi-search"></i>
+<input type="text" id="globalSearch" placeholder="Search items by name, SKU, brand..."
+autocomplete="off">
+<div id="searchResults" class="search-results"></div>
+</div>
+<div class="topbar-actions topbar-actions-desktop">
+<span class="text-muted small">Demo Owner · Admin</span>
+<a href="items-pos.html" class="btn btn-outline-success btn-sm">
+<i class="bi bi-upc-scan"></i> Scan Checkout
+</a>
+<a href="help.html" class="btn btn-outline-secondary btn-sm">
+<i class="bi bi-life-preserver"></i> Help
+</a>
+<a href="items-new.html" class="btn btn-primary btn-sm">
+<i class="bi bi-plus-lg"></i> Add Item
+</a>
+<form method="POST" action="#" data-snapshot-action="/logout" class="d-inline">
+<button type="submit" class="btn btn-outline-secondary btn-sm">
+<i class="bi bi-box-arrow-right"></i> Logout
+</button>
+</form>
+</div>
+</header>
+<!-- Flash Messages -->
+<div class="content-area">
+<div class="page-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+<h1 class="mb-0"><i class="bi bi-signpost-split"></i> Migration Wizard</h1>
+<a href="settings.html#database-settings" class="btn btn-outline-secondary btn-sm">
+<i class="bi bi-gear"></i> Back to Settings
+</a>
+</div>
+<div class="card mb-4">
+<div class="card-body py-3">
+<div class="d-flex justify-content-between align-items-center gap-3 flex-wrap">
+<div class="d-flex align-items-center flex-grow-1" style="min-width:180px">
+<div class="rounded-circle d-flex align-items-center justify-content-center me-2
+bg-primary text-white"
+style="width:36px;height:36px">
+<strong>1</strong>
+</div>
+<div>
+<div class="small text-muted">Step 1</div>
+<div class="fw-semibold"><i class="bi bi-cloud-upload"></i> Upload files</div>
+</div>
+</div>
+<div class="flex-grow-0 text-muted d-none d-md-block"><i class="bi bi-chevron-right"></i></div>
+<div class="d-flex align-items-center flex-grow-1" style="min-width:180px">
+<div class="rounded-circle d-flex align-items-center justify-content-center me-2
+bg-light text-muted"
+style="width:36px;height:36px">
+<strong>2</strong>
+</div>
+<div>
+<div class="small text-muted">Step 2</div>
+<div class="fw-semibold"><i class="bi bi-binoculars"></i> Review preview</div>
+</div>
+</div>
+<div class="flex-grow-0 text-muted d-none d-md-block"><i class="bi bi-chevron-right"></i></div>
+<div class="d-flex align-items-center flex-grow-1" style="min-width:180px">
+<div class="rounded-circle d-flex align-items-center justify-content-center me-2
+bg-light text-muted"
+style="width:36px;height:36px">
+<strong>3</strong>
+</div>
+<div>
+<div class="small text-muted">Step 3</div>
+<div class="fw-semibold"><i class="bi bi-check2-circle"></i> Done</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-lg-8">
+<div class="card mb-3">
+<div class="card-header"><i class="bi bi-info-circle"></i> What this wizard does</div>
+<div class="card-body">
+<p class="mb-2">Use this when you're moving your shop between installs — for example, standing up a fresh Heroku app, pointing the database somewhere new, or restoring after a backup.</p>
+<ol class="mb-0">
+<li>Drop in the files you exported from your old shop (items CSV and/or photos ZIP).</li>
+<li>The wizard will tell you <em>exactly</em> what it's about to do before touching anything.</li>
+<li>If it looks right, you click <strong>Apply</strong>. If it doesn't, you click <strong>Cancel</strong>, and nothing is changed.</li>
+</ol>
+</div>
+</div>
+<div class="card mb-3">
+<div class="card-header"><i class="bi bi-upload"></i> Upload your backup</div>
+<div class="card-body">
+<form method="POST" action="#" data-snapshot-action="/migrate/upload" enctype="multipart/form-data">
+<div class="mb-4">
+<label class="form-label"><strong>Items CSV</strong> <span class="text-muted">(optional)</span></label>
+<input type="file" name="items_csv" class="form-control" accept=".csv">
+<small class="text-muted d-block mt-1">
+The file you get from <a href="#" data-snapshot-missing="/export/csv">Export Items CSV</a>.
+Rows whose SKU already exists will be <strong>updated</strong>; new SKUs will be <strong>added</strong>.
+</small>
+</div>
+<div class="mb-4">
+<label class="form-label"><strong>Photos ZIP</strong> <span class="text-muted">(optional)</span></label>
+<input type="file" name="images_zip" class="form-control" accept=".zip">
+<small class="text-muted d-block mt-1">
+The file you get from <a href="#" data-snapshot-missing="/export/images">Export Images ZIP</a>.
+Photo filenames can be item ID (<code>42.jpg</code>, <code>42_2.jpg</code>)
+or SKU (<code>VNT-0042.jpg</code>, <code>VNT-0042_2.jpg</code>).
+SKU matching is recommended — IDs will change on a new install, SKUs won't.
+</small>
+</div>
+<div class="alert alert-secondary small mb-3">
+<i class="bi bi-shield-check"></i>
+Uploading these files only stores them in a temporary folder. Nothing is imported until you review and confirm.
+</div>
+<button type="submit" class="btn btn-primary">
+<i class="bi bi-arrow-right-circle"></i> Continue to Preview
+</button>
+</form>
+</div>
+</div>
+</div>
+<div class="col-lg-4">
+<div class="card mb-3">
+<div class="card-header"><i class="bi bi-database"></i> Current database</div>
+<div class="card-body">
+<ul class="list-unstyled mb-0">
+<li><strong>&lt;built-in method items of dict object at 0x00000239235EC7C0&gt;</strong> items</li>
+<li><strong>12</strong> categories</li>
+<li><strong>6</strong> suppliers</li>
+<li><strong>25</strong> tags</li>
+</ul>
+<hr>
+<div class="small text-muted">
+<i class="bi bi-hdd"></i> Photos are stored via: <strong>Local disk</strong>
+</div>
+</div>
+</div>
+<div class="card mb-3">
+<div class="card-header"><i class="bi bi-download"></i> Don't have backup files yet?</div>
+<div class="card-body small">
+<p>Run these on your <em>source</em> shop first, then bring the downloads back here:</p>
+<div class="d-grid gap-2">
+<a href="#" data-snapshot-missing="/export/csv" class="btn btn-outline-primary btn-sm">
+<i class="bi bi-filetype-csv"></i> Export Items CSV
+</a>
+<a href="#" data-snapshot-missing="/export/images" class="btn btn-outline-primary btn-sm">
+<i class="bi bi-file-earmark-zip"></i> Export Photos ZIP
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Error Pill Toast -->
+<div id="errorPill" class="error-pill" role="alert" aria-live="assertive">
+<i class="bi bi-exclamation-triangle-fill me-2"></i>
+<span id="errorPillMsg"></span>
+<button type="button" class="error-pill-close" onclick="window._dismissPill()" aria-label="Close">&times;</button>
+</div>
+<style>
+.error-pill {
+position: fixed;
+bottom: 24px;
+left: 50%;
+transform: translateX(-50%) translateY(20px);
+background: #dc3545;
+color: #fff;
+padding: 10px 20px 10px 16px;
+border-radius: 50px;
+font-size: 0.875rem;
+font-weight: 500;
+box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+display: flex;
+align-items: center;
+gap: 4px;
+z-index: 9999;
+opacity: 0;
+pointer-events: none;
+transition: opacity 0.35s ease, transform 0.35s ease;
+max-width: 90vw;
+}
+.error-pill.error-pill--warn {
+background: #fd7e14;
+}
+.error-pill.error-pill--info {
+background: #0d6efd;
+}
+.error-pill.error-pill--success {
+background: #198754;
+}
+.error-pill.show {
+opacity: 1;
+pointer-events: auto;
+transform: translateX(-50%) translateY(0);
+}
+.error-pill-close {
+background: none;
+border: none;
+color: rgba(255,255,255,0.8);
+font-size: 1.15rem;
+line-height: 1;
+margin-left: 8px;
+cursor: pointer;
+padding: 0 2px;
+}
+.error-pill-close:hover { color: #fff; }
+</style>
+<div class="photo-lightbox" id="photoLightbox" role="dialog" aria-modal="true" aria-hidden="true" hidden>
+<button type="button" class="photo-lightbox-close" id="photoLightboxClose" aria-label="Close">
+<i class="bi bi-x-lg"></i>
+</button>
+<button type="button" class="photo-lightbox-nav prev" id="photoLightboxPrev" aria-label="Previous">
+<i class="bi bi-chevron-left"></i>
+</button>
+<button type="button" class="photo-lightbox-nav next" id="photoLightboxNext" aria-label="Next">
+<i class="bi bi-chevron-right"></i>
+</button>
+<img class="photo-lightbox-img" id="photoLightboxImg" alt="">
+<div class="photo-lightbox-count" id="photoLightboxCount"></div>
+</div>
+<link rel="stylesheet" href="static/snap/88a0be1cee2a.css">
+<script src="static/snap/1bb55beec05e.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script src="static/js/app.js"></script>
+</body>
+</html>

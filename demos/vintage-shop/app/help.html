@@ -1,0 +1,2075 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head><meta name="robots" content="noindex,follow"><script src="snapshot.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="csrf-token" content="read-only-snapshot">
+<title>Rosewater &amp; Rust — Inventory</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link href="static/css/style.css" rel="stylesheet">
+<link href="static/css/themes.css" rel="stylesheet">
+<link href="static/css/help.css" rel="stylesheet">
+</head>
+<body class="theme-vintage" data-theme="vintage"><div id="snapBanner" role="note" style="position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#3b2414;color:#fbe9d7;border-top:2px solid #e8a13a;font:500 13px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:7px 14px;display:flex;gap:4px 14px;align-items:center;justify-content:center;flex-wrap:wrap;text-align:center;box-shadow:0 -4px 14px rgba(0,0,0,.25)"><span><strong>Read-only snapshot</strong> of the real Vintage Shop app, saved while it ran on <strong>demo data</strong> (a fictional shop). Buttons and forms that would change data are switched off.</span><a href="../" style="color:#ffd08a;text-decoration:underline;white-space:nowrap">About this demo &amp; the source code &rarr;</a></div><div id="snapToast" role="status" aria-live="polite" style="display:none;position:fixed;left:50%;bottom:72px;transform:translateX(-50%);z-index:2147483001;width:max-content;max-width:min(92vw,560px);background:#111827;border:1px solid #e8a13a;color:#fde3c0;border-radius:8px;padding:10px 16px;font:500 13.5px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;box-shadow:0 10px 25px rgba(0,0,0,.45);text-align:center"></div>
+<!-- Sidebar -->
+<nav id="sidebar" class="sidebar">
+<div class="sidebar-header">
+<i class="bi bi-shop"></i>
+<span>Rosewater &amp; Rust</span>
+</div>
+<ul class="sidebar-nav">
+<li class="">
+<a href="index.html">
+<i class="bi bi-speedometer2"></i> Dashboard
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-box-seam"></i> Inventory</li>
+<li class="sidebar-subitem ">
+<a href="items.html">
+<i class="bi bi-box-seam"></i> Items
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="categories.html">
+<i class="bi bi-grid"></i> Categories
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="tags.html">
+<i class="bi bi-tags"></i> Tags
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="labels.html">
+<i class="bi bi-printer"></i> Labels
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="suppliers.html">
+<i class="bi bi-truck"></i> Suppliers
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="consigners.html">
+<i class="bi bi-people"></i> Consigners
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-currency-dollar"></i> Sales</li>
+<li class="sidebar-subitem ">
+<a href="items-pos.html">
+<i class="bi bi-upc-scan"></i> Scan Checkout
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="orders.html">
+<i class="bi bi-receipt"></i> Orders
+<span class="badge bg-info ms-1">3</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="customers.html">
+<i class="bi bi-people"></i> Customers
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="returns.html">
+<i class="bi bi-arrow-counterclockwise"></i> Returns
+<span class="badge bg-danger ms-1">3</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="shipping.html">
+<i class="bi bi-box-arrow-up-right"></i> Shipping
+<span class="badge bg-warning text-dark ms-1">6</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="promo-codes.html">
+<i class="bi bi-tag-fill"></i> Promo Codes
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="reports.html">
+<i class="bi bi-bar-chart-line"></i> Reports
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-megaphone"></i> Listings</li>
+<li class="sidebar-subitem ">
+<a href="storefront.html" target="_blank">
+<i class="bi bi-globe"></i> Storefront
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-shield-lock"></i> Admin</li>
+<li class="sidebar-subitem ">
+<a href="activity.html">
+<i class="bi bi-clipboard-data"></i> Activity Log
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="settings.html">
+<i class="bi bi-gear"></i> Settings
+</a>
+</li>
+<li class="active">
+<a href="help.html">
+<i class="bi bi-life-preserver"></i> Help Wiki
+</a>
+</li>
+</ul>
+<div class="sidebar-alert">
+<i class="bi bi-exclamation-triangle"></i>
+<a href="items--status-In-Stock.html">3 low stock</a>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="main-content">
+<!-- Top Bar -->
+<header class="topbar">
+<div class="topbar-leading">
+<button class="btn btn-link sidebar-toggle d-md-none" type="button" onclick="toggleSidebar()" aria-label="Open menu">
+<i class="bi bi-list"></i>
+<span class="sidebar-toggle-label">Menu</span>
+</button>
+<div class="topbar-mobile-title d-md-none">Rosewater &amp; Rust</div>
+<div class="topbar-actions topbar-actions-mobile d-md-none">
+<a href="items-pos.html" class="btn btn-outline-success btn-sm" title="Scan Checkout" aria-label="Scan Checkout">
+<i class="bi bi-upc-scan"></i>
+</a>
+<a href="items-new.html" class="btn btn-primary btn-sm" title="Add Item" aria-label="Add Item">
+<i class="bi bi-plus-lg"></i>
+</a>
+<form method="POST" action="#" data-snapshot-action="/logout" class="d-inline">
+<button type="submit" class="btn btn-outline-secondary btn-sm" title="Logout" aria-label="Logout">
+<i class="bi bi-box-arrow-right"></i>
+</button>
+</form>
+</div>
+</div>
+<div class="search-bar topbar-search">
+<i class="bi bi-search"></i>
+<input type="text" id="globalSearch" placeholder="Search items by name, SKU, brand..."
+autocomplete="off">
+<div id="searchResults" class="search-results"></div>
+</div>
+<div class="topbar-actions topbar-actions-desktop">
+<span class="text-muted small">Demo Owner · Admin</span>
+<a href="items-pos.html" class="btn btn-outline-success btn-sm">
+<i class="bi bi-upc-scan"></i> Scan Checkout
+</a>
+<a href="help.html" class="btn btn-outline-secondary btn-sm">
+<i class="bi bi-life-preserver"></i> Help
+</a>
+<a href="items-new.html" class="btn btn-primary btn-sm">
+<i class="bi bi-plus-lg"></i> Add Item
+</a>
+<form method="POST" action="#" data-snapshot-action="/logout" class="d-inline">
+<button type="submit" class="btn btn-outline-secondary btn-sm">
+<i class="bi bi-box-arrow-right"></i> Logout
+</button>
+</form>
+</div>
+</header>
+<!-- Flash Messages -->
+<div class="content-area">
+<div class="wiki-container">
+<!-- Breadcrumb -->
+<nav class="wiki-breadcrumb" aria-label="Breadcrumb">
+<ol class="breadcrumb-list">
+<li><span class="breadcrumb-item">Help Wiki</span></li>
+<li><span class="breadcrumb-item" id="currentSection">Home</span></li>
+</ol>
+</nav>
+<!-- Main Wiki Layout -->
+<div class="wiki-layout">
+<!-- Left Sidebar: Table of Contents -->
+<aside class="wiki-sidebar">
+<div class="wiki-toc-wrapper">
+<h3 class="wiki-toc-title">Contents</h3>
+<!-- Search Bar -->
+<div class="wiki-toc-search">
+<input
+type="text"
+id="wikiSearch"
+class="wiki-search-input"
+placeholder="Search..."
+aria-label="Search help content"
+>
+<i class="bi bi-search"></i>
+</div>
+<!-- TOC List (Auto-generated by JS) -->
+<nav class="wiki-toc-nav">
+<ol id="tableOfContents" class="wiki-toc-list">
+<!-- Generated by JavaScript -->
+</ol>
+</nav>
+<!-- Mobile TOC Toggle -->
+<button class="wiki-toc-toggle d-lg-none" id="tocToggle" aria-label="Toggle table of contents">
+<i class="bi bi-list"></i> Table of Contents
+</button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="wiki-article">
+<!-- Article Header -->
+<div class="wiki-article-header">
+<h1 class="wiki-article-title">Help Wiki</h1>
+<p class="wiki-article-desc">
+Documentation and guides for managing your vintage shop inventory
+</p>
+<div class="wiki-meta">
+<span class="wiki-meta-item">
+<i class="bi bi-clock-history"></i>
+Last updated: <span id="lastUpdated">October 03, 2026</span>
+</span>
+</div>
+</div>
+<!-- Controls Bar -->
+<div class="wiki-controls">
+<div class="wiki-controls-group">
+<button id="expandAllBtn" class="btn btn-sm btn-outline-secondary" title="Expand all sections">
+<i class="bi bi-chevron-expand"></i> Expand All
+</button>
+<button id="collapseAllBtn" class="btn btn-sm btn-outline-secondary" title="Collapse all sections">
+<i class="bi bi-chevron-contract"></i> Collapse All
+</button>
+</div>
+<div class="wiki-controls-group">
+<div class="wiki-audience-filters">
+<button class="wiki-filter-chip active" data-audience="all" title="Show all content">
+All Content
+</button>
+<button
+class="wiki-filter-chip"
+data-audience="Daily use"
+title="Show content for Daily use"
+>
+Daily use
+</button>
+<button
+class="wiki-filter-chip"
+data-audience="Core workflow"
+title="Show content for Core workflow"
+>
+Core workflow
+</button>
+<button
+class="wiki-filter-chip"
+data-audience="Organization"
+title="Show content for Organization"
+>
+Organization
+</button>
+<button
+class="wiki-filter-chip"
+data-audience="In-store workflow"
+title="Show content for In-store workflow"
+>
+In-store workflow
+</button>
+<button
+class="wiki-filter-chip"
+data-audience="Online sales"
+title="Show content for Online sales"
+>
+Online sales
+</button>
+<button
+class="wiki-filter-chip"
+data-audience="Manager view"
+title="Show content for Manager view"
+>
+Manager view
+</button>
+<button
+class="wiki-filter-chip"
+data-audience="Faster entry"
+title="Show content for Faster entry"
+>
+Faster entry
+</button>
+<button
+class="wiki-filter-chip"
+data-audience="Setup and maintenance"
+title="Show content for Setup and maintenance"
+>
+Setup and maintenance
+</button>
+<button
+class="wiki-filter-chip"
+data-audience="Setup"
+title="Show content for Setup"
+>
+Setup
+</button>
+<button
+class="wiki-filter-chip"
+data-audience="Optional"
+title="Show content for Optional"
+>
+Optional
+</button>
+<button
+class="wiki-filter-chip"
+data-audience="Troubleshooting"
+title="Show content for Troubleshooting"
+>
+Troubleshooting
+</button>
+</div>
+</div>
+</div>
+<!-- Search Results Info -->
+<div class="wiki-search-info" id="searchInfo" style="display: none;">
+<p>
+Found <span id="matchCount">0</span> result<span id="matchCountPlural">s</span>
+for <span id="searchTerm" class="wiki-search-term"></span>
+<button class="wiki-clear-search" id="clearSearchBtn">
+<i class="bi bi-x-circle"></i> Clear
+</button>
+</p>
+</div>
+<!-- Quick Start Section -->
+<section class="wiki-section" id="quickstart">
+<h2 class="wiki-heading-2">
+<i class="bi bi-lightning-charge"></i> Quick Start
+</h2>
+<p class="wiki-section-intro">
+Get up and running with the essentials in minutes.
+</p>
+<div class="wiki-quick-grid">
+<div class="wiki-quick-card" data-audience="all">
+<div class="wiki-quick-icon">
+<i class="bi bi-sunrise"></i>
+</div>
+<h3 class="wiki-quick-title">Open the store for the day</h3>
+<ol class="wiki-quick-steps">
+<li>Open Dashboard to review low-stock alerts, recent activity, and how many items are in stock.</li>
+<li>Use Inventory to search for items you expect to sell today and confirm their prices and quantities look right.</li>
+<li>If you sell online, open Settings and confirm Square says it is configured before sending buyers to checkout.</li>
+</ol>
+</div>
+<div class="wiki-quick-card" data-audience="all">
+<div class="wiki-quick-icon">
+<i class="bi bi-box-seam"></i>
+</div>
+<h3 class="wiki-quick-title">Add a new item from scratch</h3>
+<ol class="wiki-quick-steps">
+<li>Click Add Item in the top bar.</li>
+<li>Fill in the name, category, price, quantity, and at least one clear photo.</li>
+<li>Save the item, then open the item detail page to mark it for storefront display if you want it online.</li>
+</ol>
+</div>
+<div class="wiki-quick-card" data-audience="all">
+<div class="wiki-quick-icon">
+<i class="bi bi-stars"></i>
+</div>
+<h3 class="wiki-quick-title">Create a listing from photos with AI</h3>
+<ol class="wiki-quick-steps">
+<li>Open AI Generate and upload one or more photos.</li>
+<li>Review the suggested name, description, price range, and tags before creating the item.</li>
+<li>After it saves, make any final edits on the item detail page.</li>
+</ol>
+</div>
+<div class="wiki-quick-card" data-audience="all">
+<div class="wiki-quick-icon">
+<i class="bi bi-cash-stack"></i>
+</div>
+<h3 class="wiki-quick-title">Sell something in person</h3>
+<ol class="wiki-quick-steps">
+<li>Search for the item from the top bar or Inventory page.</li>
+<li>Open the item detail page and use Mark Sold.</li>
+<li>If only part of the quantity sold, enter the amount that left the store so the remaining stock stays correct.</li>
+</ol>
+</div>
+<div class="wiki-quick-card" data-audience="all">
+<div class="wiki-quick-icon">
+<i class="bi bi-globe"></i>
+</div>
+<h3 class="wiki-quick-title">Put items online</h3>
+<ol class="wiki-quick-steps">
+<li>Turn on the storefront in Settings and make sure Square is connected.</li>
+<li>For each item, keep quantity above zero and turn on storefront visibility.</li>
+<li>Open the storefront to confirm the item looks good to shoppers before sharing the link.</li>
+</ol>
+</div>
+<div class="wiki-quick-card" data-audience="all">
+<div class="wiki-quick-icon">
+<i class="bi bi-box-arrow-up-right"></i>
+</div>
+<h3 class="wiki-quick-title">Ship a paid online order</h3>
+<ol class="wiki-quick-steps">
+<li>Open Shipping after a Square order is paid.</li>
+<li>Copy the buyer address, open the USPS label link, and create the label in your shipping tool.</li>
+<li>Save the carrier and tracking number so the sold item and shipping queue stay in sync.</li>
+</ol>
+</div>
+<div class="wiki-quick-card" data-audience="all">
+<div class="wiki-quick-icon">
+<i class="bi bi-arrow-counterclockwise"></i>
+</div>
+<h3 class="wiki-quick-title">Review a return request</h3>
+<ol class="wiki-quick-steps">
+<li>Open Dashboard or Returns to see new customer return requests.</li>
+<li>Search by Square order number, customer name, or item details if you need to find a specific request.</li>
+<li>Update the request status and add internal notes after you decide how to handle it.</li>
+</ol>
+</div>
+<div class="wiki-quick-card" data-audience="all">
+<div class="wiki-quick-icon">
+<i class="bi bi-file-earmark-arrow-up"></i>
+</div>
+<h3 class="wiki-quick-title">Import many items at once</h3>
+<ol class="wiki-quick-steps">
+<li>Prepare a CSV using the same columns the app exports.</li>
+<li>Go to Import CSV and upload the file.</li>
+<li>Read the success message carefully so you know how many rows imported, skipped, or had problems.</li>
+</ol>
+</div>
+</div>
+</section>
+<!-- Guides Section -->
+<section class="wiki-section" id="guides">
+<h2 class="wiki-heading-2">
+<i class="bi bi-book"></i> Guides
+</h2>
+<p class="wiki-section-intro">
+In-depth guides for common tasks and workflows.
+</p>
+<div class="wiki-guide-group">
+<article
+class="wiki-guide-card"
+id="guide-1"
+data-audience="Daily use"
+>
+<details class="wiki-details">
+<summary class="wiki-details-summary">
+<div class="wiki-guide-head">
+<div class="wiki-guide-icon ">
+<i class="bi bi-speedometer2"></i>
+</div>
+<div class="wiki-guide-info">
+<h3 class="wiki-guide-title">Dashboard</h3>
+<div class="wiki-guide-meta">
+<span class="wiki-audience-badge">Daily use</span>
+</div>
+</div>
+</div>
+<i class="bi bi-chevron-down wiki-details-chevron"></i>
+</summary>
+<div class="wiki-guide-body">
+<p class="wiki-guide-summary-text">The dashboard is your home base. It shows what is in stock, what has sold, what needs attention, and what changed recently.</p>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Steps</h4>
+<ol class="wiki-step-list">
+<li>Look at the main totals first: total items, items in stock, sold count, and inventory value.</li>
+<li>Check the low-stock area to see what may need restocking or a quantity review.</li>
+<li>Use recent items and recent transactions to confirm the app reflects what happened in the store.</li>
+</ol>
+</div>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Examples</h4>
+<div class="wiki-example-stack">
+<div class="wiki-example-box">
+<h5 class="wiki-example-title">Morning check-in</h5>
+<p class="wiki-example-text">Open Dashboard before the shop opens. If low-stock shows three items, click into Inventory and decide whether you need to restock, reorder, or mark something sold out.</p>
+</div>
+<div class="wiki-example-box">
+<h5 class="wiki-example-title">After a busy day</h5>
+<p class="wiki-example-text">Use recent transactions to confirm sales and restocks were recorded correctly. A quick scan catches mistakes before they pile up.</p>
+</div>
+</div>
+</div>
+<div class="wiki-tip-box">
+<div class="wiki-tip-header">
+<i class="bi bi-lightbulb"></i>
+<span>Pro Tips</span>
+</div>
+<ul class="wiki-tip-list">
+<li>If something looks off on the dashboard, open the item detail page rather than guessing. The transaction history usually explains it.</li>
+<li>Treat the dashboard as a health check, not just a summary page.</li>
+</ul>
+</div>
+</div>
+</details>
+</article>
+<article
+class="wiki-guide-card"
+id="guide-2"
+data-audience="Daily use"
+>
+<details class="wiki-details">
+<summary class="wiki-details-summary">
+<div class="wiki-guide-head">
+<div class="wiki-guide-icon ">
+<i class="bi bi-boxes"></i>
+</div>
+<div class="wiki-guide-info">
+<h3 class="wiki-guide-title">Inventory List, Search, and Bulk Actions</h3>
+<div class="wiki-guide-meta">
+<span class="wiki-audience-badge">Daily use</span>
+</div>
+</div>
+</div>
+<i class="bi bi-chevron-down wiki-details-chevron"></i>
+</summary>
+<div class="wiki-guide-body">
+<p class="wiki-guide-summary-text">Inventory is where you browse the full catalog, filter by category or status, and update many items at once.</p>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Steps</h4>
+<ol class="wiki-step-list">
+<li>Use the search bar to find items by name, SKU, description, or brand.</li>
+<li>Use the category, tag, status, and sort controls to narrow the list.</li>
+<li>Select multiple rows when you need to mark many items sold, on hold, in stock, or hidden from the storefront.</li>
+</ol>
+</div>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Examples</h4>
+<div class="wiki-example-stack">
+<div class="wiki-example-box">
+<h5 class="wiki-example-title">Finding every lamp</h5>
+<p class="wiki-example-text">Search for lamp, then sort by newest if you want to review recent arrivals first.</p>
+</div>
+<div class="wiki-example-box">
+<h5 class="wiki-example-title">Hiding old online inventory</h5>
+<p class="wiki-example-text">Filter to the items you do not want online, select them, and use the bulk action to hide them from storefront display.</p>
+</div>
+</div>
+</div>
+<div class="wiki-tip-box">
+<div class="wiki-tip-header">
+<i class="bi bi-lightbulb"></i>
+<span>Pro Tips</span>
+</div>
+<ul class="wiki-tip-list">
+<li>Bulk actions are best when you are confident the selected items all need the same change.</li>
+<li>If you only need to update one item, open its detail page instead. It gives you more context.</li>
+</ul>
+</div>
+</div>
+</details>
+</article>
+<article
+class="wiki-guide-card"
+id="guide-3"
+data-audience="Core workflow"
+>
+<details class="wiki-details">
+<summary class="wiki-details-summary">
+<div class="wiki-guide-head">
+<div class="wiki-guide-icon ">
+<i class="bi bi-pencil-square"></i>
+</div>
+<div class="wiki-guide-info">
+<h3 class="wiki-guide-title">Adding and Editing Items</h3>
+<div class="wiki-guide-meta">
+<span class="wiki-audience-badge">Core workflow</span>
+</div>
+</div>
+</div>
+<i class="bi bi-chevron-down wiki-details-chevron"></i>
+</summary>
+<div class="wiki-guide-body">
+<p class="wiki-guide-summary-text">Each item record stores what the item is, how much it costs, where it came from, where it is, and whether customers can buy it online.</p>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Steps</h4>
+<ol class="wiki-step-list">
+<li>Click Add Item to start a new listing.</li>
+<li>Enter the item name, category, price, quantity, and condition first. Those are the fields most people need every day.</li>
+<li>Add photos whenever possible. Good photos help staff identify the item and help online shoppers trust it.</li>
+<li>Edit an item whenever price, quantity, status, or display settings change.</li>
+</ol>
+</div>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Examples</h4>
+<div class="wiki-example-stack">
+<div class="wiki-example-box">
+<h5 class="wiki-example-title">One-of-a-kind vintage jacket</h5>
+<p class="wiki-example-text">Set quantity to 1, choose Clothing, add size details to the description, upload photos, and turn on storefront visibility if you want it online.</p>
+</div>
+<div class="wiki-example-box">
+<h5 class="wiki-example-title">A box of six matching mugs</h5>
+<p class="wiki-example-text">Create one item with quantity 6 instead of six separate items, unless each mug needs its own SKU or photos.</p>
+</div>
+</div>
+</div>
+<div class="wiki-tip-box">
+<div class="wiki-tip-header">
+<i class="bi bi-lightbulb"></i>
+<span>Pro Tips</span>
+</div>
+<ul class="wiki-tip-list">
+<li>If you leave the SKU blank, the app generates one for you.</li>
+<li>Use notes for information staff needs later, such as damage, restoration plans, or how you priced the piece.</li>
+</ul>
+</div>
+</div>
+</details>
+</article>
+<article
+class="wiki-guide-card"
+id="guide-4"
+data-audience="Core workflow"
+>
+<details class="wiki-details">
+<summary class="wiki-details-summary">
+<div class="wiki-guide-head">
+<div class="wiki-guide-icon ">
+<i class="bi bi-card-text"></i>
+</div>
+<div class="wiki-guide-info">
+<h3 class="wiki-guide-title">Item Detail Page</h3>
+<div class="wiki-guide-meta">
+<span class="wiki-audience-badge">Core workflow</span>
+</div>
+</div>
+</div>
+<i class="bi bi-chevron-down wiki-details-chevron"></i>
+</summary>
+<div class="wiki-guide-body">
+<p class="wiki-guide-summary-text">The item detail page is the control center for one item. This is where you check history, mark items sold, restock, duplicate, and control storefront visibility.</p>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Steps</h4>
+<ol class="wiki-step-list">
+<li>Open the item from Inventory search or from the dashboard.</li>
+<li>Review the photos, tags, pricing, quantity, and transaction history before making changes.</li>
+<li>Use the quick action buttons to mark sold, restock, duplicate, list on the storefront, or start an online checkout link.</li>
+</ol>
+</div>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Examples</h4>
+<div class="wiki-example-stack">
+<div class="wiki-example-box">
+<h5 class="wiki-example-title">Partial sale</h5>
+<p class="wiki-example-text">If you had quantity 4 and sold 1 in person, use Mark Sold with quantity 1. The item stays in stock with quantity 3.</p>
+</div>
+<div class="wiki-example-box">
+<h5 class="wiki-example-title">Duplicate similar pieces</h5>
+<p class="wiki-example-text">If you bought two nearly identical chairs, duplicate the first item and adjust the second listing instead of typing everything again.</p>
+</div>
+</div>
+</div>
+<div class="wiki-tip-box">
+<div class="wiki-tip-header">
+<i class="bi bi-lightbulb"></i>
+<span>Pro Tips</span>
+</div>
+<ul class="wiki-tip-list">
+<li>The transaction list is your best record of what changed and when.</li>
+<li>Use Duplicate when items are similar, but do not forget to adjust photos or condition notes if they differ.</li>
+</ul>
+</div>
+</div>
+</details>
+</article>
+<article
+class="wiki-guide-card"
+id="guide-5"
+data-audience="Organization"
+>
+<details class="wiki-details">
+<summary class="wiki-details-summary">
+<div class="wiki-guide-head">
+<div class="wiki-guide-icon ">
+<i class="bi bi-diagram-3"></i>
+</div>
+<div class="wiki-guide-info">
+<h3 class="wiki-guide-title">Categories, Tags, and Suppliers</h3>
+<div class="wiki-guide-meta">
+<span class="wiki-audience-badge">Organization</span>
+</div>
+</div>
+</div>
+<i class="bi bi-chevron-down wiki-details-chevron"></i>
+</summary>
+<div class="wiki-guide-body">
+<p class="wiki-guide-summary-text">These three areas keep the catalog tidy and searchable.</p>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Steps</h4>
+<ol class="wiki-step-list">
+<li>Use Categories for the main type of item, such as Books, Decor, or Jewelry.</li>
+<li>Use Tags for flexible labels like Rare, Sale, Featured, Fragile, or New Arrival.</li>
+<li>Use Suppliers when you want to track where inventory came from.</li>
+</ol>
+</div>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Examples</h4>
+<div class="wiki-example-stack">
+<div class="wiki-example-box">
+<h5 class="wiki-example-title">Category vs tag</h5>
+<p class="wiki-example-text">A lamp belongs in Decor or Lighting as a category, but could also carry tags like Mid-Century, Featured, or Local Pickup.</p>
+</div>
+<div class="wiki-example-box">
+<h5 class="wiki-example-title">Supplier tracking</h5>
+<p class="wiki-example-text">If one vendor keeps bringing profitable items, supplier records help you see that pattern later.</p>
+</div>
+</div>
+</div>
+<div class="wiki-tip-box">
+<div class="wiki-tip-header">
+<i class="bi bi-lightbulb"></i>
+<span>Pro Tips</span>
+</div>
+<ul class="wiki-tip-list">
+<li>Keep categories broad and tags specific.</li>
+<li>Avoid near-duplicate tags (Rare vs rare-item) unless they truly mean different things.</li>
+</ul>
+</div>
+</div>
+</details>
+</article>
+<article
+class="wiki-guide-card"
+id="guide-6"
+data-audience="In-store workflow"
+>
+<details class="wiki-details">
+<summary class="wiki-details-summary">
+<div class="wiki-guide-head">
+<div class="wiki-guide-icon ">
+<i class="bi bi-printer"></i>
+</div>
+<div class="wiki-guide-info">
+<h3 class="wiki-guide-title">Labels and Printing</h3>
+<div class="wiki-guide-meta">
+<span class="wiki-audience-badge">In-store workflow</span>
+</div>
+</div>
+</div>
+<i class="bi bi-chevron-down wiki-details-chevron"></i>
+</summary>
+<div class="wiki-guide-body">
+<p class="wiki-guide-summary-text">The labels area creates printable price tags, shelf labels, and batch lists for the sales floor or back room.</p>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Steps</h4>
+<ol class="wiki-step-list">
+<li>Open Labels when you need something printable for one item, one category, or a group of items.</li>
+<li>Use a price tag for an individual piece, shelf labels for a category area, and batch print when preparing many items together.</li>
+<li>Download the file if your browser opens it instead of printing it automatically.</li>
+</ol>
+</div>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Examples</h4>
+<div class="wiki-example-stack">
+<div class="wiki-example-box">
+<h5 class="wiki-example-title">Pricing a new display table</h5>
+<p class="wiki-example-text">Select several new arrivals and generate a batch list so staff can cross-check names, prices, and SKUs while tagging the floor.</p>
+</div>
+<div class="wiki-example-box">
+<h5 class="wiki-example-title">Shelf refresh</h5>
+<p class="wiki-example-text">Print a shelf label after renaming or reorganizing a section so the floor presentation stays clear.</p>
+</div>
+</div>
+</div>
+<div class="wiki-tip-box">
+<div class="wiki-tip-header">
+<i class="bi bi-lightbulb"></i>
+<span>Pro Tips</span>
+</div>
+<ul class="wiki-tip-list">
+<li>If labels look wrong, first check the item record. The print layout reflects the saved data exactly.</li>
+<li>Batch printing is useful when prepping events, pop-ups, or a new floor set.</li>
+</ul>
+</div>
+</div>
+</details>
+</article>
+<article
+class="wiki-guide-card"
+id="guide-7"
+data-audience="Online sales"
+>
+<details class="wiki-details">
+<summary class="wiki-details-summary">
+<div class="wiki-guide-head">
+<div class="wiki-guide-icon ">
+<i class="bi bi-box-arrow-up-right"></i>
+</div>
+<div class="wiki-guide-info">
+<h3 class="wiki-guide-title">Shipping Queue and Tracking</h3>
+<div class="wiki-guide-meta">
+<span class="wiki-audience-badge">Online sales</span>
+</div>
+</div>
+</div>
+<i class="bi bi-chevron-down wiki-details-chevron"></i>
+</summary>
+<div class="wiki-guide-body">
+<p class="wiki-guide-summary-text">Paid Square storefront orders flow into the shipping queue so the seller has one place to see the order number, buyer details, shipping address, USPS shortcut, and tracking number.</p>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Steps</h4>
+<ol class="wiki-step-list">
+<li>Turn on shipping address collection in the Square settings section before you start selling shippable items.</li>
+<li>Open Shipping to review new Square-paid orders that still need a label or tracking number.</li>
+<li>Use the USPS label button, then save the carrier and tracking number back into the shipment record when the label is created.</li>
+<li>Use the Email Tracking button if you want to open a prefilled email to the buyer from your computer.</li>
+</ol>
+</div>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Examples</h4>
+<div class="wiki-example-stack">
+<div class="wiki-example-box">
+<h5 class="wiki-example-title">One paid lamp order</h5>
+<p class="wiki-example-text">A buyer pays through Square. The order appears in Shipping, you copy the address, create the USPS label, paste the tracking number, and mark the shipment as shipped.</p>
+</div>
+<div class="wiki-example-box">
+<h5 class="wiki-example-title">Missing address</h5>
+<p class="wiki-example-text">If a shipment record says Waiting for Address, contact the buyer before buying a label, or fill in the address manually if you already have it from another message.</p>
+</div>
+</div>
+</div>
+<div class="wiki-tip-box">
+<div class="wiki-tip-header">
+<i class="bi bi-lightbulb"></i>
+<span>Pro Tips</span>
+</div>
+<ul class="wiki-tip-list">
+<li>The shipping queue is designed to keep label work and tracking tied to the sold item instead of burying it in notes.</li>
+<li>You can still fulfill the order in Square or another shipping tool, then record the tracking number here for your own workflow.</li>
+</ul>
+</div>
+</div>
+</details>
+</article>
+<article
+class="wiki-guide-card"
+id="guide-8"
+data-audience="Manager view"
+>
+<details class="wiki-details">
+<summary class="wiki-details-summary">
+<div class="wiki-guide-head">
+<div class="wiki-guide-icon ">
+<i class="bi bi-bar-chart-line"></i>
+</div>
+<div class="wiki-guide-info">
+<h3 class="wiki-guide-title">Reports</h3>
+<div class="wiki-guide-meta">
+<span class="wiki-audience-badge">Manager view</span>
+</div>
+</div>
+</div>
+<i class="bi bi-chevron-down wiki-details-chevron"></i>
+</summary>
+<div class="wiki-guide-body">
+<p class="wiki-guide-summary-text">Reports help you understand value, profit potential, category mix, and recent stock movement.</p>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Steps</h4>
+<ol class="wiki-step-list">
+<li>Open Reports when you want a bigger-picture view instead of looking at single items.</li>
+<li>Review category totals to understand where your inventory value is sitting.</li>
+<li>Check sales summary and transactions to compare selling activity with what is still in stock.</li>
+</ol>
+</div>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Examples</h4>
+<div class="wiki-example-stack">
+<div class="wiki-example-box">
+<h5 class="wiki-example-title">Planning a sale</h5>
+<p class="wiki-example-text">If one category is holding a lot of value but not moving, reports can help you decide what to discount or promote.</p>
+</div>
+<div class="wiki-example-box">
+<h5 class="wiki-example-title">Deciding what to source more of</h5>
+<p class="wiki-example-text">If one category repeatedly sells through while others sit, that is a clue for future buying.</p>
+</div>
+</div>
+</div>
+<div class="wiki-tip-box">
+<div class="wiki-tip-header">
+<i class="bi bi-lightbulb"></i>
+<span>Pro Tips</span>
+</div>
+<ul class="wiki-tip-list">
+<li>Reports are only as accurate as the data going into the app, so sold items and quantity changes need to be recorded consistently.</li>
+</ul>
+</div>
+</div>
+</details>
+</article>
+<article
+class="wiki-guide-card"
+id="guide-9"
+data-audience="Online sales"
+>
+<details class="wiki-details">
+<summary class="wiki-details-summary">
+<div class="wiki-guide-head">
+<div class="wiki-guide-icon ">
+<i class="bi bi-arrow-counterclockwise"></i>
+</div>
+<div class="wiki-guide-info">
+<h3 class="wiki-guide-title">Returns and Refund Requests</h3>
+<div class="wiki-guide-meta">
+<span class="wiki-audience-badge">Online sales</span>
+</div>
+</div>
+</div>
+<i class="bi bi-chevron-down wiki-details-chevron"></i>
+</summary>
+<div class="wiki-guide-body">
+<p class="wiki-guide-summary-text">The storefront includes a buyer return request page. Customers enter their Square order number, contact information, and reason for the request. Sellers review everything from the Dashboard or the Returns page.</p>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Steps</h4>
+<ol class="wiki-step-list">
+<li>Send buyers to the storefront return page when they need help after an online order.</li>
+<li>Ask them to use the Square order number from their receipt or confirmation email.</li>
+<li>Open the Returns page in the admin area to review the request, update the status, and keep internal notes about what happened next.</li>
+</ol>
+</div>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Examples</h4>
+<div class="wiki-example-stack">
+<div class="wiki-example-box">
+<h5 class="wiki-example-title">Damaged delivery</h5>
+<p class="wiki-example-text">If a buyer says an item arrived damaged, have them submit the return form with the Square order number and a short description so the seller has one organized record to work from.</p>
+</div>
+<div class="wiki-example-box">
+<h5 class="wiki-example-title">Changed their mind</h5>
+<p class="wiki-example-text">If the policy allows it, the buyer can still file a return request and the seller can mark it approved, denied, or resolved after reviewing the situation.</p>
+</div>
+</div>
+</div>
+<div class="wiki-tip-box">
+<div class="wiki-tip-header">
+<i class="bi bi-lightbulb"></i>
+<span>Pro Tips</span>
+</div>
+<ul class="wiki-tip-list">
+<li>The return request page is a request intake form, not an automatic refund. The seller still decides the outcome.</li>
+<li>If the Square order number matches a recorded sale, the app links the request back to the item for faster review.</li>
+<li>If you prefer to finish the refund inside Square itself, the admin Returns page supports that workflow too.</li>
+</ul>
+</div>
+</div>
+</details>
+</article>
+<article
+class="wiki-guide-card"
+id="guide-10"
+data-audience="Online sales"
+>
+<details class="wiki-details">
+<summary class="wiki-details-summary">
+<div class="wiki-guide-head">
+<div class="wiki-guide-icon ">
+<i class="bi bi-globe2"></i>
+</div>
+<div class="wiki-guide-info">
+<h3 class="wiki-guide-title">Storefront and Online Selling</h3>
+<div class="wiki-guide-meta">
+<span class="wiki-audience-badge">Online sales</span>
+</div>
+</div>
+</div>
+<i class="bi bi-chevron-down wiki-details-chevron"></i>
+</summary>
+<div class="wiki-guide-body">
+<p class="wiki-guide-summary-text">The storefront is the public-facing shopping page. It only shows items that are in stock, have quantity left, and are allowed on the storefront.</p>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Steps</h4>
+<ol class="wiki-step-list">
+<li>Turn on the storefront in Settings before sharing it publicly.</li>
+<li>For each item, keep quantity above zero and make sure storefront visibility is turned on.</li>
+<li>Use the storefront preview or open the live storefront to check photos, titles, prices, and links before sending shoppers there.</li>
+<li>Add your website, eBay, Etsy, and policy links in Settings so buyers can trust the shop and find your other channels.</li>
+</ol>
+</div>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Examples</h4>
+<div class="wiki-example-stack">
+<div class="wiki-example-box">
+<h5 class="wiki-example-title">An item sold in person</h5>
+<p class="wiki-example-text">When quantity hits zero, the item automatically stops behaving like an available storefront item.</p>
+</div>
+<div class="wiki-example-box">
+<h5 class="wiki-example-title">Online-only item</h5>
+<p class="wiki-example-text">Leave it in stock, turn on storefront visibility, and confirm the product page looks right from a customer point of view.</p>
+</div>
+</div>
+</div>
+<div class="wiki-tip-box">
+<div class="wiki-tip-header">
+<i class="bi bi-lightbulb"></i>
+<span>Pro Tips</span>
+</div>
+<ul class="wiki-tip-list">
+<li>The public storefront is for shoppers. The admin login stays at the bottom on purpose so the page feels like a store, not a back office.</li>
+<li>If checkout is unavailable, the storefront still works as a catalog until Square is connected.</li>
+</ul>
+</div>
+</div>
+</details>
+</article>
+<article
+class="wiki-guide-card"
+id="guide-11"
+data-audience="Online sales"
+>
+<details class="wiki-details">
+<summary class="wiki-details-summary">
+<div class="wiki-guide-head">
+<div class="wiki-guide-icon ">
+<i class="bi bi-signpost-2"></i>
+</div>
+<div class="wiki-guide-info">
+<h3 class="wiki-guide-title">About, FAQ, Contact, and Policy Pages</h3>
+<div class="wiki-guide-meta">
+<span class="wiki-audience-badge">Online sales</span>
+</div>
+</div>
+</div>
+<i class="bi bi-chevron-down wiki-details-chevron"></i>
+</summary>
+<div class="wiki-guide-body">
+<p class="wiki-guide-summary-text">The storefront includes built-in public pages that make the shop feel complete and trustworthy even if you do not have a separate website builder.</p>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Steps</h4>
+<ol class="wiki-step-list">
+<li>Open Settings and fill in the storefront tagline, announcement, about text, contact details, FAQ answers, and policy text.</li>
+<li>Use the storefront header or footer to open the About, FAQ, Contact, and policy pages as a customer would see them.</li>
+<li>If you already have legal pages elsewhere, paste those URLs into Settings. Otherwise, the app can show the built-in policy pages instead.</li>
+</ol>
+</div>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Examples</h4>
+<div class="wiki-example-stack">
+<div class="wiki-example-box">
+<h5 class="wiki-example-title">Quick launch without a separate website</h5>
+<p class="wiki-example-text">Launch the storefront with a polished About page, contact details, FAQ, and built-in policy pages even if you do not have a full website yet.</p>
+</div>
+<div class="wiki-example-box">
+<h5 class="wiki-example-title">Using your own legal pages</h5>
+<p class="wiki-example-text">If you later publish privacy or return policies on your main website, add those URLs in Settings and the storefront links will point there instead.</p>
+</div>
+</div>
+</div>
+<div class="wiki-tip-box">
+<div class="wiki-tip-header">
+<i class="bi bi-lightbulb"></i>
+<span>Pro Tips</span>
+</div>
+<ul class="wiki-tip-list">
+<li>Short, clear answers usually work better than long formal text on FAQ pages.</li>
+<li>Policy links matter for buyer confidence, especially when you are taking payments online.</li>
+</ul>
+</div>
+</div>
+</details>
+</article>
+<article
+class="wiki-guide-card"
+id="guide-12"
+data-audience="Online sales"
+>
+<details class="wiki-details">
+<summary class="wiki-details-summary">
+<div class="wiki-guide-head">
+<div class="wiki-guide-icon ">
+<i class="bi bi-credit-card"></i>
+</div>
+<div class="wiki-guide-info">
+<h3 class="wiki-guide-title">Square Checkout</h3>
+<div class="wiki-guide-meta">
+<span class="wiki-audience-badge">Online sales</span>
+</div>
+</div>
+</div>
+<i class="bi bi-chevron-down wiki-details-chevron"></i>
+</summary>
+<div class="wiki-guide-body">
+<p class="wiki-guide-summary-text">Square powers the live checkout links. Connect it once in Settings, then buyers can purchase from storefront items.</p>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Steps</h4>
+<ol class="wiki-step-list">
+<li>Open Settings and enter your Square application details, access token, location ID, and environment.</li>
+<li>Turn on shipping address collection in Square settings if you plan to mail orders.</li>
+<li>Use Test Connection to confirm the app can talk to Square.</li>
+<li>Once connected, storefront and item pages can send buyers into a Square checkout flow.</li>
+<li>After Square reports a completed payment, the app updates inventory for that item.</li>
+</ol>
+</div>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Examples</h4>
+<div class="wiki-example-stack">
+<div class="wiki-example-box">
+<h5 class="wiki-example-title">Testing before launch</h5>
+<p class="wiki-example-text">Use the Square sandbox first if you want to practice the flow without charging a real customer.</p>
+</div>
+<div class="wiki-example-box">
+<h5 class="wiki-example-title">Online checkout from one item</h5>
+<p class="wiki-example-text">Open the item detail page and use Sell Online, or let a buyer click Buy Now from the storefront.</p>
+</div>
+</div>
+</div>
+<div class="wiki-tip-box">
+<div class="wiki-tip-header">
+<i class="bi bi-lightbulb"></i>
+<span>Pro Tips</span>
+</div>
+<ul class="wiki-tip-list">
+<li>If checkout links fail, the problem is usually missing Square credentials, an inactive location, or using the wrong environment.</li>
+<li>Shipping labels are not created by this app. The quickest workflow is to let Square collect the shipping address, then fulfill the shipment from Square or your shipping tool of choice.</li>
+</ul>
+</div>
+</div>
+</details>
+</article>
+<article
+class="wiki-guide-card"
+id="guide-13"
+data-audience="Faster entry"
+>
+<details class="wiki-details">
+<summary class="wiki-details-summary">
+<div class="wiki-guide-head">
+<div class="wiki-guide-icon ">
+<i class="bi bi-stars"></i>
+</div>
+<div class="wiki-guide-info">
+<h3 class="wiki-guide-title">AI Listing Generator</h3>
+<div class="wiki-guide-meta">
+<span class="wiki-audience-badge">Faster entry</span>
+</div>
+</div>
+</div>
+<i class="bi bi-chevron-down wiki-details-chevron"></i>
+</summary>
+<div class="wiki-guide-body">
+<p class="wiki-guide-summary-text">AI Generate turns photos into a draft listing. It is a helper, not a final authority, so always review before saving.</p>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Steps</h4>
+<ol class="wiki-step-list">
+<li>Connect an AI provider and model in Settings first.</li>
+<li>Upload one or more clear photos in AI Generate.</li>
+<li>Read the suggested title, category, condition, tags, and price range carefully.</li>
+<li>Create the item only after the draft looks believable for your store.</li>
+</ol>
+</div>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Examples</h4>
+<div class="wiki-example-stack">
+<div class="wiki-example-box">
+<h5 class="wiki-example-title">Hard-to-describe decor piece</h5>
+<p class="wiki-example-text">AI can save time by proposing a name, style era, and materials when you are not sure how to phrase the listing.</p>
+</div>
+<div class="wiki-example-box">
+<h5 class="wiki-example-title">Book pricing</h5>
+<p class="wiki-example-text">For books, the item page shows a search link you can open to compare prices on a used-book site before you settle on a number.</p>
+</div>
+</div>
+</div>
+<div class="wiki-tip-box">
+<div class="wiki-tip-header">
+<i class="bi bi-lightbulb"></i>
+<span>Pro Tips</span>
+</div>
+<ul class="wiki-tip-list">
+<li>Clear photos usually matter more than long prompts.</li>
+<li>Treat AI suggestions like a draft from a helpful assistant, not a final expert verdict.</li>
+</ul>
+</div>
+</div>
+</details>
+</article>
+<article
+class="wiki-guide-card"
+id="guide-14"
+data-audience="Setup and maintenance"
+>
+<details class="wiki-details">
+<summary class="wiki-details-summary">
+<div class="wiki-guide-head">
+<div class="wiki-guide-icon ">
+<i class="bi bi-filetype-csv"></i>
+</div>
+<div class="wiki-guide-info">
+<h3 class="wiki-guide-title">CSV Import and Export</h3>
+<div class="wiki-guide-meta">
+<span class="wiki-audience-badge">Setup and maintenance</span>
+</div>
+</div>
+</div>
+<i class="bi bi-chevron-down wiki-details-chevron"></i>
+</summary>
+<div class="wiki-guide-body">
+<p class="wiki-guide-summary-text">CSV export lets you back up or review your inventory in spreadsheet form. CSV import helps when you already have data somewhere else.</p>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Steps</h4>
+<ol class="wiki-step-list">
+<li>Use Export CSV when you want a spreadsheet of your current inventory.</li>
+<li>Use the exported file as the safest starting template if you plan to import later.</li>
+<li>When importing, keep column names consistent and review the app&#39;s success message afterward.</li>
+</ol>
+</div>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Examples</h4>
+<div class="wiki-example-stack">
+<div class="wiki-example-box">
+<h5 class="wiki-example-title">Moving from another spreadsheet</h5>
+<p class="wiki-example-text">Export a sample from the app first, then line up your old spreadsheet columns to match it before importing.</p>
+</div>
+<div class="wiki-example-box">
+<h5 class="wiki-example-title">Periodic backup</h5>
+<p class="wiki-example-text">Export CSV at the end of each week or month for a simple off-app record of inventory.</p>
+</div>
+</div>
+</div>
+<div class="wiki-tip-box">
+<div class="wiki-tip-header">
+<i class="bi bi-lightbulb"></i>
+<span>Pro Tips</span>
+</div>
+<ul class="wiki-tip-list">
+<li>If a row has a SKU that already exists, the app may skip it rather than overwrite it.</li>
+<li>Import smaller test files first when you are unsure about formatting.</li>
+</ul>
+</div>
+</div>
+</details>
+</article>
+<article
+class="wiki-guide-card"
+id="guide-15"
+data-audience="Setup"
+>
+<details class="wiki-details">
+<summary class="wiki-details-summary">
+<div class="wiki-guide-head">
+<div class="wiki-guide-icon ">
+<i class="bi bi-gear"></i>
+</div>
+<div class="wiki-guide-info">
+<h3 class="wiki-guide-title">Settings and Customization</h3>
+<div class="wiki-guide-meta">
+<span class="wiki-audience-badge">Setup</span>
+</div>
+</div>
+</div>
+<i class="bi bi-chevron-down wiki-details-chevron"></i>
+</summary>
+<div class="wiki-guide-body">
+<p class="wiki-guide-summary-text">Settings is where you configure store identity, AI, Square, storefront links, storefront look, and admin security.</p>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Steps</h4>
+<ol class="wiki-step-list">
+<li>Start with store name, SKU prefix, defaults, and currency symbol.</li>
+<li>If you sell online, add your storefront links and buyer policy links so the public page feels complete.</li>
+<li>Use Storefront Style Studio to change the look without touching your inventory data.</li>
+<li>Use the admin security area to change how long your login is remembered and rotate the password if needed.</li>
+</ol>
+</div>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Examples</h4>
+<div class="wiki-example-stack">
+<div class="wiki-example-box">
+<h5 class="wiki-example-title">Opening a new online channel</h5>
+<p class="wiki-example-text">Add the new eBay or Etsy link in Settings once, and it appears on the storefront footer and header automatically.</p>
+</div>
+<div class="wiki-example-box">
+<h5 class="wiki-example-title">Changing the store vibe</h5>
+<p class="wiki-example-text">Switch themes in Storefront Style Studio and preview before saving. This changes presentation, not item data.</p>
+</div>
+</div>
+</div>
+<div class="wiki-tip-box">
+<div class="wiki-tip-header">
+<i class="bi bi-lightbulb"></i>
+<span>Pro Tips</span>
+</div>
+<ul class="wiki-tip-list">
+<li>Settings changes affect the whole app, so review them calmly before saving.</li>
+<li>Use real policy pages if you are taking online orders. They help shoppers trust the shop.</li>
+<li>The storefront content fields also control the About, FAQ, Contact, and built-in policy pages.</li>
+</ul>
+</div>
+</div>
+</details>
+</article>
+<article
+class="wiki-guide-card"
+id="guide-16"
+data-audience="Setup"
+>
+<details class="wiki-details">
+<summary class="wiki-details-summary">
+<div class="wiki-guide-head">
+<div class="wiki-guide-icon ">
+<i class="bi bi-shield-lock"></i>
+</div>
+<div class="wiki-guide-info">
+<h3 class="wiki-guide-title">Admin Login, Passwords, and Access</h3>
+<div class="wiki-guide-meta">
+<span class="wiki-audience-badge">Setup</span>
+</div>
+</div>
+</div>
+<i class="bi bi-chevron-down wiki-details-chevron"></i>
+</summary>
+<div class="wiki-guide-body">
+<p class="wiki-guide-summary-text">The storefront is public, but the rest of the app is meant for staff. Admin access uses a password and remembers your login for a configurable number of days.</p>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Steps</h4>
+<ol class="wiki-step-list">
+<li>On first setup, create the admin password from the setup screen.</li>
+<li>Use Login to reach the back-office side of the app later.</li>
+<li>Use the Admin Access area in Settings to change how long the session lasts and rotate the password.</li>
+</ol>
+</div>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Examples</h4>
+<div class="wiki-example-stack">
+<div class="wiki-example-box">
+<h5 class="wiki-example-title">Shared staff computer</h5>
+<p class="wiki-example-text">Use a shorter remembered session if multiple people share the same machine and you want more frequent sign-ins.</p>
+</div>
+<div class="wiki-example-box">
+<h5 class="wiki-example-title">Dedicated office computer</h5>
+<p class="wiki-example-text">A longer remembered session can be more convenient if the machine stays in a secure staff-only area.</p>
+</div>
+</div>
+</div>
+<div class="wiki-tip-box">
+<div class="wiki-tip-header">
+<i class="bi bi-lightbulb"></i>
+<span>Pro Tips</span>
+</div>
+<ul class="wiki-tip-list">
+<li>If someone only needs to shop, give them the storefront link, not the admin login.</li>
+<li>A strong admin password protects pricing, sales history, and settings.</li>
+</ul>
+</div>
+</div>
+</details>
+</article>
+<article
+class="wiki-guide-card"
+id="guide-17"
+data-audience="Optional"
+>
+<details class="wiki-details">
+<summary class="wiki-details-summary">
+<div class="wiki-guide-head">
+<div class="wiki-guide-icon ">
+<i class="bi bi-cpu"></i>
+</div>
+<div class="wiki-guide-info">
+<h3 class="wiki-guide-title">Advanced Tools and Automation</h3>
+<div class="wiki-guide-meta">
+<span class="wiki-audience-badge">Optional</span>
+</div>
+</div>
+</div>
+<i class="bi bi-chevron-down wiki-details-chevron"></i>
+</summary>
+<div class="wiki-guide-body">
+<p class="wiki-guide-summary-text">Most people can ignore this section, but the app also includes a few advanced tools for automation and outside integrations.</p>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Steps</h4>
+<ol class="wiki-step-list">
+<li>The top search bar uses the internal search API to quickly jump to items from anywhere in the admin.</li>
+<li>The app can accept Telegram-based intake for advanced workflows where a bot sends photos to the system.</li>
+<li>Helper API endpoints exist for SKU generation, model loading, and search that support the interface.</li>
+</ol>
+</div>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Examples</h4>
+<div class="wiki-example-stack">
+<div class="wiki-example-box">
+<h5 class="wiki-example-title">Remote intake</h5>
+<p class="wiki-example-text">A technically configured Telegram workflow could send item photos into the app before staff finish the listing later.</p>
+</div>
+</div>
+</div>
+<div class="wiki-tip-box">
+<div class="wiki-tip-header">
+<i class="bi bi-lightbulb"></i>
+<span>Pro Tips</span>
+</div>
+<ul class="wiki-tip-list">
+<li>If this sounds too technical, skip it. The app works fine without these advanced features.</li>
+</ul>
+</div>
+</div>
+</details>
+</article>
+</div>
+</section>
+<!-- Troubleshooting Section -->
+<section class="wiki-section" id="troubleshooting">
+<h2 class="wiki-heading-2">
+<i class="bi bi-exclamation-triangle"></i> Troubleshooting
+</h2>
+<p class="wiki-section-intro">
+Solutions to common problems and issues.
+</p>
+<div class="wiki-troubleshoot-group">
+<article
+class="wiki-troubleshoot-card"
+id="trouble-1"
+data-audience="Troubleshooting"
+>
+<details class="wiki-details">
+<summary class="wiki-details-summary">
+<div class="wiki-guide-head">
+<div class="wiki-guide-icon ">
+<i class="bi bi-shield-exclamation"></i>
+</div>
+<div class="wiki-guide-info">
+<h3 class="wiki-guide-title">I cannot log in to the admin side</h3>
+<div class="wiki-guide-meta">
+<span class="wiki-audience-badge">Troubleshooting</span>
+</div>
+</div>
+</div>
+<i class="bi bi-chevron-down wiki-details-chevron"></i>
+</summary>
+<div class="wiki-guide-body">
+<p class="wiki-guide-summary-text">The login page keeps rejecting the password, you get sent back to the login screen after signing in, or someone else set up the system and you do not know the password.</p>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Solution</h4>
+<ol class="wiki-step-list">
+<li>Confirm you are using the admin password, not a Square, OpenAI, or Etsy password.</li>
+<li>If the app was configured with an environment password on the server, changing the password in Settings may not apply until the server setting is updated too.</li>
+<li>Check that your browser is not blocking cookies. Without cookies the session will not stay signed in.</li>
+<li>Clear your browser cache and try again in a private window to rule out an old session.</li>
+</ol>
+</div>
+<div class="wiki-tip-box">
+<div class="wiki-tip-header">
+<i class="bi bi-info-circle"></i>
+<span>Additional Info</span>
+</div>
+<ul class="wiki-tip-list">
+<li>The admin side depends on the session cookie. If cookies are disabled or constantly cleared, login will not persist.</li>
+<li>If the server uses ADMIN_PASSWORD or ADMIN_PASSWORD_HASH, that environment value overrides the database-stored password.</li>
+</ul>
+</div>
+</div>
+</details>
+</article>
+<article
+class="wiki-troubleshoot-card"
+id="trouble-2"
+data-audience="Troubleshooting"
+>
+<details class="wiki-details">
+<summary class="wiki-details-summary">
+<div class="wiki-guide-head">
+<div class="wiki-guide-icon ">
+<i class="bi bi-eye-slash"></i>
+</div>
+<div class="wiki-guide-info">
+<h3 class="wiki-guide-title">An item is missing from the storefront</h3>
+<div class="wiki-guide-meta">
+<span class="wiki-audience-badge">Troubleshooting</span>
+</div>
+</div>
+</div>
+<i class="bi bi-chevron-down wiki-details-chevron"></i>
+</summary>
+<div class="wiki-guide-body">
+<p class="wiki-guide-summary-text">You can find the item in Inventory but not on the public storefront.</p>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Solution</h4>
+<ol class="wiki-step-list">
+<li>Make sure Storefront is enabled in Settings.</li>
+<li>Open the item and confirm storefront visibility is turned on.</li>
+<li>Check that quantity is greater than zero and status is not Sold.</li>
+<li>Refresh the public storefront page once the fix is in place — your browser may still be showing a cached copy.</li>
+</ol>
+</div>
+<div class="wiki-tip-box">
+<div class="wiki-tip-header">
+<i class="bi bi-info-circle"></i>
+<span>Additional Info</span>
+</div>
+<ul class="wiki-tip-list">
+<li>The storefront filters out sold items, items with zero quantity, and items where storefront visibility is off.</li>
+<li>If the storefront was just enabled or settings changed, refresh the page and test the public URL directly.</li>
+</ul>
+</div>
+</div>
+</details>
+</article>
+<article
+class="wiki-troubleshoot-card"
+id="trouble-3"
+data-audience="Troubleshooting"
+>
+<details class="wiki-details">
+<summary class="wiki-details-summary">
+<div class="wiki-guide-head">
+<div class="wiki-guide-icon ">
+<i class="bi bi-credit-card-2-front"></i>
+</div>
+<div class="wiki-guide-info">
+<h3 class="wiki-guide-title">Checkout says unavailable or Buy Now does not work</h3>
+<div class="wiki-guide-meta">
+<span class="wiki-audience-badge">Troubleshooting</span>
+</div>
+</div>
+</div>
+<i class="bi bi-chevron-down wiki-details-chevron"></i>
+</summary>
+<div class="wiki-guide-body">
+<p class="wiki-guide-summary-text">The storefront shows checkout unavailable, or Square link creation fails from the item page.</p>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Solution</h4>
+<ol class="wiki-step-list">
+<li>Verify your Square access token and location ID are filled in under Settings.</li>
+<li>Use Test Connection in Settings and make sure it succeeds.</li>
+<li>Make sure the item has a selling price above zero and is in stock.</li>
+<li>Confirm you are not mixing Square sandbox credentials with a production location, or vice versa.</li>
+</ol>
+</div>
+<div class="wiki-tip-box">
+<div class="wiki-tip-header">
+<i class="bi bi-info-circle"></i>
+<span>Additional Info</span>
+</div>
+<ul class="wiki-tip-list">
+<li>A mismatch between Square sandbox and production is the most common cause.</li>
+<li>Webhooks are separate from checkout creation. A checkout link can open even if sale-sync webhooks are not set up correctly.</li>
+</ul>
+</div>
+</div>
+</details>
+</article>
+<article
+class="wiki-troubleshoot-card"
+id="trouble-4"
+data-audience="Troubleshooting"
+>
+<details class="wiki-details">
+<summary class="wiki-details-summary">
+<div class="wiki-guide-head">
+<div class="wiki-guide-icon ">
+<i class="bi bi-image"></i>
+</div>
+<div class="wiki-guide-info">
+<h3 class="wiki-guide-title">Photos are not uploading or look wrong</h3>
+<div class="wiki-guide-meta">
+<span class="wiki-audience-badge">Troubleshooting</span>
+</div>
+</div>
+</div>
+<i class="bi bi-chevron-down wiki-details-chevron"></i>
+</summary>
+<div class="wiki-guide-body">
+<p class="wiki-guide-summary-text">The item saves without a photo, a photo looks stretched, or the wrong photo shows first.</p>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Solution</h4>
+<ol class="wiki-step-list">
+<li>Use common image formats like JPG, PNG, WEBP, or GIF.</li>
+<li>Try a smaller file if the upload feels unusually slow.</li>
+<li>If you replaced a photo, refresh the page in case the browser is still showing a cached version.</li>
+<li>Reorder photos on the item detail page if a secondary photo is showing as the main image.</li>
+</ol>
+</div>
+<div class="wiki-tip-box">
+<div class="wiki-tip-header">
+<i class="bi bi-info-circle"></i>
+<span>Additional Info</span>
+</div>
+<ul class="wiki-tip-list">
+<li>The app stores a main photo and optional extra photos. The first saved photo becomes the primary display image.</li>
+<li>Very large files can be rejected by the app size limit or by the hosting platform before they reach Flask.</li>
+</ul>
+</div>
+</div>
+</details>
+</article>
+<article
+class="wiki-troubleshoot-card"
+id="trouble-5"
+data-audience="Troubleshooting"
+>
+<details class="wiki-details">
+<summary class="wiki-details-summary">
+<div class="wiki-guide-head">
+<div class="wiki-guide-icon ">
+<i class="bi bi-stars"></i>
+</div>
+<div class="wiki-guide-info">
+<h3 class="wiki-guide-title">AI Generate is not working or gives weak results</h3>
+<div class="wiki-guide-meta">
+<span class="wiki-audience-badge">Troubleshooting</span>
+</div>
+</div>
+</div>
+<i class="bi bi-chevron-down wiki-details-chevron"></i>
+</summary>
+<div class="wiki-guide-body">
+<p class="wiki-guide-summary-text">The page says AI is not configured, or the results are vague, incorrect, or missing fields.</p>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Solution</h4>
+<ol class="wiki-step-list">
+<li>Confirm provider, API key, and model are saved in Settings.</li>
+<li>Use clear, well-lit photos that show the whole item and any important details.</li>
+<li>Try a simpler custom prompt if you added a long or confusing one.</li>
+<li>Reload the model list in Settings if no models appear in the dropdown.</li>
+</ol>
+</div>
+<div class="wiki-tip-box">
+<div class="wiki-tip-header">
+<i class="bi bi-info-circle"></i>
+<span>Additional Info</span>
+</div>
+<ul class="wiki-tip-list">
+<li>Model loading depends on the selected provider. If models do not appear, the provider setting or API configuration may be wrong.</li>
+<li>AI output comes from an external service, so outages, rate limits, or invalid keys can break the flow.</li>
+</ul>
+</div>
+</div>
+</details>
+</article>
+<article
+class="wiki-troubleshoot-card"
+id="trouble-6"
+data-audience="Troubleshooting"
+>
+<details class="wiki-details">
+<summary class="wiki-details-summary">
+<div class="wiki-guide-head">
+<div class="wiki-guide-icon ">
+<i class="bi bi-filetype-csv"></i>
+</div>
+<div class="wiki-guide-info">
+<h3 class="wiki-guide-title">CSV import skipped rows or failed</h3>
+<div class="wiki-guide-meta">
+<span class="wiki-audience-badge">Troubleshooting</span>
+</div>
+</div>
+</div>
+<i class="bi bi-chevron-down wiki-details-chevron"></i>
+</summary>
+<div class="wiki-guide-body">
+<p class="wiki-guide-summary-text">The import says some rows were skipped, or names and prices did not come in correctly.</p>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Solution</h4>
+<ol class="wiki-step-list">
+<li>Make sure the CSV uses the same column headers as the app export.</li>
+<li>Check that numbers are plain numbers, not values with extra symbols or notes in the same cell.</li>
+<li>Import a few sample rows first before importing a large file.</li>
+<li>Rename duplicate SKUs before importing if you want every row to come in.</li>
+</ol>
+</div>
+<div class="wiki-tip-box">
+<div class="wiki-tip-header">
+<i class="bi bi-info-circle"></i>
+<span>Additional Info</span>
+</div>
+<ul class="wiki-tip-list">
+<li>Rows can be skipped when required fields are missing or when a SKU already exists.</li>
+<li>Import errors are often caused by number parsing, status names that do not match, or spreadsheet formatting changes.</li>
+</ul>
+</div>
+</div>
+</details>
+</article>
+<article
+class="wiki-troubleshoot-card"
+id="trouble-7"
+data-audience="Troubleshooting"
+>
+<details class="wiki-details">
+<summary class="wiki-details-summary">
+<div class="wiki-guide-head">
+<div class="wiki-guide-icon ">
+<i class="bi bi-search"></i>
+</div>
+<div class="wiki-guide-info">
+<h3 class="wiki-guide-title">Search is not finding the item I expect</h3>
+<div class="wiki-guide-meta">
+<span class="wiki-audience-badge">Troubleshooting</span>
+</div>
+</div>
+</div>
+<i class="bi bi-chevron-down wiki-details-chevron"></i>
+</summary>
+<div class="wiki-guide-body">
+<p class="wiki-guide-summary-text">Global search finds nothing even though the item exists.</p>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Solution</h4>
+<ol class="wiki-step-list">
+<li>Try searching part of the name, SKU, or brand rather than a very long phrase.</li>
+<li>Open Inventory and use filters if the global search results feel too limited.</li>
+<li>Check that the item is not archived or hidden by a current status filter.</li>
+</ol>
+</div>
+<div class="wiki-tip-box">
+<div class="wiki-tip-header">
+<i class="bi bi-info-circle"></i>
+<span>Additional Info</span>
+</div>
+<ul class="wiki-tip-list">
+<li>The quick global search only looks at a smaller subset of fields and returns a limited number of results for speed.</li>
+<li>Inventory page filtering is broader and better for careful browsing.</li>
+</ul>
+</div>
+</div>
+</details>
+</article>
+<article
+class="wiki-troubleshoot-card"
+id="trouble-8"
+data-audience="Troubleshooting"
+>
+<details class="wiki-details">
+<summary class="wiki-details-summary">
+<div class="wiki-guide-head">
+<div class="wiki-guide-icon ">
+<i class="bi bi-printer"></i>
+</div>
+<div class="wiki-guide-info">
+<h3 class="wiki-guide-title">Labels will not print correctly</h3>
+<div class="wiki-guide-meta">
+<span class="wiki-audience-badge">Troubleshooting</span>
+</div>
+</div>
+</div>
+<i class="bi bi-chevron-down wiki-details-chevron"></i>
+</summary>
+<div class="wiki-guide-body">
+<p class="wiki-guide-summary-text">The label downloads but prints at the wrong size, or some details on the label are wrong.</p>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Solution</h4>
+<ol class="wiki-step-list">
+<li>Check the item price, name, and SKU on the item page first.</li>
+<li>Try opening the label file directly before printing.</li>
+<li>Make sure the printer is using the expected paper or label size.</li>
+<li>In the print dialog, set scaling to 100% (not Fit to Page) so the layout stays accurate.</li>
+</ol>
+</div>
+<div class="wiki-tip-box">
+<div class="wiki-tip-header">
+<i class="bi bi-info-circle"></i>
+<span>Additional Info</span>
+</div>
+<ul class="wiki-tip-list">
+<li>The label generator uses the saved item data directly. Incorrect label content usually means the source record needs to be fixed.</li>
+<li>Print scaling in the browser or OS print dialog can distort the output even when the file itself is correct.</li>
+</ul>
+</div>
+</div>
+</details>
+</article>
+<article
+class="wiki-troubleshoot-card"
+id="trouble-9"
+data-audience="Troubleshooting"
+>
+<details class="wiki-details">
+<summary class="wiki-details-summary">
+<div class="wiki-guide-head">
+<div class="wiki-guide-icon ">
+<i class="bi bi-cloud-slash"></i>
+</div>
+<div class="wiki-guide-info">
+<h3 class="wiki-guide-title">The site works locally but acts strange online</h3>
+<div class="wiki-guide-meta">
+<span class="wiki-audience-badge">Troubleshooting</span>
+</div>
+</div>
+</div>
+<i class="bi bi-chevron-down wiki-details-chevron"></i>
+</summary>
+<div class="wiki-guide-body">
+<p class="wiki-guide-summary-text">Login does not persist on the live site, or links use the wrong protocol and secure features do not behave correctly.</p>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Solution</h4>
+<ol class="wiki-step-list">
+<li>Confirm the live server has a real SECRET_KEY set.</li>
+<li>If the app is behind a proxy or platform router, make sure proxy trust and HTTPS settings are correct.</li>
+<li>Use the production web server setup rather than the Flask debug server.</li>
+<li>Check that cookies are being issued with the Secure flag when served over HTTPS.</li>
+</ol>
+</div>
+<div class="wiki-tip-box">
+<div class="wiki-tip-header">
+<i class="bi bi-info-circle"></i>
+<span>Additional Info</span>
+</div>
+<ul class="wiki-tip-list">
+<li>Session behavior depends on cookies, HTTPS, and proxy headers being correct.</li>
+<li>Wrong proxy or HTTPS configuration can break secure cookies, redirect behavior, and callback URLs.</li>
+</ul>
+</div>
+</div>
+</details>
+</article>
+<article
+class="wiki-troubleshoot-card"
+id="trouble-10"
+data-audience="Troubleshooting"
+>
+<details class="wiki-details">
+<summary class="wiki-details-summary">
+<div class="wiki-guide-head">
+<div class="wiki-guide-icon ">
+<i class="bi bi-file-earmark-text"></i>
+</div>
+<div class="wiki-guide-info">
+<h3 class="wiki-guide-title">About, FAQ, Contact, or policy pages look empty or wrong</h3>
+<div class="wiki-guide-meta">
+<span class="wiki-audience-badge">Troubleshooting</span>
+</div>
+</div>
+</div>
+<i class="bi bi-chevron-down wiki-details-chevron"></i>
+</summary>
+<div class="wiki-guide-body">
+<p class="wiki-guide-summary-text">A footer link opens a page with missing text, or the wrong policy link opens and a page looks unfinished.</p>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Solution</h4>
+<ol class="wiki-step-list">
+<li>Open Settings and make sure the related storefront content fields are filled in.</li>
+<li>If you added an external policy URL, confirm it is correct and starts with the right website address.</li>
+<li>If you want to use the built-in policy pages, leave the external policy URL blank and fill in the built-in policy text area instead.</li>
+</ol>
+</div>
+<div class="wiki-tip-box">
+<div class="wiki-tip-header">
+<i class="bi bi-info-circle"></i>
+<span>Additional Info</span>
+</div>
+<ul class="wiki-tip-list">
+<li>Policy links use external URLs when present and fall back to internal policy routes when the URL field is blank.</li>
+<li>Empty content fields do not break the page, but they can leave a page looking sparse until the settings are filled in.</li>
+</ul>
+</div>
+</div>
+</details>
+</article>
+<article
+class="wiki-troubleshoot-card"
+id="trouble-11"
+data-audience="Troubleshooting"
+>
+<details class="wiki-details">
+<summary class="wiki-details-summary">
+<div class="wiki-guide-head">
+<div class="wiki-guide-icon ">
+<i class="bi bi-search-heart"></i>
+</div>
+<div class="wiki-guide-info">
+<h3 class="wiki-guide-title">A customer says they submitted a return, but you cannot find it</h3>
+<div class="wiki-guide-meta">
+<span class="wiki-audience-badge">Troubleshooting</span>
+</div>
+</div>
+</div>
+<i class="bi bi-chevron-down wiki-details-chevron"></i>
+</summary>
+<div class="wiki-guide-body">
+<p class="wiki-guide-summary-text">The buyer says they filled out the return form, but nothing is visible on the dashboard — or you can see the request, but it is not matched to an item or Square payment.</p>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Solution</h4>
+<ol class="wiki-step-list">
+<li>Open the Returns page and search by the Square order number, customer name, or email address.</li>
+<li>Confirm the buyer used the same order number shown in the Square receipt or confirmation email.</li>
+<li>If the request exists but is not matched to an item, review the order number against the activity log because matching only works when the Square sale was already synced into the app.</li>
+</ol>
+</div>
+<div class="wiki-tip-box">
+<div class="wiki-tip-header">
+<i class="bi bi-info-circle"></i>
+<span>Additional Info</span>
+</div>
+<ul class="wiki-tip-list">
+<li>Return requests are stored in the app database as their own records, separate from inventory transactions.</li>
+<li>Automatic item matching depends on the return form order number matching the Square order or payment id saved in the sale transaction notes.</li>
+</ul>
+</div>
+</div>
+</details>
+</article>
+<article
+class="wiki-troubleshoot-card"
+id="trouble-12"
+data-audience="Troubleshooting"
+>
+<details class="wiki-details">
+<summary class="wiki-details-summary">
+<div class="wiki-guide-head">
+<div class="wiki-guide-icon ">
+<i class="bi bi-geo-alt"></i>
+</div>
+<div class="wiki-guide-info">
+<h3 class="wiki-guide-title">A paid Square order is not showing a usable shipping address</h3>
+<div class="wiki-guide-meta">
+<span class="wiki-audience-badge">Troubleshooting</span>
+</div>
+</div>
+</div>
+<i class="bi bi-chevron-down wiki-details-chevron"></i>
+</summary>
+<div class="wiki-guide-body">
+<p class="wiki-guide-summary-text">The shipping queue shows Waiting for Address after a buyer paid online, or the shipment record has blank or incomplete address fields.</p>
+<div class="wiki-guide-section">
+<h4 class="wiki-guide-subtitle">Solution</h4>
+<ol class="wiki-step-list">
+<li>Open Settings and make sure shipping address collection is turned on in the Square section.</li>
+<li>Confirm the order was placed after that setting was enabled, not before.</li>
+<li>If you received the address some other way, fill it into the shipment record manually so you can keep the tracking and sold item connected.</li>
+</ol>
+</div>
+<div class="wiki-tip-box">
+<div class="wiki-tip-header">
+<i class="bi bi-info-circle"></i>
+<span>Additional Info</span>
+</div>
+<ul class="wiki-tip-list">
+<li>Shipment records are created from completed Square payments and the related Square order data.</li>
+<li>If Square does not return a shipment recipient address for that order, the app keeps the shipment record but marks it as Waiting for Address.</li>
+</ul>
+</div>
+</div>
+</details>
+</article>
+</div>
+</section>
+<!-- Glossary Section -->
+<section class="wiki-section" id="glossary">
+<h2 class="wiki-heading-2">
+<i class="bi bi-dictionary"></i> Glossary
+</h2>
+<p class="wiki-section-intro">
+Definitions of common terms used throughout the application.
+</p>
+<div class="wiki-glossary-grid">
+<div class="wiki-glossary-item" data-audience="all">
+<h4 class="wiki-glossary-term">SKU</h4>
+<p class="wiki-glossary-meaning">A short unique code used to identify one item or one version of an item.</p>
+</div>
+<div class="wiki-glossary-item" data-audience="all">
+<h4 class="wiki-glossary-term">Category</h4>
+<p class="wiki-glossary-meaning">A broad bucket such as Clothing, Decor, Books, or Furniture.</p>
+</div>
+<div class="wiki-glossary-item" data-audience="all">
+<h4 class="wiki-glossary-term">Tag</h4>
+<p class="wiki-glossary-meaning">A flexible label like Rare, New Arrival, or Fragile that helps search and filtering.</p>
+</div>
+<div class="wiki-glossary-item" data-audience="all">
+<h4 class="wiki-glossary-term">Supplier</h4>
+<p class="wiki-glossary-meaning">The person or business the item came from.</p>
+</div>
+<div class="wiki-glossary-item" data-audience="all">
+<h4 class="wiki-glossary-term">Storefront</h4>
+<p class="wiki-glossary-meaning">The public shopping page your customers can open online.</p>
+</div>
+<div class="wiki-glossary-item" data-audience="all">
+<h4 class="wiki-glossary-term">Quantity</h4>
+<p class="wiki-glossary-meaning">How many of that item you currently have available.</p>
+</div>
+<div class="wiki-glossary-item" data-audience="all">
+<h4 class="wiki-glossary-term">Low stock</h4>
+<p class="wiki-glossary-meaning">An alert shown when quantity is at or below the warning level.</p>
+</div>
+<div class="wiki-glossary-item" data-audience="all">
+<h4 class="wiki-glossary-term">Transaction</h4>
+<p class="wiki-glossary-meaning">A stock movement such as stocked in, sold, returned, or adjusted.</p>
+</div>
+<div class="wiki-glossary-item" data-audience="all">
+<h4 class="wiki-glossary-term">Listed</h4>
+<p class="wiki-glossary-meaning">The item is visible on the public storefront and available to shoppers.</p>
+</div>
+<div class="wiki-glossary-item" data-audience="all">
+<h4 class="wiki-glossary-term">On hold</h4>
+<p class="wiki-glossary-meaning">Reserved for a specific customer; not sold yet but not available to others.</p>
+</div>
+<div class="wiki-glossary-item" data-audience="all">
+<h4 class="wiki-glossary-term">Square order</h4>
+<p class="wiki-glossary-meaning">A payment record created when a buyer checks out through Square.</p>
+</div>
+<div class="wiki-glossary-item" data-audience="all">
+<h4 class="wiki-glossary-term">Shipment</h4>
+<p class="wiki-glossary-meaning">A record that tracks the address, carrier, and tracking number for a paid order.</p>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="wiki-footer">
+<p class="wiki-footer-text">
+Need more help? Contact support or check back later for more resources.
+</p>
+</footer>
+</main>
+</div>
+</div>
+</div>
+</main>
+<!-- Error Pill Toast -->
+<div id="errorPill" class="error-pill" role="alert" aria-live="assertive">
+<i class="bi bi-exclamation-triangle-fill me-2"></i>
+<span id="errorPillMsg"></span>
+<button type="button" class="error-pill-close" onclick="window._dismissPill()" aria-label="Close">&times;</button>
+</div>
+<style>
+.error-pill {
+position: fixed;
+bottom: 24px;
+left: 50%;
+transform: translateX(-50%) translateY(20px);
+background: #dc3545;
+color: #fff;
+padding: 10px 20px 10px 16px;
+border-radius: 50px;
+font-size: 0.875rem;
+font-weight: 500;
+box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+display: flex;
+align-items: center;
+gap: 4px;
+z-index: 9999;
+opacity: 0;
+pointer-events: none;
+transition: opacity 0.35s ease, transform 0.35s ease;
+max-width: 90vw;
+}
+.error-pill.error-pill--warn {
+background: #fd7e14;
+}
+.error-pill.error-pill--info {
+background: #0d6efd;
+}
+.error-pill.error-pill--success {
+background: #198754;
+}
+.error-pill.show {
+opacity: 1;
+pointer-events: auto;
+transform: translateX(-50%) translateY(0);
+}
+.error-pill-close {
+background: none;
+border: none;
+color: rgba(255,255,255,0.8);
+font-size: 1.15rem;
+line-height: 1;
+margin-left: 8px;
+cursor: pointer;
+padding: 0 2px;
+}
+.error-pill-close:hover { color: #fff; }
+</style>
+<div class="photo-lightbox" id="photoLightbox" role="dialog" aria-modal="true" aria-hidden="true" hidden>
+<button type="button" class="photo-lightbox-close" id="photoLightboxClose" aria-label="Close">
+<i class="bi bi-x-lg"></i>
+</button>
+<button type="button" class="photo-lightbox-nav prev" id="photoLightboxPrev" aria-label="Previous">
+<i class="bi bi-chevron-left"></i>
+</button>
+<button type="button" class="photo-lightbox-nav next" id="photoLightboxNext" aria-label="Next">
+<i class="bi bi-chevron-right"></i>
+</button>
+<img class="photo-lightbox-img" id="photoLightboxImg" alt="">
+<div class="photo-lightbox-count" id="photoLightboxCount"></div>
+</div>
+<link rel="stylesheet" href="static/snap/88a0be1cee2a.css">
+<script src="static/snap/1bb55beec05e.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script src="static/js/app.js"></script>
+<script src="static/js/help.js"></script>
+</body>
+</html>

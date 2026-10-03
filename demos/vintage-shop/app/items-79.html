@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head><meta name="robots" content="noindex,follow"><script src="snapshot.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="csrf-token" content="read-only-snapshot">
+<title>Rosewater &amp; Rust — Inventory</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link href="static/css/style.css" rel="stylesheet">
+<link href="static/css/themes.css" rel="stylesheet">
+</head>
+<body class="theme-vintage" data-theme="vintage"><div id="snapBanner" role="note" style="position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#3b2414;color:#fbe9d7;border-top:2px solid #e8a13a;font:500 13px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:7px 14px;display:flex;gap:4px 14px;align-items:center;justify-content:center;flex-wrap:wrap;text-align:center;box-shadow:0 -4px 14px rgba(0,0,0,.25)"><span><strong>Read-only snapshot</strong> of the real Vintage Shop app, saved while it ran on <strong>demo data</strong> (a fictional shop). Buttons and forms that would change data are switched off.</span><a href="../" style="color:#ffd08a;text-decoration:underline;white-space:nowrap">About this demo &amp; the source code &rarr;</a></div><div id="snapToast" role="status" aria-live="polite" style="display:none;position:fixed;left:50%;bottom:72px;transform:translateX(-50%);z-index:2147483001;width:max-content;max-width:min(92vw,560px);background:#111827;border:1px solid #e8a13a;color:#fde3c0;border-radius:8px;padding:10px 16px;font:500 13.5px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;box-shadow:0 10px 25px rgba(0,0,0,.45);text-align:center"></div>
+<!-- Sidebar -->
+<nav id="sidebar" class="sidebar">
+<div class="sidebar-header">
+<i class="bi bi-shop"></i>
+<span>Rosewater &amp; Rust</span>
+</div>
+<ul class="sidebar-nav">
+<li class="">
+<a href="index.html">
+<i class="bi bi-speedometer2"></i> Dashboard
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-box-seam"></i> Inventory</li>
+<li class="sidebar-subitem active">
+<a href="items.html">
+<i class="bi bi-box-seam"></i> Items
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="categories.html">
+<i class="bi bi-grid"></i> Categories
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="tags.html">
+<i class="bi bi-tags"></i> Tags
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="labels.html">
+<i class="bi bi-printer"></i> Labels
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="suppliers.html">
+<i class="bi bi-truck"></i> Suppliers
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="consigners.html">
+<i class="bi bi-people"></i> Consigners
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-currency-dollar"></i> Sales</li>
+<li class="sidebar-subitem ">
+<a href="items-pos.html">
+<i class="bi bi-upc-scan"></i> Scan Checkout
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="orders.html">
+<i class="bi bi-receipt"></i> Orders
+<span class="badge bg-info ms-1">3</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="customers.html">
+<i class="bi bi-people"></i> Customers
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="returns.html">
+<i class="bi bi-arrow-counterclockwise"></i> Returns
+<span class="badge bg-danger ms-1">3</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="shipping.html">
+<i class="bi bi-box-arrow-up-right"></i> Shipping
+<span class="badge bg-warning text-dark ms-1">6</span>
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="promo-codes.html">
+<i class="bi bi-tag-fill"></i> Promo Codes
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="reports.html">
+<i class="bi bi-bar-chart-line"></i> Reports
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-megaphone"></i> Listings</li>
+<li class="sidebar-subitem ">
+<a href="storefront.html" target="_blank">
+<i class="bi bi-globe"></i> Storefront
+</a>
+</li>
+<li class="sidebar-group-label"><i class="bi bi-shield-lock"></i> Admin</li>
+<li class="sidebar-subitem ">
+<a href="activity.html">
+<i class="bi bi-clipboard-data"></i> Activity Log
+</a>
+</li>
+<li class="sidebar-subitem ">
+<a href="settings.html">
+<i class="bi bi-gear"></i> Settings
+</a>
+</li>
+<li class="">
+<a href="help.html">
+<i class="bi bi-life-preserver"></i> Help Wiki
+</a>
+</li>
+</ul>
+<div class="sidebar-alert">
+<i class="bi bi-exclamation-triangle"></i>
+<a href="items--status-In-Stock.html">3 low stock</a>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="main-content">
+<!-- Top Bar -->
+<header class="topbar">
+<div class="topbar-leading">
+<button class="btn btn-link sidebar-toggle d-md-none" type="button" onclick="toggleSidebar()" aria-label="Open menu">
+<i class="bi bi-list"></i>
+<span class="sidebar-toggle-label">Menu</span>
+</button>
+<div class="topbar-mobile-title d-md-none">Rosewater &amp; Rust</div>
+<div class="topbar-actions topbar-actions-mobile d-md-none">
+<a href="items-pos.html" class="btn btn-outline-success btn-sm" title="Scan Checkout" aria-label="Scan Checkout">
+<i class="bi bi-upc-scan"></i>
+</a>
+<a href="items-new.html" class="btn btn-primary btn-sm" title="Add Item" aria-label="Add Item">
+<i class="bi bi-plus-lg"></i>
+</a>
+<form method="POST" action="#" data-snapshot-action="/logout" class="d-inline">
+<button type="submit" class="btn btn-outline-secondary btn-sm" title="Logout" aria-label="Logout">
+<i class="bi bi-box-arrow-right"></i>
+</button>
+</form>
+</div>
+</div>
+<div class="search-bar topbar-search">
+<i class="bi bi-search"></i>
+<input type="text" id="globalSearch" placeholder="Search items by name, SKU, brand..."
+autocomplete="off">
+<div id="searchResults" class="search-results"></div>
+</div>
+<div class="topbar-actions topbar-actions-desktop">
+<span class="text-muted small">Demo Owner · Admin</span>
+<a href="items-pos.html" class="btn btn-outline-success btn-sm">
+<i class="bi bi-upc-scan"></i> Scan Checkout
+</a>
+<a href="help.html" class="btn btn-outline-secondary btn-sm">
+<i class="bi bi-life-preserver"></i> Help
+</a>
+<a href="items-new.html" class="btn btn-primary btn-sm">
+<i class="bi bi-plus-lg"></i> Add Item
+</a>
+<form method="POST" action="#" data-snapshot-action="/logout" class="d-inline">
+<button type="submit" class="btn btn-outline-secondary btn-sm">
+<i class="bi bi-box-arrow-right"></i> Logout
+</button>
+</form>
+</div>
+</header>
+<!-- Flash Messages -->
+<div class="content-area">
+<link rel="stylesheet" href="static/snap/4a6f8d140dc3.css">
+<div class="photo-rotate-toast" id="photoRotateToast" role="status" aria-live="polite"></div>
+<div class="page-header d-flex justify-content-between align-items-start flex-wrap gap-2">
+<div>
+<h1>Cane-Back Botanical Plate Print</h1>
+<code class="fs-6">VNT-ART-0005</code>
+<span class="badge ms-2" style="background-color:#4682B4">Art</span>
+<a href="#" data-snapshot-missing="/items?tag=8" class="badge badge-tag ms-1 text-decoration-none" style="background-color:#4682B4">Consignment</a>
+</div>
+<div class="btn-group">
+<a href="items-79-edit.html" class="btn btn-outline-primary">
+<i class="bi bi-pencil"></i> Edit
+</a>
+<form method="POST" action="#" data-snapshot-action="/items/79/duplicate" class="d-inline">
+<button class="btn btn-outline-secondary" title="Duplicate"><i class="bi bi-copy"></i></button>
+</form>
+<a href="labels-price-tag-79-view.html" class="btn btn-outline-secondary">
+<i class="bi bi-printer"></i> Print Label
+</a>
+<form method="POST" action="#" data-snapshot-action="/items/79/delete"
+onsubmit="return confirm('Delete this item permanently?')" class="d-inline">
+<button class="btn btn-outline-danger"><i class="bi bi-trash"></i></button>
+</form>
+</div>
+</div>
+<div class="row g-4">
+<div class="col-lg-8">
+<!-- Details Card -->
+<div class="card mb-3">
+<div class="card-body">
+<div class="row g-3">
+<div class="col-md-4">
+<div class="d-flex flex-wrap justify-content-end align-items-center gap-2 mb-2">
+<div class="btn-group photo-rotate-group" role="group" aria-label="Rotate the current photo">
+<button type="button" class="btn btn-outline-secondary btn-sm js-rotate-photo"
+data-direction="ccw" title="Rotate left 90°">
+<i class="bi bi-arrow-counterclockwise"></i>
+</button>
+<button type="button" class="btn btn-outline-secondary btn-sm js-rotate-photo"
+data-direction="cw" title="Rotate right 90°">
+<i class="bi bi-arrow-clockwise"></i>
+</button>
+</div>
+<button type="button" class="btn btn-outline-info btn-sm js-remove-bg"
+data-item-id="79">
+<i class="bi bi-magic"></i>
+Remove backgrounds (4)
+</button>
+<button type="button" class="btn btn-outline-danger btn-sm js-delete-photo"
+title="Delete the current photo">
+<i class="bi bi-trash"></i>
+Delete photo
+</button>
+</div>
+<div class="position-relative" id="inventoryDetailGallery"
+data-item-id="79"
+data-photo-urls='["static/uploads/demo_VNT_ART_0005_0.jpg?v=1769831860","static/uploads/demo_VNT_ART_0005_1.jpg?v=1769831860","static/uploads/demo_VNT_ART_0005_2.jpg?v=1769831860","static/uploads/demo_VNT_ART_0005_3.jpg?v=1769831860"]'>
+<img src="static/uploads/demo_VNT_ART_0005_0.jpg"
+class="img-fluid rounded mb-2" alt="Cane-Back Botanical Plate Print" id="mainPhoto"
+data-photo-filename="demo_VNT_ART_0005_0.jpg"
+data-lightbox-trigger
+data-lightbox-photos='["static/uploads/demo_VNT_ART_0005_0.jpg?v=1769831860","static/uploads/demo_VNT_ART_0005_1.jpg?v=1769831860","static/uploads/demo_VNT_ART_0005_2.jpg?v=1769831860","static/uploads/demo_VNT_ART_0005_3.jpg?v=1769831860"]'
+title="Click to enlarge">
+<div class="photo-rotate-loader" id="photoRotateLoader" hidden aria-hidden="true">
+<div class="spinner-border text-light" role="status" aria-label="Rotating photo…"></div>
+</div>
+<button type="button" class="btn btn-dark btn-sm position-absolute top-50 start-0 translate-middle-y ms-2" id="inventoryPhotoPrev" title="Previous photo">
+<i class="bi bi-chevron-left"></i>
+</button>
+<button type="button" class="btn btn-dark btn-sm position-absolute top-50 end-0 translate-middle-y me-2" id="inventoryPhotoNext" title="Next photo">
+<i class="bi bi-chevron-right"></i>
+</button>
+<span class="badge bg-dark position-absolute bottom-0 end-0 m-2" id="inventoryPhotoCount">1 / 4</span>
+</div>
+<div class="d-flex flex-wrap gap-1" id="inventoryPhotoThumbs">
+<span class="photo-thumb-wrap" data-photo-filename="demo_VNT_ART_0005_0.jpg">
+<img src="static/uploads/demo_VNT_ART_0005_0.jpg"
+class="rounded photo-thumb photo-thumb-active"
+style="width:48px;height:48px;object-fit:cover;cursor:pointer;border:2px solid var(--sidebar-accent)"
+data-index="0"
+data-photo-filename="demo_VNT_ART_0005_0.jpg"
+alt="Photo 1"
+onclick="document.getElementById('mainPhoto').src=this.src; document.getElementById('mainPhoto').dataset.photoFilename=this.dataset.photoFilename; document.querySelectorAll('.photo-thumb').forEach(t=>{t.style.borderColor='transparent';t.classList.remove('photo-thumb-active')}); this.style.borderColor='var(--sidebar-accent)'; this.classList.add('photo-thumb-active');">
+</span>
+<span class="photo-thumb-wrap" data-photo-filename="demo_VNT_ART_0005_1.jpg">
+<img src="static/uploads/demo_VNT_ART_0005_1.jpg"
+class="rounded photo-thumb "
+style="width:48px;height:48px;object-fit:cover;cursor:pointer;border:2px solid transparent"
+data-index="1"
+data-photo-filename="demo_VNT_ART_0005_1.jpg"
+alt="Photo 2"
+onclick="document.getElementById('mainPhoto').src=this.src; document.getElementById('mainPhoto').dataset.photoFilename=this.dataset.photoFilename; document.querySelectorAll('.photo-thumb').forEach(t=>{t.style.borderColor='transparent';t.classList.remove('photo-thumb-active')}); this.style.borderColor='var(--sidebar-accent)'; this.classList.add('photo-thumb-active');">
+</span>
+<span class="photo-thumb-wrap" data-photo-filename="demo_VNT_ART_0005_2.jpg">
+<img src="static/uploads/demo_VNT_ART_0005_2.jpg"
+class="rounded photo-thumb "
+style="width:48px;height:48px;object-fit:cover;cursor:pointer;border:2px solid transparent"
+data-index="2"
+data-photo-filename="demo_VNT_ART_0005_2.jpg"
+alt="Photo 3"
+onclick="document.getElementById('mainPhoto').src=this.src; document.getElementById('mainPhoto').dataset.photoFilename=this.dataset.photoFilename; document.querySelectorAll('.photo-thumb').forEach(t=>{t.style.borderColor='transparent';t.classList.remove('photo-thumb-active')}); this.style.borderColor='var(--sidebar-accent)'; this.classList.add('photo-thumb-active');">
+</span>
+<span class="photo-thumb-wrap" data-photo-filename="demo_VNT_ART_0005_3.jpg">
+<img src="static/uploads/demo_VNT_ART_0005_3.jpg"
+class="rounded photo-thumb "
+style="width:48px;height:48px;object-fit:cover;cursor:pointer;border:2px solid transparent"
+data-index="3"
+data-photo-filename="demo_VNT_ART_0005_3.jpg"
+alt="Photo 4"
+onclick="document.getElementById('mainPhoto').src=this.src; document.getElementById('mainPhoto').dataset.photoFilename=this.dataset.photoFilename; document.querySelectorAll('.photo-thumb').forEach(t=>{t.style.borderColor='transparent';t.classList.remove('photo-thumb-active')}); this.style.borderColor='var(--sidebar-accent)'; this.classList.add('photo-thumb-active');">
+</span>
+</div>
+</div>
+<div class="col-md-8">
+<p>Hand-coloured botanical plate lifted from a broken folio, newly matted. 1970s piece in lithograph, matted. Light, even wear consistent with age. Shown in the photos. Ships double-boxed with recycled packing.</p>
+<div class="row g-2 detail-grid">
+<div class="col-6"><strong>Era:</strong> 1970s</div>
+<div class="col-6"><strong>Condition:</strong> Good</div>
+<div class="col-6"><strong>Brand:</strong> P. Okonjo-Reese</div>
+<div class="col-6"><strong>Material:</strong> Lithograph, matted</div>
+<div class="col-6"><strong>Origin:</strong> France</div>
+<div class="col-6"><strong>Location:</strong> Back Room - Bin 7</div>
+<div class="col-6">
+<strong>Consigner:</strong>
+<a href="consigners-2-report.html">The Ashgrove Estate</a>
+<span class="badge bg-info text-dark ms-1">70% to consigner</span>
+</div>
+<div class="col-6"><strong>Weight:</strong> 70.0 oz (4.38 lbs)</div>
+<div class="col-6"><strong>Dimensions:</strong> 16x2x20"</div>
+</div>
+<hr class="my-3">
+<div class="row g-2">
+<div class="col-12"><strong><i class="bi bi-rulers"></i> Measurements</strong></div>
+<div class="col-6 col-md-4">
+<span class="text-muted">Frame Width:</span> 33 in
+</div>
+<div class="col-6 col-md-4">
+<span class="text-muted">Frame Height:</span> 15 1/2 in
+</div>
+<div class="col-6 col-md-4">
+<span class="text-muted">Image Area:</span> 25 1/2 in
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Notes -->
+<div class="card mb-3">
+<div class="card-header">Notes</div>
+<div class="card-body">
+<p class="mb-0">Found at a mill auction and held back for the front window. Split overridden to 70% for this piece.</p>
+</div>
+</div>
+<div class="card mb-3">
+<div class="card-header"><i class="bi bi-calculator"></i> Estimated Shipping Costs</div>
+<div class="card-body p-0">
+<table class="table table-sm mb-0">
+<thead>
+<tr><th>Service</th><th>Est. Cost</th><th>Delivery</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>USPS Priority Mail</td>
+<td class="fw-bold">$10.50</td>
+<td class="text-muted">1-3 business days</td>
+</tr>
+<tr>
+<td>USPS Priority Flat Rate (Medium)</td>
+<td class="fw-bold">$16.10</td>
+<td class="text-muted">1-3 business days</td>
+</tr>
+<tr>
+<td>USPS Priority Flat Rate (Large)</td>
+<td class="fw-bold">$22.45</td>
+<td class="text-muted">1-3 business days</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Transaction History -->
+<div class="card">
+<div class="card-header">Transaction History</div>
+<div class="card-body p-0">
+<table class="table table-sm mb-0">
+<thead>
+<tr><th>Date</th><th>Type</th><th>Qty</th><th>Notes</th></tr>
+</thead>
+<tbody>
+<tr>
+<td class="text-muted small">Jan 30, 2026 21:57</td>
+<td>
+<span class="badge bg-success">In</span>
+</td>
+<td>1</td>
+<td class="text-muted small">Intake - The Ashgrove Estate</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Right Column: Pricing & Quick Actions -->
+<div class="col-lg-4">
+<div class="card mb-3">
+<div class="card-header">Stock</div>
+<div class="card-body text-center">
+<div class="fs-1 fw-bold ">1</div>
+<div class="text-muted mb-3">
+<span class="badge bg-success">In Stock</span>
+</div>
+<div class="d-flex justify-content-center align-items-center gap-3 small text-muted mb-3 border-top pt-2">
+<div title="Total storefront page-views (bot-filtered, deduped per session)">
+<i class="bi bi-eye"></i>
+<strong class="text-body">8</strong>
+views
+</div>
+<div title="Most recent view">
+<i class="bi bi-clock-history"></i>
+last Oct 03, 2026
+</div>
+</div>
+<div class="small mb-3">
+<div class="d-flex justify-content-center align-items-center gap-2">
+<span class="text-muted">Storefront:</span>
+<span class="badge bg-success">Listed</span>
+<span class="badge bg-info text-dark">Tagged</span>
+</div>
+<form method="POST" action="#" data-snapshot-action="/items/79/storefront-visibility" class="mt-2">
+<input type="hidden" name="show_on_storefront" value="0">
+<button class="btn btn-outline-primary btn-sm" type="submit">
+Hide from Storefront
+</button>
+</form>
+</div>
+<form method="POST" action="#" data-snapshot-action="/items/79/sold" class="mb-2">
+<div class="input-group input-group-sm">
+<input type="number" name="quantity" value="1" min="1" max="1" class="form-control">
+<button class="btn btn-warning" type="submit"><i class="bi bi-bag-check"></i> Sell</button>
+</div>
+</form>
+<form method="POST" action="#" data-snapshot-action="/items/79/restock">
+<input type="hidden" name="restore_storefront" value="1">
+<div class="input-group input-group-sm">
+<input type="number" name="quantity" value="1" min="1" class="form-control">
+<button class="btn btn-outline-success" type="submit"><i class="bi bi-plus-lg"></i> Restock</button>
+</div>
+<div class="form-text mt-1">Restocking also relists this item on the storefront.</div>
+</form>
+</div>
+</div>
+<div class="card mb-3">
+<div class="card-header">Pricing</div>
+<div class="card-body">
+<div class="d-flex justify-content-between mb-2">
+<span class="text-muted">Purchase Price</span>
+<strong>$6.50</strong>
+</div>
+<div class="d-flex justify-content-between mb-2">
+<span class="text-muted">Selling Price</span>
+<strong class="text-success fs-4">
+$50.00
+</strong>
+</div>
+<div class="d-flex justify-content-between">
+<span class="text-muted">Margin</span>
+<strong>87.0%</strong>
+</div>
+<div class="mt-4 item-analytics-root" data-item-analytics='{"benchmark_prices": [50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0], "category_avg_price": [null, null, 105.0, null, null, null, null, null], "inventory_levels": [1, 1, 1, 1, 1, 1, 1, 1], "labels": ["Mar 2026", "Apr 2026", "May 2026", "Jun 2026", "Jul 2026", "Aug 2026", "Sep 2026", "Oct 2026"], "restock_units": [0, 0, 0, 0, 0, 0, 0, 0], "show": true, "sold_units": [0, 0, 0, 0, 0, 0, 0, 0], "stats": {"category_avg_current": 105.0, "category_sold_count": 1, "current_quantity": 1, "total_restock_units": 1, "total_sold_units": 0}}'>
+<div class="row g-2 mb-3">
+<div class="col-6">
+<div class="border rounded p-2 h-100">
+<div class="small text-muted">Units Sold</div>
+<div class="fs-5 fw-semibold">0</div>
+</div>
+</div>
+<div class="col-6">
+<div class="border rounded p-2 h-100">
+<div class="small text-muted">Units Restocked</div>
+<div class="fs-5 fw-semibold">1</div>
+</div>
+</div>
+<div class="col-6">
+<div class="border rounded p-2 h-100">
+<div class="small text-muted">On Hand</div>
+<div class="fs-5 fw-semibold">1</div>
+</div>
+</div>
+<div class="col-6">
+<div class="border rounded p-2 h-100">
+<div class="small text-muted">Category Avg Sold Price</div>
+<div class="fs-5 fw-semibold">
+$105.00
+</div>
+</div>
+</div>
+</div>
+<div class="border rounded p-2 mb-3">
+<div class="small fw-semibold mb-2">Inventory and Sales Trend</div>
+<div style="height:220px;">
+<canvas class="item-analytics-inventory-chart"></canvas>
+</div>
+</div>
+<div class="border rounded p-2">
+<div class="small fw-semibold mb-1">Category Avg Sale Price vs Current Price</div>
+<div class="small text-muted mb-2">
+Art category over the last 8 months.
+</div>
+<div style="height:220px;">
+<canvas class="item-analytics-category-chart"></canvas>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="card mb-3">
+<div class="card-header">Dates</div>
+<div class="card-body small">
+<div class="d-flex justify-content-between mb-1">
+<span class="text-muted">Acquired</span>
+<span>Jan 30, 2026</span>
+</div>
+<div class="d-flex justify-content-between mb-1">
+<span class="text-muted">Added</span>
+<span>Jan 30, 2026</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Error Pill Toast -->
+<div id="errorPill" class="error-pill" role="alert" aria-live="assertive">
+<i class="bi bi-exclamation-triangle-fill me-2"></i>
+<span id="errorPillMsg"></span>
+<button type="button" class="error-pill-close" onclick="window._dismissPill()" aria-label="Close">&times;</button>
+</div>
+<style>
+.error-pill {
+position: fixed;
+bottom: 24px;
+left: 50%;
+transform: translateX(-50%) translateY(20px);
+background: #dc3545;
+color: #fff;
+padding: 10px 20px 10px 16px;
+border-radius: 50px;
+font-size: 0.875rem;
+font-weight: 500;
+box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+display: flex;
+align-items: center;
+gap: 4px;
+z-index: 9999;
+opacity: 0;
+pointer-events: none;
+transition: opacity 0.35s ease, transform 0.35s ease;
+max-width: 90vw;
+}
+.error-pill.error-pill--warn {
+background: #fd7e14;
+}
+.error-pill.error-pill--info {
+background: #0d6efd;
+}
+.error-pill.error-pill--success {
+background: #198754;
+}
+.error-pill.show {
+opacity: 1;
+pointer-events: auto;
+transform: translateX(-50%) translateY(0);
+}
+.error-pill-close {
+background: none;
+border: none;
+color: rgba(255,255,255,0.8);
+font-size: 1.15rem;
+line-height: 1;
+margin-left: 8px;
+cursor: pointer;
+padding: 0 2px;
+}
+.error-pill-close:hover { color: #fff; }
+</style>
+<div class="photo-lightbox" id="photoLightbox" role="dialog" aria-modal="true" aria-hidden="true" hidden>
+<button type="button" class="photo-lightbox-close" id="photoLightboxClose" aria-label="Close">
+<i class="bi bi-x-lg"></i>
+</button>
+<button type="button" class="photo-lightbox-nav prev" id="photoLightboxPrev" aria-label="Previous">
+<i class="bi bi-chevron-left"></i>
+</button>
+<button type="button" class="photo-lightbox-nav next" id="photoLightboxNext" aria-label="Next">
+<i class="bi bi-chevron-right"></i>
+</button>
+<img class="photo-lightbox-img" id="photoLightboxImg" alt="">
+<div class="photo-lightbox-count" id="photoLightboxCount"></div>
+</div>
+<link rel="stylesheet" href="static/snap/88a0be1cee2a.css">
+<script src="static/snap/1bb55beec05e.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script src="static/js/app.js"></script>
+<script src="static/snap/e03b7a3d3686.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="static/js/item_analytics.js"></script>
+<script src="static/js/remove_bg.js"></script>
+<script src="static/snap/09eb9a1260c8.js"></script>
+</body>
+</html>

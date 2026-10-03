@@ -1,0 +1,602 @@
+:root {
+  --plum: #5A3D7A;
+  --plum-deep: #4A2E5F;
+  --cream: #E8EED2;
+  --cream-warm: #EDECD3;
+  --cocoa: #3F2418;
+  --cocoa-warm: #4A2E24;
+  --green: #7A9B5C;
+  --white: #FFFDF7;
+
+  /* Behr "Avocado Whip" M360-3 — the top bar color. It's a pale sage, so
+     anything sitting on it needs dark text, not cream. */
+  --avocado: #CDD6B1;
+  --avocado-deep: #AFBB8D;
+  --avocado-ink: #2F3A1C;
+
+  --font-display: "Playfair Display", "Cormorant Garamond", Georgia, serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --measure: 68ch;
+  --gutter: clamp(1rem, 4vw, 2.5rem);
+  --radius: 6px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--plum-deep);
+  color: var(--white);
+  font-family: var(--font-body);
+  line-height: 1.55;
+  font-size: 17px;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--cream); text-decoration: underline; text-underline-offset: 3px; }
+a:hover { color: var(--green); }
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.15;
+  margin: 0 0 0.6em;
+}
+h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); }
+h2 { font-size: clamp(1.6rem, 3.5vw, 2.4rem); }
+h3 { font-size: 1.25rem; }
+
+/* Top bar: everything stacks and centers — brand row, then tabs. */
+.site-header {
+  background: var(--avocado);
+  border-bottom: 1px solid rgba(47, 58, 28, 0.18);
+  padding: 1rem var(--gutter) 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.site-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding-bottom: 0.75rem;
+}
+
+.site-header .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--avocado-ink);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+.site-header .brand:hover { color: var(--plum-deep); }
+
+/* Logo slot — sized off the brand text so it never overpowers the name.
+   Nothing renders at all until a logo is uploaded in the admin. */
+.brand-logo {
+  display: block;
+  height: 2.1rem;
+  width: auto;
+  max-width: 8rem;
+  object-fit: contain;
+  flex: none;
+}
+
+.tab-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  align-items: flex-end;
+  justify-content: center;
+}
+.tab-nav a {
+  display: inline-block;
+  padding: 0.65rem 1.1rem 0.75rem;
+  color: var(--avocado-ink);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: var(--radius) var(--radius) 0 0;
+  border: 1px solid transparent;
+  border-bottom: 0;
+  opacity: 0.8;
+  transition: background 120ms ease, opacity 120ms ease, color 120ms ease;
+  position: relative;
+  top: 1px;
+}
+.tab-nav a:hover {
+  color: var(--avocado-ink);
+  opacity: 1;
+  background: rgba(47, 58, 28, 0.1);
+}
+/* Active tab reads as the page itself continuing up into the bar. */
+.tab-nav a.is-active {
+  background: var(--plum-deep);
+  color: var(--cream);
+  opacity: 1;
+  border-color: rgba(47, 58, 28, 0.18);
+  border-bottom: 1px solid var(--plum-deep);
+}
+
+main {
+  padding: clamp(2rem, 5vw, 4rem) var(--gutter);
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.hero {
+  text-align: center;
+  padding: clamp(3rem, 8vw, 6rem) 0 clamp(2rem, 5vw, 4rem);
+}
+.hero h1 { color: var(--cream); }
+.hero .tagline { color: var(--cream-warm); opacity: 0.9; font-size: 1.15rem; }
+
+/* Home masthead. The logo is a transparent PNG (its black ground was keyed
+   out), so it sits straight on the page plum with no band behind it. */
+.logo-banner {
+  margin: calc(-1 * clamp(2rem, 5vw, 4rem)) calc(-1 * var(--gutter)) 0;
+  text-align: center;
+}
+.logo-banner img {
+  display: block;
+  width: 100%;
+  max-width: 900px;
+  height: auto;
+  margin: 0 auto;
+}
+
+/* The photo is framed now, so it sits inside the page gutter rather than
+   bleeding to the viewport edge — a frame clipped by the screen edge reads
+   as a mistake. Sizing of the image itself comes from .deco-frame img. */
+.hero-photo {
+  margin: calc(-1 * clamp(2rem, 5vw, 4rem)) 0 clamp(2rem, 4vw, 3rem);
+  text-align: center;
+}
+/* The banner already sits flush to the top, so don't pull the photo up too. */
+.hero-photo-under-logo { margin-top: 0; }
+.hero-photo .hero-caption {
+  padding: 1.5rem 0 2rem;
+}
+.hero-photo h1 {
+  margin: 0 0 0.4rem;
+  color: var(--cream);
+}
+.hero-photo .tagline {
+  color: var(--cream-warm);
+  font-size: 1.15rem;
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* "One Stop Shop" — heads the service grid, in the slot the old "Under one
+   roof" heading held. The mockup sets it near-black and very large; black on
+   plum is low contrast, so a faint cream halo lifts the letter edges without
+   changing the look. */
+.slogan {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.4rem, 9vw, 4.75rem);
+  line-height: 1.05;
+  letter-spacing: 0.005em;
+  text-align: center;
+  margin: 0;
+  color: #150B1C;
+  text-shadow: 0 1px 0 rgba(232, 238, 210, 0.30),
+               0 0 24px rgba(232, 238, 210, 0.16);
+}
+
+/* Tagline whose service names are links — underline only on hover so the
+   line still reads as a tagline rather than a row of links. */
+.tagline-links a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(232, 238, 210, 0.45);
+  padding-bottom: 1px;
+  transition: color 120ms ease, border-color 120ms ease;
+}
+.tagline-links a:hover {
+  color: var(--green);
+  border-bottom-color: var(--green);
+}
+
+.photo-banner {
+  width: 100%;
+  max-width: 640px;   /* keep body-copy photos comfortable-reading width */
+  margin: 1.5rem auto;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.photo-banner img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.photo-caption {
+  margin-top: 0.5rem;
+  color: var(--cream-warm);
+  opacity: 0.75;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.split-photo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem auto;
+  max-width: 640px;   /* two side-by-side ≈ 320px each */
+  align-items: start;
+}
+.split-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+}
+
+/* Mobile: give photos a bit of breathing room from the screen edge so
+   they feel like content, not full-bleed banners. */
+@media (max-width: 720px) {
+  .photo-banner   { max-width: 94%; }
+  .split-photo    { max-width: 94%; grid-template-columns: 1fr; }
+}
+
+.instagram-block {
+  margin-top: 3rem;
+  text-align: center;
+}
+.instagram-block h2 { color: var(--cream); }
+.instagram-embed {
+  max-width: 640px;
+  margin: 1rem auto 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: rgba(0,0,0,0.15);
+}
+.instagram-embed iframe { display: block; width: 100%; border: 0; min-height: 500px; }
+.instagram-fallback {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.9rem 1.5rem;
+  border: 1px solid var(--cream);
+  border-radius: 999px;
+  color: var(--cream);
+  text-decoration: none;
+  font-weight: 500;
+  margin-top: 1rem;
+}
+.instagram-fallback:hover { background: rgba(232,238,210,0.1); color: var(--cream); }
+
+.card {
+  background: var(--cream);
+  color: var(--cocoa);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+.card h2, .card h3 { color: var(--cocoa-warm); }
+.card a { color: var(--plum); }
+
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+.service-tile {
+  display: block;
+  padding: 1.4rem 1.4rem 1.6rem;
+  border: 1px solid rgba(232, 238, 210, 0.25);
+  border-radius: var(--radius);
+  color: var(--white);
+  text-decoration: none;
+  transition: transform 120ms ease, border-color 120ms ease, background 120ms ease;
+  background: rgba(0,0,0,0.12);
+}
+.service-tile:hover {
+  transform: translateY(-2px);
+  border-color: var(--green);
+  color: var(--white);
+  background: rgba(122, 155, 92, 0.14);
+}
+.service-tile h3 { color: var(--cream); margin-bottom: 0.3rem; }
+.service-tile p { margin: 0; opacity: 0.85; font-size: 0.95rem; }
+
+.pricing-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+}
+.pricing-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px dashed rgba(63, 36, 24, 0.25);
+}
+.pricing-list li:last-child { border-bottom: 0; }
+.pricing-list .label { color: var(--cocoa); }
+.pricing-list .amount { color: var(--plum); font-weight: 600; white-space: nowrap; }
+
+.deposit-callout {
+  background: var(--cream-warm);
+  color: var(--cocoa);
+  border-left: 4px solid var(--green);
+  padding: 1rem 1.2rem;
+  border-radius: var(--radius);
+  margin: 1.5rem 0;
+  font-size: 0.95rem;
+}
+.deposit-callout strong { color: var(--plum-deep); }
+
+/* Booking artwork inside a pricing card, in an art-deco frame.
+
+   The frame is built entirely from pseudo-elements so the markup stays two
+   divs: `.deco-frame` draws the outer rule + long corner brackets, and
+   `.deco-frame-inner` draws the stepped second-tier brackets and the fan
+   motifs centred on the top and bottom edges. White/gray on purpose — it
+   picks up the deco rules already drawn into the artwork. */
+.deco-frame {
+  --deco-rule:   #8A8A8A;   /* outer rule */
+  --deco-ink:    #5E5E5E;   /* corner brackets */
+  --deco-pale:   #D8D8D8;   /* inner hairline */
+  --deco-ground: #FFFFFF;
+
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  margin: 1.5rem auto 0;
+  padding: 20px;
+  background: var(--deco-ground);
+  border: 2px solid var(--deco-rule);
+  border-radius: 1px;   /* deco is square — just enough to soften the pixel */
+  box-shadow: 0 2px 16px rgba(63, 36, 24, 0.22);
+}
+
+/* inner hairline */
+.deco-frame::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border: 1px solid var(--deco-pale);
+  pointer-events: none;
+}
+
+/* long corner brackets, sitting on the hairline's corners */
+.deco-frame::after {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-image:
+    linear-gradient(var(--deco-ink), var(--deco-ink)),
+    linear-gradient(var(--deco-ink), var(--deco-ink)),
+    linear-gradient(var(--deco-ink), var(--deco-ink)),
+    linear-gradient(var(--deco-ink), var(--deco-ink)),
+    linear-gradient(var(--deco-ink), var(--deco-ink)),
+    linear-gradient(var(--deco-ink), var(--deco-ink)),
+    linear-gradient(var(--deco-ink), var(--deco-ink)),
+    linear-gradient(var(--deco-ink), var(--deco-ink));
+  background-size:
+    28px 3px, 3px 28px,
+    28px 3px, 3px 28px,
+    28px 3px, 3px 28px,
+    28px 3px, 3px 28px;
+  background-position:
+    left top, left top,
+    right top, right top,
+    left bottom, left bottom,
+    right bottom, right bottom;
+}
+
+.deco-frame-inner {
+  position: relative;
+}
+
+/* second, stepped tier of brackets — the ziggurat step that reads as deco */
+.deco-frame-inner::before {
+  content: "";
+  position: absolute;
+  inset: -7px;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-image:
+    linear-gradient(var(--deco-rule), var(--deco-rule)),
+    linear-gradient(var(--deco-rule), var(--deco-rule)),
+    linear-gradient(var(--deco-rule), var(--deco-rule)),
+    linear-gradient(var(--deco-rule), var(--deco-rule)),
+    linear-gradient(var(--deco-rule), var(--deco-rule)),
+    linear-gradient(var(--deco-rule), var(--deco-rule)),
+    linear-gradient(var(--deco-rule), var(--deco-rule)),
+    linear-gradient(var(--deco-rule), var(--deco-rule));
+  background-size:
+    14px 2px, 2px 14px,
+    14px 2px, 2px 14px,
+    14px 2px, 2px 14px,
+    14px 2px, 2px 14px;
+  background-position:
+    left top, left top,
+    right top, right top,
+    left bottom, left bottom,
+    right bottom, right bottom;
+}
+
+/* stepped fan motifs, centred on the top and bottom edges */
+.deco-frame-inner::after {
+  content: "";
+  position: absolute;
+  inset: -11px 0;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-size: 34px 9px, 34px 9px;
+  background-position: center top, center bottom;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 9'%3E%3Cg fill='%238A8A8A'%3E%3Crect x='15' y='0' width='4' height='9'/%3E%3Crect x='9.5' y='2' width='3' height='7'/%3E%3Crect x='21.5' y='2' width='3' height='7'/%3E%3Crect x='4' y='4' width='3' height='5'/%3E%3Crect x='27' y='4' width='3' height='5'/%3E%3C/g%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 9'%3E%3Cg fill='%238A8A8A'%3E%3Crect x='15' y='0' width='4' height='9'/%3E%3Crect x='9.5' y='0' width='3' height='7'/%3E%3Crect x='21.5' y='0' width='3' height='7'/%3E%3Crect x='4' y='0' width='3' height='5'/%3E%3Crect x='27' y='0' width='3' height='5'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* With the "Pricing" heading gone the frame can lead a card — don't stack
+   its top margin on top of the card's own padding. */
+.card > .deco-frame:first-child { margin-top: 0; }
+
+/* Home-page shop photo: same frame, at the photo's width rather than the
+   pricing card's, and flush under the logo banner. */
+.deco-frame-hero {
+  max-width: 800px;
+  margin-top: 0;
+}
+
+.deco-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 720px) {
+  .deco-frame { padding: 14px; }
+  .deco-frame::before,
+  .deco-frame::after { inset: 5px; }
+}
+
+.artist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+/* The tile is a container, not a link — the bio / portfolio / booking
+   links inside it each go somewhere different. */
+.artist-tile {
+  background: var(--cream);
+  color: var(--cocoa);
+  border-radius: var(--radius);
+  padding: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+.artist-tile:hover { transform: translateY(-2px); box-shadow: 0 6px 22px rgba(0,0,0,0.18); }
+.artist-tile h3 { color: var(--plum-deep); margin: 0 0 0.15rem; }
+.artist-tile .role { color: var(--cocoa-warm); opacity: 0.75; font-size: 0.9rem; margin: 0; }
+
+.artist-head {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+.artist-id { min-width: 0; }   /* lets long names wrap instead of overflowing */
+
+.artist-avatar {
+  width: 4.25rem;
+  height: 4.25rem;
+  border-radius: 50%;
+  object-fit: cover;   /* headshots crop to the circle rather than squash */
+  flex: none;
+  background: var(--cream-warm);
+}
+/* Same headshot, bigger, on the artist's own page. */
+.artist-avatar-lg {
+  width: 8rem;
+  height: 8rem;
+  margin-bottom: 1rem;
+}
+/* Shown until a headshot is uploaded: the artist's initial. */
+.artist-avatar-blank {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: var(--plum);
+  background: var(--cream-warm);
+  border: 1px dashed rgba(90, 61, 122, 0.35);
+}
+
+.artist-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: auto;   /* pins the row to the bottom so tiles line up */
+}
+.artist-links a {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--plum);
+  text-decoration: none;
+  border: 1px solid rgba(90, 61, 122, 0.35);
+  border-radius: 999px;
+  transition: background 120ms ease, color 120ms ease;
+}
+.artist-links a:hover {
+  background: var(--plum);
+  color: var(--cream);
+}
+
+.site-footer {
+  background: var(--plum);
+  color: var(--cream);
+  padding: 2rem var(--gutter);
+  margin-top: 3rem;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  text-align: center;
+  font-size: 0.9rem;
+}
+.site-footer a { color: var(--cream); }
+.site-footer .footer-cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  text-align: left;
+  max-width: 900px;
+  margin: 0 auto 1.5rem;
+}
+.site-footer .footer-cols h4 { color: var(--cream); font-family: var(--font-display); font-size: 1rem; margin: 0 0 0.4rem; }
+.site-footer .footer-cols p { margin: 0.15rem 0; opacity: 0.9; }
+
+@media (max-width: 720px) {
+  .site-header {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0 var(--gutter);
+  }
+  .site-header-bar {
+    padding: 0.9rem 0;
+    width: 100%;
+  }
+
+  /* No drawer to open — every link stays on screen and the row wraps. */
+  .tab-nav {
+    gap: 0.4rem;
+    padding-bottom: 0.75rem;
+  }
+  .tab-nav a {
+    padding: 0.5rem 0.85rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: var(--radius);
+    border: 1px solid rgba(47, 58, 28, 0.35);
+    background: rgba(255, 253, 247, 0.35);
+    opacity: 1;
+    top: 0;
+  }
+  .tab-nav a:hover { background: rgba(47, 58, 28, 0.12); }
+  .tab-nav a.is-active {
+    background: var(--plum-deep);
+    border-color: var(--plum-deep);
+    color: var(--cream);
+  }
+}
